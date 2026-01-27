@@ -70,3 +70,5 @@ Release_RAM
 *.g_x
 language.settings.xml
 
+# Cursor
+.cursor
