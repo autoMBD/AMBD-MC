@@ -1,3 +1,4 @@
+# =================================================================================
 # The MIT License 
 # MIT许可证
 # 
@@ -34,6 +35,15 @@
 # 目的适用性及不侵权的保证。在任何情况下，无论是在合同、侵权或其他案件中，作者或版
 # 权持有人均不对因本软件、或因本软件的使用或其他利用而引起的、引发的或与之相关的任
 # 何权利主张、损害赔偿或其他责任承担责任。
+# =================================================================================
+# Project:     autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>
+# File:        test_check_spdx.py
+# Author:      autoMBD <tkung.lqk@foxmail.com>
+# Date:        2026-03-16
+# Version:     0.1.0
+# Description: Test and check if .m files (extensible) in the repository contain 
+#              SPDX-License-Identifier or explicit License field.
+# =================================================================================
 
 """
 Tool: Check if .m files (extensible) in the repository contain SPDX-License-Identifier or explicit License field.

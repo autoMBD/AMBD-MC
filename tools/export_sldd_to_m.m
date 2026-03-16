@@ -1,3 +1,4 @@
+% =================================================================================
 % The MIT License 
 % MIT许可证
 % 
@@ -34,6 +35,15 @@
 % 目的适用性及不侵权的保证。在任何情况下，无论是在合同、侵权或其他案件中，作者或版
 % 权持有人均不对因本软件、或因本软件的使用或其他利用而引起的、引发的或与之相关的任
 % 何权利主张、损害赔偿或其他责任承担责任。
+% =================================================================================
+% Project:     autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>
+% File:        export_sldd_to_m.m
+% Author:      autoMBD <tkung.lqk@foxmail.com>
+% Date:        2026-03-16
+% Version:     0.1.0
+% Description: Export Simulink Data Dictionary (.sldd) type definitions to MATLAB 
+%               script (.m) file.
+% =================================================================================
 
 function export_sldd_to_m(sldd_file, output_m)
 
