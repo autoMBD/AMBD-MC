@@ -57,7 +57,6 @@ McUInt16_T = createAliasType('uint16', '', '通用 16 位无符号代码类型')
 McUInt32_T = createAliasType('uint32', '', '通用 32 位无符号代码类型');
 McSingle_T = createAliasType('single', '', '通用 32 位浮点代码类型');
 
-LogicBool_V = createValueType('McBool_T', '', 0, 1, '通用逻辑量');
 HallLevel_V = createValueType('McUInt8_T', '', 0, 1, '霍尔数字量采样');
 ResolverLevel_V = createValueType('McUInt8_T', '', 0, 1, '旋变数字接口电平');
 EncoderLevel_V = createValueType('McUInt8_T', '', 0, 1, '编码器数字接口电平');
@@ -66,15 +65,15 @@ AdcVoltageRaw_V = createValueType('McUInt16_T', '', 0, 65535, '电压 ADC 原始
 AdcBemfRaw_V = createValueType('McUInt16_T', '', 0, 65535, '反电动势 ADC 原始采样值');
 DutyCount_V = createValueType('McUInt16_T', '', 0, 65535, 'PWM 占空比计数值');
 DutyRatio_V = createValueType('McSingle_T', '1', 0, 1, '归一化占空比');
+Gain_V = createValueType('McSingle_T', '1', [], [], '无量纲增益或系数');
+Time_S_V = createValueType('McSingle_T', 's', 0, [], '时间量');
 AngleRad_V = createValueType('McSingle_T', 'rad', [], [], '角度量');
 AngularSpeedRadPerSec_V = createValueType('McSingle_T', 'rad/s', [], [], '角速度量');
-SpeedRpm_V = createValueType('McSingle_T', 'rpm', 0, [], '机械转速');
-Current_A_V = createValueType('McSingle_T', 'A', [], [], '电流物理量');
+LogicBool_V = createValueType('McBool_T', '', 0, 1, '通用逻辑量');
 Voltage_V = createValueType('McSingle_T', 'V', 0, [], '电压物理量');
-Time_S_V = createValueType('McSingle_T', 's', 0, [], '时间量');
+Current_A_V = createValueType('McSingle_T', 'A', [], [], '电流物理量');
+SpeedRpm_V = createValueType('McSingle_T', 'rpm', 0, [], '机械转速');
 Freq_Hz_V = createValueType('McUInt32_T', 'Hz', 0, [], '频率配置量');
-Gain_V = createValueType('McSingle_T', '1', [], [], '无量纲增益或系数');
-Count_V = createValueType('McUInt32_T', '', 0, [], '计数量');
 MotorIndex_V = createValueType('McInt8_T', '', -128, 127, '电机编号或实例索引');
 PolePairCount_V = createValueType('McUInt8_T', '', 0, 255, '极对数');
 Inductance_H_V = createValueType('McSingle_T', 'H', 0, [], '电感量');
@@ -84,6 +83,7 @@ Inertia_KgM2_V = createValueType('McSingle_T', 'kg*m^2', 0, [], '转动惯量');
 Torque_Nm_V = createValueType('McSingle_T', 'N*m', [], [], '转矩量');
 TorquePerAmp_NmPerA_V = createValueType('McSingle_T', 'N*m/A', [], [], '转矩常数');
 BemfConst_VsPerRad_V = createValueType('McSingle_T', 'V*s/rad', [], [], '反电动势常数');
+Count_V = createValueType('McUInt32_T', '', 0, [], '计数量');
 
 eMotorType = Simulink.data.dictionary.EnumTypeDefinition;
 removeEnumeral(eMotorType, 1);
@@ -164,39 +164,39 @@ ePosAlgo.DefaultValue = 'PosNA';
 ePosAlgo.StorageType = 'uint8';
 
 tSnrHall = createBusType('霍尔传感器信号，三路数字量输入，用于检测转子位置（60°分辨率）。', {
-    'HA', 'McUInt8_T', 1, 'A 相霍尔信号';
-    'HB', 'McUInt8_T', 1, 'B 相霍尔信号';
-    'HC', 'McUInt8_T', 1, 'C 相霍尔信号';
+    'HA', 'HallLevel_V', 1, 'A 相霍尔信号';
+    'HB', 'HallLevel_V', 1, 'B 相霍尔信号';
+    'HC', 'HallLevel_V', 1, 'C 相霍尔信号';
 });
 
 tSnrResolver = createBusType('旋变传感器信号，用于高精度转子位置检测。', {
-    'A', 'McUInt8_T', 1, 'A 路信号';
-    'B', 'McUInt8_T', 1, 'B 路信号';
-    'C', 'McUInt8_T', 1, 'C 路信号';
+    'A', 'ResolverLevel_V', 1, 'A 路信号';
+    'B', 'ResolverLevel_V', 1, 'B 路信号';
+    'C', 'ResolverLevel_V', 1, 'C 路信号';
 });
 
 tSnrEncoder = createBusType('编码器传感器信号，用于增量式位置检测。', {
-    'A', 'McUInt8_T', 1, 'A 路信号';
-    'B', 'McUInt8_T', 1, 'B 路信号';
-    'C', 'McUInt8_T', 1, 'C 路（Index）信号';
+    'A', 'EncoderLevel_V', 1, 'A 路信号';
+    'B', 'EncoderLevel_V', 1, 'B 路信号';
+    'C', 'EncoderLevel_V', 1, 'C 路（Index）信号';
 });
 
 tSnrBemf = createBusType('反电动势（Back-EMF）检测信号，用于无传感器位置估算。', {
-    'BemfA', 'McUInt16_T', 1, 'A 相反电动势 ADC 采样值';
-    'BemfB', 'McUInt16_T', 1, 'B 相反电动势 ADC 采样值';
-    'BemfC', 'McUInt16_T', 1, 'C 相反电动势 ADC 采样值';
+    'BemfA', 'AdcBemfRaw_V', 1, 'A 相反电动势 ADC 采样值';
+    'BemfB', 'AdcBemfRaw_V', 1, 'B 相反电动势 ADC 采样值';
+    'BemfC', 'AdcBemfRaw_V', 1, 'C 相反电动势 ADC 采样值';
 });
 
 tSnrVot = createBusType('三相电压采样信号。', {
-    'Va', 'McUInt16_T', 1, 'A 相电压 ADC 采样值';
-    'Vb', 'McUInt16_T', 1, 'B 相电压 ADC 采样值';
-    'Vc', 'McUInt16_T', 1, 'C 相电压 ADC 采样值';
+    'Va', 'AdcVoltageRaw_V', 1, 'A 相电压 ADC 采样值';
+    'Vb', 'AdcVoltageRaw_V', 1, 'B 相电压 ADC 采样值';
+    'Vc', 'AdcVoltageRaw_V', 1, 'C 相电压 ADC 采样值';
 });
 
 tSnrCur = createBusType('三相电流采样信号。', {
-    'Ia', 'McUInt16_T', 1, 'A 相电流 ADC 采样值';
-    'Ib', 'McUInt16_T', 1, 'B 相电流 ADC 采样值';
-    'Ic', 'McUInt16_T', 1, 'C 相电流 ADC 采样值';
+    'Ia', 'AdcCurrentRaw_V', 1, 'A 相电流 ADC 采样值';
+    'Ib', 'AdcCurrentRaw_V', 1, 'B 相电流 ADC 采样值';
+    'Ic', 'AdcCurrentRaw_V', 1, 'C 相电流 ADC 采样值';
 });
 
 tMcSensor = createBusType('传感器聚合结构，汇集了所有传感器子模块的数据。', {
@@ -209,12 +209,12 @@ tMcSensor = createBusType('传感器聚合结构，汇集了所有传感器子�
 });
 
 tActrDuty = createBusType('三相六路 PWM 占空比，对应三相全桥逆变器的上下桥臂。', {
-    'AH', 'McUInt16_T', 1, 'A 相上桥臂占空比';
-    'AL', 'McUInt16_T', 1, 'A 相下桥臂占空比';
-    'BH', 'McUInt16_T', 1, 'B 相上桥臂占空比';
-    'BL', 'McUInt16_T', 1, 'B 相下桥臂占空比';
-    'CH', 'McUInt16_T', 1, 'C 相上桥臂占空比';
-    'CL', 'McUInt16_T', 1, 'C 相下桥臂占空比';
+    'AH', 'DutyCount_V', 1, 'A 相上桥臂占空比';
+    'AL', 'DutyCount_V', 1, 'A 相下桥臂占空比';
+    'BH', 'DutyCount_V', 1, 'B 相上桥臂占空比';
+    'BL', 'DutyCount_V', 1, 'B 相下桥臂占空比';
+    'CH', 'DutyCount_V', 1, 'C 相上桥臂占空比';
+    'CL', 'DutyCount_V', 1, 'C 相下桥臂占空比';
 });
 
 tMcActuator = createBusType('执行器顶层结构，包含执行器状态和 PWM 占空比。', {
@@ -223,8 +223,8 @@ tMcActuator = createBusType('执行器顶层结构，包含执行器状态和 PW
 });
 
 tAlgoPI = createBusType('标准 PI 控制器参数结构。', {
-    'Kp', 'McSingle_T', 1, '比例增益';
-    'Ki', 'McSingle_T', 1, '积分增益';
+    'Kp', 'Gain_V', 1, '比例增益';
+    'Ki', 'Gain_V', 1, '积分增益';
     'Ts', 'Time_S_V', 1, '采样周期（秒）';
     'Integral', 'McSingle_T', 1, '积分累积值';
 });
@@ -263,8 +263,8 @@ tDataTriU16 = createBusType('三路 uint16 数据包', {
 
 tMcDataFlow = createBusType('', {
     'AngleElc', 'AngleRad_V', 1, '电角度（rad）';
-    'WElc', 'McSingle_T', 1, '电角速度（rad/s）';
-    'WReqElc', 'McSingle_T', 1, '目标电角速度（rad/s）';
+    'WElc', 'AngularSpeedRadPerSec_V', 1, '电角速度（rad/s）';
+    'WReqElc', 'AngularSpeedRadPerSec_V', 1, '目标电角速度（rad/s）';
     'DcBusCurRaw', 'AdcCurrentRaw_V', 1, '母线电流 ADC 原始值';
     'DcBusCurFlt', 'Current_A_V', 1, '母线电流滤波值（A）';
     'DcBusVotRaw', 'AdcVoltageRaw_V', 1, '母线电压 ADC 原始值';
@@ -322,10 +322,10 @@ tMcType = createBusType('电机控制类型配置，定义系统所用的电机�
 
 tMcCfg = createBusType('电机控制系统配置参数。', {
     'MotorNum', 'MotorIndex_V', 1, '电机编号';
-    'TuningEn', 'McBool_T', 1, '在线调参使能';
-    'DebugEn', 'McBool_T', 1, '调试使能';
-    'SampleRate', 'McUInt32_T', 1, '采样频率（Hz）';
-    'PwmFreq', 'McUInt32_T', 1, 'PWM 开关频率（Hz）';
+    'TuningEn', 'LogicBool_V', 1, '在线调参使能';
+    'DebugEn', 'LogicBool_V', 1, '调试使能';
+    'SampleRate', 'Freq_Hz_V', 1, '采样频率（Hz）';
+    'PwmFreq', 'Freq_Hz_V', 1, 'PWM 开关频率（Hz）';
     'PosAlgo', 'Enum: ePosAlgo', 1, '位置估算算法选择';
 });
 
@@ -334,8 +334,8 @@ tMotorPara = createBusType('电机物理参数，用于 FOC 算法计算。', {
     'NomCurrent', 'Current_A_V', 1, '额定电流（A）';
     'NornSpd', 'SpeedRpm_V', 1, '额定转速（RPM）';
     'PolePairNum', 'PolePairCount_V', 1, '极对数';
-    'Ld', 'McSingle_T', 1, 'd 轴电感（H）';
-    'Lq', 'McSingle_T', 1, 'q 轴电感（H）';
+    'Ld', 'Inductance_H_V', 1, 'd 轴电感（H）';
+    'Lq', 'Inductance_H_V', 1, 'q 轴电感（H）';
     'Rs', 'Resistance_Ohm_V', 1, '定子电阻（Ω）';
     'Bemf', 'BemfConst_VsPerRad_V', 1, '反电动势常数';
     'Flux', 'Flux_Wb_V', 1, '永磁磁链（Wb）';

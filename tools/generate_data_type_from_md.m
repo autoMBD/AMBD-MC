@@ -88,39 +88,40 @@ start_idx = strfind(text, start_token);
 if isempty(start_idx)
     error("Missing marker %s in markdown.", start_token);
 end
-tail_text = extractAfter(text, start_idx(1) + strlength(start_token) - 1);
-lines = splitlines(string(tail_text));
-table_lines = strings(0, 1);
-table_started = false;
-for i = 1:numel(lines)
-    line = strip(lines(i));
-    if startsWith(line, "|")
-        table_lines(end + 1, 1) = line; %#ok<AGROW>
-        table_started = true;
-    elseif table_started
-        break;
-    end
-end
-if numel(table_lines) < 3
-    error("Marker %s does not contain a valid markdown table.", marker);
-end
-actual_headers = strip(splitMarkdownRow(table_lines(1)));
-expected_headers = strip(string(headers));
-if numel(actual_headers) ~= numel(expected_headers)
-    warning("Header width mismatch for marker %s. Continue with positional parsing.", marker);
-end
-
 rows = struct([]);
-for i = 3:numel(table_lines)
-    values = splitMarkdownRow(table_lines(i));
-    if numel(values) ~= numel(headers)
-        continue;
+expected_headers = strip(string(headers));
+for block_i = 1:numel(start_idx)
+    tail_text = extractAfter(text, start_idx(block_i) + strlength(start_token) - 1);
+    lines = splitlines(string(tail_text));
+    table_lines = strings(0, 1);
+    table_started = false;
+    for i = 1:numel(lines)
+        line = strip(lines(i));
+        if startsWith(line, "|")
+            table_lines(end + 1, 1) = line; %#ok<AGROW>
+            table_started = true;
+        elseif table_started
+            break;
+        end
     end
-    row = struct();
-    for j = 1:numel(headers)
-        row.(headers(j)) = char(values(j));
+    if numel(table_lines) < 3
+        error("Marker %s does not contain a valid markdown table.", marker);
     end
-    rows = appendStruct(rows, row);
+    actual_headers = strip(splitMarkdownRow(table_lines(1)));
+    if numel(actual_headers) ~= numel(expected_headers)
+        warning("Header width mismatch for marker %s. Continue with positional parsing.", marker);
+    end
+    for row_i = 3:numel(table_lines)
+        values = splitMarkdownRow(table_lines(row_i));
+        if numel(values) ~= numel(headers)
+            continue;
+        end
+        row = struct();
+        for j = 1:numel(headers)
+            row.(headers(j)) = char(values(j));
+        end
+        rows = appendStruct(rows, row);
+    end
 end
 end
 
@@ -196,7 +197,7 @@ end
 end
 
 function bus_defs = parseGenericBusBlocks(text)
-section_text = extractSection(text, "## 9. 通用数据容器（Generic Data）", "## 10. 枚举类型（Enum）");
+section_text = extractSectionByTitles(text, "通用数据容器（Generic Data）", "枚举类型（Enum）");
 lines = splitlines(string(section_text));
 bus_defs = struct([]);
 current_base_type = "";
@@ -210,27 +211,34 @@ for i = 1:numel(lines)
         current_base_type = "single";
         continue;
     end
-    if line ~= "| 结构体 | 字段数 | 字段名 | 说明 |"
+    if line ~= "| 结构体 | 字段数 | 字段名 | 说明 |" && line ~= "| 结构体 | 字段数 | 字段名 | 成员类型 | 说明 |"
         continue;
     end
     table_lines = collectTableLines(lines, i);
     for k = 3:numel(table_lines)
         cols = splitMarkdownRow(table_lines(k));
-        if numel(cols) ~= 4
+        if numel(cols) ~= 4 && numel(cols) ~= 5
             continue;
+        end
+        if numel(cols) == 5
+            member_type = cols(4);
+            description = cols(5);
+        else
+            member_type = current_base_type;
+            description = cols(4);
         end
         field_count = str2double(cols(2));
         fields = struct([]);
         for n = 1:field_count
             field = struct();
             field.Name = sprintf("D%d", n);
-            field.RawType = char(current_base_type);
+            field.RawType = char(member_type);
             field.Description = sprintf("%s member %d", cols(1), n);
             fields = appendStruct(fields, field);
         end
         bus_def = struct();
         bus_def.Name = char(cols(1));
-        bus_def.Description = char(cols(4));
+        bus_def.Description = char(description);
         bus_def.Fields = fields;
         bus_defs = appendStruct(bus_defs, bus_def);
     end
@@ -539,15 +547,29 @@ line = strip(extractBefore(line, strlength(line)), "left");
 values = strip(split(line, "|"));
 end
 
-function section_text = extractSection(text, start_heading, end_heading)
-start_idx = strfind(text, start_heading);
-end_idx = strfind(text, end_heading);
-if isempty(start_idx) || isempty(end_idx), error("Cannot extract section."); end
-start_pos = start_idx(1);
-end_candidates = end_idx(end_idx > start_pos);
-if isempty(end_candidates), error("End heading occurs before start heading."); end
-section_text = extractBetween(string(text), start_pos, end_candidates(1) - 1);
-section_text = char(section_text);
+function section_text = extractSectionByTitles(text, start_title, end_title)
+lines = splitlines(string(text));
+start_idx = [];
+end_idx = [];
+for i = 1:numel(lines)
+    if isempty(start_idx) && matchesLevel2Heading(lines(i), start_title)
+        start_idx = i;
+        continue;
+    end
+    if ~isempty(start_idx) && matchesLevel2Heading(lines(i), end_title)
+        end_idx = i;
+        break;
+    end
+end
+if isempty(start_idx) || isempty(end_idx)
+    error("Cannot extract section.");
+end
+section_text = char(strjoin(cellstr(lines(start_idx:end_idx-1)), newline));
+end
+
+function matched = matchesLevel2Heading(line, title_text)
+tokens = regexp(char(strip(line)), '^##\s+(?:\d+\.\s+)?(.+?)\s*$', 'tokens', 'once');
+matched = ~isempty(tokens) && string(tokens{1}) == string(title_text);
 end
 
 function value = extractBacktickValue(text, key)

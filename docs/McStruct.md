@@ -2,9 +2,38 @@
 
 > 源文件：`mc-models/pmsm/commom/McStruct.m`
 >
-> 本文档汇总了 PMSM 电机控制系统中使用的全部 Simulink Bus 和 Enum 定义，按功能模块分类整理。
+> 本文档汇总了 PMSM 电机控制系统中使用的全部 Simulink `Bus` 和 `Enum` 定义，按功能模块分类整理。
 >
-> 自 `v1.1` 起，本文档同时作为 `tools/generate_data_type_from_md.m` 的输入源，除保留原始 `Bus/Enum` 数据外，还补充了按 skill 要求整理的 `NumericType / AliasType / ValueType / Bus` 分层定义。
+> 自 `v1.1` 起，本文档同时作为 `tools/generate_data_type_from_md.m` 的输入源；自 `v1.3` 起，规范化数据类型清单按后文章节分类重组，并要求结构体成员统一引用前文定义的规范化类型。
+
+---
+
+## 修改日志
+
+| 日期 | 作者 | 版本 | 变更说明 |
+|------|------|------|----------|
+| 2026-03-17 | GPT-5.4 / autoMBD | v1.3 | 调整文档结构，将修改日志和目录前置；按后文章节分类重组规范化数据类型清单；将结构体成员类型统一映射为规范化类型 |
+| 2026-03-17 | GPT-5.4 / autoMBD | v1.2 | 合并 Markdown 生成入口，统一使用 `tools/generate_data_type_from_md.m` |
+| 2026-03-17 | GPT-5.4 / autoMBD | v1.1 | 按强类型分层规则补充 `NumericType` / `AliasType` / `ValueType` 规范，新增 Markdown 解析与生成约定 |
+| 2026-03-16 | autoMBD | v1.0 | 初始版本，定义了适用于 PMSM 的 `Bus` / `Enum` 定义 |
+
+---
+
+## 目录
+
+- [类型系统架构摘要](#类型系统架构摘要)
+- [1. 规范化数据类型清单](#1-规范化数据类型清单)
+- [2. 传感器类（Sensor）](#2-传感器类sensor)
+- [3. 执行器类（Actuator）](#3-执行器类actuator)
+- [4. 算法类（Algorithm）](#4-算法类algorithm)
+- [5. 数据流类（DataFlow）](#5-数据流类dataflow)
+- [6. 状态机类（StateMachine）](#6-状态机类statemachine)
+- [7. 故障与调试类（Fault & Debug）](#7-故障与调试类fault--debug)
+- [8. 配置与参数类（Config & Parameter）](#8-配置与参数类config--parameter)
+- [9. 顶层驱动结构（Drive）](#9-顶层驱动结构drive)
+- [10. 通用数据容器（Generic Data）](#10-通用数据容器generic-data)
+- [11. 枚举类型（Enum）](#11-枚举类型enum)
+- [12. 结构体层次关系](#12-结构体层次关系)
 
 ---
 
@@ -14,19 +43,18 @@
 
 | 层级 | 对象 | 作用 | 本文档中的来源 |
 |------|------|------|----------------|
-| 物理语义层 | `Simulink.ValueType` | 表达单位、物理意义、范围约束 | 本文“规范化数据类型清单” |
-| 数值表示层 | `Simulink.NumericType` | 表达位宽、符号位、缩放和原始编码 | 本文“规范化数据类型清单” |
-| 代码兼容层 | `Simulink.AliasType` | 提供稳定的代码类型名，避免模型直接依赖内建类型 | 本文“规范化数据类型清单” |
-| 复合接口层 | `Simulink.Bus` / `Enum` | 描述控制接口、状态结构和复合数据对象 | 本文第 `1` 至 `10` 章 |
+| 物理语义层 | `Simulink.ValueType` | 表达单位、物理意义、范围约束 | 本文第 `1` 章 |
+| 数值表示层 | `Simulink.NumericType` | 表达位宽、符号位、缩放和原始编码 | 本文第 `1` 章 |
+| 代码兼容层 | `Simulink.AliasType` | 提供稳定的代码类型名，避免模型直接依赖内建类型 | 本文第 `1` 章 |
+| 复合接口层 | `Simulink.Bus` / `Enum` | 描述控制接口、状态结构和复合数据对象 | 本文第 `2` 至 `11` 章 |
 
 ### 设计约束
 
-1. 原始 `Bus/Enum` 数据保持不删改，继续作为结构定义的事实来源。
+1. 原始 `Bus` / `Enum` 结构保持不删改，继续作为结构定义的事实来源。
 2. 所有共享基础类型统一收敛到脚本生成的类型层，不在模型里零散定义。
 3. 物理量优先绑定到 `ValueType`，纯实现载体或泛型容器使用 `AliasType` 或 `NumericType`。
-4. 命名约定采用：
-   `*_T` 表示数值或代码类型，`*_V` 表示物理值类型，`*_Bus` 继续由现有 `t*` 结构承载。
-5. `tData*` 泛型容器保留原始数据内容，但在规范中仅作为复用型 `Bus`，不替代具名物理接口。
+4. 命名约定采用：`*_T` 表示数值或代码类型，`*_V` 表示物理值类型，`t*` 结构继续承载 `Bus`。
+5. `tData*` 泛型容器保留原始数据组织形式，但成员类型必须使用已定义的规范化基础类型。
 
 ### 生成脚本输出约定
 
@@ -38,11 +66,88 @@
 
 默认输出路径建议为：`mc-models/pmsm/data`
 
-## 规范化数据类型清单
+---
 
-下述三张表为新增的规范化类型层定义，保留原始数据内容不变，同时为脚本生成提供稳定输入。
+## 1. 规范化数据类型清单
 
-### NumericType 清单
+本章按后文相同的功能分类整理规范化数据类型；其中同一类型仅在最贴近其语义的分类下定义一次，后文章节直接复用这些类型。
+
+### 1.1 传感器类（Sensor）
+
+<!-- MC_TYPE_TABLE:VALUE -->
+| Name | DataType | Unit | Min | Max | Description |
+|------|----------|------|-----|-----|-------------|
+| HallLevel_V | McUInt8_T |  | 0 | 1 | 霍尔数字量采样 |
+| ResolverLevel_V | McUInt8_T |  | 0 | 1 | 旋变数字接口电平 |
+| EncoderLevel_V | McUInt8_T |  | 0 | 1 | 编码器数字接口电平 |
+| AdcCurrentRaw_V | McUInt16_T |  | 0 | 65535 | 电流 ADC 原始采样值 |
+| AdcVoltageRaw_V | McUInt16_T |  | 0 | 65535 | 电压 ADC 原始采样值 |
+| AdcBemfRaw_V | McUInt16_T |  | 0 | 65535 | 反电动势 ADC 原始采样值 |
+
+### 1.2 执行器类（Actuator）
+
+<!-- MC_TYPE_TABLE:VALUE -->
+| Name | DataType | Unit | Min | Max | Description |
+|------|----------|------|-----|-----|-------------|
+| DutyCount_V | McUInt16_T |  | 0 | 65535 | PWM 占空比计数值 |
+| DutyRatio_V | McSingle_T | 1 | 0 | 1 | 归一化占空比 |
+
+### 1.3 算法类（Algorithm）
+
+<!-- MC_TYPE_TABLE:VALUE -->
+| Name | DataType | Unit | Min | Max | Description |
+|------|----------|------|-----|-----|-------------|
+| Gain_V | McSingle_T | 1 |  |  | 无量纲增益或系数 |
+| Time_S_V | McSingle_T | s | 0 |  | 时间量 |
+
+### 1.4 数据流类（DataFlow）
+
+<!-- MC_TYPE_TABLE:VALUE -->
+| Name | DataType | Unit | Min | Max | Description |
+|------|----------|------|-----|-----|-------------|
+| AngleRad_V | McSingle_T | rad |  |  | 角度量 |
+| AngularSpeedRadPerSec_V | McSingle_T | rad/s |  |  | 角速度量 |
+
+### 1.5 状态机类（StateMachine）
+
+本类结构主要由枚举类型驱动，不额外定义 `NumericType`、`AliasType` 或 `ValueType`。
+
+### 1.6 故障与调试类（Fault & Debug）
+
+<!-- MC_TYPE_TABLE:VALUE -->
+| Name | DataType | Unit | Min | Max | Description |
+|------|----------|------|-----|-----|-------------|
+| LogicBool_V | McBool_T |  | 0 | 1 | 通用逻辑量 |
+
+### 1.7 配置与参数类（Config & Parameter）
+
+<!-- MC_TYPE_TABLE:VALUE -->
+| Name | DataType | Unit | Min | Max | Description |
+|------|----------|------|-----|-----|-------------|
+| Voltage_V | McSingle_T | V | 0 |  | 电压物理量 |
+| Current_A_V | McSingle_T | A |  |  | 电流物理量 |
+| SpeedRpm_V | McSingle_T | rpm | 0 |  | 机械转速 |
+| Freq_Hz_V | McUInt32_T | Hz | 0 |  | 频率配置量 |
+| MotorIndex_V | McInt8_T |  | -128 | 127 | 电机编号或实例索引 |
+| PolePairCount_V | McUInt8_T |  | 0 | 255 | 极对数 |
+| Inductance_H_V | McSingle_T | H | 0 |  | 电感量 |
+| Resistance_Ohm_V | McSingle_T | Ohm | 0 |  | 电阻量 |
+| Flux_Wb_V | McSingle_T | Wb | 0 |  | 磁链量 |
+| Inertia_KgM2_V | McSingle_T | kg*m^2 | 0 |  | 转动惯量 |
+| Torque_Nm_V | McSingle_T | N*m |  |  | 转矩量 |
+| TorquePerAmp_NmPerA_V | McSingle_T | N*m/A |  |  | 转矩常数 |
+| BemfConst_VsPerRad_V | McSingle_T | V*s/rad |  |  | 反电动势常数 |
+
+### 1.8 顶层驱动结构（Drive）
+
+<!-- MC_TYPE_TABLE:VALUE -->
+| Name | DataType | Unit | Min | Max | Description |
+|------|----------|------|-----|-----|-------------|
+| Count_V | McUInt32_T |  | 0 |  | 计数量 |
+
+### 1.9 通用数据容器（Generic Data）
+
+本类提供未具名语义字段和通用容器的基础编码类型，供后文章节中的泛型 `Bus` 以及未引入独立 `ValueType` 的字段复用。
 
 <!-- MC_TYPE_TABLE:NUMERIC -->
 | Name | Signed | WordLength | FractionLength | Slope | Bias | Description |
@@ -51,8 +156,6 @@
 | McU16Raw_T | false | 16 | 0 | 1 | 0 | 16 位无符号原始编码，适用于 ADC/PWM/调参原始量 |
 | McS8Idx_T | true | 8 | 0 | 1 | 0 | 8 位有符号索引或编号量 |
 | McU32Cnt_T | false | 32 | 0 | 1 | 0 | 32 位无符号计数、频率或时间基准载体 |
-
-### AliasType 清单
 
 <!-- MC_TYPE_TABLE:ALIAS -->
 | Name | BaseType | HeaderFile | Description |
@@ -64,72 +167,20 @@
 | McUInt32_T | uint32 |  | 通用 32 位无符号代码类型 |
 | McSingle_T | single |  | 通用 32 位浮点代码类型 |
 
-### ValueType 清单
+### 1.10 枚举类型（Enum）
 
-<!-- MC_TYPE_TABLE:VALUE -->
-| Name | DataType | Unit | Min | Max | Description |
-|------|----------|------|-----|-----|-------------|
-| LogicBool_V | McBool_T |  | 0 | 1 | 通用逻辑量 |
-| HallLevel_V | McUInt8_T |  | 0 | 1 | 霍尔数字量采样 |
-| ResolverLevel_V | McUInt8_T |  | 0 | 1 | 旋变数字接口电平 |
-| EncoderLevel_V | McUInt8_T |  | 0 | 1 | 编码器数字接口电平 |
-| AdcCurrentRaw_V | McUInt16_T |  | 0 | 65535 | 电流 ADC 原始采样值 |
-| AdcVoltageRaw_V | McUInt16_T |  | 0 | 65535 | 电压 ADC 原始采样值 |
-| AdcBemfRaw_V | McUInt16_T |  | 0 | 65535 | 反电动势 ADC 原始采样值 |
-| DutyCount_V | McUInt16_T |  | 0 | 65535 | PWM 占空比计数值 |
-| DutyRatio_V | McSingle_T | 1 | 0 | 1 | 归一化占空比 |
-| AngleRad_V | McSingle_T | rad |  |  | 角度量 |
-| AngularSpeedRadPerSec_V | McSingle_T | rad/s |  |  | 角速度量 |
-| SpeedRpm_V | McSingle_T | rpm | 0 |  | 机械转速 |
-| Current_A_V | McSingle_T | A |  |  | 电流物理量 |
-| Voltage_V | McSingle_T | V | 0 |  | 电压物理量 |
-| Time_S_V | McSingle_T | s | 0 |  | 时间量 |
-| Freq_Hz_V | McUInt32_T | Hz | 0 |  | 频率配置量 |
-| Gain_V | McSingle_T | 1 |  |  | 无量纲增益或系数 |
-| Count_V | McUInt32_T |  | 0 |  | 计数量 |
-| MotorIndex_V | McInt8_T |  | -128 | 127 | 电机编号或实例索引 |
-| PolePairCount_V | McUInt8_T |  | 0 | 255 | 极对数 |
-| Inductance_H_V | McSingle_T | H | 0 |  | 电感量 |
-| Resistance_Ohm_V | McSingle_T | Ohm | 0 |  | 电阻量 |
-| Flux_Wb_V | McSingle_T | Wb | 0 |  | 磁链量 |
-| Inertia_KgM2_V | McSingle_T | kg*m^2 | 0 |  | 转动惯量 |
-| Torque_Nm_V | McSingle_T | N*m |  |  | 转矩量 |
-| TorquePerAmp_NmPerA_V | McSingle_T | N*m/A |  |  | 转矩常数 |
-| BemfConst_VsPerRad_V | McSingle_T | V*s/rad |  |  | 反电动势常数 |
+枚举类型不属于 `NumericType` / `AliasType` / `ValueType` 清单，保留在本文第 `11` 章作为独立定义。
 
 ### 生成与映射说明
 
-1. 生成脚本优先从上述三张清单创建共享类型层。
-2. 原文第 `1` 至 `10` 章中的 `Bus/Enum` 仍作为结构与枚举的事实来源。
-3. 对于能明确识别物理意义的字段，生成脚本会优先将 `BusElement.DataType` 绑定到对应 `ValueType`。
-4. 对于 `tDataDualF32`、`tDataTriU16` 这类泛型容器，生成脚本保留其通用属性，字段仍使用代码兼容层类型。
-
-## 修改日志
-
-| 日期 | 作者 | 版本 | 变更说明 |
-|------|------|------|----------|
-| 2026-03-17 | GPT-5.4 / autoMBD | v1.2 | 合并 Markdown 生成入口，统一使用 `tools/generate_data_type_from_md.m` |
-| 2026-03-17 | GPT-5.4 / autoMBD | v1.1 | 按强类型分层规则补充 NumericType/AliasType/ValueType 规范，新增 Markdown 解析与生成约定 |
-| 2026-03-16 | autoMBD | v1.0 | 初始版本，定义了适用于PMSM的 Bus/Enum 定义 |
+1. 生成脚本优先从本章各分类下的规范化类型表创建共享类型层。
+2. 本文第 `2` 至 `11` 章中的 `Bus` / `Enum` 仍作为结构与枚举的事实来源。
+3. 对于能明确识别物理意义的字段，结构体成员类型优先直接填写对应 `ValueType`。
+4. 对于 `tDataDualF32`、`tDataTriU16` 这类泛型容器，字段成员类型统一绑定到规范化代码层类型。
 
 ---
 
-## 目录
-
-- [1. 传感器类（Sensor）](#1-传感器类sensor)
-- [2. 执行器类（Actuator）](#2-执行器类actuator)
-- [3. 算法类（Algorithm）](#3-算法类algorithm)
-- [4. 数据流类（DataFlow）](#4-数据流类dataflow)
-- [5. 状态机类（StateMachine）](#5-状态机类statemachine)
-- [6. 故障与调试类（Fault & Debug）](#6-故障与调试类fault--debug)
-- [7. 配置与参数类（Config & Parameter）](#7-配置与参数类config--parameter)
-- [8. 顶层驱动结构（Drive）](#8-顶层驱动结构drive)
-- [9. 通用数据容器（Generic Data）](#9-通用数据容器generic-data)
-- [10. 枚举类型（Enum）](#10-枚举类型enum)
-
----
-
-## 1. 传感器类（Sensor）
+## 2. 传感器类（Sensor）
 
 用于采集电机运行过程中的各种物理信号，包括位置传感器、电压和电流采样。
 
@@ -139,9 +190,9 @@
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| HA | uint8 | A 相霍尔信号 |
-| HB | uint8 | B 相霍尔信号 |
-| HC | uint8 | C 相霍尔信号 |
+| HA | HallLevel_V | A 相霍尔信号 |
+| HB | HallLevel_V | B 相霍尔信号 |
+| HC | HallLevel_V | C 相霍尔信号 |
 
 ### tSnrResolver
 
@@ -149,9 +200,9 @@
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| A | uint8 | A 路信号 |
-| B | uint8 | B 路信号 |
-| C | uint8 | C 路信号 |
+| A | ResolverLevel_V | A 路信号 |
+| B | ResolverLevel_V | B 路信号 |
+| C | ResolverLevel_V | C 路信号 |
 
 ### tSnrEncoder
 
@@ -159,9 +210,9 @@
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| A | uint8 | A 路信号 |
-| B | uint8 | B 路信号 |
-| C | uint8 | C 路（Index）信号 |
+| A | EncoderLevel_V | A 路信号 |
+| B | EncoderLevel_V | B 路信号 |
+| C | EncoderLevel_V | C 路（Index）信号 |
 
 ### tSnrBemf
 
@@ -169,9 +220,9 @@
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| BemfA | uint16 | A 相反电动势 ADC 采样值 |
-| BemfB | uint16 | B 相反电动势 ADC 采样值 |
-| BemfC | uint16 | C 相反电动势 ADC 采样值 |
+| BemfA | AdcBemfRaw_V | A 相反电动势 ADC 采样值 |
+| BemfB | AdcBemfRaw_V | B 相反电动势 ADC 采样值 |
+| BemfC | AdcBemfRaw_V | C 相反电动势 ADC 采样值 |
 
 ### tSnrVot
 
@@ -179,9 +230,9 @@
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| Va | uint16 | A 相电压 ADC 采样值 |
-| Vb | uint16 | B 相电压 ADC 采样值 |
-| Vc | uint16 | C 相电压 ADC 采样值 |
+| Va | AdcVoltageRaw_V | A 相电压 ADC 采样值 |
+| Vb | AdcVoltageRaw_V | B 相电压 ADC 采样值 |
+| Vc | AdcVoltageRaw_V | C 相电压 ADC 采样值 |
 
 ### tSnrCur
 
@@ -189,9 +240,9 @@
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| Ia | uint16 | A 相电流 ADC 采样值 |
-| Ib | uint16 | B 相电流 ADC 采样值 |
-| Ic | uint16 | C 相电流 ADC 采样值 |
+| Ia | AdcCurrentRaw_V | A 相电流 ADC 采样值 |
+| Ib | AdcCurrentRaw_V | B 相电流 ADC 采样值 |
+| Ic | AdcCurrentRaw_V | C 相电流 ADC 采样值 |
 
 ### tMcSensor
 
@@ -208,7 +259,7 @@
 
 ---
 
-## 2. 执行器类（Actuator）
+## 3. 执行器类（Actuator）
 
 用于驱动逆变器桥臂的 PWM 输出控制。
 
@@ -218,12 +269,12 @@
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| AH | uint16 | A 相上桥臂占空比 |
-| AL | uint16 | A 相下桥臂占空比 |
-| BH | uint16 | B 相上桥臂占空比 |
-| BL | uint16 | B 相下桥臂占空比 |
-| CH | uint16 | C 相上桥臂占空比 |
-| CL | uint16 | C 相下桥臂占空比 |
+| AH | DutyCount_V | A 相上桥臂占空比 |
+| AL | DutyCount_V | A 相下桥臂占空比 |
+| BH | DutyCount_V | B 相上桥臂占空比 |
+| BL | DutyCount_V | B 相下桥臂占空比 |
+| CH | DutyCount_V | C 相上桥臂占空比 |
+| CL | DutyCount_V | C 相下桥臂占空比 |
 
 ### tMcActuator
 
@@ -231,12 +282,12 @@
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| ActrState | uint8 | 执行器工作状态 |
+| ActrState | McUInt8_T | 执行器工作状态 |
 | PwmDuty | tActrDuty | PWM 占空比输出 |
 
 ---
 
-## 3. 算法类（Algorithm）
+## 4. 算法类（Algorithm）
 
 PI 调节器及算法模块参数。
 
@@ -246,10 +297,10 @@ PI 调节器及算法模块参数。
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| Kp | single | 比例增益 |
-| Ki | single | 积分增益 |
-| Ts | single | 采样周期（秒） |
-| Integral | single | 积分累积值 |
+| Kp | Gain_V | 比例增益 |
+| Ki | Gain_V | 积分增益 |
+| Ts | Time_S_V | 采样周期（秒） |
+| Integral | McSingle_T | 积分累积值 |
 
 ### tMcAlgorithm
 
@@ -263,7 +314,7 @@ PI 调节器及算法模块参数。
 
 ---
 
-## 4. 数据流类（DataFlow）
+## 5. 数据流类（DataFlow）
 
 电机控制核心数据流，涵盖从传感器采样到 PWM 输出全链路的中间变量。
 
@@ -271,13 +322,13 @@ PI 调节器及算法模块参数。
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| AngleElc | single | 电角度（rad） |
-| WElc | single | 电角速度（rad/s） |
-| WReqElc | single | 目标电角速度（rad/s） |
-| DcBusCurRaw | uint16 | 母线电流 ADC 原始值 |
-| DcBusCurFlt | single | 母线电流滤波值（A） |
-| DcBusVotRaw | uint16 | 母线电压 ADC 原始值 |
-| DcBusVotFlt | single | 母线电压滤波值（V） |
+| AngleElc | AngleRad_V | 电角度（rad） |
+| WElc | AngularSpeedRadPerSec_V | 电角速度（rad/s） |
+| WReqElc | AngularSpeedRadPerSec_V | 目标电角速度（rad/s） |
+| DcBusCurRaw | AdcCurrentRaw_V | 母线电流 ADC 原始值 |
+| DcBusCurFlt | Current_A_V | 母线电流滤波值（A） |
+| DcBusVotRaw | AdcVoltageRaw_V | 母线电压 ADC 原始值 |
+| DcBusVotFlt | Voltage_V | 母线电压滤波值（V） |
 | CurPhRaw | tDataTriU16 | 三相电流 ADC 原始值 |
 | CurPhFlt | tDataTriF32 | 三相电流滤波值（A） |
 | CurAlBeFlt | tDataDualF32 | αβ 坐标系电流（Clarke 变换后） |
@@ -291,7 +342,7 @@ PI 调节器及算法模块参数。
 
 ---
 
-## 5. 状态机类（StateMachine）
+## 6. 状态机类（StateMachine）
 
 电机控制系统的运行状态管理。
 
@@ -305,7 +356,7 @@ PI 调节器及算法模块参数。
 
 ---
 
-## 6. 故障与调试类（Fault & Debug）
+## 7. 故障与调试类（Fault & Debug）
 
 ### tMcFault
 
@@ -313,10 +364,10 @@ PI 调节器及算法模块参数。
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| SnrFault | uint8 | 传感器故障标志 |
-| AlgoFault | uint8 | 算法故障标志 |
-| ActrFault | uint8 | 执行器故障标志 |
-| HwFault | uint8 | 硬件故障标志 |
+| SnrFault | McUInt8_T | 传感器故障标志 |
+| AlgoFault | McUInt8_T | 算法故障标志 |
+| ActrFault | McUInt8_T | 执行器故障标志 |
+| HwFault | McUInt8_T | 硬件故障标志 |
 
 ### tMcDebug
 
@@ -324,9 +375,9 @@ PI 调节器及算法模块参数。
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| DebugEn | boolean | 调试使能开关 |
-| DebugChannel | uint8 | 调试通道选择 |
-| DebugData | uint8[8] | 调试数据缓冲区（8 字节） |
+| DebugEn | LogicBool_V | 调试使能开关 |
+| DebugChannel | McUInt8_T | 调试通道选择 |
+| DebugData | McUInt8_T[8] | 调试数据缓冲区（8 字节） |
 
 ### tMcTuning
 
@@ -334,20 +385,20 @@ PI 调节器及算法模块参数。
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| SpdKp | uint16 | 速度环比例增益 |
-| SpdKi | uint16 | 速度环积分增益 |
-| IdKp | uint16 | d 轴电流环比例增益 |
-| IdKi | uint16 | d 轴电流环积分增益 |
-| IqKp | uint16 | q 轴电流环比例增益 |
-| IqKi | uint16 | q 轴电流环积分增益 |
-| AlignCurrent | uint16 | 对齐电流设定值 |
-| AlignTime | uint16 | 对齐时间设定值 |
-| OpenLoopAccel | uint16 | 开环加速度 |
-| TrackingGain | uint16 | 跟踪增益 |
+| SpdKp | McUInt16_T | 速度环比例增益 |
+| SpdKi | McUInt16_T | 速度环积分增益 |
+| IdKp | McUInt16_T | d 轴电流环比例增益 |
+| IdKi | McUInt16_T | d 轴电流环积分增益 |
+| IqKp | McUInt16_T | q 轴电流环比例增益 |
+| IqKi | McUInt16_T | q 轴电流环积分增益 |
+| AlignCurrent | McUInt16_T | 对齐电流设定值 |
+| AlignTime | McUInt16_T | 对齐时间设定值 |
+| OpenLoopAccel | McUInt16_T | 开环加速度 |
+| TrackingGain | McUInt16_T | 跟踪增益 |
 
 ---
 
-## 7. 配置与参数类（Config & Parameter）
+## 8. 配置与参数类（Config & Parameter）
 
 ### tMcType
 
@@ -356,9 +407,9 @@ PI 调节器及算法模块参数。
 | 字段 | 类型 | 说明 |
 |------|------|------|
 | MotorType | eMotorType | 电机类型（PMSM/BLDC/DCM） |
-| AlgorithmType | uint8 | 控制算法类型 |
-| SensorType | uint8 | 传感器类型 |
-| ControlType | uint8 | 控制模式类型 |
+| AlgorithmType | McUInt8_T | 控制算法类型 |
+| SensorType | McUInt8_T | 传感器类型 |
+| ControlType | McUInt8_T | 控制模式类型 |
 
 ### tMcCfg
 
@@ -366,11 +417,11 @@ PI 调节器及算法模块参数。
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| MotorNum | int8 | 电机编号 |
-| TuningEn | boolean | 在线调参使能 |
-| DebugEn | boolean | 调试使能 |
-| SampleRate | uint32 | 采样频率（Hz） |
-| PwmFreq | uint32 | PWM 开关频率（Hz） |
+| MotorNum | MotorIndex_V | 电机编号 |
+| TuningEn | LogicBool_V | 在线调参使能 |
+| DebugEn | LogicBool_V | 调试使能 |
+| SampleRate | Freq_Hz_V | 采样频率（Hz） |
+| PwmFreq | Freq_Hz_V | PWM 开关频率（Hz） |
 | PosAlgo | ePosAlgo | 位置估算算法选择 |
 
 ### tMotorPara
@@ -379,23 +430,23 @@ PI 调节器及算法模块参数。
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| NomVoltage | single | 额定电压（V） |
-| NomCurrent | single | 额定电流（A） |
-| NornSpd | single | 额定转速（RPM） |
-| PolePairNum | uint8 | 极对数 |
-| Ld | single | d 轴电感（H） |
-| Lq | single | q 轴电感（H） |
-| Rs | single | 定子电阻（Ω） |
-| Bemf | single | 反电动势常数 |
-| Flux | single | 永磁磁链（Wb） |
-| RotorInertia | single | 转子转动惯量（kg·m²） |
-| Kt | single | 转矩常数（N·m/A） |
-| Ke | single | 反电动势常数（V·s/rad） |
-| Fdamp | single | 阻尼系数 |
+| NomVoltage | Voltage_V | 额定电压（V） |
+| NomCurrent | Current_A_V | 额定电流（A） |
+| NornSpd | SpeedRpm_V | 额定转速（RPM） |
+| PolePairNum | PolePairCount_V | 极对数 |
+| Ld | Inductance_H_V | d 轴电感（H） |
+| Lq | Inductance_H_V | q 轴电感（H） |
+| Rs | Resistance_Ohm_V | 定子电阻（Ω） |
+| Bemf | BemfConst_VsPerRad_V | 反电动势常数 |
+| Flux | Flux_Wb_V | 永磁磁链（Wb） |
+| RotorInertia | Inertia_KgM2_V | 转子转动惯量（kg·m²） |
+| Kt | TorquePerAmp_NmPerA_V | 转矩常数（N·m/A） |
+| Ke | BemfConst_VsPerRad_V | 反电动势常数（V·s/rad） |
+| Fdamp | McSingle_T | 阻尼系数 |
 
 ---
 
-## 8. 顶层驱动结构（Drive）
+## 9. 顶层驱动结构（Drive）
 
 ### tMcDrive
 
@@ -403,7 +454,7 @@ PI 调节器及算法模块参数。
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| BasicCnt | uint32 | 基础计数器（系统 tick） |
+| BasicCnt | Count_V | 基础计数器（系统 tick） |
 | McCtrl | eMcCtrl | 电机控制状态（启动/退出） |
 | McType | tMcType | 电机控制类型配置 |
 | StateMachine | tMcStateMachine | 状态机 |
@@ -414,33 +465,33 @@ PI 调节器及算法模块参数。
 
 ---
 
-## 9. 通用数据容器（Generic Data）
+## 10. 通用数据容器（Generic Data）
 
-通用数据打包结构，用于在各模块间传递不同维度的数据。按数据类型分为 `uint16` 和 `single`（F32）两组。
+通用数据打包结构，用于在各模块间传递不同维度的数据。成员类型统一绑定到第 `1.9` 节定义的规范化代码类型。
 
 ### uint16 系列
 
-| 结构体 | 字段数 | 字段名 | 说明 |
-|--------|--------|--------|------|
-| tDataDualU16 | 2 | D1, D2 | 双路 uint16 数据包 |
-| tDataTriU16 | 3 | D1, D2, D3 | 三路 uint16 数据包 |
-| tDataQuadU16 | 4 | D1 ~ D4 | 四路 uint16 数据包 |
-| tDataPentaU16 | 5 | D1 ~ D5 | 五路 uint16 数据包 |
-| tDataHexaU16 | 6 | D1 ~ D6 | 六路 uint16 数据包 |
+| 结构体 | 字段数 | 字段名 | 成员类型 | 说明 |
+|--------|--------|--------|----------|------|
+| tDataDualU16 | 2 | D1, D2 | McUInt16_T | 双路 uint16 数据包 |
+| tDataTriU16 | 3 | D1, D2, D3 | McUInt16_T | 三路 uint16 数据包 |
+| tDataQuadU16 | 4 | D1 ~ D4 | McUInt16_T | 四路 uint16 数据包 |
+| tDataPentaU16 | 5 | D1 ~ D5 | McUInt16_T | 五路 uint16 数据包 |
+| tDataHexaU16 | 6 | D1 ~ D6 | McUInt16_T | 六路 uint16 数据包 |
 
 ### single（F32）系列
 
-| 结构体 | 字段数 | 字段名 | 说明 |
-|--------|--------|--------|------|
-| tDataDualF32 | 2 | D1, D2 | 双路浮点数据包（如 αβ/dq 坐标对） |
-| tDataTriF32 | 3 | D1, D2, D3 | 三路浮点数据包（如三相物理量） |
-| tDataQuadF32 | 4 | D1 ~ D4 | 四路浮点数据包 |
-| tDataPentaF32 | 5 | D1 ~ D5 | 五路浮点数据包 |
-| tDataHexaF32 | 6 | D1 ~ D6 | 六路浮点数据包（如六路 PWM 占空比） |
+| 结构体 | 字段数 | 字段名 | 成员类型 | 说明 |
+|--------|--------|--------|----------|------|
+| tDataDualF32 | 2 | D1, D2 | McSingle_T | 双路浮点数据包（如 αβ/dq 坐标对） |
+| tDataTriF32 | 3 | D1, D2, D3 | McSingle_T | 三路浮点数据包（如三相物理量） |
+| tDataQuadF32 | 4 | D1 ~ D4 | McSingle_T | 四路浮点数据包 |
+| tDataPentaF32 | 5 | D1 ~ D5 | McSingle_T | 五路浮点数据包 |
+| tDataHexaF32 | 6 | D1 ~ D6 | McSingle_T | 六路浮点数据包（如六路 PWM 占空比） |
 
 ---
 
-## 10. 枚举类型（Enum）
+## 11. 枚举类型（Enum）
 
 ### eMotorType
 
@@ -534,10 +585,11 @@ PI 调节器及算法模块参数。
 
 ---
 
-## 结构体层次关系
+## 12. 结构体层次关系
 
 ```
 tMcDrive (顶层驱动)
+├── BasicCnt      : Count_V
 ├── McCtrl        : eMcCtrl
 ├── McType        : tMcType
 │   └── MotorType : eMotorType
@@ -560,7 +612,8 @@ tMcSensor (传感器聚合)
 └── Encoder  : tSnrEncoder
 
 tMcActuator (执行器)
-└── PwmDuty  : tActrDuty
+├── ActrState : McUInt8_T
+└── PwmDuty   : tActrDuty
 
 tMcAlgorithm (算法)
 ├── SpdPI : tAlgoPI
@@ -568,6 +621,9 @@ tMcAlgorithm (算法)
 └── IqPI  : tAlgoPI
 
 tMcDataFlow (数据流)
+├── AngleElc    : AngleRad_V
+├── WElc        : AngularSpeedRadPerSec_V
+├── WReqElc     : AngularSpeedRadPerSec_V
 ├── CurPhRaw    : tDataTriU16
 ├── CurPhFlt    : tDataTriF32
 ├── CurAlBeFlt  : tDataDualF32
