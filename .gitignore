@@ -70,3 +70,10 @@ Release_RAM
 *.g_x
 language.settings.xml
 
+# Local agent environments, downloaded official artifacts and test output
+.agent-env/
+__pycache__/
+.pytest_cache/
+.codex/config.toml
+.agents/skills/ambd-mathworks
+

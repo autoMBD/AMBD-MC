@@ -31,6 +31,8 @@ def check_file(path):
 
 def find_files(root):
     for dirpath, dirs, files in os.walk(root):
+        # Downloaded official sources and local generated environments have their own licenses.
+        dirs[:] = [d for d in dirs if d not in {'.git', 'legacy', '.agent-env', '.agents', '.codex'}]
         # skip .git and legacy directories
         path_parts = dirpath.split(os.sep)
         if ".git" in path_parts or "legacy" in path_parts:

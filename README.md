@@ -2,6 +2,11 @@
 
 TODO
 
+## Agent development environment
+
+Windows + MATLAB/Simulink + Codex: see [MathWorks agent environment](docs/agent-environment.md)
+for reproducible setup, official MCP/skills, update checks and rollback.
+
 NOTICE
 
 This project follows the MIT License, except for the following files:

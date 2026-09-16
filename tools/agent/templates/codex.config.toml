@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: MIT
+# Reference only. Bootstrap generates absolute paths and preserves other config.
+[mcp_servers.ambd_matlab]
+command = '<absolute path to Python 3.11+>'
+args = ['<repository>/tools/agent/agent_env.py', 'Serve', '--repo-root', '<repository>']
+env_vars = ['WINDIR', 'SystemRoot', 'TEMP', 'TMP']
+startup_timeout_sec = 120
+tool_timeout_sec = 600
