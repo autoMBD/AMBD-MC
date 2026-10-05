@@ -8,21 +8,26 @@ on:
 
 jobs:
   basic-checks:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.10'
+          python-version: '3.11'
 
       - name: SPDX / license header check (.m files)
+        shell: bash
         run: |
-          python3 tools/test_check_spdx.py || exit $?
+          python tools/test_check_spdx.py || exit $?
 
       - name: Detect large files (>10MB)
+        shell: bash
         run: |
           echo "Searching for files larger than 10MB..."
           big=$(git ls-files -z | xargs -0 -I{} bash -c 'f="{}"; s=$(stat -c%s "$f" 2>/dev/null || echo 0); if [ "$s" -gt $((10*1024*1024)) ]; then echo "$f|$s"; fi' || true)
@@ -35,14 +40,14 @@ jobs:
             echo "No large files found."
           fi
 
-      - name: Run Python tests if present
+      - name: Test environment manager (no MATLAB, no downloads)
+        run: python -m unittest discover -s tests/agent -v
+
+      - name: Parse PowerShell entry point
+        shell: pwsh
         run: |
-          if [ -d "tests" ]; then
-            if [ -f "requirements-dev.txt" ]; then
-              python -m pip install --upgrade pip
-              python -m pip install -r requirements-dev.txt
-            fi
-            pytest -q || { echo "pytest failed"; exit 1; }
-          else
-            echo "No tests/ directory found, skipping pytest."
-          fi
+          $parseErrors = $null
+          $parseTokens = $null
+          [void][System.Management.Automation.Language.Parser]::ParseFile(
+            (Join-Path $PWD 'tools/agent/agent-env.ps1'), [ref]$parseTokens, [ref]$parseErrors)
+          if ($parseErrors.Count) { throw ($parseErrors | Out-String) }

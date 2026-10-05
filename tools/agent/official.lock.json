@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "platform": "windows-x64",
+  "components": {
+    "matlab": {
+      "repository": "matlab/matlab-agentic-toolkit",
+      "tag": "MATK-2026.09.a",
+      "commit": "9012303ae9ba3dd80d59d8c5c53a50e447e58b31",
+      "release_url": "https://github.com/matlab/matlab-agentic-toolkit/releases/tag/MATK-2026.09.a",
+      "artifacts": [
+        {
+          "name": "matlab-agentic-toolkit.zip",
+          "url": "https://codeload.github.com/matlab/matlab-agentic-toolkit/zip/9012303ae9ba3dd80d59d8c5c53a50e447e58b31",
+          "sha256": "4c345d3a6bf852f934e96b8afa875fe5671bc09336cc13ccd596e3161c6b4842",
+          "size": 4045877
+        }
+      ]
+    },
+    "simulink": {
+      "repository": "matlab/simulink-agentic-toolkit",
+      "tag": "SATK-2026.09.b",
+      "commit": "9c591b28d998c51a87ca802d228c5c6a11a4bcd9",
+      "release_url": "https://github.com/matlab/simulink-agentic-toolkit/releases/tag/SATK-2026.09.b",
+      "artifacts": [
+        {
+          "name": "agenticToolkitInstaller.mltbx",
+          "url": "https://github.com/matlab/simulink-agentic-toolkit/releases/download/SATK-2026.09.b/agenticToolkitInstaller.mltbx",
+          "sha256": "0a362f70a497bcd825629083a0f947b09da8143d3b581d572d0ab7183f0cb672",
+          "size": 78627
+        },
+        {
+          "name": "simulink-agentic-toolkit.zip",
+          "url": "https://codeload.github.com/matlab/simulink-agentic-toolkit/zip/9c591b28d998c51a87ca802d228c5c6a11a4bcd9",
+          "sha256": "e9fb40d83a144a6a78077a23e84d673930b4296b242c3b3736ac89bf993aada4",
+          "size": 16906041
+        }
+      ]
+    },
+    "mcp": {
+      "repository": "matlab/matlab-mcp-server",
+      "tag": "v0.13.0",
+      "commit": "2e44b0ac789f43083cc29f5dce9079244b081a4c",
+      "release_url": "https://github.com/matlab/matlab-mcp-server/releases/tag/v0.13.0",
+      "artifacts": [
+        {
+          "name": "matlab-mcp-server-windows-x64.exe",
+          "url": "https://github.com/matlab/matlab-mcp-server/releases/download/v0.13.0/matlab-mcp-server-windows-x64.exe",
+          "sha256": "4e065398cf86e9d1d4d3e30cec7faf6f16491ab08128da9a8336369166ad9917",
+          "size": 19232096
+        },
+        {
+          "name": "MATLABMCPServerToolbox.mltbx",
+          "url": "https://github.com/matlab/matlab-mcp-server/releases/download/v0.13.0/MATLABMCPServerToolbox.mltbx",
+          "sha256": "f601ca4da02291658f0e1dc8511959873f55aa43b67a76f754dc77c448cf83a2",
+          "size": 59694
+        }
+      ]
+    }
+  },
+  "skill_groups": {
+    "matlab": [
+      "matlab-core",
+      "matlab-programming",
+      "matlab-software-development",
+      "control-systems",
+      "code-generation"
+    ],
+    "simulink": [
+      "model-based-design-core",
+      "simulink-modeling",
+      "simulink-simulation",
+      "code-generation",
+      "verification-validation-and-test",
+      "control-systems"
+    ]
+  },
+  "inventory": {
+    "tools": {
+      "model_overview": "8d44007e50a52293eae4d8da25bb07d6ba157bf61d88ae43a600f3328c8f8dfc",
+      "model_read": "bd5a9873d5bd36a6079bde453ebebede7eba578bdcf35fa2796e9a345a0e4630",
+      "model_query_params": "d38a247a1c3d14ac1c4cadafa668cadc3453b3a11566eda4b713c12c67108379",
+      "model_resolve_params": "def0f4b51bdf4eed0048e47ba46ba3bf85f6e9cf9c401c315be47f597aaafe32",
+      "model_edit": "a5aeb8f28de453e6e426e29af732422eaf3a8cb946b2933b404b1f8070904261",
+      "model_read_diagnostics": "1c20b655e7e25758a6d92e65d57138ccfc648d76ba4c8578fedd7bb467331a1e",
+      "model_check": "a3f6666debc2b914190958aa09b4a839025d4f8c82b87fb15b7a8ab40e7407be",
+      "model_scan": "02fe8ccc34a862d1b88f14aff0b9463228b7bf47bd2269c2c7341244d51eb24a",
+      "model_test": "3b8224b3fb4d4af4d048ffdf1b016b3b031d99e7052514b99f78034aa73e5145"
+    },
+    "skills": {
+      "matlab/matlab-core/matlab-create-live-script": "fc4ed4f1d0fc1a02cdbd8d3985f024ec5b3be46c116d989570f669257276cbfe",
+      "matlab/matlab-core/matlab-debug-code": "67a5f020c79a56698bca23b31cbf37e4d5491934f001647d65d39a63918020b6",
+      "matlab/matlab-core/matlab-install-products": "58fb59833c1f0ed32cb95b5fe5ffb5dad53e422c513b890166f7b344519edcb1",
+      "matlab/matlab-core/matlab-list-products": "5484583a5e9c29f7bd09810a51894ab5d7d2d04aba226861deb15e6a0f8eb01e",
+      "matlab/matlab-core/matlab-read-documentation": "2af72a744bba91a9aba5319242f9f725752a5233f7efcf8b40a401bf594eb3cd",
+      "matlab/matlab-core/matlab-review-code": "4d07bef0ac2ce04842e517a99a14777cb5bb2f0b2fc6c4254f5e5dbb67fd42cc",
+      "matlab/matlab-core/matlab-run-tests": "f4ec27d9ea0411da0b9c7c4aebd9d40f891b465fd97953cb7752be35c96a504f",
+      "matlab/matlab-core/matlab-write-tests": "902f88300331af0b1a0c7419ed6d91568cdcdcb6ff7cbc95674340ef1f71c461",
+      "matlab/matlab-programming/matlab-validate-function-arguments": "1f50443f936c0dec13aa53af6ff0cb33d0856195f6353425acdc482748637d08",
+      "matlab/matlab-software-development/matlab-instrument-opentelemetry-tracing": "e4a50541ef8a8f25a6616fdfb87c546684e8ec3e5aefdb55c4d0f249e9537ee0",
+      "matlab/matlab-software-development/matlab-modernize-code": "ba2db61227b6ce3d83520cc15cf7af44d12497cb5842add745fbd25bf852604b",
+      "matlab/matlab-software-development/matlab-optimize-memory": "2ec63a4876c1a848f9b9c652b31bde4bbdbd494c6ef037e8f48756c2818f45da",
+      "matlab/matlab-software-development/matlab-optimize-performance": "af0aab40d18fff400ccc60415abd113aca794820f4b6a7791f0b31aa359a10de",
+      "matlab/matlab-software-development/matlab-package-toolbox": "1fdcdd4e2812b6f4aa316cd1129d667aa160a6da72674c8c36a5007631b60ff1",
+      "matlab/matlab-software-development/matlab-write-help": "572efdbc863da23b8b7d171e03294bea5682910feb3ff2dbff7659e2bfae7226",
+      "matlab/matlab-software-development/matlab-write-performance-tests": "dd95429e96a6eb9db9f5c455dda83cd77837108c259bdd67e65f9cbf831d6753",
+      "matlab/control-systems/matlab-extract-battery-features": "af3f8f509ecce8a1243df8b95c73463d40af842fa10730f7e2ddb6d97cd2292e",
+      "matlab/control-systems/matlab-extract-rotating-machinery-features": "6309f1a1b3cd693f0df7125af9abccdcac542f385dbec58a016f53ae37c50eab",
+      "matlab/control-systems/matlab-identify-linear-system": "9dcb4d81e4b93e57b62bf32c3d537683dec72d4ae364ae9eb0e89820a92ec2e7",
+      "matlab/code-generation/matlab-deploy-ai-model": "f225874d9f956c5a6c3d435da852c320ec0c4520c354104a2f18847a4a8088b7",
+      "matlab/code-generation/matlab-deploy-embedded-code": "ccc992265b0ccea1ff62c96127ed67a47077f40cfb6fe3709bd8c27e50ca4a99",
+      "matlab/code-generation/matlab-generate-code": "3edf0ce7038e5f9b8afed8e4e2db90c49d2c40ae479a2ca800cdc1c5ac72a605",
+      "matlab/code-generation/matlab-optimize-gpu-codegen": "ae187f61bc29f6b00151ddf7bcc50b701517c7342f9616b254851b0d6a385acd",
+      "matlab/code-generation/matlab-review-fi-object-code": "96a0ca55922e2394e622327cf61582c4c0e2184c310eef6efbdb8920c7a9c9e9",
+      "simulink/model-based-design-core/building-simulink-models": "d2bb5c3b4135553cd7828bf46c265f08897a5c6808f1e177753402ce30ccc42c",
+      "simulink/model-based-design-core/configuring-block-policy": "fc755ae286ea779c740703188a21e4e3b1732f9efe18d4fa6800b9dc557f0fb0",
+      "simulink/model-based-design-core/filing-bug-reports": "f0ac9437510231f0f2273a06fd9ef29efa250788332f26829d052182ce0d1d3d",
+      "simulink/model-based-design-core/generate-requirement-drafts": "a809fb7677ae682a4a1ad0c7739a7ee487854302fd12b3c2b8c310abd59afb5a",
+      "simulink/model-based-design-core/managing-simulink-projects": "20eaa7790be5633b8fd6e1a2ecb578dfc1ec4b538defc9e7225f0a720439d562",
+      "simulink/model-based-design-core/setup-custom-libraries": "89b4a6a7ac330646de48e2fdb6af047a526ac34c648c46723469513a7c5ae18f",
+      "simulink/model-based-design-core/simulating-simulink-models": "4cc83b431214b459a7953e5dc4d0b192e41fc884793125f217f0cc2c1b1d40c3",
+      "simulink/model-based-design-core/simulink-curating-library-kg": "60efa7f9b003e62f41652f770184d56cb22dc2caf8b8b6846972c826b19419b3",
+      "simulink/model-based-design-core/specifying-mbd-algorithms": "b4e693f170d358e6992f1077803e0915603bf5372f995370dc17dad396bf50be",
+      "simulink/model-based-design-core/specifying-plant-models": "de22aa80d19accfe4c0616fe2913905458920175e6cde0f4cf4735540547dc19",
+      "simulink/simulink-modeling/simulink-use-c-function-block": "b2121f04c1281f96b3c7c7c52e971cf67370e9145087d14a90f77f3e54b711b9",
+      "simulink/simulink-simulation/authoring-simulink-inputs": "2e833ea68a01fcc38c757c8ea7bbebcfea9ef4506bb9eb286587fbe7b86e21bc",
+      "simulink/simulink-simulation/create-sdi-run": "e624fbfa7ceb99b534a2b65b13753280292d31b1741c73ef9de8e09b314e6c4d",
+      "simulink/code-generation/simulink-customize-a2l": "def74ae6b4bfccf8dacbdaa5b8cabe52399643373162efaacac8cd89ff7e0de4",
+      "simulink/code-generation/simulink-generate-embedded-code": "4a59bb71ebf1e447674d29004f42f14a34bf4837e92258cedd9375c716d2921c",
+      "simulink/code-generation/simulink-optimizing-embedded-code": "26d4baa47b7f4ed1b5e4f13c10be2f162c805c115241f8d700f60851dbcccc86",
+      "simulink/code-generation/simulink-single-precision-conversion": "d327ee0124085b32a3cbab3bfb9be854dc2db96c035ba150b627308e7dd66f8e",
+      "simulink/verification-validation-and-test/author-modeladvisor-checks": "9c91b5ec4b8db9b3ffca0809d58c1624a6c8ff21a1c01925a07d374b4ae925f5",
+      "simulink/verification-validation-and-test/checking-model-compliance": "21c4560688d6d37eb0c1cd51092da5ee28a4471ffac2a82033f43756da31e0eb",
+      "simulink/verification-validation-and-test/fix-sldv-incompatibility": "0a71b1cf1eb04cd48c2b68de5d38e7fb0734441929292881f2d181f0117d2db5",
+      "simulink/verification-validation-and-test/inject-faults": "f8f3d28d94c9f59303e15ba1e4d6b4f4d346a8a2d87c7542dbadc1d772079b7f",
+      "simulink/verification-validation-and-test/manage-safety-analysis": "6f70deb9229a5fcfb6cffe7a5560481d652b4485afefb4bb3792acd535f2c478",
+      "simulink/verification-validation-and-test/resolve-design-errors": "73ac1718123110c52d6ef9395529a1bec715e5001a7f25a625af85d16cf82633",
+      "simulink/verification-validation-and-test/simulink-explain-missing-coverage": "b376ff33fae2fd9368da1af1ad0e8c9f980ad43871654183d6d30380415b0c82",
+      "simulink/verification-validation-and-test/testing-simulink-models": "045e5ce3644f21b0f40f3f4b2a6346919386c9f3d0ea53fb8d321185cb465217",
+      "simulink/control-systems/simulink-control-motors": "d8aa095334f2136216e19a886e90c0ad38a3ae2ef8063ca7113e13348ffa5226",
+      "simulink/control-systems/simulink-frequency-response": "42d3b91830d3080b720519b7bf92475de666379d61d3c7b17d5fd1211cdabc16",
+      "simulink/control-systems/simulink-linearize": "358f41203c4ea4499d3eaf1227c368f76b97e3c29e1a7b4b0b30a343bd765845"
+    }
+  },
+  "verification": {
+    "timestamp": "2026-09-11T14:11:32.577015+00:00",
+    "matlab": "2026a",
+    "python": "3.14.6",
+    "agent": "Codex Desktop/CLI 0.150.1",
+    "mcp_tools": {
+      "check_matlab_code": "b359acfadf23515672fe68538a296d564c6cd773d96657e7900e0ba3a55087d8",
+      "detect_matlab_toolboxes": "acd533a9c627b15dd227fa61da59a3e2a3c81bad6f451947eca8705cb99cd97e",
+      "evaluate_matlab_code": "5c2d94d852983de280becf61f008b28e974f2115ed25da203c452efea9fcc101",
+      "model_check": "a3f6666debc2b914190958aa09b4a839025d4f8c82b87fb15b7a8ab40e7407be",
+      "model_edit": "b71263cdb3f0fb20af8afb6d61c544f9e60fd7cd5843206bc5102186bad01623",
+      "model_overview": "8d44007e50a52293eae4d8da25bb07d6ba157bf61d88ae43a600f3328c8f8dfc",
+      "model_query_params": "d38a247a1c3d14ac1c4cadafa668cadc3453b3a11566eda4b713c12c67108379",
+      "model_read": "bd5a9873d5bd36a6079bde453ebebede7eba578bdcf35fa2796e9a345a0e4630",
+      "model_read_diagnostics": "1c20b655e7e25758a6d92e65d57138ccfc648d76ba4c8578fedd7bb467331a1e",
+      "model_resolve_params": "def0f4b51bdf4eed0048e47ba46ba3bf85f6e9cf9c401c315be47f597aaafe32",
+      "model_scan": "02fe8ccc34a862d1b88f14aff0b9463228b7bf47bd2269c2c7341244d51eb24a",
+      "model_test": "354b97dc2b658cff1c7db48c1b025447b522f728408a2fa346ce65bbb05321c6",
+      "run_matlab_file": "52c4b9ad640b9731e66a7fee9040bd56262d1b44442956259b15e2eebaa21f27",
+      "run_matlab_test_file": "8ad16798cadee7f616ae3ac43af6676f7d529de87d1b75571bfea1d07e09a64d"
+    },
+    "skill_count": 52,
+    "sessions": [
+      "new",
+      "existing"
+    ],
+    "project_assets": "Current mc-models and type generator absent on main; legacy saved structure inspected"
+  }
+}

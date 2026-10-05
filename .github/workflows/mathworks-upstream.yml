@@ -1,0 +1,57 @@
+name: MathWorks upstream releases
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'tools/agent/**'
+      - '.github/workflows/mathworks-upstream.yml'
+  schedule:
+    - cron: '0 3 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Compare official releases and selected skill/tool definitions
+        id: releases
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python tools/agent/agent_env.py CheckUpdates --output .agent-env/update-report.json
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          report = json.loads(Path('.agent-env/update-report.json').read_text())
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+              out.write('available=' + str(report['updates_available']).lower() + '\n')
+          PY
+      - name: Publish report and reviewable candidate lock
+        if: steps.releases.outputs.available == 'true' || github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v6
+        with:
+          name: mathworks-update-report
+          path: |
+            .agent-env/update-report.json
+            .agent-env/candidate.lock.json
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 30
+      - name: Summarize
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          report = json.loads(Path('.agent-env/update-report.json').read_text())
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+              out.write('MathWorks updates available: ' + str(report['updates_available']) + '\n\n')
+              out.write('Download the artifact to review version, skill and tool changes.\n')
+          PY
