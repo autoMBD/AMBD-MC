@@ -70,6 +70,9 @@ Release_RAM
 *.g_x
 language.settings.xml
 
+# Cursor
+.cursor
+
 # Local agent environments, downloaded official artifacts and test output
 .agent-env/
 __pycache__/

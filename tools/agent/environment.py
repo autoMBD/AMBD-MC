@@ -110,7 +110,9 @@ def runtime(candidate: dict, *, session=None):
     command = [str(bundle / 'bin/matlab-mcp-server.exe'),
                '--matlab-session-mode=' + mode, '--disable-telemetry=true',
                '--extension-file=' + str(bundle / 'simulink/tools/tools.json'),
-               '--log-folder=' + str(bundle.parent.parent / 'logs' / uuid.uuid4().hex),
+               # The official server creates an AF_UNIX socket under this folder.
+               # Keep per-launch isolation without exhausting its 108-byte path limit.
+               '--log-folder=' + str(bundle.parent.parent / 'logs' / uuid.uuid4().hex[:12]),
                '--log-level=warn']
     if mode != 'existing':
         command += ['--matlab-root=' + candidate['matlab_root'], '--matlab-display-mode=nodesktop',

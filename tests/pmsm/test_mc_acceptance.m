@@ -1,0 +1,113 @@
+classdef test_mc_acceptance < matlab.unittest.TestCase
+    %test_mc_acceptance - Reject incomplete or behaviorally invalid evidence
+    % SPDX-License-Identifier: MIT
+    % Copyright (c) 2026 autoMBD
+    methods (TestMethodSetup)
+        function paths(testCase)
+            root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
+            testCase.applyFixture(matlab.unittest.fixtures.PathFixture( ...
+                fullfile(root,'mc-models','pmsm','platform','pil')));
+            testCase.applyFixture(matlab.unittest.fixtures.PathFixture( ...
+                fullfile(root,'mc-models','pmsm','algo')));
+        end
+    end
+    methods (Test)
+        function idealSensoredEvidencePasses(testCase)
+            [trace,scenario]=test_mc_acceptance.evidence("sensored_steps");
+            result=mc_assess_host_trace(trace,scenario);
+            testCase.verifyTrue(result.Passed);
+        end
+        function firstStepOvershootCannotHideBehindLaterTarget(testCase)
+            [trace,scenario]=test_mc_acceptance.evidence("sensored_steps");
+            trace.OmegaTruth(trace.Time>=0.5 & trace.Time<0.6)=single(160);
+            result=mc_assess_host_trace(trace,scenario);
+            testCase.verifyFalse(result.Passed);
+        end
+        function saturationCaseMustActuallyReachCurrentLimit(testCase)
+            [trace,scenario]=test_mc_acceptance.evidence("saturation_recovery");
+            trace.ReferenceDq(:,2)=single(1);
+            result=mc_assess_host_trace(trace,scenario);
+            testCase.verifyFalse(result.Passed);
+        end
+        function currentReferenceCannotExceedCalibration(testCase)
+            [trace,scenario]=test_mc_acceptance.evidence("sensored_steps");
+            trace.ReferenceDq(trace.Time>=0.5 & trace.Time<0.6,2)=single(7);
+            result=mc_assess_host_trace(trace,scenario);
+            testCase.verifyFalse(result.Passed);
+        end
+        function missingTimingOutputCannotPassReplay(testCase)
+            [reference,~]=test_mc_acceptance.evidence("sensored_steps");
+            actual=rmfield(reference,'Tick');
+            testCase.verifyError(@() mc_compare_replay(reference,actual,65535), ...
+                'mc:ReplayRequiredField');
+        end
+        function completeIdenticalReplayPasses(testCase)
+            [trace,~]=test_mc_acceptance.evidence("sensored_steps");
+            result=mc_compare_replay(trace,trace,65535);
+            testCase.verifyTrue(result.Passed && result.StrictBitwisePassed);
+        end
+        function changedStateCannotPassReplay(testCase)
+            [trace,~]=test_mc_acceptance.evidence("sensored_steps");
+            actual=trace;actual.Mode(1000)=uint8(3);
+            result=mc_compare_replay(trace,actual,65535);
+            testCase.verifyFalse(result.Passed);
+        end
+        function forgedAdjacentCountCannotPassReplay(testCase)
+            [trace,~]=test_mc_acceptance.evidence("sensored_steps");
+            actual=trace;actual.DutyCounts(1000,1)=actual.DutyCounts(1000,1)+uint16(1);
+            result=mc_compare_replay(trace,actual,65535);
+            testCase.verifyFalse(result.Passed);
+        end
+        function negativeTargetOvershootIsDirectional(testCase)
+            [trace,scenario]=test_mc_acceptance.evidence("reversal");
+            trace.OmegaTruth(trace.Time>=4 & trace.Time<4.1)=single(-200);
+            result=mc_assess_host_trace(trace,scenario);
+            testCase.verifyFalse(result.Passed);
+        end
+        function sustainedSaturationAndRecoveryPasses(testCase)
+            [trace,scenario]=test_mc_acceptance.evidence("saturation_recovery");
+            trace.ReferenceDq(:,2)=single(4);
+            trace.ReferenceDq(trace.Time>=1 & trace.Time<2.8,2)=single(6);
+            result=mc_assess_host_trace(trace,scenario);
+            testCase.verifyTrue(result.Passed);
+        end
+        function faultAtOneTickMeetsLatency(testCase)
+            [trace,scenario]=test_mc_acceptance.faultEvidence(1);
+            result=mc_assess_host_trace(trace,scenario);
+            testCase.verifyTrue(result.Passed);
+        end
+        function faultAtTwoTicksMustFailLatency(testCase)
+            [trace,scenario]=test_mc_acceptance.faultEvidence(2);
+            result=mc_assess_host_trace(trace,scenario);
+            testCase.verifyFalse(result.Passed);
+        end
+    end
+    methods (Static,Access=private)
+        function [trace,scenario]=faultEvidence(delayTicks)
+            [trace,scenario]=test_mc_acceptance.evidence("fault_recovery");
+            detected=trace.Time>=2.5+delayTicks/16000-1e-10 & trace.Time<2.8;
+            trace.FaultBits(detected)=uint16(1);trace.Mode(detected)=uint8(3);
+            disabled=trace.Time>=2.5+delayTicks/16000-1e-10 & trace.Time<2.85;
+            trace.GateOutput(disabled)=false;trace.GateEnable=trace.GateOutput;
+        end
+        function [trace,scenario]=evidence(name)
+            scenario=mc_host_scenario(name);n=numel(scenario.Time);
+            [counts,debug,monitor]=mc.monitor(mc.initial_state(scenario.Control),scenario.Control);
+            trace.Time=scenario.Time;
+            for field=fieldnames(monitor)'
+                trace.(field{1})=repmat(monitor.(field{1})(:)',n,1);
+            end
+            for field=fieldnames(debug)'
+                trace.(['Debug_',field{1}])=repmat(debug.(field{1})(:)',n,1);
+            end
+            trace.DutyCounts=repmat(counts',n,1);
+            trace.OmegaTruth=scenario.Speed;
+            trace.CurrentTruth=zeros(n,3,'single');
+            trace.ThetaTruth=zeros(n,1,'single');
+            trace.Mode(1:numel(scenario.RequiredModes))=scenario.RequiredModes;
+            trace.PositionMode(:)=scenario.PositionMode;
+            trace.GateOutput=scenario.Time>=0.05;
+            trace.GateEnable=trace.GateOutput;
+        end
+    end
+end
