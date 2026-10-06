@@ -41,72 +41,260 @@
 # Author:      autoMBD <tkung.lqk@foxmail.com>
 # Date:        2026-03-16
 # Version:     0.1.0
-# Description: Test and check if .m files (extensible) in the repository contain 
-#              SPDX-License-Identifier or explicit License field.
+# Description: Validate complete MIT source headers and saved model root annotations.
 # =================================================================================
 
+"""Validate tracked project-owned MIT headers; inspect SLX annotations separately.
+
+Usage: python tools/test_check_spdx.py [repository-or-subdirectory] [--models]
+Model inspection reads saved XML only; MCP save/reload and layout checks are
+separate runtime evidence. Binary MLX/MDL files are never decoded as source.
 """
-Tool: Check if .m files (extensible) in the repository contain SPDX-License-Identifier or explicit License field.
-Usage (local/CI):
-  python3 tools/test_check_spdx.py [path]
-If missing is detected, exit with non-zero status code.
-"""
-import os
+import argparse
+from datetime import date
+import io
+import json
+from pathlib import Path
 import re
+import subprocess
 import sys
+import tokenize
+import xml.etree.ElementTree as ET
+import zipfile
 
-SPDX_RE = re.compile(r"SPDX-License-Identifier", re.IGNORECASE)
-LICENSE_WORD_RE = re.compile(r"\blicense\b", re.IGNORECASE)
-EXTENSIONS = [".m", ".mlx"]  # Can be extended as needed
+TOOLS = Path(__file__).resolve().parent
+PREFIXES = {".m": "%", ".py": "#", ".ps1": "#", ".c": "//", ".h": "//", ".cpp": "//"}
+EXTENSIONS = tuple(PREFIXES)
+MODELS = {".slx", ".mdl", ".mlx"}
+SEPARATOR = "=" * 81
+PROJECT = "autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>"
+POLICY = json.loads((TOOLS / "license-header-exclusions.json").read_text(encoding="utf-8"))
+NOTICE = (TOOLS / "license-header-template.txt").read_text(encoding="utf-8").splitlines()
 
-def check_file(path):
-    try:
-        with open(path, "r", encoding="utf-8", errors="ignore") as f:
-            lines = []
-            # Read first 12 lines (including blank lines) for detection
-            for _ in range(12):
-                l = f.readline()
-                if not l:
-                    break
-                lines.append(l)
-            head = "\n".join(lines)
-            if SPDX_RE.search(head) or LICENSE_WORD_RE.search(head):
-                return True
-            return False
-    except Exception:
-        return False
+
+def exclusion(path):
+    """Return a documented exclusion reason for a repository-relative path."""
+    name = Path(path).as_posix()
+    if name in POLICY["files"]:
+        return POLICY["files"][name]
+    return next((reason for prefix, reason in POLICY["prefixes"].items()
+                 if name.startswith(prefix)), None)
+
+
+def tracked_files(root):
+    """Read only Git-tracked paths; fail closed outside a repository."""
+    root = Path(root).resolve()
+    repo = Path(subprocess.check_output(
+        ["git", "-C", str(root), "rev-parse", "--show-toplevel"], text=True).strip())
+    names = subprocess.check_output(
+        ["git", "-C", str(repo), "ls-files", "-z"], text=True).split("\0")
+    return [(repo / name, name) for name in names if name
+            and (repo / name).is_relative_to(root)]
+
 
 def find_files(root):
-    for dirpath, dirs, files in os.walk(root):
-        # Downloaded official sources and local generated environments have their own licenses.
-        dirs[:] = [d for d in dirs if d not in {'.git', 'legacy', '.agent-env', '.agents', '.codex'}]
-        # skip .git and legacy directories
-        path_parts = dirpath.split(os.sep)
-        if ".git" in path_parts or "legacy" in path_parts:
-            continue
-        for fn in files:
-            if any(fn.lower().endswith(ext) for ext in EXTENSIONS):
-                yield os.path.join(dirpath, fn)
+    for path, name in tracked_files(root):
+        if path.suffix.lower() in PREFIXES and not exclusion(name):
+            yield path
 
-def main(root="."):
-    missing = []
-    for f in find_files(root):
-        ok = check_file(f)
-        if not ok:
-            missing.append(f)
-    if missing:
-        print("SPDX/license header check FAILED. The following files miss SPDX/license in header:")
-        for p in missing:
-            print("  " + p)
-        print("\nRecommended: Add a short SPDX header to each file, e.g.:")
-        print("% SPDX-FileCopyrightText: 2026 autoMBD")
-        print("% SPDX-License-Identifier: Apache-2.0")
+
+def validate_header(lines, filename):
+    """Validate plain header lines without comment tokens or trailing spaces."""
+    if len(lines) < len(NOTICE) + 7:
+        return ["missing complete bilingual MIT notice or metadata"]
+    copyright_match = re.fullmatch(r"Copyright \(c\) (\d{4}(?:-\d{4})?) (.+)", lines[8])
+    if not copyright_match:
+        return ["invalid copyright year/holder"]
+    year, holder = copyright_match.groups()
+    expected = [line.replace("{{YEAR}}", year).replace("{{COPYRIGHT_HOLDER}}", holder)
+                for line in NOTICE]
+    if lines[:len(NOTICE)] != expected:
+        return ["MIT notice text, separators or blank lines differ from project template"]
+    fields = {}
+    labels = ("Project", "File", "Author", "Date", "Version", "Description")
+    for index, label in enumerate(labels, len(NOTICE)):
+        prefix = (label + ":").ljust(13)
+        if not lines[index].startswith(prefix) or not lines[index][13:].strip():
+            return [f"missing or misaligned {label} field"]
+        fields[label] = lines[index][13:]
+    tail = lines[len(NOTICE)+6:]
+    if not tail or tail[-1] != SEPARATOR or any(
+            not line.startswith(" " * 13) or not line[13:].strip() for line in tail[:-1]):
+        return ["invalid Description continuation or final separator"]
+    if re.search(r"\{\{|\}\}|<[^>]*placeholder[^>]*>|\b(?:TODO|TBD)\b", "\n".join(lines), re.I):
+        return ["unresolved template placeholder"]
+    if fields["File"] != filename:
+        return ["File does not match actual basename"]
+    if fields["Project"] != PROJECT:
+        return ["Project name/URL does not match this repository"]
+    if not re.fullmatch(r"[^<>]+ <[^<>\s]+@[^<>\s]+>", fields["Author"]):
+        return ["Author requires name and email"]
+    try:
+        date.fromisoformat(fields["Date"])
+    except ValueError:
+        return ["invalid Date (expected YYYY-MM-DD)"]
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", fields["Date"]):
+        return ["Date must use YYYY-MM-DD"]
+    if not re.fullmatch(r"\d+\.\d+\.\d+(?:[-+][\w.-]+)?", fields["Version"]):
+        return ["invalid Version"]
+    return []
+
+
+def file_errors(path):
+    path = Path(path)
+    prefix = PREFIXES.get(path.suffix.lower())
+    if prefix is None:
+        return ["unsupported text format; use independent model/binary validation"]
+    try:
+        lines = path.read_text(encoding="utf-8-sig").splitlines()
+    except (OSError, UnicodeError) as error:
+        return [str(error)]
+    start = 0
+    if path.suffix.lower() == ".py":
+        if lines and lines[0].startswith("#!"):
+            start = 1
+        if start < len(lines) and re.match(r"#.*coding[:=]\s*[-\w.]+", lines[start]):
+            start += 1
+    if path.suffix.lower() == ".ps1":
+        while start < len(lines) and lines[start].lower().startswith("#requires "):
+            start += 1
+    end = start
+    separators = 0
+    plain = []
+    while end < len(lines):
+        line = lines[end].rstrip()
+        if not (line == prefix or line.startswith(prefix + " ")):
+            break
+        content = line[len(prefix)+1:] if line != prefix else ""
+        plain.append(content)
+        end += 1
+        if content == SEPARATOR:
+            separators += 1
+            if separators == 3:
+                break
+    errors = validate_header(plain, path.name)
+    declarations = license_declarations("\n".join(lines), path.suffix.lower())
+    if declarations != 2:
+        errors.append("missing or duplicate license declarations")
+    return errors
+
+
+def license_declarations(text, extension):
+    """Count notices in comments, excluding embedded source string literals."""
+    if extension == ".py":
+        try:
+            comments = [token.string[1:] for token in tokenize.generate_tokens(
+                io.StringIO(text).readline) if token.type == tokenize.COMMENT]
+        except (tokenize.TokenError, IndentationError):
+            return -1
+    elif extension in {".c", ".h", ".cpp"}:
+        # Consume quoted strings/chars as well as both C comment forms.
+        tokens = re.findall(r'"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|//[^\n]*|/\*.*?\*/',
+                            text, re.S)
+        comments = []
+        for token in tokens:
+            if token.startswith("//"):
+                comments.append(token[2:])
+            elif token.startswith("/*"):
+                comments.extend(line.lstrip().lstrip("*").lstrip()
+                                for line in token[2:-2].splitlines())
+    elif extension == ".ps1":
+        # Here-strings can contain literal source headers; ordinary quoted
+        # strings can span lines too. Consume them before scanning comments.
+        tokens = re.findall(
+            r"@'[^\S\n]*\n.*?\n'@|@\"[^\S\n]*\n.*?\n\"@|"
+            r"'(?:''|[^'])*'|\"(?:`.|[^\"`])*\"|<\#.*?\#>|\#[^\n]*",
+            text, re.S)
+        comments = []
+        for token in tokens:
+            if token.startswith("<#"):
+                comments.extend(token[2:-2].splitlines())
+            elif token.startswith("#"):
+                comments.append(token[1:])
+    else:  # MATLAB: block delimiters occupy their own comment lines.
+        comments = []
+        depth = 0
+        for line in text.splitlines():
+            stripped = line.strip()
+            if stripped == "%{":
+                depth += 1
+            elif stripped == "%}" and depth:
+                depth -= 1
+            elif depth:
+                comments.append(line)
+            elif stripped.startswith("%"):
+                comments.append(stripped[1:])
+    return sum(bool(re.match(
+        r"\s*(?:The MIT License|SPDX-License-Identifier:|SPDX short identifier)", line))
+        for line in comments)
+
+
+def check_file(path):
+    return not file_errors(path)
+
+
+def model_errors(path):
+    """Inspect the one saved root license annotation, without loading callbacks."""
+    path = Path(path)
+    if path.suffix.lower() != ".slx":
+        return ["SKIP: requires a format-specific MATLAB verification path"]
+    try:
+        with zipfile.ZipFile(path) as archive:
+            root = ET.fromstring(archive.read("simulink/systems/system_root.xml"))
+        texts = [node.text or "" for node in root.findall("./Annotation/P[@Name='Name']")]
+        notices = [text for text in texts if "MIT License" in text or "SPDX" in text]
+        if len(notices) != 1:
+            return [f"expected one root license annotation, found {len(notices)}"]
+        return validate_header([line.rstrip() for line in notices[0].splitlines()], path.name)
+    except (OSError, KeyError, zipfile.BadZipFile, ET.ParseError) as error:
+        return [str(error)]
+
+
+def main(root=None, models=False):
+    root = Path(root) if root is not None else TOOLS.parent
+    try:
+        entries = tracked_files(root)
+    except (OSError, subprocess.CalledProcessError) as error:
+        print(f"Header scope FAILED: {error}")
         return 2
+    checked = failed = model_count = skipped = 0
+    for path, name in entries:
+        if exclusion(name):
+            continue
+        if path.suffix.lower() in PREFIXES:
+            checked += 1
+            errors = file_errors(path)
+        elif path.suffix.lower() in MODELS:
+            model_count += 1
+            if not models:
+                continue
+            errors = model_errors(path)
+            if errors and errors[0].startswith("SKIP:"):
+                skipped += 1
+                print(f"{name}: {errors[0]}")
+                continue
+        else:
+            continue
+        if errors:
+            failed += 1
+            print(f"FAIL {name}: {'; '.join(errors)}")
+    print(f"Full MIT header check: {checked} text files, {failed} failures.")
+    if not models:
+        print(f"SKIP model/binary validation: {model_count} files; run with --models for saved SLX inspection.")
     else:
-        print("SPDX/license header check OK.")
-        return 0
+        print(f"Saved model inspection: {model_count} files, {skipped} unsupported; MCP reload/layout verified separately.")
+    if not checked:
+        print("FAIL: no tracked project-owned text files selected")
+        return 2
+    if failed:
+        print("Use the complete bilingual MIT header and metadata from tools/license-header-template.txt")
+        print("and .agents/skills/common-uniform-file-header/reference.md (not a short SPDX-only notice).")
+    return 2 if failed else 0
+
 
 if __name__ == "__main__":
-    root = sys.argv[1] if len(sys.argv) > 1 else "."
-    rc = main(root)
-    sys.exit(rc)
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("root", nargs="?")
+    parser.add_argument("--models", action="store_true")
+    args = parser.parse_args()
+    sys.exit(main(args.root, args.models))
