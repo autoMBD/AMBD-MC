@@ -14,6 +14,7 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+import time
 import uuid
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -43,7 +44,16 @@ def digest(path):
 def write_json(path, value):
     temporary = path.with_suffix(path.suffix + '.tmp')
     temporary.write_text(json.dumps(value, indent=2, ensure_ascii=False), encoding='utf-8')
-    temporary.replace(path)
+    # Windows readers may briefly deny rename/delete sharing. Preserve the old
+    # complete report until atomic replacement succeeds; never truncate it.
+    for attempt in range(6):
+        try:
+            temporary.replace(path)
+            return
+        except PermissionError as error:
+            if getattr(error, 'winerror', None) not in (5, 32, 33) or attempt == 5:
+                raise
+            time.sleep(0.05 * 2 ** attempt)
 
 
 def save_report(folder, summary, transcript):
