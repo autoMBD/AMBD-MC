@@ -1,8 +1,10 @@
 # AMBD-MC / autoMBD Motor Control
 
-Model-based motor control development. The current PMSM framework includes
+Model-based motor control development. The PMSM and BLDC frameworks include
 typed initialization, host simulation and generated-C PC SIL workflows.
-See [PMSM setup and validation](mc-models/pmsm/README.md).
+
+- [PMSM setup and validation](mc-models/pmsm/README.md)
+- [BLDC Hall/sensorless six-step setup and validation](mc-models/bldc/README.md)
 
 ## Agent development environment
 
