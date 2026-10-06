@@ -49,6 +49,7 @@ import importlib.util
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 import xml.etree.ElementTree as ET
 import zipfile
 
@@ -156,6 +157,18 @@ class HeaderTests(unittest.TestCase):
         ]:
             self.assertTrue(headers.exclusion(name))
         self.assertIsNone(headers.exclusion('mc-models/pmsm/algo/+mc/clarke.m'))
+
+    def test_git_paths_use_utf8_even_with_windows_ansi_default(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder).resolve() / '许可项目'
+            root.mkdir()
+            subprocess.run(['git', 'init', '-q', str(root)], check=True)
+            source = root / '许可证.py'
+            source.write_text('', encoding='utf-8')
+            subprocess.run(['git', '-C', str(root), 'add', source.name], check=True)
+            # Reproduce the Windows Python 3.11 CI default on every platform.
+            with patch('subprocess._text_encoding', return_value='cp1252'):
+                self.assertEqual(list(headers.find_files(root)), [source])
 
 
 class SavedModelTests(unittest.TestCase):

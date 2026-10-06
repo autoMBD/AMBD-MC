@@ -31,14 +31,16 @@ PowerShell here-string/块注释以及 MATLAB 块注释。
 `--models` 独立读取 SLX ZIP 内保存的根级注释，要求恰有一个完整许可注释。
 这不是模型编译或仿真测试。`.mdl/.mlx` 预留为独立格式验证路径并报告 SKIP；本基线没有
 纳入范围的这两类文件。非 Git 目录或空检查范围失败，不回退扫描缓存和用户未跟踪文件。
-CI 同时运行完整头/保存模型检查与检查器回归测试。
+CI 同时运行完整头/保存模型检查与检查器回归测试。Git 路径输出显式按 UTF-8 解码；
+Windows CP1252 默认环境导致的中文路径解码错误已通过实际 CI 定位，并用包含中文
+仓库目录和文件名的回归测试复现后修复。
 
 ## 实际测试
 
 | 检查 | 实际结果 |
 |---|---|
 | 旧检查器回归复现 | 初始 14 项中 12 项按预期失败，证明原检查器漏检 |
-| `python -m unittest discover -s tests/headers -v` | 28 项通过；涵盖源文件、排除规则、模型根级/子系统/重复/损坏注释 |
+| `python -m unittest discover -s tests/headers -v` | 29 项通过；涵盖源文件、排除规则、模型根级/子系统/重复/损坏注释 |
 | `python tools/test_check_spdx.py` | 126 个文本文件通过；模型路径明确 SKIP，由下一项覆盖 |
 | `python tools/test_check_spdx.py --models` | 126 个文本文件及 16 个保存模型注释通过 |
 | `python -m unittest discover -s tests/agent -v` | 36 项通过；更新一项旧许可范围用例，使其构建真实 Git 索引 |

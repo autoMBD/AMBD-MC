@@ -85,9 +85,9 @@ def tracked_files(root):
     """Read only Git-tracked paths; fail closed outside a repository."""
     root = Path(root).resolve()
     repo = Path(subprocess.check_output(
-        ["git", "-C", str(root), "rev-parse", "--show-toplevel"], text=True).strip())
+        ["git", "-C", str(root), "rev-parse", "--show-toplevel"], encoding="utf-8").strip())
     names = subprocess.check_output(
-        ["git", "-C", str(repo), "ls-files", "-z"], text=True).split("\0")
+        ["git", "-C", str(repo), "ls-files", "-z"], encoding="utf-8").split("\0")
     return [(repo / name, name) for name in names if name
             and (repo / name).is_relative_to(root)]
 
