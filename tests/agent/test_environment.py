@@ -51,6 +51,15 @@ class EnvironmentTests(unittest.TestCase):
         for prefix in ('--matlab-root=', '--initial-working-folder=', '--matlab-display-mode='):
             self.assertFalse(any(arg.startswith(prefix) for arg in command))
 
+    def test_relocated_workspace_leaves_room_for_mcp_socket(self):
+        candidate = {'bundle': 'D:/projects/relocated-workspace/AMBD-MC/.agent-env/environments/pinned',
+                     'matlab_root': 'D:/MATLAB', 'session': 'new'}
+        command, _ = environment.runtime(candidate)
+        log_folder = next(arg.split('=', 1)[1] for arg in command if arg.startswith('--log-folder='))
+        # The official server creates an AF_UNIX socket with this generated basename.
+        socket_path = str(Path(log_folder) / '.matlab-mcp-server-4294967295')
+        self.assertLess(len(socket_path.encode('utf-8')), 108)
+
 
 if __name__ == '__main__':
     unittest.main()

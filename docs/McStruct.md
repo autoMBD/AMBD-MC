@@ -1,6 +1,6 @@
 # McStruct 数据结构参考手册
 
-> 源文件：`mc-models/pmsm/commom/McStruct.m`
+> 类型事实来源：本 Markdown；`mc-models/pmsm/commom/McStruct.m` 仅保留为初始化入口。
 >
 > 本文档汇总了 PMSM 电机控制系统中使用的全部 Simulink `Bus` 和 `Enum` 定义，按功能模块分类整理。
 >
@@ -12,6 +12,7 @@
 
 | 日期 | 作者 | 版本 | 变更说明 |
 |------|------|------|----------|
+| 2026-10-06 | 小T / autoMBD | v1.4 | 新增可执行框架输入、运行状态、控制参数和诊断总线；统一 Markdown/字典初始化与 PC SIL 接口 |
 | 2026-03-17 | GPT-5.4 / autoMBD | v1.3 | 调整文档结构，将修改日志和目录前置；按后文章节分类重组规范化数据类型清单；将结构体成员类型统一映射为规范化类型 |
 | 2026-03-17 | GPT-5.4 / autoMBD | v1.2 | 合并 Markdown 生成入口，统一使用 `tools/generate_data_type_from_md.m` |
 | 2026-03-17 | GPT-5.4 / autoMBD | v1.1 | 按强类型分层规则补充 `NumericType` / `AliasType` / `ValueType` 规范，新增 Markdown 解析与生成约定 |
@@ -50,7 +51,7 @@
 
 ### 设计约束
 
-1. 原始 `Bus` / `Enum` 结构保持不删改，继续作为结构定义的事实来源。
+1. 保留原有 `Bus` / `Enum` 字段与编码，本 Markdown 统一作为类型定义事实来源；脚本与字典由此生成。
 2. 所有共享基础类型统一收敛到脚本生成的类型层，不在模型里零散定义。
 3. 物理量优先绑定到 `ValueType`，纯实现载体或泛型容器使用 `AliasType` 或 `NumericType`。
 4. 命名约定采用：`*_T` 表示数值或代码类型，`*_V` 表示物理值类型，`t*` 结构继续承载 `Bus`。
@@ -635,3 +636,140 @@ tMcDataFlow (数据流)
 ├── DutyTriFlt  : tDataTriF32
 └── DutyHexaFlt : tDataHexaF32
 ```
+
+
+## 13. 可执行框架接口与离散状态
+
+这些总线由同一 Markdown 生成器创建，服务于原框架模块的可执行实现。代码生成与 PC SIL 不依赖 MBDT。
+
+### tMcControlParams
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| Ts | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| SpeedDivider | McUInt16_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| AdcOffset | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| AdcCountsPerAmp | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| PwmPeriod | McUInt16_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| Rs | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| Ld | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| Lq | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| Flux | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| PolePairs | McUInt8_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| Inertia | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| Friction | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| NominalVdc | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| VdcMin | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| VdcMax | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| CurrentLimit | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| TripCurrent | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| SpeedLimit | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| VoltageMargin | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| KpD | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| KpQ | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| KiD | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| KiQ | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| KpSpeed | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| KiSpeed | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| SpeedSlew | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| CurrentSlew | McSingle_T | 开环及回退电流参考变化率，A/s |
+| AlignTime | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| AlignCurrent | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| OpenLoopCurrent | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| OpenLoopAccel | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| OpenLoopSpeed | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| TrackingTime | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| StartTimeout | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| ObserverBandwidth | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| ObserverSpeedBandwidth | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| ObserverMinSpeed | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| ObserverLockTime | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| StopDecel | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| StopSpeed | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| StopTimeout | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| PositionMode | McUInt8_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| TuningEnable | LogicBool_V | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+
+### tMcObserver
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| Flux | McSingle_T[2] | 定子磁链积分状态，alpha/beta，Wb |
+| Theta | AngleRad_V | 估计电角度，rad |
+| Omega | AngularSpeedRadPerSec_V | 估计电角速度，rad/s |
+| Magnitude | Flux_Wb_V | 估计有效转子磁链幅值，Wb |
+
+### tMcRuntime
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| Tick | McUInt32_T | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| Mode | McUInt8_T | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| PreviousMode | McUInt8_T | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| ModeTicks | McUInt32_T | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| FaultBits | McUInt16_T | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| ActiveFaults | McUInt16_T | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| FastTick | LogicBool_V | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| SlowTick | LogicBool_V | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| Command | McUInt8_T | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| Direction | McSingle_T | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| SpeedRequest | McSingle_T | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| SpeedRamp | McSingle_T | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| ThetaOpen | McSingle_T | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| OmegaOpen | McSingle_T | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| ThetaControl | McSingle_T | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| OmegaControl | McSingle_T | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| ReferenceDq | McSingle_T[2] | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| CurrentIntegral | McSingle_T[2] | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| SpeedIntegral | McSingle_T | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| Current | McSingle_T[3] | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| CurrentDq | McSingle_T[2] | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| Voltage | McSingle_T[2] | 本拍调制命令alpha/beta电压（非实际反馈），单位V；生命周期见 pmsm-framework-architecture.md |
+| Duty | McSingle_T[3] | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| GateEnable | LogicBool_V | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| StopOpenLoop | LogicBool_V | 无可信位置时从最后有效控制坐标系执行受控停机 |
+| ObserverReady | LogicBool_V | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| ObserverGoodTicks | McUInt32_T | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| Observer | tMcObserver | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| PositionPrev | McSingle_T | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| PositionSpeed | McSingle_T | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| Gains | McSingle_T[6] | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+| Startup | McSingle_T[4] | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
+
+### tMcInput
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| CurrentRaw | McUInt16_T[3] | offset-binary 三相电流 ADC |
+| Control | McUInt8_T | 0复位/撤使能、1运行、2受控停机 |
+| Fault | LogicBool_V | 外部硬件故障电平 |
+| CommandEvent | LogicBool_V | 命令帧有效 |
+| DrivingEvent | LogicBool_V | 电流采样节拍有效 |
+| TimerEvent | LogicBool_V | 慢周期诊断指示 |
+| SpeedReq | AngularSpeedRadPerSec_V | 目标电角速度，rad/s |
+| Vdc | Voltage_V | 实测直流母线电压，V |
+| Position | AngleRad_V | 可选位置传感器电角度，rad；无感模式不使用 |
+| AppliedVoltage | McSingle_T[2] | 刚结束采样区间实际施加的有符号α/β平均电压，单位V；由上一拍PWM计数、门极状态和该区间母线电压重建，不使用转子真值 |
+| Tuning | tMcTuning | 待锁存调参帧 |
+
+### tMcMonitor
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| Mode | McUInt8_T | eSmStates 数值状态码 |
+| FaultBits | McUInt16_T | 锁存故障位图 |
+| Tick | McUInt32_T | 电流环累计采样计数 |
+| SpeedRequest | AngularSpeedRadPerSec_V | 限幅后的目标电角速度 |
+| Omega | AngularSpeedRadPerSec_V | 控制使用的电角速度 |
+| Theta | AngleRad_V | 控制使用的电角度 |
+| Current | McSingle_T[3] | 三相电流，A |
+| CurrentDq | McSingle_T[2] | dq电流，A |
+| ReferenceDq | McSingle_T[2] | dq目标电流，A |
+| Voltage | McSingle_T[2] | 本拍调制命令alpha/beta电压（非实际反馈），单位V |
+| Duty | McSingle_T[3] | 归一化三相占空比 |
+| GateEnable | LogicBool_V | 独立功率级使能 |
+| ObserverReady | LogicBool_V | 观测器置信度通过 |
+| FluxMagnitude | Flux_Wb_V | 观测磁链幅值 |
+| PositionMode | McUInt8_T | 0无感、1位置传感器 |
+
+调参帧编码：SpdKp/SpdKi/IdKp/IqKp 为实际增益的1000倍；IdKi/IqKi 为每秒积分增益；AlignCurrent 为mA；AlignTime 为ms；OpenLoopAccel 为电rad/s²；TrackingGain 为观测器带宽1/s。仅停机/复位状态允许锁存，零增益帧不覆盖当前标定。

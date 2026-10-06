@@ -39,7 +39,7 @@
 % Project:     autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>
 % File:        mc_data_types.m
 % Author:      autoMBD <tkung.lqk@foxmail.com>
-% Date:        2026-03-17
+% Date:        2026-10-06
 % Version:     0.1.0
 % Description: Layered Simulink data type definitions generated from
 %              docs/McStruct.md.
@@ -164,39 +164,39 @@ ePosAlgo.DefaultValue = 'PosNA';
 ePosAlgo.StorageType = 'uint8';
 
 tSnrHall = createBusType('霍尔传感器信号，三路数字量输入，用于检测转子位置（60°分辨率）。', {
-    'HA', 'HallLevel_V', 1, 'A 相霍尔信号';
-    'HB', 'HallLevel_V', 1, 'B 相霍尔信号';
-    'HC', 'HallLevel_V', 1, 'C 相霍尔信号';
+    'HA', 'ValueType: HallLevel_V', 1, 'A 相霍尔信号';
+    'HB', 'ValueType: HallLevel_V', 1, 'B 相霍尔信号';
+    'HC', 'ValueType: HallLevel_V', 1, 'C 相霍尔信号';
 });
 
 tSnrResolver = createBusType('旋变传感器信号，用于高精度转子位置检测。', {
-    'A', 'ResolverLevel_V', 1, 'A 路信号';
-    'B', 'ResolverLevel_V', 1, 'B 路信号';
-    'C', 'ResolverLevel_V', 1, 'C 路信号';
+    'A', 'ValueType: ResolverLevel_V', 1, 'A 路信号';
+    'B', 'ValueType: ResolverLevel_V', 1, 'B 路信号';
+    'C', 'ValueType: ResolverLevel_V', 1, 'C 路信号';
 });
 
 tSnrEncoder = createBusType('编码器传感器信号，用于增量式位置检测。', {
-    'A', 'EncoderLevel_V', 1, 'A 路信号';
-    'B', 'EncoderLevel_V', 1, 'B 路信号';
-    'C', 'EncoderLevel_V', 1, 'C 路（Index）信号';
+    'A', 'ValueType: EncoderLevel_V', 1, 'A 路信号';
+    'B', 'ValueType: EncoderLevel_V', 1, 'B 路信号';
+    'C', 'ValueType: EncoderLevel_V', 1, 'C 路（Index）信号';
 });
 
 tSnrBemf = createBusType('反电动势（Back-EMF）检测信号，用于无传感器位置估算。', {
-    'BemfA', 'AdcBemfRaw_V', 1, 'A 相反电动势 ADC 采样值';
-    'BemfB', 'AdcBemfRaw_V', 1, 'B 相反电动势 ADC 采样值';
-    'BemfC', 'AdcBemfRaw_V', 1, 'C 相反电动势 ADC 采样值';
+    'BemfA', 'ValueType: AdcBemfRaw_V', 1, 'A 相反电动势 ADC 采样值';
+    'BemfB', 'ValueType: AdcBemfRaw_V', 1, 'B 相反电动势 ADC 采样值';
+    'BemfC', 'ValueType: AdcBemfRaw_V', 1, 'C 相反电动势 ADC 采样值';
 });
 
 tSnrVot = createBusType('三相电压采样信号。', {
-    'Va', 'AdcVoltageRaw_V', 1, 'A 相电压 ADC 采样值';
-    'Vb', 'AdcVoltageRaw_V', 1, 'B 相电压 ADC 采样值';
-    'Vc', 'AdcVoltageRaw_V', 1, 'C 相电压 ADC 采样值';
+    'Va', 'ValueType: AdcVoltageRaw_V', 1, 'A 相电压 ADC 采样值';
+    'Vb', 'ValueType: AdcVoltageRaw_V', 1, 'B 相电压 ADC 采样值';
+    'Vc', 'ValueType: AdcVoltageRaw_V', 1, 'C 相电压 ADC 采样值';
 });
 
 tSnrCur = createBusType('三相电流采样信号。', {
-    'Ia', 'AdcCurrentRaw_V', 1, 'A 相电流 ADC 采样值';
-    'Ib', 'AdcCurrentRaw_V', 1, 'B 相电流 ADC 采样值';
-    'Ic', 'AdcCurrentRaw_V', 1, 'C 相电流 ADC 采样值';
+    'Ia', 'ValueType: AdcCurrentRaw_V', 1, 'A 相电流 ADC 采样值';
+    'Ib', 'ValueType: AdcCurrentRaw_V', 1, 'B 相电流 ADC 采样值';
+    'Ic', 'ValueType: AdcCurrentRaw_V', 1, 'C 相电流 ADC 采样值';
 });
 
 tMcSensor = createBusType('传感器聚合结构，汇集了所有传感器子模块的数据。', {
@@ -209,12 +209,12 @@ tMcSensor = createBusType('传感器聚合结构，汇集了所有传感器子�
 });
 
 tActrDuty = createBusType('三相六路 PWM 占空比，对应三相全桥逆变器的上下桥臂。', {
-    'AH', 'DutyCount_V', 1, 'A 相上桥臂占空比';
-    'AL', 'DutyCount_V', 1, 'A 相下桥臂占空比';
-    'BH', 'DutyCount_V', 1, 'B 相上桥臂占空比';
-    'BL', 'DutyCount_V', 1, 'B 相下桥臂占空比';
-    'CH', 'DutyCount_V', 1, 'C 相上桥臂占空比';
-    'CL', 'DutyCount_V', 1, 'C 相下桥臂占空比';
+    'AH', 'ValueType: DutyCount_V', 1, 'A 相上桥臂占空比';
+    'AL', 'ValueType: DutyCount_V', 1, 'A 相下桥臂占空比';
+    'BH', 'ValueType: DutyCount_V', 1, 'B 相上桥臂占空比';
+    'BL', 'ValueType: DutyCount_V', 1, 'B 相下桥臂占空比';
+    'CH', 'ValueType: DutyCount_V', 1, 'C 相上桥臂占空比';
+    'CL', 'ValueType: DutyCount_V', 1, 'C 相下桥臂占空比';
 });
 
 tMcActuator = createBusType('执行器顶层结构，包含执行器状态和 PWM 占空比。', {
@@ -223,9 +223,9 @@ tMcActuator = createBusType('执行器顶层结构，包含执行器状态和 PW
 });
 
 tAlgoPI = createBusType('标准 PI 控制器参数结构。', {
-    'Kp', 'Gain_V', 1, '比例增益';
-    'Ki', 'Gain_V', 1, '积分增益';
-    'Ts', 'Time_S_V', 1, '采样周期（秒）';
+    'Kp', 'ValueType: Gain_V', 1, '比例增益';
+    'Ki', 'ValueType: Gain_V', 1, '积分增益';
+    'Ts', 'ValueType: Time_S_V', 1, '采样周期（秒）';
     'Integral', 'McSingle_T', 1, '积分累积值';
 });
 
@@ -262,13 +262,13 @@ tDataTriU16 = createBusType('三路 uint16 数据包', {
 });
 
 tMcDataFlow = createBusType('', {
-    'AngleElc', 'AngleRad_V', 1, '电角度（rad）';
-    'WElc', 'AngularSpeedRadPerSec_V', 1, '电角速度（rad/s）';
-    'WReqElc', 'AngularSpeedRadPerSec_V', 1, '目标电角速度（rad/s）';
-    'DcBusCurRaw', 'AdcCurrentRaw_V', 1, '母线电流 ADC 原始值';
-    'DcBusCurFlt', 'Current_A_V', 1, '母线电流滤波值（A）';
-    'DcBusVotRaw', 'AdcVoltageRaw_V', 1, '母线电压 ADC 原始值';
-    'DcBusVotFlt', 'Voltage_V', 1, '母线电压滤波值（V）';
+    'AngleElc', 'ValueType: AngleRad_V', 1, '电角度（rad）';
+    'WElc', 'ValueType: AngularSpeedRadPerSec_V', 1, '电角速度（rad/s）';
+    'WReqElc', 'ValueType: AngularSpeedRadPerSec_V', 1, '目标电角速度（rad/s）';
+    'DcBusCurRaw', 'ValueType: AdcCurrentRaw_V', 1, '母线电流 ADC 原始值';
+    'DcBusCurFlt', 'ValueType: Current_A_V', 1, '母线电流滤波值（A）';
+    'DcBusVotRaw', 'ValueType: AdcVoltageRaw_V', 1, '母线电压 ADC 原始值';
+    'DcBusVotFlt', 'ValueType: Voltage_V', 1, '母线电压滤波值（V）';
     'CurPhRaw', 'Bus: tDataTriU16', 1, '三相电流 ADC 原始值';
     'CurPhFlt', 'Bus: tDataTriF32', 1, '三相电流滤波值（A）';
     'CurAlBeFlt', 'Bus: tDataDualF32', 1, 'αβ 坐标系电流（Clarke 变换后）';
@@ -295,7 +295,7 @@ tMcFault = createBusType('故障信息结构，按模块分类记录故障标志
 });
 
 tMcDebug = createBusType('调试信息结构，用于运行时数据监控。', {
-    'DebugEn', 'LogicBool_V', 1, '调试使能开关';
+    'DebugEn', 'ValueType: LogicBool_V', 1, '调试使能开关';
     'DebugChannel', 'McUInt8_T', 1, '调试通道选择';
     'DebugData', 'McUInt8_T', 8, '调试数据缓冲区（8 字节）';
 });
@@ -321,32 +321,32 @@ tMcType = createBusType('电机控制类型配置，定义系统所用的电机�
 });
 
 tMcCfg = createBusType('电机控制系统配置参数。', {
-    'MotorNum', 'MotorIndex_V', 1, '电机编号';
-    'TuningEn', 'LogicBool_V', 1, '在线调参使能';
-    'DebugEn', 'LogicBool_V', 1, '调试使能';
-    'SampleRate', 'Freq_Hz_V', 1, '采样频率（Hz）';
-    'PwmFreq', 'Freq_Hz_V', 1, 'PWM 开关频率（Hz）';
+    'MotorNum', 'ValueType: MotorIndex_V', 1, '电机编号';
+    'TuningEn', 'ValueType: LogicBool_V', 1, '在线调参使能';
+    'DebugEn', 'ValueType: LogicBool_V', 1, '调试使能';
+    'SampleRate', 'ValueType: Freq_Hz_V', 1, '采样频率（Hz）';
+    'PwmFreq', 'ValueType: Freq_Hz_V', 1, 'PWM 开关频率（Hz）';
     'PosAlgo', 'Enum: ePosAlgo', 1, '位置估算算法选择';
 });
 
 tMotorPara = createBusType('电机物理参数，用于 FOC 算法计算。', {
-    'NomVoltage', 'Voltage_V', 1, '额定电压（V）';
-    'NomCurrent', 'Current_A_V', 1, '额定电流（A）';
-    'NornSpd', 'SpeedRpm_V', 1, '额定转速（RPM）';
-    'PolePairNum', 'PolePairCount_V', 1, '极对数';
-    'Ld', 'Inductance_H_V', 1, 'd 轴电感（H）';
-    'Lq', 'Inductance_H_V', 1, 'q 轴电感（H）';
-    'Rs', 'Resistance_Ohm_V', 1, '定子电阻（Ω）';
-    'Bemf', 'BemfConst_VsPerRad_V', 1, '反电动势常数';
-    'Flux', 'Flux_Wb_V', 1, '永磁磁链（Wb）';
-    'RotorInertia', 'Inertia_KgM2_V', 1, '转子转动惯量（kg·m²）';
-    'Kt', 'TorquePerAmp_NmPerA_V', 1, '转矩常数（N·m/A）';
-    'Ke', 'BemfConst_VsPerRad_V', 1, '反电动势常数（V·s/rad）';
+    'NomVoltage', 'ValueType: Voltage_V', 1, '额定电压（V）';
+    'NomCurrent', 'ValueType: Current_A_V', 1, '额定电流（A）';
+    'NornSpd', 'ValueType: SpeedRpm_V', 1, '额定转速（RPM）';
+    'PolePairNum', 'ValueType: PolePairCount_V', 1, '极对数';
+    'Ld', 'ValueType: Inductance_H_V', 1, 'd 轴电感（H）';
+    'Lq', 'ValueType: Inductance_H_V', 1, 'q 轴电感（H）';
+    'Rs', 'ValueType: Resistance_Ohm_V', 1, '定子电阻（Ω）';
+    'Bemf', 'ValueType: BemfConst_VsPerRad_V', 1, '反电动势常数';
+    'Flux', 'ValueType: Flux_Wb_V', 1, '永磁磁链（Wb）';
+    'RotorInertia', 'ValueType: Inertia_KgM2_V', 1, '转子转动惯量（kg·m²）';
+    'Kt', 'ValueType: TorquePerAmp_NmPerA_V', 1, '转矩常数（N·m/A）';
+    'Ke', 'ValueType: BemfConst_VsPerRad_V', 1, '反电动势常数（V·s/rad）';
     'Fdamp', 'McSingle_T', 1, '阻尼系数';
 });
 
 tMcDrive = createBusType('电机控制驱动顶层结构，聚合了配置、状态机、调参、电机参数等所有子模块。', {
-    'BasicCnt', 'Count_V', 1, '基础计数器（系统 tick）';
+    'BasicCnt', 'ValueType: Count_V', 1, '基础计数器（系统 tick）';
     'McCtrl', 'Enum: eMcCtrl', 1, '电机控制状态（启动/退出）';
     'McType', 'Bus: tMcType', 1, '电机控制类型配置';
     'StateMachine', 'Bus: tMcStateMachine', 1, '状态机';
@@ -354,6 +354,126 @@ tMcDrive = createBusType('电机控制驱动顶层结构，聚合了配置、状
     'Tunning', 'Bus: tMcTuning', 1, '在线调参参数';
     'McCfg', 'Bus: tMcCfg', 1, '系统配置';
     'MotorPara', 'Bus: tMotorPara', 1, '电机物理参数';
+});
+
+tMcControlParams = createBusType('', {
+    'Ts', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'SpeedDivider', 'McUInt16_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'AdcOffset', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'AdcCountsPerAmp', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'PwmPeriod', 'McUInt16_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'Rs', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'Ld', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'Lq', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'Flux', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'PolePairs', 'McUInt8_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'Inertia', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'Friction', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'NominalVdc', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'VdcMin', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'VdcMax', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'CurrentLimit', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'TripCurrent', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'SpeedLimit', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'VoltageMargin', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'KpD', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'KpQ', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'KiD', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'KiQ', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'KpSpeed', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'KiSpeed', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'SpeedSlew', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'CurrentSlew', 'McSingle_T', 1, '开环及回退电流参考变化率，A/s';
+    'AlignTime', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'AlignCurrent', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'OpenLoopCurrent', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'OpenLoopAccel', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'OpenLoopSpeed', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'TrackingTime', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'StartTimeout', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'ObserverBandwidth', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'ObserverSpeedBandwidth', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'ObserverMinSpeed', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'ObserverLockTime', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'StopDecel', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'StopSpeed', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'StopTimeout', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'PositionMode', 'McUInt8_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'TuningEnable', 'ValueType: LogicBool_V', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+});
+
+tMcObserver = createBusType('', {
+    'Flux', 'McSingle_T', 2, '定子磁链积分状态，alpha/beta，Wb';
+    'Theta', 'ValueType: AngleRad_V', 1, '估计电角度，rad';
+    'Omega', 'ValueType: AngularSpeedRadPerSec_V', 1, '估计电角速度，rad/s';
+    'Magnitude', 'ValueType: Flux_Wb_V', 1, '估计有效转子磁链幅值，Wb';
+});
+
+tMcRuntime = createBusType('', {
+    'Tick', 'McUInt32_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'Mode', 'McUInt8_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'PreviousMode', 'McUInt8_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'ModeTicks', 'McUInt32_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'FaultBits', 'McUInt16_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'ActiveFaults', 'McUInt16_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'FastTick', 'ValueType: LogicBool_V', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'SlowTick', 'ValueType: LogicBool_V', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'Command', 'McUInt8_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'Direction', 'McSingle_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'SpeedRequest', 'McSingle_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'SpeedRamp', 'McSingle_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'ThetaOpen', 'McSingle_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'OmegaOpen', 'McSingle_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'ThetaControl', 'McSingle_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'OmegaControl', 'McSingle_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'ReferenceDq', 'McSingle_T', 2, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'CurrentIntegral', 'McSingle_T', 2, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'SpeedIntegral', 'McSingle_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'Current', 'McSingle_T', 3, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'CurrentDq', 'McSingle_T', 2, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'Voltage', 'McSingle_T', 2, '本拍调制命令alpha/beta电压（非实际反馈），单位V；生命周期见 pmsm-framework-architecture.md';
+    'Duty', 'McSingle_T', 3, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'GateEnable', 'ValueType: LogicBool_V', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'StopOpenLoop', 'ValueType: LogicBool_V', 1, '无可信位置时从最后有效控制坐标系执行受控停机';
+    'ObserverReady', 'ValueType: LogicBool_V', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'ObserverGoodTicks', 'McUInt32_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'Observer', 'Bus: tMcObserver', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'PositionPrev', 'McSingle_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'PositionSpeed', 'McSingle_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'Gains', 'McSingle_T', 6, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+    'Startup', 'McSingle_T', 4, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
+});
+
+tMcInput = createBusType('', {
+    'CurrentRaw', 'McUInt16_T', 3, 'offset-binary 三相电流 ADC';
+    'Control', 'McUInt8_T', 1, '0复位/撤使能、1运行、2受控停机';
+    'Fault', 'ValueType: LogicBool_V', 1, '外部硬件故障电平';
+    'CommandEvent', 'ValueType: LogicBool_V', 1, '命令帧有效';
+    'DrivingEvent', 'ValueType: LogicBool_V', 1, '电流采样节拍有效';
+    'TimerEvent', 'ValueType: LogicBool_V', 1, '慢周期诊断指示';
+    'SpeedReq', 'ValueType: AngularSpeedRadPerSec_V', 1, '目标电角速度，rad/s';
+    'Vdc', 'ValueType: Voltage_V', 1, '实测直流母线电压，V';
+    'Position', 'ValueType: AngleRad_V', 1, '可选位置传感器电角度，rad；无感模式不使用';
+    'AppliedVoltage', 'McSingle_T', 2, '刚结束采样区间实际施加的有符号α/β平均电压，单位V；由上一拍PWM计数、门极状态和该区间母线电压重建，不使用转子真值';
+    'Tuning', 'Bus: tMcTuning', 1, '待锁存调参帧';
+});
+
+tMcMonitor = createBusType('', {
+    'Mode', 'McUInt8_T', 1, 'eSmStates 数值状态码';
+    'FaultBits', 'McUInt16_T', 1, '锁存故障位图';
+    'Tick', 'McUInt32_T', 1, '电流环累计采样计数';
+    'SpeedRequest', 'ValueType: AngularSpeedRadPerSec_V', 1, '限幅后的目标电角速度';
+    'Omega', 'ValueType: AngularSpeedRadPerSec_V', 1, '控制使用的电角速度';
+    'Theta', 'ValueType: AngleRad_V', 1, '控制使用的电角度';
+    'Current', 'McSingle_T', 3, '三相电流，A';
+    'CurrentDq', 'McSingle_T', 2, 'dq电流，A';
+    'ReferenceDq', 'McSingle_T', 2, 'dq目标电流，A';
+    'Voltage', 'McSingle_T', 2, '本拍调制命令alpha/beta电压（非实际反馈），单位V';
+    'Duty', 'McSingle_T', 3, '归一化三相占空比';
+    'GateEnable', 'ValueType: LogicBool_V', 1, '独立功率级使能';
+    'ObserverReady', 'ValueType: LogicBool_V', 1, '观测器置信度通过';
+    'FluxMagnitude', 'ValueType: Flux_Wb_V', 1, '观测磁链幅值';
+    'PositionMode', 'McUInt8_T', 1, '0无感、1位置传感器';
 });
 
 tDataDualU16 = createBusType('双路 uint16 数据包', {

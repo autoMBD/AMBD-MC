@@ -1,0 +1,293 @@
+# SPDX-License-Identifier: MIT
+"""Rebuild original host PMSM models through the pinned official MATLAB MCP.
+
+Run from the repository root: python tools/pmsm/build_models.py
+Existing project models and dictionary are backed up below .agent-env first.
+No hardware libraries, external reference trees or legacy assets are loaded.
+"""
+from __future__ import annotations
+
+import hashlib
+import argparse
+import json
+from pathlib import Path
+import re
+import shutil
+import sys
+import time
+import zipfile
+
+ROOT = Path(__file__).resolve().parents[2]
+ARTIFACTS = ROOT / '.agent-env/pmsm-models'
+PMSM = ROOT / 'mc-models/pmsm'
+INPUTS = [('Ia','uint16'),('Ib','uint16'),('Ic','uint16'),
+          ('McControl','uint8'),('FaultEvent','boolean'),('McCtrlEvent','boolean'),
+          ('McDrivingEvent','boolean'),('McTimerEvent','boolean'),
+          ('McTuningPort','Bus: tMcTuning'),('SpeedReq','single'),
+          ('DcBusVoltage','single'),('RotorAngle','single'),
+          ('AppliedVoltageAlpha','single'),('AppliedVoltageBeta','single')]
+OUTPUTS = [('DutyA','uint16'),('DutyB','uint16'),('DutyC','uint16'),
+           ('DebugPort','Bus: tMcDebug'),('GateEnable','boolean'),('Monitor','Bus: tMcMonitor')]
+MODULES = [('McKernel','kernel'),('McTuning','tuning'),('McEventHub','event_hub'),
+           ('McFault','protection'),('McStateMachine','supervisor'),('McDataFlow','dataflow')]
+
+
+def quote(value):
+    return "'" + str(value).replace("'","''") + "'"
+
+
+def add(kind,name,**params):
+    return dict(op='add_block',type=kind,name=name,ref=name,params=params)
+
+
+def wire(source,target):
+    return dict(op='connect',target=f'{source} -> {target}')
+
+
+class Builder:
+    def __init__(self, call, output_directory=None):
+        self.call_tool = call
+        self.seq = 0
+        self.mapping = {}
+        self.artifacts=Path(output_directory or ARTIFACTS).resolve()
+        if not self.artifacts.is_relative_to((ROOT/'.agent-env').resolve()):
+            raise ValueError('Build artifacts must stay below .agent-env.')
+
+    def call(self,name,**arguments):
+        self.seq += 1
+        result = self.call_tool(name,arguments)
+        self.artifacts.mkdir(parents=True,exist_ok=True)
+        (self.artifacts/f'build-{self.seq:03}-{name}.json').write_text(
+            json.dumps(dict(arguments=arguments,result=result),indent=2),encoding='utf-8')
+        txt='\n'.join(c.get('text','') for c in result.get('content',[]))
+        print(f'{self.seq:03} {name}: {txt[:110]}',flush=True)
+        if result.get('isError') or result.get('error'):
+            raise RuntimeError(result)
+        return txt
+
+    def matlab(self,code):
+        return self.call('evaluate_matlab_code',code=code)
+
+    def read(self,model,scope='root'):
+        return self.call('model_read',model=model,scope=scope,depth='1')
+
+    def check(self,model,scope='root'):
+        text=self.call('model_check',model=model,scope=scope,checks='["all"]')
+        if 'status: has_errors' in text:
+            raise RuntimeError(text)
+        return text
+
+    def edit(self,model,ops,scope='root',layout='full'):
+        text=self.call('model_edit',model=model,scope=scope,layout_mode=layout,
+                       operations=json.dumps(ops,separators=(',',':')))
+        if 'status: partial' in text or 'status: error' in text:
+            self.read(model,scope); self.check(model,scope)
+            raise RuntimeError(text)
+        return {name:'blk_'+sid for name,sid in re.findall(r'(\w+): blk_(\d+)',text)}
+
+    def script(self,model,bid,code):
+        sid=bid.removeprefix('blk_')
+        # The pinned model_read does not publish EMChart Data IDs, and
+        # model_edit rejects its native sf ID. Use documented Stateflow Data
+        # metadata for named struct outputs, alongside FunctionScript API.
+        self.matlab(f"cfg=get_param(Simulink.ID.getFullName('{model}:{sid}'),'MATLABFunctionConfiguration'); "
+                    f"cfg.FunctionScript=sprintf({quote(code.replace('%','%%').replace(chr(10),'\\n'))});"
+                    f"ch=sfroot().find('-isa','Stateflow.EMChart','Path',Simulink.ID.getFullName('{model}:{sid}'));"
+                    "d=ch.find('-isa','Stateflow.Data','Scope','Output');"
+                    "for k=1:numel(d); switch d(k).Name;"
+                    "case 'u',d(k).DataType='Bus: tMcInput';"
+                    "case 'next',d(k).DataType='Bus: tMcRuntime';"
+                    "case 'debug',d(k).DataType='Bus: tMcDebug';"
+                    "case 'monitor',d(k).DataType='Bus: tMcMonitor';end;end;")
+
+    def fresh(self,name,directory):
+        # Old hardware wrappers are inspected as saved XML, never opened.
+        self.matlab(f"if bdIsLoaded('{name}'), bdclose('{name}'); end; new_system('{name}'); open_system('{name}');")
+        self.read(name)
+        # Root DataDictionary is not a ConfigSet parameter; official model_edit
+        # root blk_0 handling is defective in the pinned toolkit (recorded probe).
+        self.matlab(f"set_param('{name}','DataDictionary','McData.sldd');")
+        return PMSM / directory / (name+'.slx')
+
+    def ports(self,ins,outs):
+        return [add('Inport',name,Port=str(i),OutDataTypeStr=typ,SampleTime='6.25e-5')
+                for i,(name,typ) in enumerate(ins,1)] + [
+                add('Outport',name,Port=str(i),OutDataTypeStr=typ)
+                for i,(name,typ) in enumerate(outs,1)]
+
+    def finish(self,name,path,compile_model=True):
+        self.edit(name,[dict(op='configure',target='config:'+name,params={
+            'SolverType':'Fixed-step','Solver':'FixedStepDiscrete','FixedStep':'6.25e-5',
+            'StopTime':'4','SaveOutput':'on','SaveFormat':'Dataset','SignalLogging':'on',
+            'ReturnWorkspaceOutputs':'on'})])
+        self.read(name);self.check(name)
+        result=self.matlab(f"save_system('{name}',{quote(path)});" +
+                    (f"set_param('{name}','SimulationCommand','update'); disp('COMPILE PASS {name}');" if compile_model else ''))
+        if compile_model and f'COMPILE PASS {name}' not in result:
+            raise RuntimeError(result)
+
+    def core(self):
+        name='MotorFramework';path=self.fresh(name,'algo')
+        ops=self.ports(INPUTS,OUTPUTS)+[
+            add('MATLAB Function','InputPack'),
+            add('Constant','Parameters',Value='McControl_Params',OutDataTypeStr='Bus: tMcControlParams'),
+            add('UnitDelay','RuntimeMemory',InitialCondition='McRuntime_Init',
+                SampleTime='6.25e-5')]
+        ops += [add('SubSystem',scope) for scope,_ in MODULES]
+        ops += [add('MATLAB Function','McDebug')]
+        ids=self.edit(name,ops)
+        pack='function u=fcn('+','.join(n for n,_ in INPUTS)+')\n%#codegen\n'
+        pack+='u.CurrentRaw=[Ia;Ib;Ic];\nu.Control=McControl;\nu.Fault=FaultEvent;\n'
+        pack+='u.CommandEvent=McCtrlEvent;\nu.DrivingEvent=McDrivingEvent;\nu.TimerEvent=McTimerEvent;\n'
+        pack+='u.SpeedReq=SpeedReq;\nu.Vdc=DcBusVoltage;\nu.Position=RotorAngle;\n'
+        pack+='u.AppliedVoltage=[AppliedVoltageAlpha;AppliedVoltageBeta];\nu.Tuning=McTuningPort;\nend'
+        self.script(name,ids['InputPack'],pack)
+        for scope,fn in MODULES:
+            sid=ids[scope]; self.read(name,sid)
+            sub=self.edit(name,self.ports([('u','Bus: tMcInput'),('s','Bus: tMcRuntime'),('p','Bus: tMcControlParams')], [('next','Bus: tMcRuntime')])+
+                          [add('MATLAB Function','Compute')],scope=sid)
+            self.script(name,sub['Compute'],f'function next=fcn(u,s,p)\n%#codegen\nnext=mc.{fn}(u,s,p);\nend')
+            self.edit(name,[wire(sub[n]+'.y1',sub['Compute']+f'.u{i}') for i,n in enumerate(['u','s','p'],1)]+
+                      [wire(sub['Compute']+'.y1',sub['next']+'.u1')],scope=sid)
+            self.read(name,sid);self.check(name,sid)
+        self.script(name,ids['McDebug'],'function [a,b,c,debug,gate,monitor]=fcn(s,p)\n%#codegen\n[counts,debug,monitor]=mc.monitor(s,p);\na=counts(1);b=counts(2);c=counts(3);gate=s.GateEnable;\nend')
+        wires=[wire(ids[n]+'.y1',ids['InputPack']+f'.u{i}') for i,(n,_) in enumerate(INPUTS,1)]
+        previous=ids['RuntimeMemory']
+        for scope,_ in MODULES:
+            wires += [wire(ids['InputPack']+'.y1',ids[scope]+'.u1'),wire(previous+'.y1',ids[scope]+'.u2'),wire(ids['Parameters']+'.y1',ids[scope]+'.u3')]
+            previous=ids[scope]
+        wires += [wire(previous+'.y1',ids['RuntimeMemory']+'.u1'),wire(previous+'.y1',ids['McDebug']+'.u1'),wire(ids['Parameters']+'.y1',ids['McDebug']+'.u2')]
+        wires += [wire(ids['McDebug']+f'.y{i}',ids[n]+'.u1') for i,(n,_) in enumerate(OUTPUTS,1)]
+        self.edit(name,wires);self.finish(name,path)
+        self.mapping[name]=ids
+
+    def wrapper(self,name,directory,reference='MotorFramework',compile_model=True):
+        path=self.fresh(name,directory)
+        ids=self.edit(name,self.ports(INPUTS,OUTPUTS)+[add('ModelReference','Controller',ModelName=reference)])
+        self.edit(name,[wire(ids[n]+'.y1',ids['Controller']+f'.u{i}') for i,(n,_) in enumerate(INPUTS,1)]+
+                  [wire(ids['Controller']+f'.y{i}',ids[n]+'.u1') for i,(n,_) in enumerate(OUTPUTS,1)])
+        self.finish(name,path,compile_model=compile_model);self.mapping[name]=ids
+
+    def top(self,name,controller):
+        path=self.fresh(name,'platform/pil')
+        ins=[('SpeedReq','single'),('Control','uint8'),('Fault','boolean'),('LoadTorque','double'),('Vdc','single')]
+        outs=[('OmegaTruth','single'),('CurrentTruth','single'),('Monitor','Bus: tMcMonitor'),('Duty','uint16'),('GateEnable','boolean'),('ThetaTruth','single')]
+        ops=self.ports(ins,outs)+[
+            add('ModelReference','Controller',ModelName=controller),
+            add('MATLAB Function','Plant'),add('MATLAB Function','PackDuty'),
+            add('Demux','AdcChannels',Outputs='3'),
+            add('Constant','PlantParameters',Value='McPlant_Params',OutDataTypeStr='Bus: tMcControlParams'),
+            add('Constant','Tuning',Value='McInput_Default.Tuning',OutDataTypeStr='Bus: tMcTuning'),
+            add('Constant','Events',Value='true',OutDataTypeStr='boolean'),
+            add('UnitDelay','DutyDelay',InitialCondition='uint16([32768;32768;32768])',SampleTime='6.25e-5'),
+            add('UnitDelay','GateDelay',InitialCondition='false',SampleTime='6.25e-5'),
+            add('Terminator','DebugSink'),add('MATLAB Function','AppliedVoltage')]
+        ids=self.edit(name,ops)
+        self.script(name,ids['Plant'],'function [raw,theta,omega,current]=fcn(duty,gate,vdc,loadTorque,p)\n%#codegen\npersistent x\nif isempty(x),x=zeros(4,1);end\nx=mc.plant_step(x,double(duty)/double(p.PwmPeriod),vdc,loadTorque,gate,p,6.25e-5);\n[raw,current,theta,omega]=mc.plant_measure(x,p);\nend')
+        self.script(name,ids['PackDuty'],'function duty=fcn(a,b,c)\n%#codegen\nduty=[a;b;c];\nend')
+        self.script(name,ids['AppliedVoltage'],
+                    'function [alpha,beta]=fcn(counts,gate,vdc,p)\n%#codegen\n'
+                    'voltage=mc.applied_voltage(counts,vdc,gate,p.PwmPeriod);\n'
+                    'alpha=voltage(1);beta=voltage(2);\nend')
+        w=[]
+        def c(a,b):w.append(wire(ids[a.split('.')[0]]+'.'+a.split('.')[1],ids[b.split('.')[0]]+'.'+b.split('.')[1]))
+        for a,b in [('DutyDelay.y1','Plant.u1'),('GateDelay.y1','Plant.u2'),('Vdc.y1','Plant.u3'),('LoadTorque.y1','Plant.u4'),('PlantParameters.y1','Plant.u5'),('Plant.y1','AdcChannels.u1')]:c(a,b)
+        for i in range(1,4):c(f'AdcChannels.y{i}',f'Controller.u{i}');c(f'Controller.y{i}',f'PackDuty.u{i}')
+        for a,b in [('Control.y1','Controller.u4'),('Fault.y1','Controller.u5'),('Tuning.y1','Controller.u9'),('SpeedReq.y1','Controller.u10'),('Vdc.y1','Controller.u11'),('Plant.y2','Controller.u12'),('Plant.y2','ThetaTruth.u1'),('Plant.y3','OmegaTruth.u1'),('Plant.y4','CurrentTruth.u1'),('PackDuty.y1','DutyDelay.u1'),('PackDuty.y1','Duty.u1'),('Controller.y5','GateDelay.u1'),('Controller.y5','GateEnable.u1'),('Controller.y6','Monitor.u1'),('Controller.y4','DebugSink.u1')]:c(a,b)
+        for i in [6,7,8]:c('Events.y1',f'Controller.u{i}')
+        for a,b in [('DutyDelay.y1','AppliedVoltage.u1'),
+                    ('GateDelay.y1','AppliedVoltage.u2'),
+                    ('Vdc.y1','AppliedVoltage.u3'),
+                    ('PlantParameters.y1','AppliedVoltage.u4'),
+                    ('AppliedVoltage.y1','Controller.u13'),
+                    ('AppliedVoltage.y2','Controller.u14')]:c(a,b)
+        # Dataset output element names come from signals, not Outport labels.
+        out_ids={ids[n]:n for n,_ in outs}
+        for connection in w:
+            destination=connection['target'].split(' -> ')[1].split('.')[0]
+            if destination in out_ids:
+                connection['params']={'Name':out_ids[destination]}
+        self.edit(name,w);self.finish(name,path);self.mapping[name]=ids
+
+    def run(self):
+        gate=self.matlab('disp(jsonencode(library.settingsLookup()));')
+        if not ('"found":false' in gate or '"gatePass":true' in gate):raise RuntimeError(gate)
+        self.backup()
+        initialized=self.matlab(f'addpath({quote(PMSM)}); clear mc.dataflow mc_initialize; rehash; info=mc_initialize(SyncDictionary=true,OutputDirectory={quote(self.artifacts)}); addpath({quote(PMSM/"platform/codegen")}); disp("INITIALIZATION PASS");')
+        if 'INITIALIZATION PASS' not in initialized:
+            raise RuntimeError(initialized)
+        self.core()
+        for name in ['FOC_PIL_Algth_model','FOC_PIL_StateMch_model']:
+            self.wrapper(name,'platform/pil')
+        for name in ['FOC_Ctrl_CodeModel','FOC_Ctrl_MBD']:
+            self.wrapper(name,'platform/codegen')
+        for stem in ['FOC_PIL_Algth','FOC_PIL_StateMch']:
+            self.top(stem+'_top',stem+'_model')
+        self.wrapper('FOC_SIL_Replay',ARTIFACTS,'FOC_PIL_StateMch_model')
+        (self.artifacts/'model-map.json').write_text(json.dumps(self.mapping,indent=2))
+        self.configure_codegen()
+        names=list(self.mapping)
+        text=self.matlab('for model={'+','.join(quote(n) for n in names)+
+                         "};set_param(model{1},'SimulationCommand','update');"
+                         "fprintf('COMPILE PASS %s\\n',model{1});end;")
+        if any(f'COMPILE PASS {name}' not in text for name in names):
+            raise RuntimeError(text)
+
+    def configure_codegen(self):
+        skill=ROOT/'.agents/skills/ambd-mathworks/simulink-generate-embedded-code/scripts'
+        for model in ['FOC_PIL_Algth_top','FOC_PIL_StateMch_top',
+                      'FOC_Ctrl_CodeModel','FOC_Ctrl_MBD','FOC_SIL_Replay']:
+            result=self.call('evaluate_matlab_code',project_path=str(skill),code=
+                f"configJson=configure_for_codegen('{model}',Target=\"ert\",Language=\"C\","
+                'Hardware="Intel->x86-64 (Windows64)",Objective="Debug",'
+                'Interface="Nonreusable function",ConfigOnly=true,Build=false,Compliance="",'
+                f'OutputDir={quote(self.artifacts/"codegen")});disp(configJson);'
+                "configResult=jsondecode(configJson);"
+                "if configResult.success,disp('CONFIGURATION PASS');end;")
+            if 'CONFIGURATION PASS' not in result:
+                raise RuntimeError(result)
+            # Persist only this explicitly requested hierarchy, dependencies first.
+            self.matlab("save_system('MotorFramework');"
+                        "save_system('FOC_PIL_Algth_model');save_system('FOC_PIL_StateMch_model');"
+                        f"save_system('{model}');")
+        # Repeated hierarchy configuration can leave this capability different
+        # between a wrapper and its reference. Every PMSM interface is fixed
+        # size; explicitly harmonize it after all official configurations.
+        models=['MotorFramework','FOC_PIL_Algth_model','FOC_PIL_StateMch_model',
+                'FOC_Ctrl_CodeModel','FOC_Ctrl_MBD','FOC_PIL_Algth_top',
+                'FOC_PIL_StateMch_top','FOC_SIL_Replay']
+        for model in models:
+            self.read(model)
+            self.edit(model,[dict(op='configure',target='config:'+model,
+                                 params={'SupportVariableSizeSignals':'off'})])
+        self.matlab('for model={'+','.join(quote(n) for n in models)+
+                    "};save_system(model{1});"
+                    "assert(strcmp(get_param(model{1},'SupportVariableSizeSignals'),'off'));end;")
+        self.matlab(f'cd({quote(ROOT)});')
+
+    def backup(self):
+        folder=self.artifacts/('before-'+time.strftime('%Y%m%d-%H%M%S'));records={}
+        for f in PMSM.rglob('*'):
+            if f.suffix not in ('.slx','.sldd'):continue
+            relative=f.relative_to(ROOT);target=folder/relative
+            target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(f,target)
+            records[str(relative)]={'sha256':hashlib.sha256(f.read_bytes()).hexdigest()}
+            if f.suffix=='.slx':
+                with zipfile.ZipFile(f) as archive:
+                    records[str(relative)]['saved_xml']={n:archive.read(n).decode() for n in archive.namelist()
+                        if n.endswith('.xml') and (n.startswith('simulink/systems/') or n=='simulink/blockdiagram.xml')}
+        (folder/'manifest.json').write_text(json.dumps(records,indent=2),encoding='utf-8')
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output-directory',type=Path,default=ARTIFACTS)
+    options=parser.parse_args()
+    sys.path.insert(0,str(ROOT/'tools/agent'))
+    import configuration
+    import environment
+    from mcp_client import Client
+    command,env=environment.runtime(configuration.read_state(ROOT)['active'],session='new')
+    with Client(command,cwd=ROOT,env=env,timeout=900) as client:
+        client.initialize()
+        Builder(client.call,options.output_directory).run()

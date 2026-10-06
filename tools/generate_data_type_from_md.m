@@ -385,6 +385,9 @@ for i = 1:numel(bus_defs)
     for k = 1:numel(bus_def.Fields)
         field = bus_def.Fields(k);
         [data_type, dimensions] = resolveBusFieldType(bus_def.Name, field.Name, field.RawType, enum_names, bus_names);
+        if any(string(data_type) == string({value_defs.Name}))
+            data_type = char("ValueType: " + string(data_type));
+        end
         fprintf(fid, "    '%s', '%s', %s, '%s';\n", escapeText(field.Name), escapeText(data_type), dimensionLiteral(dimensions), escapeText(field.Description));
     end
     fprintf(fid, "});\n\n");
