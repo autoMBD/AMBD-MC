@@ -239,5 +239,15 @@ classdef bldcRuntimeTest < matlab.unittest.TestCase
             testCase.verifyEqual(s.FaultBits,uint16(0));
             testCase.verifyEqual(s.Parameters.PositionMode,uint8(1));
         end
+        function lowSpeedDwellDoesNotConsumeNextAcquisitionTimeout(testCase)
+            p=bldc.defaults();p.PositionMode=uint8(1);s=bldc.initial_state(p);
+            u=bldc.default_input(p);u.Control=uint8(1);u.SpeedReq=single(100);
+            s.Mode=uint8(8);s.Command=uint8(1);s.SpeedRequest=single(20);
+            s.ModeTicks=uint32(96000);s.OmegaOpen=single(20);
+            s=bldc.step(u,s,p);
+            testCase.verifyEqual(s.FaultBits,uint16(0));
+            testCase.verifyEqual(s.Mode,uint8(8));
+            testCase.verifyEqual(s.ModeTicks,uint32(0));
+        end
     end
 end

@@ -91,6 +91,11 @@ See the [acquisition decision](../../../validation/2026-10-06-bldc-acquisition.m
 
 The speed PI produces a nonnegative current magnitude in the selected direction,
 with request slew limiting and conditional integration at the 6 A limit.
+Hall edge information becomes sparse at low speed. Below the calibrated
+HallGainSpeed (80 electrical rad/s), scale proportional gain by request/80
+and integral gain by its square, with minimum scale 0.2. At 20 electrical rad/s
+this lowers the nominal speed natural frequency from 8 Hz to about 2 Hz,
+compatible with roughly 19 Hall edges per second. Sensorless gains are unchanged.
 The current PI measures current into the selected source phase, regulates it
 to the slew-limited reference, and produces m in [0,1]. Both integrators reset
 when disabled/faulted and preload across startup/control transfer to prevent a

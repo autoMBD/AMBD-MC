@@ -87,6 +87,8 @@ Fixed-size BLDC params interface.
 | HallStartTimeout | BldcSingle_T | HallStartTimeout |
 | HallStallCurrent | BldcSingle_T | HallStallCurrent |
 | SpeedFilterAlpha | BldcSingle_T | SpeedFilterAlpha |
+| HallGainSpeed | BldcSingle_T | Electrical request in rad/s at full Hall speed-loop gains |
+| HallMinGainScale | BldcSingle_T | Minimum Hall proportional gain scale; integral uses its square |
 | ZcBlankTicks | BldcUInt16_T | ZcBlankTicks |
 | ZcHysteresis | BldcSingle_T | ZcHysteresis |
 | FloatCurrentLimit | BldcSingle_T | FloatCurrentLimit |

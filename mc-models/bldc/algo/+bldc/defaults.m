@@ -28,6 +28,7 @@ p.TrackingTime=single(.15);p.TrackingTimeout=single(1);p.StartTimeout=single(3);
 p.StopSpeed=single(8);p.StopTimeout=single(1.5);p.StopCoastTime=single(.25);
 p.HallTimeout=single(.3);p.HallStartTimeout=single(1);
 p.HallStallCurrent=single(.5);p.SpeedFilterAlpha=single(.02);
+p.HallGainSpeed=single(80);p.HallMinGainScale=single(.2);
 p.ZcBlankTicks=uint16(4);p.ZcHysteresis=single(.02);
 p.FloatCurrentLimit=single(.05);p.ZcMinTicks=uint32(20);
 p.ZcMaxTicks=uint32(8000);p.ZcRequired=uint16(6);

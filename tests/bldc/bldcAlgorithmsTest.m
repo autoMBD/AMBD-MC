@@ -79,5 +79,19 @@ classdef bldcAlgorithmsTest < matlab.unittest.TestCase
             testCase.verifyEqual(output,single(.88),AbsTol=single(2e-7));
             testCase.verifyEqual(state,single(1.08),AbsTol=single(2e-7));
         end
+        function hallLowSpeedGainsMatchAvailableEdgeRate(testCase)
+            p=bldc.defaults();[kp,ki]=bldc.speed_gains(single(20),p);
+            testCase.verifyEqual(kp,p.KpSpeed*single(.25),AbsTol=single(1e-8));
+            testCase.verifyEqual(ki,p.KiSpeed*single(.0625),AbsTol=single(1e-8));
+            [kp,ki]=bldc.speed_gains(single(-100),p);
+            testCase.verifyEqual(kp,p.KpSpeed,AbsTol=single(1e-8));
+            testCase.verifyEqual(ki,p.KiSpeed,AbsTol=single(1e-8));
+        end
+        function sensorlessKeepsItsQualifiedSpeedGains(testCase)
+            p=bldc.defaults();p.PositionMode=uint8(1);
+            [kp,ki]=bldc.speed_gains(single(20),p);
+            testCase.verifyEqual(kp,p.KpSpeed,AbsTol=single(1e-8));
+            testCase.verifyEqual(ki,p.KiSpeed,AbsTol=single(1e-8));
+        end
     end
 end

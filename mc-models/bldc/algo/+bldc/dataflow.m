@@ -48,8 +48,9 @@ else
         dt=p.Ts*single(p.SpeedDivider);
         s.SpeedRamped=s.SpeedRamped+min(max(desired-s.SpeedRamped,-p.SpeedSlew*dt),p.SpeedSlew*dt);
         error=s.SpeedRamped-single(s.Direction)*s.SpeedEstimate;
+        [kp,ki]=bldc.speed_gains(s.SpeedRequest,p);
         [targetCurrent,s.SpeedIntegrator]=bldc.pi_step(error,s.SpeedIntegrator, ...
-            p.KpSpeed,p.KiSpeed,dt,single(0),p.CurrentLimit);
+            kp,ki,dt,single(0),p.CurrentLimit);
     else
         targetCurrent=s.CurrentDemand;
     end

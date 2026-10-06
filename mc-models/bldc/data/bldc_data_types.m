@@ -107,6 +107,8 @@ tBldcParams = createBusType('Fixed-size BLDC params interface.', {
     'HallStartTimeout', 'BldcSingle_T', 1, 'HallStartTimeout';
     'HallStallCurrent', 'BldcSingle_T', 1, 'HallStallCurrent';
     'SpeedFilterAlpha', 'BldcSingle_T', 1, 'SpeedFilterAlpha';
+    'HallGainSpeed', 'BldcSingle_T', 1, 'Electrical request in rad/s at full Hall speed-loop gains';
+    'HallMinGainScale', 'BldcSingle_T', 1, 'Minimum Hall proportional gain scale; integral uses its square';
     'ZcBlankTicks', 'BldcUInt16_T', 1, 'ZcBlankTicks';
     'ZcHysteresis', 'BldcSingle_T', 1, 'ZcHysteresis';
     'FloatCurrentLimit', 'BldcSingle_T', 1, 'FloatCurrentLimit';
