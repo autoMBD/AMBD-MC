@@ -6,9 +6,12 @@ Status: interface baseline, 2026-10-06. Implements B1–B10 in the system spec.
 
 Use package `+bldc`, unique `tBldc*` buses and `BldcData.sldd`. No `+mc` or PMSM
 dictionary modification is required. `BLDCFramework` stores one explicit runtime
-bus in Unit Delay and orders McKernel → McTuning → McEventHub → McFault →
+bus in Unit Delay and orders McTuning → McKernel → McEventHub → McFault →
 McStateMachine → McDataFlow → McDebug. Every component accepts `(u,s,p)` and
-returns next state; monitor/output generation has no hidden state.
+returns next state; monitor/output generation has no hidden state. Disarmed
+calibration latching precedes acquisition so ADC conversion, feedback, protection
+and regulation all use one coherent calibration set in each frame. McKernel
+advances the divide-by-16 scheduler; TimerEvent permits the due slow update.
 
 `BLDC_Ctrl_MBD` and `BLDC_Ctrl_CodeModel` are ERT host wrappers. Hall and
 sensorless wrapper/top pairs in `platform/pil` reference the same core with
@@ -72,8 +75,19 @@ After demagnetization blanking and a near-zero floating current guard, require
 the expected signed crossing with hysteresis. Reject implausible intervals and
 duplicate crossings in one sector. Estimate the 60-degree period from valid
 successive events; schedule the next sector after half that interval (30°).
-Forced startup collects multiple consistent crossings before transfer. Validity
-and timeout decisions use only acquisition data and internal timing, never truth.
+At the target forced speed, briefly disable all gates, wait for measured current
+decay, then acquire two fresh terminal-voltage snapshots. Their max/min/middle
+ratios recover trapezoidal rotor phase without R/L/Ke or motor truth. Signed
+phase change validates direction and seeds speed, sector and a provisional
+commutation deadline. Reject negligible or rail-clamped voltage spans and frozen
+or wrong-direction samples. This bounded acquisition interval is state 9.
+
+The snapshot does not increment ZcCount or set FeedbackReady. In state 11, the
+first real armed floating-phase crossing establishes the timestamp; the second
+provides a complete 60-degree interval. Six qualified real crossings are required
+before closed-loop readiness. Use the provisional period only until measured
+periods exist. Invalid acquisition or lost crossings have explicit timeouts.
+See the [acquisition decision](../../../validation/2026-10-06-bldc-acquisition.md).
 
 The speed PI produces a nonnegative current magnitude in the selected direction,
 with request slew limiting and conditional integration at the 6 A limit.
@@ -92,7 +106,11 @@ forced startup 8, acquire bridge 9, fallback bridge 10, tracking 11, ready-to-ru
 entry/exit behavior. Hall mode can enter run after alignment; sensorless proceeds
 through startup/acquisition/tracking. Unsupported low speed remains explicitly
 forced startup. On reversal, ramp current/request down and reach the stop guard
-before selecting opposite direction and aligning again. Stop commands preempt
+before selecting opposite direction and aligning again. After current demand
+reaches zero and measured current decays, coast with all gates off for a
+calibrated 0.25 s before idle. This avoids treating missing low-speed sensorless
+edges as proof of standstill; the interval is justified by the declared virtual
+J/B and verified against plant truth in acceptance. Stop commands preempt
 every startup/bridge state. Persistent fault plus reset keeps the gate off.
 
 Fault bits: external 1, overcurrent 2, undervoltage 4, overvoltage 8, invalid input
