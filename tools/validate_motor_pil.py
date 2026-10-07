@@ -130,7 +130,7 @@ def main():
             with Client(command,cwd=ROOT,env=env,timeout=1800) as client:
                 client.initialize()
                 evaluate(client,f"addpath({TARGET.quote(ROOT)},{TARGET.quote(ROOT/'tests/hsp')});"
-                         f"stageInfo=hsp_stage({TARGET.quote(family)},{TARGET.quote(args.settings.resolve())});"
+                         f"stageInfo=ambd_mc('stage',{TARGET.quote(family)},{TARGET.quote(args.settings.resolve())});"
                          "disp('OPERATIONAL_STAGE_READY');",'OPERATIONAL_STAGE_READY')
                 for model,scenario in CASES[family]:
                     trace=host_folder/'closed-loop'/scenario/'Normal/trace.mat'

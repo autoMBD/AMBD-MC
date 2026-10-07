@@ -7,7 +7,7 @@ S32K344 PIL。[目标配置、代码生成与 PIL](../hardware/hsp-s32k344.md)
 
 ## 启动与参数
 
-在仓库根目录使用 `pmsm_setup` 初始化。首次运行及日志读取见
+在仓库根目录使用 `ambd_mc("setup","pmsm")` 初始化。首次运行及日志读取见
 [快速开始](getting-started.md)，有感和无感调用见[场景示例](examples.md)。
 
 入口设置相对路径，校验 Markdown 类型与保存的数据字典，读取已有标定，
@@ -15,7 +15,7 @@ S32K344 PIL。[目标配置、代码生成与 PIL](../hardware/hsp-s32k344.md)
 字典枚举的生命周期。目标组件需要已启用的 autoMBD HSP 0.1.0。
 
 仅在主动修改 `docs/McStruct.md` 或默认参数、需要重置字典时执行
-`info = pmsm_setup(SyncDictionary=true)`。同步重建本框架拥有的类型和默认
+`info = ambd_mc("setup","pmsm",SyncDictionary=true)`。同步重建本框架拥有的类型和默认
 参数，拒绝有未保存修改的字典。正常启动不重置已有标定。
 
 | 数据 | 用途 |

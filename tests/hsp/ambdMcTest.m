@@ -37,43 +37,73 @@
 % 何权利主张、损害赔偿或其他责任承担责任。
 % =================================================================================
 % Project:     autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>
-% File:        hspStageTest.m
+% File:        ambdMcTest.m
 % Author:      autoMBD <tkung.lqk@foxmail.com>
-% Date:        2026-10-07
+% Date:        2026-10-08
 % Version:     0.1.0
 % Description: Reject unsaved calibration before creating a target stage.
 % =================================================================================
 
-classdef hspStageTest < matlab.unittest.TestCase
-    %hspStageTest - Preserve pending source calibration during staging
+classdef ambdMcTest < matlab.unittest.TestCase
+    %ambdMcTest - Validate the public operation interface
     properties (TestParameter)
-        Family = struct('bldc',"bldc",'pmsm',"pmsm")
+        Invalid = struct( ...
+            'missingFamily', {{'setup'}}, ...
+            'missingSettings', {{'stage','bldc'}})
+        BadFamily = {"unknown", "", ["bldc","pmsm"], 17, {"bldc"}}
+        BadCommand = {"build", "", ["setup","stage"], 17, {"setup"}}
     end
-    methods (Test)
-        function refusesUnsavedDictionary(testCase,Family)
+    methods (TestMethodSetup)
+        function addRoot(testCase)
             root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
             testCase.applyFixture(matlab.unittest.fixtures.PathFixture(root));
-            path=sourceDictionary(root,Family);
-            dictionary=Simulink.data.dictionary.open(path);
-            testCase.assumeFalse(dictionary.HasUnsavedChanges);
-            testCase.addTeardown(@()restoreDictionary(dictionary));
-            section=getSection(dictionary,'Design Data');
-            name=['StageProbe_',char(java.util.UUID.randomUUID)];
-            name=strrep(name,'-','_');
-            addEntry(section,name,uint32(123));
-            testCase.verifyError(@()ambd_mc('stage',Family, ...
-                fullfile(root,'.agent-env','missing-settings.json')), ...
-                'ambd:DirtyDictionary');
-            testCase.verifyTrue(dictionary.HasUnsavedChanges);
-            testCase.verifyEqual(getValue(getEntry(section,name)),uint32(123));
         end
     end
-end
-function restoreDictionary(dictionary)
-discardChanges(dictionary);close(dictionary);
-end
-
-function file=sourceDictionary(root,family)
-if family=="bldc",name='BldcData.sldd';else,name='McData.sldd';end
-file=fullfile(root,'mc-models',family,'commom',name);
+    methods (Test)
+        function helpWithoutDependencies(testCase)
+            output=evalc('ambd_mc');
+            testCase.verifySubstring(output,'setup');
+            testCase.verifySubstring(output,'stage');
+            testCase.verifyEqual(evalc('ambd_mc("help")'),output);
+        end
+        function missingArgument(testCase,Invalid)
+            testCase.verifyError(@()ambd_mc(Invalid{:}),'ambd:MissingArgument');
+        end
+        function invalidCommand(testCase,BadCommand)
+            testCase.verifyError(@()ambd_mc(BadCommand),'ambd:Command');
+        end
+        function invalidFamily(testCase,BadFamily)
+            testCase.verifyError(@()ambd_mc('setup',BadFamily),'ambd:Family');
+        end
+        function stageRejectsAll(testCase)
+            testCase.verifyError(@()ambd_mc('stage','all','x.json'),'ambd:Family');
+        end
+        function stageRejectsExtraArguments(testCase)
+            testCase.verifyError(@()ambd_mc('stage','bldc','x.json',true), ...
+                'ambd:Arguments');
+        end
+        function helpRejectsExtraArguments(testCase)
+            testCase.verifyError(@()ambd_mc('help','bldc'),'ambd:Arguments');
+        end
+        function rejectsUnknownOption(testCase)
+            testCase.verifyError(@()ambd_mc('setup','pmsm','Unknown',true), ...
+                'ambd:Option');
+        end
+        function rejectsMissingOptionValue(testCase)
+            testCase.verifyError(@()ambd_mc('setup','pmsm','Dictionary'), ...
+                'ambd:Option');
+        end
+        function rejectsSharedDictionaryForAll(testCase)
+            testCase.verifyError(@()ambd_mc('setup','all',Dictionary='x.sldd'), ...
+                'ambd:SharedDictionary');
+        end
+        function rejectsNumericSync(testCase)
+            testCase.verifyError(@()ambd_mc('setup','pmsm',SyncDictionary=1), ...
+                'ambd:Option');
+        end
+        function rejectsMissingSettingsText(testCase)
+            testCase.verifyError(@()ambd_mc('stage','bldc',string(missing)), ...
+                'ambd:SettingsFile');
+        end
+    end
 end

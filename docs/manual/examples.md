@@ -5,10 +5,10 @@
 
 | 目的 | 初始化 | 运行命令 |
 | --- | --- | --- |
-| PMSM 有感基线 | `info = pmsm_setup;` | `result = mc_run_host_case('FOC_PIL_Algth_top','sensored_steps','Normal');` |
-| PMSM 无感启动 | `info = pmsm_setup;` | `result = mc_run_host_case('FOC_PIL_StateMch_top','sensorless_forward','Normal');` |
-| BLDC Hall 阶跃 | `info = bldc_setup;` | `result = bldc_run_host_case("hall_steps","Normal");` |
-| BLDC 无感启动 | `info = bldc_setup;` | `result = bldc_run_host_case("sensorless_forward","Normal");` |
+| PMSM 有感基线 | `info = ambd_mc("setup","pmsm");` | `result = mc_run_host_case('FOC_PIL_Algth_top','sensored_steps','Normal');` |
+| PMSM 无感启动 | `info = ambd_mc("setup","pmsm");` | `result = mc_run_host_case('FOC_PIL_StateMch_top','sensorless_forward','Normal');` |
+| BLDC Hall 阶跃 | `info = ambd_mc("setup","bldc");` | `result = bldc_run_host_case("hall_steps","Normal");` |
+| BLDC 无感启动 | `info = ambd_mc("setup","bldc");` | `result = bldc_run_host_case("sensorless_forward","Normal");` |
 
 SIL 使用同一入口，将最后一个执行模式参数换为 `'SIL'` 或 `"SIL"`，
 并准备主机编译器与代码生成产品。SIL 不连接目标芯片。

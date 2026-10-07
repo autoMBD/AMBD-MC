@@ -7,7 +7,7 @@
 
 ## 启动与仿真
 
-在仓库根目录使用 `bldc_setup` 初始化。首次运行及日志读取见
+在仓库根目录使用 `ambd_mc("setup","bldc")` 初始化。首次运行及日志读取见
 [快速开始](getting-started.md)，Hall 和无感调用见[场景示例](examples.md)。
 
 `bldc_run_host_case` 自动选择对应顶层，并通过 `Simulink.SimulationInput`
@@ -18,10 +18,10 @@ SIL 在 Windows 主机运行实际生成 C，不连接芯片。
 0 为 Hall，1 为无感。保存字典的默认模式为 Hall；顶层文件名不隐式切换
 标定。使用上述入口运行无感场景，可保证模式和初态与记录一致。
 
-正常 `bldc_setup` 验证类型并保留标定。修改类型或明确重置默认标定时使用：
+正常 `ambd_mc("setup","bldc")` 验证类型并保留标定。修改类型或明确重置默认标定时使用：
 
 ```matlab
-info = bldc_setup(SyncDictionary=true);
+info = ambd_mc("setup","bldc",SyncDictionary=true);
 ```
 
 同步只更新 BLDC 拥有的条目，保留无关字典数据；未保存、带引用或不属于

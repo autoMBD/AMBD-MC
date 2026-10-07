@@ -49,7 +49,7 @@
 
 Run from the repository root: python tools/pmsm/create_replay_model.py
 The pinned official MCP performs all block edits. A fresh checkout needs
-pmsm_setup-compatible saved production models and the canonical dictionary.
+ambd_mc-compatible saved production models and the canonical dictionary.
 """
 from __future__ import annotations
 
@@ -70,7 +70,7 @@ def create_replay(call, force=False):
         raise RuntimeError(gate)
     result=builder.matlab(
         f'addpath({quote(ROOT)});'
-        f'info=pmsm_setup(OutputDirectory={quote(ARTIFACTS/"replay-build")});'
+        f'info=ambd_mc("setup","pmsm",OutputDirectory={quote(ARTIFACTS/"replay-build")});'
         "assert(~bdIsLoaded('FOC_SIL_Replay'),'mc:ReplayAlreadyLoaded',"
         "'Refusing to replace an unsaved loaded replay harness.');"
         "open_system('FOC_PIL_StateMch_top');disp('REPLAY SETUP PASS');")

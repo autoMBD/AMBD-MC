@@ -58,7 +58,7 @@ def create_replay(call,force=False):
     builder=Builder(call);builder.seq=500
     gate=builder.matlab('disp(jsonencode(library.settingsLookup()));')
     if not ('"found":false' in gate or '"gatePass":true' in gate):raise RuntimeError(gate)
-    result=builder.matlab(f'addpath({quote(ROOT)});info=bldc_setup();'+
+    result=builder.matlab(f'addpath({quote(ROOT)});info=ambd_mc("setup","bldc");'+
       "assert(~bdIsLoaded('BLDC_SIL_Replay'),'bldc:ReplayAlreadyLoaded','Refusing to replace a loaded replay harness.');"
       "open_system('BLDC_PIL_Sensorless_top');disp('REPLAY SETUP PASS');")
     if 'REPLAY SETUP PASS' not in result:raise RuntimeError(result)

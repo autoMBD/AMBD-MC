@@ -50,7 +50,7 @@ function p = kit_parameters(family)
 %   motor and the official BLDC or PMSM jumper arrangement. Parameters
 %   are initial engineering calibrations; physical tuning is separate.
 %
-%   See also hsp_stage, bldc.defaults, mc.defaults
+%   See also ambd_mc, bldc.defaults, mc.defaults
 family=string(family);
 assert(isscalar(family)&&ismember(family,["bldc","pmsm"]),'ambd:Family','Select bldc or pmsm.');
 if family=="bldc",p=bldc.defaults();else,p=mc.defaults();end

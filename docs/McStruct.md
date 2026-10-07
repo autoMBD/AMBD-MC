@@ -1,6 +1,6 @@
 # McStruct 数据结构参考手册
 
-> 类型事实来源：本 Markdown；当前初始化入口为仓库根目录的 `pmsm_setup.m`，内部调用 `mc_initialize`。
+> 类型事实来源：本 Markdown；当前初始化入口为仓库根目录的 `ambd_mc.m`，内部调用 `mc_initialize`。
 >
 > 本文档汇总了 PMSM 电机控制系统中使用的全部 Simulink `Bus` 和 `Enum` 定义，按功能模块分类整理。
 >

@@ -13,7 +13,7 @@ remain the host functional and numerical references.
 
 | ID | Requirement and observable completion evidence |
 |---|---|
-| B1 | A repository-relative `bldc_setup` initializes types, persistent dictionary and calibrations in a fresh session, repeatedly without destructive reset; Markdown and generated types agree. |
+| B1 | A repository-relative `ambd_mc("setup","bldc")` initializes types, persistent dictionary and calibrations in a fresh session, repeatedly without destructive reset; Markdown and generated types agree. |
 | B2 | `BLDCFramework` preserves McKernel, McTuning, McEventHub, McFault, McStateMachine, McDataFlow and McDebug responsibilities; BldcControllerLibrary shares the algorithm and application wrappers own native API calls. |
 | B3 | Explicit single-precision controller state at 16 kHz; integer divide-by-16 speed loop at 1 kHz; fault/reset priority and disabled outputs deterministic even without a driving tick. |
 | B4 | Hall six-step uses measured Hall edges for sector/direction/speed, including invalid codes, illegal transitions and timeout diagnostics. Sensorless control uses sampled terminal voltages, currents and the actual prior commutation state, without rotor speed/angle or internal BEMF truth. |

@@ -51,7 +51,7 @@ function info = bldc_initialize(options)
 %   a clean, unreferenced dictionary and preserves unrelated entries.
 %   INFO = bldc_initialize(Dictionary=FILE,OutputDirectory=DIR) uses FILE
 %   and writes artifacts under DIR, which must be below .agent-env.
-%   See also generate_data_type_from_md, bldc_setup
+%   See also generate_data_type_from_md, ambd_mc
 
 arguments
     options.OutputDirectory {mustBeTextScalar} = ""

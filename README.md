@@ -9,6 +9,20 @@ for NXP S32K344 code generation and processor-in-the-loop (PIL).
 - [S32K344 HSP configuration, build and PIL](docs/hardware/hsp-s32k344.md)
 - [Validation workflows and result interpretation](docs/manual/verification.md)
 
+## MATLAB entrypoint
+
+From the repository root, use `ambd_mc` for MATLAB operations:
+
+```matlab
+info = ambd_mc("setup", "pmsm"); % or "bldc" / "all"
+stage = ambd_mc("stage", "bldc", ".agent-env/hsp/local.json");
+ambd_mc("help");
+```
+
+Keep the returned information alive while using models; it owns dictionary
+connections. See the [command and option reference](docs/manual/getting-started.md#matlab)
+and [isolated target staging guide](docs/hardware/hsp-s32k344.md).
+
 ## Agent development environment
 
 Windows + MATLAB/Simulink + Codex: see [MathWorks agent environment](docs/development/agent-environment.md)

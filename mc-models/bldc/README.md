@@ -7,7 +7,7 @@
 从仓库根目录初始化 MATLAB：
 
 ```matlab
-info = bldc_setup;
+info = ambd_mc("setup","bldc");
 ```
 
 保留 `info` 以维持字典连接；普通启动保留已有标定。

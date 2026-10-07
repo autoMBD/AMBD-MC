@@ -51,7 +51,7 @@ function result = validate_pil(model,family,outputDirectory)
 %   requires actual PIL metadata, a download receipt, exact typed output
 %   equality and fault gate shutdown. MODEL must be an isolated HSP copy.
 %
-%   See also hsp_stage, ambd.pil_fixture, ambd.compare_outputs
+%   See also ambd_mc, ambd.pil_fixture, ambd.compare_outputs
 
 if ~isfolder(outputDirectory),mkdir(outputDirectory);end
 result=struct('Model',model,'Family',family,'Passed',false,'Stage','running');

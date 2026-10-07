@@ -104,7 +104,7 @@ Doctor 只检查 Python、MATLAB 路径、WINDIR、锁文件、bundle 完整性�
 | MATLAB 最小命令出现 `File system inconsistency` | 在正常终端执行同一最小命令，区分执行沙箱与 MATLAB 安装问题；本机普通执行已通过，受限执行失败，不应据此重装 MATLAB |
 | MCP 初始化失败 | 查看 `.agent-env/logs/`，确认 MATLAB root、日志目录可写；保留 WINDIR / SystemRoot / TEMP / TMP |
 | 工具存在但报 Undefined function | 执行对应 bundle 的 startup，检查 `which('satk_initialize')` 与 `which('shareMATLABSession')` 是否指向同一环境 |
-| Simulink / 可选 toolbox 报许可错误 | 根据报告核对已安装产品和可用许可证；autoMBD HSP 需通过 MATLAB Add-Ons 安装，并通过 `hsp_setup` 初始化 |
+| Simulink / 可选 toolbox 报许可错误 | 根据报告核对已安装产品和可用许可证；autoMBD HSP 需通过 MATLAB Add-Ons 安装，并通过 `ambd_mc("setup",...)` 初始化 |
 | skills 链接创建失败 | 脚本自动复制完整官方 skills，不要求开启 Windows Developer Mode；更新前检查本地改动，防止覆盖 |
 | 同名配置或 skills 已存在 | 脚本拒绝覆盖用户文件；将自定义内容保存在独立名称，再重试 |
 
