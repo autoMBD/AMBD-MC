@@ -54,6 +54,10 @@ arguments
     options.SyncDictionary {mustBeA(options.SyncDictionary,'logical'),mustBeScalarOrEmpty} = false
 end
 root=fileparts(mfilename('fullpath'));
+assert(~isempty(which('autombd.hsp.initialize')), ...
+    'ambd:MissingHsp','Install autoMBD HSP 0.1.0 before opening motor models.');
+autombd.hsp.initialize;
+addpath(fullfile(root,'mc-models','hsp'));
 addpath(fullfile(root,'mc-models','bldc'));
 info=bldc_initialize(SyncDictionary=options.SyncDictionary);
 end

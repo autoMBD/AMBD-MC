@@ -65,6 +65,8 @@ m.PositionMode=s.Parameters.PositionMode;m.VoltageResidual=s.ZcValue;
 m.CurrentIntegrator=s.CurrentIntegrator;m.SpeedIntegrator=s.SpeedIntegrator;
 m.HallSector=s.HallSector;m.HallValid=s.HallValid;m.AppliedAge=s.AppliedAge;
 m.CurrentMeasured=s.CurrentMeasured;
+m.CurrentSenseMode=s.Parameters.CurrentSenseMode;
+m.PhaseCurrentsValid=s.PhaseCurrentsValid;m.DcCurrent=s.DcCurrent;m.DcCurrentValid=s.DcCurrentValid;
 debug.Enabled=true;
 debug.Data=single([single(s.Mode);single(s.FaultBits);s.SpeedRequest; ...
     s.SpeedEstimate;s.CurrentRef;s.CurrentMeasured;s.Modulation; ...

@@ -102,6 +102,12 @@ Fixed-size BLDC params interface.
 | AcquireTimeout | BldcSingle_T | AcquireTimeout |
 | LowSpeedThreshold | BldcSingle_T | LowSpeedThreshold |
 | PositionMode | BldcUInt8_T | 0 Hall; 1 terminal-voltage sensorless |
+| CurrentSenseMode | BldcUInt8_T | 0 three phase sensors; 1 valid-window DC-link shunt |
+| MinModulation | BldcSingle_T | Minimum energized duty in DC-link mode |
+| DemagBlankFraction | BldcSingle_T | Commutation-period fraction excluded after switching |
+| DemagRailMargin | BldcSingle_T | Floating terminal must leave both clamp rails by this voltage |
+| DemagReleaseTicks | BldcUInt16_T | Consecutive unclamped samples required before ZC arming |
+| ActuationDelayTicks | BldcUInt16_T | Compensated output activation delay for DC-link commutation |
 
 ### tBldcInput
 
@@ -109,9 +115,9 @@ Fixed-size BLDC input interface.
 
 | 字段 | 类型 | 说明 |
 |---|---|---|
-| CurrentRaw | BldcUInt16_T[3] | CurrentRaw |
+| CurrentRaw | BldcUInt16_T[3] | Phase ADC encodings; DC-link mode uses element 1 only |
 | Hall | BldcUInt8_T | Hall |
-| TerminalVoltage | BldcSingle_T[3] | Three phase terminal voltages in V |
+| TerminalVoltage | BldcSingle_T[3] | Three phase terminal voltages; DC-link mode qualifies the applied floating phase only |
 | Control | BldcUInt8_T | Control |
 | Fault | BldcBool_T | Fault |
 | CommandEvent | BldcBool_T | CommandEvent |
@@ -182,6 +188,10 @@ Fixed-size BLDC runtime interface.
 | SensorFault | BldcUInt16_T | SensorFault |
 | ActiveFaults | BldcUInt16_T | ActiveFaults |
 | FaultBits | BldcUInt16_T | FaultBits |
+| PhaseCurrentsValid | BldcBool_T | True only for actual phase-current sensing |
+| DcCurrent | BldcCurrent_V | Last valid DC-link current; not a three-phase reconstruction |
+| DcCurrentValid | BldcBool_T | Current frame sampled in a qualified conduction window |
+| ZcUnclampedCount | BldcUInt16_T | Consecutive floating-voltage rail-release observations |
 
 ### tBldcDebug
 
@@ -227,6 +237,11 @@ Fixed-size BLDC monitor interface.
 | HallValid | BldcBool_T | HallValid |
 | AppliedAge | BldcUInt32_T | AppliedAge |
 | CurrentMeasured | BldcCurrent_V | CurrentMeasured |
+| CurrentSenseMode | BldcUInt8_T | 0 phase sensors; 1 DC-link shunt |
+| PhaseCurrentsValid | BldcBool_T | Validity of the Current vector |
+| DcCurrent | BldcCurrent_V | Last valid DC-link current |
+| DcCurrentValid | BldcBool_T | Validity of this DC-link sample |
+
 
 ## 通用数据容器（Generic Data）
 

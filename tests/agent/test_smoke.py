@@ -68,13 +68,18 @@ class SmokeReportingTests(unittest.TestCase):
         self.assertEqual(report['status'], 'PASS')
         self.assertNotIn('error', report)
 
-    def run_fake(self, final_integrity):
+    def test_smoke_selects_checkout_before_matlab_execution(self):
+        report = self.run_fake(None, require_project_path=True)
+        self.assertEqual(report['status'], 'PASS')
+
+    def run_fake(self, final_integrity, require_project_path=False):
         with tempfile.TemporaryDirectory() as temporary:
             repo = Path(temporary)
             bundle = repo / '.agent-env/environments/test'
             (bundle / 'skills').mkdir(parents=True)
             required = ['evaluate_matlab_code', 'check_matlab_code', 'run_matlab_test_file',
                         'detect_matlab_toolboxes', 'model_overview', 'model_read', 'model_query_params', 'model_scan', 'model_read_diagnostics']
+            test_case = self
             class FakeClient:
                 def __init__(self, *args, **kwargs): pass
                 def __enter__(self): return self
@@ -82,6 +87,9 @@ class SmokeReportingTests(unittest.TestCase):
                 def initialize(self): return {'serverInfo': {}}
                 def request(self, *args): return {'tools': [{'name': n} for n in required]}
                 def call(self, name, arguments):
+                    if require_project_path and 'ambd_smoke(' in arguments.get('code', ''):
+                        test_case.assertEqual(arguments.get('project_path'), str(repo),
+                                              'Select the checkout even when the bundle lives elsewhere.')
                     folder = next((repo / '.agent-env/reports').iterdir())
                     (folder / 'matlab-result.json').write_text(json.dumps({'pid': 42, 'satkInitialize': str(bundle / 'satk'), 'shareMATLABSession': str(bundle / 'share')}))
                     text = 'AMBD_COMPUTE_AND_SIMULATION_PASS AMBD_TESTS_PASS AMBD_MODEL_CLOSED AMBD_SHARED_SESSION_PASS Gain 0.2 '

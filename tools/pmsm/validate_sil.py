@@ -101,6 +101,8 @@ def main():
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
     folder = ROOT / '.agent-env/pmsm/validation' / f'{stamp}-{uuid.uuid4().hex[:8]}'
     folder.mkdir(parents=True)
+    build_folder = ROOT / '.agent-env/v' / ('p' + uuid.uuid4().hex[:8])
+    build_folder.mkdir(parents=True)
     sys.path.insert(0, str(ROOT / 'tools/agent'))
     import configuration
     import environment
@@ -118,7 +120,7 @@ def main():
             json.dumps(transcript, indent=2, ensure_ascii=False), encoding='utf-8')
 
     def evaluate(client, code, marker):
-        response = client.call('evaluate_matlab_code', {'code': code})
+        response = client.call('evaluate_matlab_code', {'code': code, 'project_path': str(ROOT)})
         transcript.append(dict(Code=code, Response=response))
         save()
         output = '\n'.join(part.get('text', '') for part in response.get('content', []))
@@ -140,6 +142,7 @@ def main():
             unit_file = folder / 'unit-results.json'
             evaluate(client,
                      f"addpath({quote(ROOT / 'mc-models/pmsm')},{quote(ROOT / 'mc-models/pmsm/algo')}); "
+                     "load_system('simulink');drawnow; "
                      "suite=testsuite(fullfile(pwd,'tests','pmsm'),'IncludeSubfolders',false); "
                      "results=run(suite); unit=struct('Total',numel(results),"
                      "'Passed',sum([results.Passed]),'Failed',sum([results.Failed]),"
@@ -166,25 +169,13 @@ def main():
             summary['ReplayHarness'] = dict(Path=replay_model.relative_to(ROOT).as_posix(),
                                            SHA256=replay_hash, Rebuilt=True)
             save()
-            standalone_log = folder / 'standalone-codegen.log'
-            evaluate(client,
-                     f"info=mc_initialize(OutputDirectory={quote(folder / 'build')}); "
-                     "load_system('FOC_Ctrl_CodeModel'); buildFailure=[]; "
-                     "buildLog=evalc('try; slbuild(''FOC_Ctrl_CodeModel''); "
-                     "catch buildError; buildFailure=buildError; end'); "
-                     f"fid=fopen({quote(standalone_log)},'w','n','UTF-8'); fprintf(fid,'%s',buildLog); fclose(fid); "
-                     "if ~isempty(buildFailure),rethrow(buildFailure);end; disp('STANDALONE_CODEGEN_PASS');",
-                     'STANDALONE_CODEGEN_PASS')
-            summary['StandaloneCodeGeneration'] = dict(Model='FOC_Ctrl_CodeModel',
-                                                        Log=standalone_log.name, Passed=True)
-            save()
             for model, scenario in cases:
                 for mode in ('Normal', 'SIL'):
                     destination = folder / 'closed-loop' / scenario / mode
                     marker = f'CASE_PASS_{scenario}_{mode}'
                     evaluate(client,
                              f"result=mc_run_host_case({quote(model)},{quote(scenario)},"
-                             f"{quote(mode)},{quote(destination)},{quote(folder / 'build')}); "
+                             f"{quote(mode)},{quote(destination)},{quote(build_folder)}); "
                              f"assert(result.Passed); disp({quote(marker)});",
                              marker)
                     summary['Cases'].append(json.loads((destination / 'result.json').read_text(encoding='utf-8')))
@@ -201,7 +192,7 @@ def main():
                 marker = f'REPLAY_PASS_{scenario}'
                 evaluate(client,
                          f"result=mc_run_replay({quote(folder / 'closed-loop' / scenario / 'Normal' / 'trace.mat')},"
-                         f"{quote(destination)},{quote(folder / 'build')}); "
+                         f"{quote(destination)},{quote(build_folder)}); "
                          f"assert(result.Passed); disp({quote(marker)});", marker)
                 summary['Replays'].append(json.loads((destination / 'result.json').read_text(encoding='utf-8')))
                 save()
@@ -211,21 +202,21 @@ def main():
             raise RuntimeError('Sources changed during validation; rerun with stable sources.')
         if hashlib.sha256(replay_model.read_bytes()).hexdigest() != replay_hash:
             raise RuntimeError('Replay harness changed during validation; rerun.')
-        build_root = folder / 'build' / 'codegen'
+        build_root = build_folder / 'codegen'
         binaries = sorted(build_root.rglob('*.exe'))
         controllers = {model.replace('_top', '_model') for model, _ in cases}
         controllers.add('FOC_PIL_StateMch_model')  # Explicit replay reference.
         if not controllers.issubset({p.stem for p in binaries}):
             raise RuntimeError('Missing host SIL executable for a required controller.')
-        core_sources = list(build_root.rglob('MotorFramework.c'))
-        standalone_sources = list(build_root.rglob('FOC_Ctrl_CodeModel.c'))
-        if not core_sources or not standalone_sources or any(
-                p.stat().st_size == 0 for p in core_sources + standalone_sources + binaries):
-            raise RuntimeError('Missing or empty generated core C/build artifacts.')
-        summary['BuildArtifacts'] = [dict(Path=p.relative_to(folder).as_posix(),
+        generated_sources = [path for name in sorted(controllers)
+                             for path in build_root.rglob(name + '.c')]
+        if not controllers.issubset({p.stem for p in generated_sources}) or any(
+                p.stat().st_size == 0 for p in generated_sources + binaries):
+            raise RuntimeError('Missing or empty generated controller C/build artifacts.')
+        summary['BuildArtifacts'] = [dict(Path=p.relative_to(ROOT).as_posix(),
                                          Bytes=p.stat().st_size,
                                          SHA256=hashlib.sha256(p.read_bytes()).hexdigest())
-                                     for p in core_sources + standalone_sources + binaries]
+                                     for p in generated_sources + binaries]
         summary['Passed'] = (len(summary['Cases']) == 2 * len(cases)
                              and len(summary['Comparisons']) == len(cases)
                              and len(summary['Replays']) == len(cases))

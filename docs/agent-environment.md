@@ -91,11 +91,11 @@ Doctor 只检查 Python、MATLAB 路径、WINDIR、锁文件、bundle 完整性�
 2. MATLAB 运算，官方工具路径属于锁定 bundle，静态分析及 3 项 MATLAB 单元测试。
 3. 创建临时 Constant(2) → Triple 子系统（Gain=3）→ Output 模型，实际仿真结果为 6；通过官方工具读取模型结构、求解器参数和仿真诊断。有 Simulink Test 时，按照官方 `testing-simulink-models` skill 执行 Gherkin 行为测试，分别验证 draft 和完整编译模式。
 4. 使用官方 `model_scan` 搜索仓库保存模型中的 PWM 项，并直接解析保存 XML 中的根级结构与块数，确认检查没有写回模型或执行回调。
-5. 记录 MATLAB/toolbox 版本与 Simulink、Stateflow、Simscape、Simulink Test、Simulink Coder、Embedded Coder 的安装/许可矩阵；NXP MBDT 单独探测。额外许可证不决定基础仿真是否可用，未执行的代码生成等能力只报告安装/许可检测，不声称运行验证。
+5. 记录 MATLAB/toolbox 版本与 Simulink、Stateflow、Simscape、Simulink Test、Simulink Coder、Embedded Coder 的安装/许可矩阵；autoMBD HSP 单独探测。额外许可证不决定基础仿真是否可用，未执行的代码生成等能力只报告安装/许可检测，不声称运行验证。
 
 报告在 `.agent-env/reports/<环境 ID>-<运行 ID>/smoke.json`。退出码 0 表示该命令成功，1 表示错误（参数错误由 argparse 返回 2）。失败保留报告和候选文件以便诊断。运行时间取决于 MATLAB 冷启动，可用 `-Timeout` 调整单次 MCP 请求上限。
 
-从 main 建立此分支时，`mc-models/` 没有 `.slx` 模型，`tools/generate_data_type_from_md.m` 也尚未合入。这两项报告为 **SKIP**；历史模型只做保存文件搜索。基础环境 PASS 不意味着电机控制模型、NXP 编译或产品行为已经验证。合入相应项目文件后，可在独立输出目录运行类型生成验收，并单独报告项目数据问题。
+活动模型见 `mc-models/hsp/models.json`，Markdown 类型生成由 `tools/generate_data_type_from_md.m` 提供。Smoke 检查实际存在的模型与类型入口；缺少任务输入时报告 **SKIP**。基础环境 PASS 不代表目标代码或电机控制行为通过验收；S32K344 构建与 PIL 流程见 [HSP 集成说明](hsp-s32k344.md)。
 
 | 现象 | 处理 |
 |---|---|
@@ -103,7 +103,7 @@ Doctor 只检查 Python、MATLAB 路径、WINDIR、锁文件、bundle 完整性�
 | MATLAB 最小命令出现 `File system inconsistency` | 在正常终端执行同一最小命令，区分执行沙箱与 MATLAB 安装问题；本机普通执行已通过，受限执行失败，不应据此重装 MATLAB |
 | MCP 初始化失败 | 查看 `.agent-env/logs/`，确认 MATLAB root、日志目录可写；保留 WINDIR / SystemRoot / TEMP / TMP |
 | 工具存在但报 Undefined function | 执行对应 bundle 的 startup，检查 `which('satk_initialize')` 与 `which('shareMATLABSession')` 是否指向同一环境 |
-| Simulink / 可选 toolbox 报许可错误 | 根据报告核对已安装产品和可用许可证；NXP MBDT 不由此脚本安装，`which` 探测不到也可能需要按 NXP 文档初始化 |
+| Simulink / 可选 toolbox 报许可错误 | 根据报告核对已安装产品和可用许可证；autoMBD HSP 需通过 MATLAB Add-Ons 安装，并通过 `hsp_setup` 初始化 |
 | skills 链接创建失败 | 脚本自动复制完整官方 skills，不要求开启 Windows Developer Mode；更新前检查本地改动，防止覆盖 |
 | 同名配置或 skills 已存在 | 脚本拒绝覆盖用户文件；将自定义内容保存在独立名称，再重试 |
 

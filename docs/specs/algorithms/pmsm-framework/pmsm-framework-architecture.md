@@ -34,7 +34,7 @@ The final two inputs are AppliedVoltageAlpha and AppliedVoltageBeta (single V), 
 
 Outputs are DutyA/B/C (uint16 timer counts), DebugPort (tMcDebug), GateEnable (boolean) and Monitor (typed telemetry). Normalized duty equals counts/PwmPeriod. A disabled gate overrides duties at the inverter boundary; disabled numerical duties are centered at 0.5, not interpreted as permission to energize a bridge.
 
-The future HSP adapter owns ADC alignment/calibration, timer scaling/deadtime, actual gate-off implementation, measured DC bus and periodic step invocation. No MBDT target, callback or library is required by these active controller/host models. HSP is not invoked or loaded during tests.
+The HSP application boundary owns ADC alignment/calibration, RTD duty scaling, phase idle and gate commands, measured DC bus and event-driven step invocation. HSP 0.1.0 configures the S32K344 target. Linked McControllerLibrary subsystems share the controller across components; host harnesses reference those components for Normal/SIL/PIL.
 
 HSP also supplies applied-voltage feedback from the PWM values actually loaded for that acquisition interval (or an independently validated voltage measurement), including gate state and relevant inverter compensation. A rejected, limited or delayed duty command must not be reported as if it was applied. Invalid nonfinite voltage feedback latches input fault16.
 

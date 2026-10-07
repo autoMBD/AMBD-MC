@@ -4,27 +4,17 @@ Status: implementation baseline, 2026-10-06. Owner: autoMBD / 小T.
 
 ## Objective and existing baseline
 
-Complete the BLDC counterpart of the PMSM framework milestones: typed data and
-initialization, executing control components, integrated models, a independently
-validated host motor/inverter, and actual generated-C PC SIL with reproducible
-acceptance. The existing BLDC model implements Hall-related logic with S32K/MBDT
-dependencies. Its saved XML was inspected without executing board callbacks.
-
-Development branch: `codex/bldc-models`, created from `8-update-pmsm-models` at
-`ac4ef18` (completed PMSM work). The user-named `820f966` is its direct ancestor.
-Use local commits at verified milestones; do not push or run hardware tools.
-Keep legacy and external HSP/NXP references unchanged; author original control
-and plant implementations. Existing project utilities may be reused.
-
-BLDC models reside under `mc-models/bldc`; the user-mentioned
-`mc-models/pmsm/platform/pil` remains part of final regression acceptance.
+The BLDC framework provides Hall and sensorless six-step control, typed data,
+shared algorithm library components, an independently validated host plant,
+and autoMBD HSP 0.1.0 target generation and PIL for S32K344. Normal and SIL
+remain the host functional and numerical references.
 
 ## Requirements
 
 | ID | Requirement and observable completion evidence |
 |---|---|
 | B1 | A repository-relative `bldc_setup` initializes types, persistent dictionary and calibrations in a fresh session, repeatedly without destructive reset; Markdown and generated types agree. |
-| B2 | `BLDCFramework` preserves McKernel, McTuning, McEventHub, McFault, McStateMachine, McDataFlow and McDebug responsibilities; all components execute and contain no active MBDT/board dependency. |
+| B2 | `BLDCFramework` preserves McKernel, McTuning, McEventHub, McFault, McStateMachine, McDataFlow and McDebug responsibilities; BldcControllerLibrary shares the algorithm and application wrappers own native API calls. |
 | B3 | Explicit single-precision controller state at 16 kHz; integer divide-by-16 speed loop at 1 kHz; fault/reset priority and disabled outputs deterministic even without a driving tick. |
 | B4 | Hall six-step uses measured Hall edges for sector/direction/speed, including invalid codes, illegal transitions and timeout diagnostics. Sensorless control uses sampled terminal voltages, currents and the actual prior commutation state, without rotor speed/angle or internal BEMF truth. |
 | B5 | Alignment, forced-current startup, qualified zero crossing, 30-degree delayed commutation, closed-loop run, controlled stop, reversal/restart, protection, explicit safe reset and declared low-speed behavior are exercised. Loss of qualified feedback cannot silently sustain uncontrolled drive. |
@@ -32,7 +22,7 @@ BLDC models reside under `mc-models/bldc`; the user-mentioned
 | B7 | Independent phase-domain trapezoidal motor/inverter validation includes RL and coast analytic oracles, torque/power consistency, Kirchhoff current conservation, commutation continuity, diode/float terminal behavior, integration-step convergence and a MathWorks native physical comparison. |
 | B8 | Hall and sensorless host top models run Normal and actual ERT C SIL. Record exact input replay, source/harness hashes, compiler and executed EXE evidence. Both loops pass physical criteria independently. |
 | B9 | Full scenario matrix covers signed speed, load/bus disturbance, stop/restart, reversal, startup/transition stop, current saturation/recovery, invalid Hall/stall, external/bus/overcurrent faults, sensorless acquisition/loss and parameter variation. Negative tests prove the acceptance checks reject invalid traces. |
-| B10 | Fresh-session scripts reproduce results below `.agent-env`; existing PMSM full SIL matrix remains passing and its model/source hashes unchanged. Final requirement audit, three completion reviews and staged local commits are mandatory. |
+| B10 | Fresh-session scripts reproduce results below `.agent-env`; both motor families pass their regression suites, with source hashes and actual execution evidence recorded for each validation run. |
 
 ## Quantitative acceptance
 

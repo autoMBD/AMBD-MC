@@ -172,8 +172,8 @@ class Builder:
         if compile_model and f'COMPILE PASS {name}' not in result:
             raise RuntimeError(result)
 
-    def core(self):
-        name='MotorFramework';path=self.fresh(name,'algo')
+    def core(self,name='MotorFramework',directory='algo'):
+        path=self.fresh(name,directory)
         ops=self.ports(INPUTS,OUTPUTS)+[
             add('MATLAB Function','InputPack'),
             add('Constant','Parameters',Value='McControl_Params',OutDataTypeStr='Bus: tMcControlParams'),
@@ -209,7 +209,7 @@ class Builder:
 
     def wrapper(self,name,directory,reference='MotorFramework',compile_model=True):
         path=self.fresh(name,directory)
-        ids=self.edit(name,self.ports(INPUTS,OUTPUTS)+[add('ModelReference','Controller',ModelName=reference)])
+        ids=self.edit(name,self.ports(INPUTS,OUTPUTS)+[add('ModelReference','Controller',ModelName=reference,CodeInterface='Top model')])
         self.edit(name,[wire(ids[n]+'.y1',ids['Controller']+f'.u{i}') for i,(n,_) in enumerate(INPUTS,1)]+
                   [wire(ids['Controller']+f'.y{i}',ids[n]+'.u1') for i,(n,_) in enumerate(OUTPUTS,1)])
         self.finish(name,path,compile_model=compile_model);self.mapping[name]=ids
@@ -255,61 +255,7 @@ class Builder:
                 connection['params']={'Name':out_ids[destination]}
         self.edit(name,w);self.finish(name,path);self.mapping[name]=ids
 
-    def run(self):
-        gate=self.matlab('disp(jsonencode(library.settingsLookup()));')
-        if not ('"found":false' in gate or '"gatePass":true' in gate):raise RuntimeError(gate)
-        self.backup()
-        initialized=self.matlab(f'addpath({quote(PMSM)}); clear mc.dataflow mc_initialize; rehash; info=mc_initialize(SyncDictionary=true,OutputDirectory={quote(self.artifacts)}); addpath({quote(PMSM/"platform/codegen")}); disp("INITIALIZATION PASS");')
-        if 'INITIALIZATION PASS' not in initialized:
-            raise RuntimeError(initialized)
-        self.core()
-        for name in ['FOC_PIL_Algth_model','FOC_PIL_StateMch_model']:
-            self.wrapper(name,'platform/pil')
-        for name in ['FOC_Ctrl_CodeModel','FOC_Ctrl_MBD']:
-            self.wrapper(name,'platform/codegen')
-        for stem in ['FOC_PIL_Algth','FOC_PIL_StateMch']:
-            self.top(stem+'_top',stem+'_model')
-        self.wrapper('FOC_SIL_Replay',ARTIFACTS,'FOC_PIL_StateMch_model')
-        (self.artifacts/'model-map.json').write_text(json.dumps(self.mapping,indent=2))
-        self.configure_codegen()
-        names=list(self.mapping)
-        text=self.matlab('for model={'+','.join(quote(n) for n in names)+
-                         "};set_param(model{1},'SimulationCommand','update');"
-                         "fprintf('COMPILE PASS %s\\n',model{1});end;")
-        if any(f'COMPILE PASS {name}' not in text for name in names):
-            raise RuntimeError(text)
 
-    def configure_codegen(self):
-        skill=ROOT/'.agents/skills/ambd-mathworks/simulink-generate-embedded-code/scripts'
-        for model in ['FOC_PIL_Algth_top','FOC_PIL_StateMch_top',
-                      'FOC_Ctrl_CodeModel','FOC_Ctrl_MBD','FOC_SIL_Replay']:
-            result=self.call('evaluate_matlab_code',project_path=str(skill),code=
-                f"configJson=configure_for_codegen('{model}',Target=\"ert\",Language=\"C\","
-                'Hardware="Intel->x86-64 (Windows64)",Objective="Debug",'
-                'Interface="Nonreusable function",ConfigOnly=true,Build=false,Compliance="",'
-                f'OutputDir={quote(self.artifacts/"codegen")});disp(configJson);'
-                "configResult=jsondecode(configJson);"
-                "if configResult.success,disp('CONFIGURATION PASS');end;")
-            if 'CONFIGURATION PASS' not in result:
-                raise RuntimeError(result)
-            # Persist only this explicitly requested hierarchy, dependencies first.
-            self.matlab("save_system('MotorFramework');"
-                        "save_system('FOC_PIL_Algth_model');save_system('FOC_PIL_StateMch_model');"
-                        f"save_system('{model}');")
-        # Repeated hierarchy configuration can leave this capability different
-        # between a wrapper and its reference. Every PMSM interface is fixed
-        # size; explicitly harmonize it after all official configurations.
-        models=['MotorFramework','FOC_PIL_Algth_model','FOC_PIL_StateMch_model',
-                'FOC_Ctrl_CodeModel','FOC_Ctrl_MBD','FOC_PIL_Algth_top',
-                'FOC_PIL_StateMch_top','FOC_SIL_Replay']
-        for model in models:
-            self.read(model)
-            self.edit(model,[dict(op='configure',target='config:'+model,
-                                 params={'SupportVariableSizeSignals':'off'})])
-        self.matlab('for model={'+','.join(quote(n) for n in models)+
-                    "};save_system(model{1});"
-                    "assert(strcmp(get_param(model{1},'SupportVariableSizeSignals'),'off'));end;")
-        self.matlab(f'cd({quote(ROOT)});')
 
     def backup(self):
         folder=self.artifacts/('before-'+time.strftime('%Y%m%d-%H%M%S'));records={}
@@ -325,15 +271,8 @@ class Builder:
         (folder/'manifest.json').write_text(json.dumps(records,indent=2),encoding='utf-8')
 
 
-if __name__=='__main__':
-    parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--output-directory',type=Path,default=ARTIFACTS)
-    options=parser.parse_args()
-    sys.path.insert(0,str(ROOT/'tools/agent'))
-    import configuration
-    import environment
-    from mcp_client import Client
-    command,env=environment.runtime(configuration.read_state(ROOT)['active'],session='new')
-    with Client(command,cwd=ROOT,env=env,timeout=900) as client:
-        client.initialize()
-        Builder(client.call,options.output_directory).run()
+
+if __name__ == '__main__':
+    import runpy
+    sys.argv[1:1] = ['--family', 'pmsm']
+    runpy.run_path(str(ROOT / 'tools/hsp/build_models.py'), run_name='__main__')

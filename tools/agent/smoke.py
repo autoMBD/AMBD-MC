@@ -132,7 +132,8 @@ def run(repo: Path, candidate: dict, *, timeout=600):
                 report['checks'].append({'tool': name, 'status': 'PASS', 'output': text})
                 return text
 
-            call('evaluate_matlab_code', {'code': 'addpath(' + mq(folder) + '); ambd_smoke(' + mq(folder) + ', ' + mq(model_name) + ');'},
+            call('evaluate_matlab_code', {'project_path': str(repo),
+                 'code': 'addpath(' + mq(folder) + '); ambd_smoke(' + mq(folder) + ', ' + mq(model_name) + ');'},
                  'AMBD_COMPUTE_AND_SIMULATION_PASS')
             result = json.loads((folder / 'matlab-result.json').read_text(encoding='utf-8'))
             bundle = Path(candidate['bundle']).resolve()

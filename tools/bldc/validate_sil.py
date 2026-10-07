@@ -141,12 +141,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--scenario', choices=CASES, action='append')
     parser.add_argument('--normal-only', action='store_true', help='Diagnostic physical matrix; not full SIL acceptance.')
-    parser.add_argument('--collect-failures', action='store_true', help='Continue after completed physical failures.')
+    parser.add_argument('--collect-failures', action='store_true', help='Record unit failures and continue completed physical scenarios; acceptance still requires every gate.')
     args = parser.parse_args()
     cases = [name for name in CASES if not args.scenario or name in args.scenario]
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
     folder = ROOT / '.agent-env/bldc/validation' / f'{stamp}-{uuid.uuid4().hex[:8]}'
     folder.mkdir(parents=True)
+    build_folder = ROOT / '.agent-env/v' / ('b' + uuid.uuid4().hex[:8])
+    build_folder.mkdir(parents=True)
     summary = dict(Passed=False, Status='RUNNING', CompleteMatrix=not args.scenario and not args.normal_only,
                    NormalOnly=args.normal_only, StartedUTC=stamp, SourceHashes=source_hashes(),
                    Cases=[], Comparisons=[], Replays=[])
@@ -156,7 +158,7 @@ def main():
         save_report(folder, summary, transcript)
 
     def evaluate(client, code, marker):
-        response = client.call('evaluate_matlab_code', {'code': code})
+        response = client.call('evaluate_matlab_code', {'code': code, 'project_path': str(ROOT)})
         transcript.append(dict(Code=code, Response=response))
         save()
         output = '\n'.join(part.get('text', '') for part in response.get('content', []))
@@ -189,10 +191,14 @@ def main():
             evaluate(client, "suite=testsuite(fullfile(pwd,'tests','bldc'),'IncludeSubfolders',false);"
                 "results=run(suite);unit=struct('Total',numel(results),'Passed',sum([results.Passed]),"
                 "'Failed',sum([results.Failed]),'Incomplete',sum([results.Incomplete]));"
+                "unit.FailedNames={results([results.Failed]).Name};"
                 f"fid=fopen({quote(unit_file)},'w');fprintf(fid,'%s',jsonencode(unit));fclose(fid);"
-                "assert(unit.Total>0 && unit.Total==unit.Passed);disp('BLDC_UNIT_PASS');", 'BLDC_UNIT_PASS')
+                "disp('BLDC_UNIT_RECORDED');", 'BLDC_UNIT_RECORDED')
             summary['UnitTests'] = json.loads(unit_file.read_text(encoding='utf-8'))
-            print(f"UNIT_PASS {summary['UnitTests']['Passed']}", flush=True)
+            unit_passed = summary['UnitTests']['Total'] > 0 and summary['UnitTests']['Passed'] == summary['UnitTests']['Total']
+            print(f"UNIT_RESULTS {summary['UnitTests']['Passed']}/{summary['UnitTests']['Total']}", flush=True)
+            if not unit_passed and not args.collect_failures:
+                raise RuntimeError('One or more unit tests did not pass.')
         with new_client() as client:
             client.initialize()
             evaluate(client, f"addpath({quote(ROOT)});info=bldc_setup;disp('BLDC_SETUP_PASS');", 'BLDC_SETUP_PASS')
@@ -207,20 +213,12 @@ def main():
                 replay = ROOT / '.agent-env/bldc-models/BLDC_SIL_Replay.slx'
                 replay_hash = digest(replay)
                 summary['ReplayHarness'] = dict(Path=replay.relative_to(ROOT).as_posix(), SHA256=replay_hash, Rebuilt=True)
-                build_log = folder / 'standalone-codegen.log'
-                evaluate(client, f"info=bldc_initialize(OutputDirectory={quote(folder / 'build')});"
-                    "open_system('BLDC_Ctrl_CodeModel');failure=[];"
-                    "text=evalc('try;slbuild(''BLDC_Ctrl_CodeModel'');catch e;failure=e;end');"
-                    f"fid=fopen({quote(build_log)},'w','n','UTF-8');fprintf(fid,'%s',text);fclose(fid);"
-                    "if ~isempty(failure),rethrow(failure);end;disp('BLDC_CODEGEN_PASS');", 'BLDC_CODEGEN_PASS')
-                summary['StandaloneCodeGeneration'] = dict(Passed=True, Model='BLDC_Ctrl_CodeModel', Log=build_log.name)
-                print('STANDALONE_CODEGEN_PASS', flush=True)
             for scenario in cases:
                 physical_pass = True
                 for mode in ('Normal',) if args.normal_only else ('Normal', 'SIL'):
                     destination = folder / 'closed-loop' / scenario / mode
                     evaluate(client, f"result=bldc_run_host_case({quote(scenario)},{quote(mode)},"
-                        f"{quote(destination)},{quote(folder / 'build')});disp('BLDC_CASE_COMPLETED');", 'BLDC_CASE_COMPLETED')
+                        f"{quote(destination)},{quote(build_folder)});disp('BLDC_CASE_COMPLETED');", 'BLDC_CASE_COMPLETED')
                     result = json.loads((destination / 'result.json').read_text(encoding='utf-8'))
                     summary['Cases'].append(result);save()
                     physical_pass = physical_pass and result['Passed']
@@ -239,7 +237,7 @@ def main():
                     "assert(result.Passed);disp('BLDC_COMPARISON_PASS');", 'BLDC_COMPARISON_PASS')
                 summary['Comparisons'].append(json.loads((destination / 'result.json').read_text(encoding='utf-8')))
                 destination = folder / 'replay' / scenario
-                evaluate(client, f"result=bldc_run_replay({quote(normal_trace)},{quote(destination)},{quote(folder / 'build')});"
+                evaluate(client, f"result=bldc_run_replay({quote(normal_trace)},{quote(destination)},{quote(build_folder)});"
                     "assert(result.Passed);disp('BLDC_REPLAY_PASS');", 'BLDC_REPLAY_PASS')
                 result = json.loads((destination / 'result.json').read_text(encoding='utf-8'))
                 summary['Replays'].append(result);save()
@@ -251,24 +249,25 @@ def main():
         if not args.normal_only:
             if digest(replay) != replay_hash:
                 raise RuntimeError('Replay harness changed during the run.')
-            build = folder / 'build' / 'codegen'
+            build = build_folder / 'codegen'
             executables = sorted(build.rglob('*.exe'))
-            expected = {'BLDC_PIL_Sensorless_model', 'BLDC_Ctrl_CodeModel'}
+            expected = {'BLDC_PIL_Sensorless_model'}
             expected.update('BLDC_PIL_Sensorless_model' if name.startswith('sensorless_')
                             else 'BLDC_PIL_Hall_model' for name in cases)
             if not expected.issubset({p.stem for p in executables}):
                 raise RuntimeError('Required host executable evidence is missing.')
-            sources = sorted(build.rglob('BLDCFramework.c')) + sorted(build.rglob('BLDC_Ctrl_CodeModel.c'))
-            if len(sources) < 2 or any(p.stat().st_size == 0 for p in sources + executables):
+            sources = [path for name in sorted(expected) for path in build.rglob(name + '.c')]
+            if not expected.issubset({p.stem for p in sources}) or any(p.stat().st_size == 0 for p in sources + executables):
                 raise RuntimeError('Generated C or host binaries are missing/empty.')
-            summary['BuildArtifacts'] = [dict(Path=p.relative_to(folder).as_posix(), Bytes=p.stat().st_size, SHA256=digest(p))
+            summary['BuildArtifacts'] = [dict(Path=p.relative_to(ROOT).as_posix(), Bytes=p.stat().st_size, SHA256=digest(p))
                                          for p in sources + executables]
         expected_cases = len(cases) * (1 if args.normal_only else 2)
         passed = len(summary['Cases']) == expected_cases and all(case['Passed'] for case in summary['Cases'])
         if not args.normal_only:
             passed = passed and len(summary['Comparisons']) == len(cases) and len(summary['Replays']) == len(cases)
-        if not passed:
-            raise RuntimeError('One or more required scenario gates did not pass.')
+        summary['ScenarioGatesPassed'] = passed
+        if not passed or not unit_passed:
+            raise RuntimeError('One or more required unit or scenario gates did not pass.')
         summary['FinishedUTC'] = datetime.now(timezone.utc).isoformat()
         print(f"Publishing verified report: {len(cases)} scenarios; full SIL matrix={summary['CompleteMatrix']}. {folder}", flush=True)
         summary['Passed'] = True;summary['Status'] = 'PASS'

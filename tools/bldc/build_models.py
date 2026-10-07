@@ -123,8 +123,8 @@ class Builder(base.Builder):
         self.finish(name,path)
         self.matlab(f"bdclose('{name}');")
 
-    def core(self):
-        name='BLDCFramework';path=self.fresh(name,'algo')
+    def core(self,name='BLDCFramework',directory='algo'):
+        path=self.fresh(name,directory)
         ids=self.edit(name,self.ports(INPUTS,OUTPUTS)+[
           add('MATLAB Function','InputPack'),
           add('Constant','Parameters',Value='BldcControl_Params',OutDataTypeStr='Bus: tBldcParams'),
@@ -151,7 +151,7 @@ class Builder(base.Builder):
 
     def wrapper(self,name,directory,reference='BLDCFramework',compile_model=True):
         path=self.fresh(name,directory)
-        ids=self.edit(name,self.ports(INPUTS,OUTPUTS)+[add('ModelReference','Controller',ModelName=reference)])
+        ids=self.edit(name,self.ports(INPUTS,OUTPUTS)+[add('ModelReference','Controller',ModelName=reference,CodeInterface='Top model')])
         self.edit(name,[wire(ids[n]+'.y1',ids['Controller']+f'.u{i}') for i,(n,_,_) in enumerate(INPUTS,1)]+[wire(ids['Controller']+f'.y{i}',ids[n]+'.u1') for i,(n,_,_) in enumerate(OUTPUTS,1)])
         self.finish(name,path,compile_model=compile_model);self.mapping[name]=ids
 
@@ -190,46 +190,15 @@ class Builder(base.Builder):
     def plant_script(self):
         return 'function [raw,hall,terminal,current,theta,omega]=fcn(duty,enabled,gate,vdc,loadTorque,p,initialState)\n%#codegen\npersistent x\nif isempty(x)\nx=initialState;\nelse\nx=bldc.plant_step(x,duty,enabled,gate,vdc,loadTorque,p,6.25e-5);\nend\n[raw,hall,terminal,current,theta,omega]=bldc.plant_measure(x,duty,enabled,gate,vdc,p);\nend'
 
-    def configure_codegen(self):
-        skill=ROOT/'.agents/skills/ambd-mathworks/simulink-generate-embedded-code/scripts'
-        for model in ['BLDC_PIL_Hall_top','BLDC_PIL_Sensorless_top','BLDC_Ctrl_CodeModel','BLDC_Ctrl_MBD']:
-            result=self.call('evaluate_matlab_code',project_path=str(skill),code=f"configJson=configure_for_codegen('{model}',Target=\"ert\",Language=\"C\",Hardware=\"Intel->x86-64 (Windows64)\",Objective=\"Debug\",Interface=\"Nonreusable function\",ConfigOnly=true,Build=false,Compliance=\"\",OutputDir={quote(self.artifacts/'codegen')});disp(configJson);configResult=jsondecode(configJson);if configResult.success,disp('CONFIGURATION PASS');end;")
-            if 'CONFIGURATION PASS' not in result:raise RuntimeError(result)
-        for model in self.mapping:
-            self.read(model)
-            self.edit(model,[dict(op='configure',target='config:'+model,params={'SupportVariableSizeSignals':'off','Toolchain':'MinGW64 | gmake (64-bit Windows)'})])
-            self.read(model);self.check(model)
-        self.matlab('for model={'+','.join(quote(n) for n in self.mapping)+"};save_system(model{1});end;"+f'cd({quote(ROOT)});')
 
     def backup(self):
         original=base.PMSM
         try:base.PMSM=BLDC;super().backup()
         finally:base.PMSM=original
 
-    def run(self):
-        gate=self.matlab('disp(jsonencode(library.settingsLookup()));')
-        if not ('"found":false' in gate or '"gatePass":true' in gate):raise RuntimeError(gate)
-        self.backup()
-        for d in ['algo','platform/codegen','platform/pil']:(BLDC/d).mkdir(parents=True,exist_ok=True)
-        self.matlab(f'addpath({quote(ROOT)});info=bldc_setup();Simulink.fileGenControl(\'set\',\'CacheFolder\',{quote(self.artifacts/"cache")},\'CodeGenFolder\',{quote(self.artifacts/"codegen")},\'createDir\',true);')
-        self.bus_probe();self.core()
-        for name in ['BLDC_PIL_Hall_model','BLDC_PIL_Sensorless_model']:self.wrapper(name,'platform/pil')
-        for name in ['BLDC_Ctrl_CodeModel','BLDC_Ctrl_MBD']:self.wrapper(name,'platform/codegen')
-        for stem in ['BLDC_PIL_Hall','BLDC_PIL_Sensorless']:self.top(stem+'_top',stem+'_model')
-        (self.artifacts/'model-map.json').write_text(json.dumps(self.mapping,indent=2))
-        self.configure_codegen()
-        text=self.matlab('for model={'+','.join(quote(n) for n in self.mapping)+"};set_param(model{1},'SimulationCommand','update');fprintf('COMPILE PASS %s\\n',model{1});end;")
-        if any(f'COMPILE PASS {name}' not in text for name in self.mapping):raise RuntimeError(text)
-        result=self.matlab("slbuild('BLDC_Ctrl_CodeModel');disp('BLDC CODE BUILD PASS');")
-        if 'BLDC CODE BUILD PASS' not in result:raise RuntimeError(result)
 
-if __name__=='__main__':
-    parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--output-directory',type=Path,default=ARTIFACTS)
-    options=parser.parse_args()
-    sys.path.insert(0,str(ROOT/'tools/agent'))
-    import configuration,environment
-    from mcp_client import Client
-    command,env=environment.runtime(configuration.read_state(ROOT)['active'],session='new')
-    with Client(command,cwd=ROOT,env=env,timeout=1200) as client:
-        client.initialize();Builder(client.call,options.output_directory).run()
+
+if __name__ == '__main__':
+    import runpy
+    sys.argv[1:1] = ['--family', 'bldc']
+    runpy.run_path(str(ROOT / 'tools/hsp/build_models.py'), run_name='__main__')

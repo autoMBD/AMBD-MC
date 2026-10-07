@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<projectDescription>
+	<name>Hsp_S32K344_Motor</name>
+	<comment />
+	<projects>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+		<nature>dreisoft.tresos.launcher2.plugin.ecucnature</nature>
+		<nature>dreisoft.tresos.launcher2.plugin.launchernature</nature>
+	</natures>
+</projectDescription>

@@ -51,7 +51,7 @@ function s = coast_acquire(u,s,p)
 %   Snapshot qualification never increments the real zero-cross count.
 
 %#codegen
-if s.AcquisitionReady,return;end
+if s.AcquisitionReady || p.CurrentSenseMode==uint8(1),return;end
 if u.AppliedSector~=uint8(0) || ~u.VoltageValid ...
         || max(abs(s.Current))>=p.FloatCurrentLimit
     s.AcquireStage=uint8(0);return

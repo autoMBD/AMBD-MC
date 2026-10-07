@@ -640,7 +640,7 @@ tMcDataFlow (数据流)
 
 ## 13. 可执行框架接口与离散状态
 
-这些总线由同一 Markdown 生成器创建，服务于原框架模块的可执行实现。代码生成与 PC SIL 不依赖 MBDT。
+这些总线由同一 Markdown 生成器创建，服务于原框架模块的可执行实现。控制组件使用 autoMBD HSP 进行目标代码生成与 PIL，主机模型提供 Normal/SIL 对照。
 
 ### tMcControlParams
 

@@ -70,4 +70,6 @@ s.ZcCountdown=int32(-1);s.ZcNextSector=uint8(0);
 s.AcquireStage=uint8(0);s.AcquireTheta=single(0);s.AcquireAge=uint32(0);
 s.AcquisitionReady=false;
 s.SensorFault=uint16(0);s.ActiveFaults=uint16(0);s.FaultBits=uint16(0);
+s.PhaseCurrentsValid=p.CurrentSenseMode==uint8(0);
+s.DcCurrent=single(0);s.DcCurrentValid=false;s.ZcUnclampedCount=uint16(0);
 end

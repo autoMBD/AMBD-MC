@@ -86,8 +86,8 @@ Stateflow 保存 XML 的可执行内容另行比较，只有空视图节点等�
 | `mc-models/bldc/platform/pil/BLDC_PIL_Hall_top.slx` | 补充 | 614 | 92 | PASS |
 | `mc-models/bldc/platform/pil/BLDC_PIL_Sensorless_model.slx` | 补充 | 614 | 21 | PASS |
 | `mc-models/bldc/platform/pil/BLDC_PIL_Sensorless_top.slx` | 补充 | 614 | 92 | PASS |
-| `mc-models/pmsm/algo/FOC_Sub_CoreAlgoithm.slx` | 修复已有 | 577 | 140 | PASS |
-| `mc-models/pmsm/algo/FOC_Sub_StateMch.slx` | 修复已有 | 626 | 253 | PASS |
+| `legacy/s32k144/mc-models/pmsm/algo/FOC_Sub_CoreAlgoithm.slx` | 修复已有 | 577 | 140 | PASS |
+| `legacy/s32k144/mc-models/pmsm/algo/FOC_Sub_StateMch.slx` | 修复已有 | 626 | 253 | PASS |
 | `mc-models/pmsm/algo/MotorFramework.slx` | 补充 | 614 | 131 | PASS |
 | `mc-models/pmsm/platform/codegen/FOC_Ctrl_CodeModel.slx` | 补充 | 614 | 21 | PASS |
 | `mc-models/pmsm/platform/codegen/FOC_Ctrl_MBD.slx` | 补充 | 614 | 21 | PASS |
@@ -162,13 +162,13 @@ Stateflow 保存 XML 的可执行内容另行比较，只有空视图节点等�
 | `mc-models/pmsm/algo/+mc/svpwm.m` | 需更新 | 2026-10-06 | Git 首次引入日期 | PASS |
 | `mc-models/pmsm/algo/+mc/tuning.m` | 需更新 | 2026-10-06 | Git 首次引入日期 | PASS |
 | `mc-models/pmsm/algo/+mc/wrap_angle.m` | 需更新 | 2026-10-06 | Git 首次引入日期 | PASS |
-| `mc-models/pmsm/commom/McStruct.m` | 已符合 | 2026-10-06 | 原头保留 | PASS |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/ISR.c` | 需更新 | 2026-01-27 | 原头保留 | PASS |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/MCU_Init.c` | 需更新 | 2026-01-27 | 原头保留 | PASS |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/MCU_Init.h` | 需更新 | 2026-01-27 | 原头保留 | PASS |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/main.c` | 需更新 | 2026-01-27 | 原头保留 | PASS |
+| `legacy/s32k144/mc-models/pmsm/commom/McStruct.m` | 已符合 | 2026-10-06 | 原头保留 | PASS |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/ISR.c` | 需更新 | 2026-01-27 | 原头保留 | PASS |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/MCU_Init.c` | 需更新 | 2026-01-27 | 原头保留 | PASS |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/MCU_Init.h` | 需更新 | 2026-01-27 | 原头保留 | PASS |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/main.c` | 需更新 | 2026-01-27 | 原头保留 | PASS |
 | `mc-models/pmsm/mc_initialize.m` | 需更新 | 2026-10-06 | Git 首次引入日期 | PASS |
-| `mc-models/pmsm/platform/codegen/FOC_Config.m` | 已符合 | 2026-01-27 | 原头保留 | PASS |
+| `legacy/s32k144/mc-models/pmsm/platform/codegen/FOC_Config.m` | 已符合 | 2026-01-27 | 原头保留 | PASS |
 | `mc-models/pmsm/platform/pil/mc_assess_host_trace.m` | 需更新 | 2026-10-06 | Git 首次引入日期 | PASS |
 | `mc-models/pmsm/platform/pil/mc_compare_host_cases.m` | 需更新 | 2026-10-06 | Git 首次引入日期 | PASS |
 | `mc-models/pmsm/platform/pil/mc_compare_replay.m` | 需更新 | 2026-10-06 | Git 首次引入日期 | PASS |
@@ -242,23 +242,23 @@ Stateflow 保存 XML 的可执行内容另行比较，只有空视图节点等�
 
 | 文件 | 原因 |
 |---|---|
-| `mc-models/bldc/config/BLDC_Ctrl_MBD_DS/Project_Settings/Linker_Files/S32K144_64_flash.ld` | NXP/Freescale linker scripts with independent copyright. |
-| `mc-models/bldc/config/BLDC_Ctrl_MBD_DS/Project_Settings/Linker_Files/S32K144_64_ram.ld` | NXP/Freescale linker scripts with independent copyright. |
+| `legacy/s32k144/mc-models/bldc/config/BLDC_Ctrl_MBD_DS/Project_Settings/Linker_Files/S32K144_64_flash.ld` | NXP/Freescale linker scripts with independent copyright. |
+| `legacy/s32k144/mc-models/bldc/config/BLDC_Ctrl_MBD_DS/Project_Settings/Linker_Files/S32K144_64_ram.ld` | NXP/Freescale linker scripts with independent copyright. |
 | `mc-models/bldc/data/bldc_data_types.m` | Generated data-type artifact; maintained by generate_data_type_from_md.m. |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Project_Settings/Linker_Files/S32K144_64_flash.ld` | NXP/Freescale linker scripts with independent copyright. |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Project_Settings/Linker_Files/S32K144_64_ram.ld` | NXP/Freescale linker scripts with independent copyright. |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Project_Settings/Startup_Code/startup_S32K144.S` | NXP generated startup code with independent copyright. |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/aml/common_aml.h` | NXP/Freescale independent copyright and license notices. |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/aml/gpio_aml.h` | NXP/Freescale independent copyright and license notices. |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/aml/readme.txt` | NXP/Freescale independent copyright and license notices. |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/aml/spi_aml/spi_aml.c` | NXP/Freescale independent copyright and license notices. |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/aml/spi_aml/spi_aml.h` | NXP/Freescale independent copyright and license notices. |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/aml/wait_aml/wait_aml.c` | NXP/Freescale independent copyright and license notices. |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/aml/wait_aml/wait_aml.h` | NXP/Freescale independent copyright and license notices. |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/gd3000_init.c` | NXP/Freescale independent copyright and license notices. |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/gd3000_init.h` | NXP/Freescale independent copyright and license notices. |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/tpp/tpp.c` | NXP/Freescale independent copyright and license notices. |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/tpp/tpp.h` | NXP/Freescale independent copyright and license notices. |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/tpp/tpp_mc33937.h` | NXP/Freescale independent copyright and license notices. |
-| `mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/include/freemaster_cfg.h` | NXP FreeMASTER configuration with independent copyright. |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Project_Settings/Linker_Files/S32K144_64_flash.ld` | NXP/Freescale linker scripts with independent copyright. |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Project_Settings/Linker_Files/S32K144_64_ram.ld` | NXP/Freescale linker scripts with independent copyright. |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Project_Settings/Startup_Code/startup_S32K144.S` | NXP generated startup code with independent copyright. |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/aml/common_aml.h` | NXP/Freescale independent copyright and license notices. |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/aml/gpio_aml.h` | NXP/Freescale independent copyright and license notices. |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/aml/readme.txt` | NXP/Freescale independent copyright and license notices. |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/aml/spi_aml/spi_aml.c` | NXP/Freescale independent copyright and license notices. |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/aml/spi_aml/spi_aml.h` | NXP/Freescale independent copyright and license notices. |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/aml/wait_aml/wait_aml.c` | NXP/Freescale independent copyright and license notices. |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/aml/wait_aml/wait_aml.h` | NXP/Freescale independent copyright and license notices. |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/gd3000_init.c` | NXP/Freescale independent copyright and license notices. |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/gd3000_init.h` | NXP/Freescale independent copyright and license notices. |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/tpp/tpp.c` | NXP/Freescale independent copyright and license notices. |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/tpp/tpp.h` | NXP/Freescale independent copyright and license notices. |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/tpp/tpp_mc33937.h` | NXP/Freescale independent copyright and license notices. |
+| `legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/include/freemaster_cfg.h` | NXP FreeMASTER configuration with independent copyright. |
 | `mc-models/pmsm/data/mc_data_types.m` | Generated data-type artifact; maintained by generate_data_type_from_md.m. |
