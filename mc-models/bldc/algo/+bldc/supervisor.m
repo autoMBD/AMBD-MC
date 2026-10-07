@@ -92,7 +92,21 @@ elseif s.FastTick
         case 7
             s.Mode=uint8(8);
         case 8
-            if abs(s.SpeedRequest)>=p.LowSpeedThreshold ...
+            if p.CurrentSenseMode==uint8(1)
+                qualified=s.ZcCount>=uint16(1) && s.ZcPeriod>single(0) ...
+                    && s.SpeedEstimate*single(s.Direction)>=p.ZcMinSpeed ...
+                    && abs(s.SpeedEstimate)>=single(.5)*s.OmegaOpen ...
+                    && abs(s.SpeedEstimate)<=single(1.5)*s.OmegaOpen ...
+                    && u.AppliedSector>=uint8(1) && u.AppliedSector<=uint8(6) && u.VoltageValid;
+                if abs(s.SpeedRequest)>=p.LowSpeedThreshold && qualified
+                    s.Mode=uint8(11);s.AcquisitionReady=s.FeedbackReady;s.Sector=u.AppliedSector;
+                    s.CurrentRef=min(max(s.DcCurrent,single(0)),p.CurrentLimit);
+                    s.CurrentDemand=s.CurrentRef;
+                    s.SpeedRamped=abs(s.SpeedEstimate);s.SpeedIntegrator=s.CurrentRef;
+                elseif elapsed>p.StartTimeout && abs(s.SpeedRequest)>=p.LowSpeedThreshold
+                    s.FaultBits=bitor(s.FaultBits,uint16(64));s.Mode=uint8(3);
+                end
+            elseif abs(s.SpeedRequest)>=p.LowSpeedThreshold ...
                     && s.OmegaOpen>=single(.99)*min(abs(s.SpeedRequest),p.OpenSpeed)
                 s.Mode=uint8(9);
                 s.AcquireStage=uint8(0);s.AcquisitionReady=false;
@@ -109,7 +123,7 @@ elseif s.FastTick
             s.Mode=uint8(8);
         case 11
             if s.FeedbackReady && elapsed>=p.TrackingTime
-                s.Mode=uint8(12);
+                s.Mode=uint8(12);s.AcquisitionReady=true;
             elseif elapsed>p.TrackingTimeout
                 s.FaultBits=bitor(s.FaultBits,uint16(64));s.Mode=uint8(3);
             end

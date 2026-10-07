@@ -23,6 +23,21 @@
                         <d:var name="PDACSlot" type="ENUMERATION" value="VIRTUAL_WRAPPER_PDAC0" />
                         <d:lst name="DioChannelEcucPartitionRef" />
                       </d:ctr>
+                      <d:ctr name="Ambd_HallA" type="IDENTIFIABLE">
+                        <d:var name="DioChannelId" type="INTEGER" value="3" />
+                        <d:var name="PDACSlot" type="ENUMERATION" value="VIRTUAL_WRAPPER_PDAC0" />
+                        <d:lst name="DioChannelEcucPartitionRef" />
+                      </d:ctr>
+                      <d:ctr name="Ambd_HallB" type="IDENTIFIABLE">
+                        <d:var name="DioChannelId" type="INTEGER" value="4" />
+                        <d:var name="PDACSlot" type="ENUMERATION" value="VIRTUAL_WRAPPER_PDAC0" />
+                        <d:lst name="DioChannelEcucPartitionRef" />
+                      </d:ctr>
+                      <d:ctr name="Ambd_HallC" type="IDENTIFIABLE">
+                        <d:var name="DioChannelId" type="INTEGER" value="5" />
+                        <d:var name="PDACSlot" type="ENUMERATION" value="VIRTUAL_WRAPPER_PDAC0" />
+                        <d:lst name="DioChannelEcucPartitionRef" />
+                      </d:ctr>
                     </d:lst>
                     <d:lst name="DioChannelGroup" type="MAP" />
                     <d:lst name="DioPortEcucPartitionRef" />
@@ -37,6 +52,30 @@
                       </d:ctr>
                       <d:ctr name="Hsp_GateReset" type="IDENTIFIABLE">
                         <d:var name="DioChannelId" type="INTEGER" value="13" />
+                        <d:var name="PDACSlot" type="ENUMERATION" value="VIRTUAL_WRAPPER_PDAC0" />
+                        <d:lst name="DioChannelEcucPartitionRef" />
+                      </d:ctr>
+                    </d:lst>
+                    <d:lst name="DioChannelGroup" type="MAP" />
+                    <d:lst name="DioPortEcucPartitionRef" />
+                  </d:ctr>
+                  <d:ctr name="Ambd_CsPort" type="IDENTIFIABLE">
+                    <d:var name="DioPortId" type="INTEGER" value="3" />
+                    <d:lst name="DioChannel" type="MAP">
+                      <d:ctr name="Ambd_GdCs" type="IDENTIFIABLE">
+                        <d:var name="DioChannelId" type="INTEGER" value="1" />
+                        <d:var name="PDACSlot" type="ENUMERATION" value="VIRTUAL_WRAPPER_PDAC0" />
+                        <d:lst name="DioChannelEcucPartitionRef" />
+                      </d:ctr>
+                    </d:lst>
+                    <d:lst name="DioChannelGroup" type="MAP" />
+                    <d:lst name="DioPortEcucPartitionRef" />
+                  </d:ctr>
+                  <d:ctr name="Ambd_FaultPort" type="IDENTIFIABLE">
+                    <d:var name="DioPortId" type="INTEGER" value="4" />
+                    <d:lst name="DioChannel" type="MAP">
+                      <d:ctr name="Ambd_GdInt" type="IDENTIFIABLE">
+                        <d:var name="DioChannelId" type="INTEGER" value="7" />
                         <d:var name="PDACSlot" type="ENUMERATION" value="VIRTUAL_WRAPPER_PDAC0" />
                         <d:lst name="DioChannelEcucPartitionRef" />
                       </d:ctr>

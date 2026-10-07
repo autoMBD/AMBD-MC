@@ -124,8 +124,8 @@ python tools/pmsm/validate_sil.py
 MATLAB 交互入口与接口约定见 [PMSM 使用说明](../../mc-models/pmsm/README.md)。
 `build_models.py` 用于需要时重建生产模型；普通验收不修改生产模型。
 
-当前交付为 PC SIL。低于约 75 电 rad/s 的请求采用已声明的 I/f 回退，
+本记录覆盖 PC SIL。低于约 75 电 rad/s 的请求采用已声明的 I/f 回退，
 不宣称低速无感闭环。平均值对象不覆盖开关纹波、死区、二极管续流和硬件
-故障延迟；双精度数学求值的 MCU 成本尚未测量。未来 HSP 适配、芯片时序、
-ADC/PWM 同步和实机保护需要单独验证。旧 `FOC_Sub_*`、`FOC_Config.m` 及
-`legacy/` 不属于当前执行链；HSP 和 NXP 实现未导入或复制。
+故障延迟；双精度数学求值的 MCU 成本不能由该主机记录推断。
+HSP 目标构建、PIL、控制板时序及功率级验证边界见
+[S32K344 HSP 验证记录](2026-10-07-hsp-s32k344.md)。

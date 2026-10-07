@@ -73,7 +73,8 @@ classdef bldcInitializeTest < matlab.unittest.TestCase
             test.Folder = string(tempname(fullfile(test.Root,'.agent-env')));
             mkdir(test.Folder);
             test.applyFixture(matlab.unittest.fixtures.PathFixture(test.Folder));
-            test.Dictionary = fullfile(test.Folder,'Fixture.sldd');
+            [~,identifier]=fileparts(test.Folder);
+            test.Dictionary = fullfile(test.Folder,identifier+".sldd");
             test.applyFixture(matlab.unittest.fixtures.PathFixture( ...
                 fullfile(test.Root,'mc-models','bldc')));
             test.applyFixture(matlab.unittest.fixtures.PathFixture( ...
@@ -204,9 +205,12 @@ classdef bldcInitializeTest < matlab.unittest.TestCase
         end
         function referencedDictionarySyncRefused(test)
             info=test.initialize(true);
-            other=Simulink.data.dictionary.create(char(fullfile(test.Folder,'Other.sldd')));
-            test.addTeardown(@() close(other));
-            addDataSource(info.DictionaryConnection,'Other.sldd');
+            [~,identifier]=fileparts(test.Folder);
+            otherName=identifier+"_Other.sldd";
+            otherFile=fullfile(test.Folder,otherName);
+            other=Simulink.data.dictionary.create(char(otherFile)); %#ok<NASGU>
+            test.addTeardown(@() closeFixture(otherFile));
+            addDataSource(info.DictionaryConnection,char(otherName));
             saveChanges(info.DictionaryConnection);
             test.verifyError(@() test.initialize(true),'bldc:ReferencedDictionary');
         end
@@ -220,10 +224,12 @@ classdef bldcInitializeTest < matlab.unittest.TestCase
 end
 
 function closeFixture(file)
-if isfile(file)
-    dictionary=Simulink.data.dictionary.open(char(file));
-    discardChanges(dictionary);close(dictionary);
-end
+[~,name,extension]=fileparts(string(file));
+basename=char(name+extension);
+paths=Simulink.data.dictionary.getOpenDictionaryPaths(basename);
+assert(all(strcmpi(paths,char(file))),'bldc:FixtureOwnership', ...
+    'Refusing to close a dictionary outside this test fixture.');
+if ~isempty(paths),Simulink.data.dictionary.closeAll(basename,'-discard');end
 end
 
 function verifyInterface(test,actual,expected)

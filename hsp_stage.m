@@ -97,6 +97,21 @@ configuration=fullfile(folder,'configuration','S32K344');
 mkdir(fileparts(configuration));
 copyfile(fullfile(root,'mc-models','hsp','config','S32K344'),configuration);
 info=hsp_setup(family,Dictionary=fullfile(folder,targetDictionary));
+if family=="bldc"
+    details=info.Bldc;prefix='Bldc';
+    parameters=ambd.kit_parameters(family);runtime=bldc.initial_state(parameters);
+else
+    details=info.Pmsm;prefix='Mc';
+    parameters=ambd.kit_parameters(family);runtime=mc.initial_state(parameters);
+end
+section=getSection(details.DictionaryConnection,'Design Data');
+control=getEntry(section,[prefix,'Control_Params']);value=getValue(control);value.Value=parameters;setValue(control,value);
+details.ControlParameter=value;
+state=getEntry(section,[prefix,'Runtime_Init']);value=getValue(state);value.Value=runtime;setValue(state,value);
+details.RuntimeParameter=value;
+arming=getEntry(section,'AmbdOutputsArmed');value=getValue(arming);value.Value=false;setValue(arming,value);
+saveChanges(details.DictionaryConnection);
+if family=="bldc",info.Bldc=details;else,info.Pmsm=details;end
 info.Stage=folder;
 info.Models=entries;
 addpath(folder,'-begin');
@@ -128,8 +143,12 @@ for index=1:numel(entries)
                 end
             end
         end
-        cfg.runtime.sources={fullfile(root,'mc-models','hsp','runtime','hsp_motor_board.c')};
-        cfg.runtime.includeDirectories={fullfile(root,'mc-models','hsp','runtime')};
+        board=fullfile(root,'mc-models','hsp','board');
+        cfg.runtime.sources={fullfile(board,'ambd_kit_core.c'),fullfile(board,'ambd_kit_board.c'),fullfile(board,'ambd_kit_bridge.c')};
+        cfg.runtime.includeDirectories={board};
+        if isfield(settings,'boardDiagnostics') && isequal(settings.boardDiagnostics,true)
+            cfg.runtime.defines{end+1}='AMBD_CONTROL_BOARD_DIAGNOSTICS=1';
+        end
         cfg.environment.configurationTool.workspaceRoot=fullfile(folder,'eb-workspace');
         autombd.hsp.config.write(name,cfg);
         autombd.hsp.config.apply(name);

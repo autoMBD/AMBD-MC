@@ -3,8 +3,7 @@
     "legacy/": "Historical files with separate licensing restrictions; never modify.",
     ".agent-env/": "Official bundles, caches and generated runtime outputs.",
     ".agents/": "Skills and third-party toolkit registrations; preserve original notices.",
-    ".codex/": "Local agent configuration.",
-    "mc-models/hsp/runtime/": "Unmodified autoMBD HSP 0.1.0 runtime helpers; Apache-2.0 notices retained."
+    ".codex/": "Local agent configuration."
   },
   "files": {
     "mc-models/pmsm/data/mc_data_types.m": "Generated data-type artifact; maintained by generate_data_type_from_md.m.",

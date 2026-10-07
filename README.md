@@ -18,7 +18,7 @@ NOTICE
 
 This project follows the MIT License, except for the following files:
 
-- `mc-models/hsp/config/S32K344/` and `mc-models/hsp/runtime/` retain autoMBD HSP Apache-2.0 licenses and provenance. NXP RTD implementations remain external.
+- `mc-models/hsp/config/S32K344/` retain autoMBD HSP Apache-2.0 licenses and provenance. NXP RTD implementations remain external.
 
 - **All files under the `legacy` directory do not follow the MIT License**
 - **All files under the `legacy` directory are owned by the autoMBD author <email: tkung.lqk@foxmail.com>**
@@ -29,7 +29,7 @@ This project follows the MIT License, except for the following files:
 
 本项目遵循MIT许可，但以下文件除外：
 
-- `mc-models/hsp/config/S32K344/` 和 `mc-models/hsp/runtime/` 保留 autoMBD HSP 的 Apache-2.0 许可与来源记录；NXP RTD 驱动实现由外部安装提供。
+- `mc-models/hsp/config/S32K344/` 保留 autoMBD HSP 的 Apache-2.0 许可与来源记录；NXP RTD 驱动实现由外部安装提供。
 
 - **`legacy`目录下所有文件不遵循MIT许可**
 - **`legacy`目录下所有文件所有权利归autoMBD作者<邮箱tkung.lqk@foxmail.com>所有**

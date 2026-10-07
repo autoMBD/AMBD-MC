@@ -152,7 +152,7 @@ class HspBuilderMixin:
         self.matlab(f"save_system('{name}');")
 
     def add_output_adapter(self, name):
-        """Qualify outputs, write each phase or idle it, then latch synchronously."""
+        """Bind the kit electrical adapter while isolating Normal/SIL/PIL I/O."""
         self.read(name)
         controller = self.matlab(
             f"blocks=find_system('{name}','SearchDepth',1,'Name','Controller');"
@@ -168,72 +168,54 @@ class HspBuilderMixin:
             "arming.CoderInfo.StorageClass='ExportedGlobal';"
             "arming.CoderInfo.Identifier='Ambd_OutputsArmed';"
             "addEntry(section,'AmbdOutputsArmed',arming);saveChanges(dd);end;")
-        ops = [dict(op="add_block", type="MATLAB Function", name="TargetCommands", ref="commands"),
-               dict(op="add_block", type="Constant", name="OutputsArmed", ref="armed",
-                    params=dict(Value="AmbdOutputsArmed", OutDataTypeStr="boolean")),
-               dict(op="add_block", type="Demux", name="PhaseDuties", ref="duties", params=dict(Outputs="3")),
-               dict(op="add_block", type="Demux", name="PhaseEnables", ref="enables", params=dict(Outputs="3")),
-               dict(op="add_block", type="DIO", name="HardwareGate", ref="gate",
-                    ReferenceBlock="hsp_driver_lib/NXP/DIO",
-                    params=dict(Api="Dio_WriteChannel", ChannelSymbol="DioConf_DioChannel_Hsp_GateEnable",
-                                Priority="50")),
-               dict(op="add_block", type="PWM", name="LatchPhases", ref="latch",
-                    ReferenceBlock="hsp_driver_lib/NXP/PWM",
-                    params=dict(Api="Pwm_SyncUpdate", ModuleId="0", Priority="40"))]
-        if self.family == "pmsm":
-            ops.append(dict(op="add_block", type="Constant", name="EnabledPhases", ref="phase",
-                            params=dict(Value="true(3,1)", OutDataTypeStr="boolean")))
-        for index, phase in enumerate("ABC", 1):
-            ops.extend([
-                dict(op="add_block", type="SubSystem", name="WritePhase" + phase, ref="write" + phase,
-                     params=dict(Priority=str(index * 10))),
-                dict(op="add_block", type="SubSystem", name="IdlePhase" + phase, ref="idle" + phase,
-                     params=dict(Priority=str(index * 10 + 1))),
-                dict(op="add_block", type="Logic", name="DisabledPhase" + phase, ref="not" + phase,
-                     params=dict(Operator="NOT"))])
-        ids = self.edit(name, ops, layout="incremental")
-        self.script(name, ids["commands"],
-                    "function [duty,enabled,gateCommand]=fcn(a,b,c,phase,gate,armed)\n%#codegen\n"
-                    "[duty,enabled]=ambd.pwm_command([a;b;c],phase,gate,armed);\n"
-                    "gateCommand=uint8(any(enabled));\nend")
-        for phase in "ABC":
-            channel = "PwmConf_PwmChannel_Hsp_Phase" + phase
-            sid = ids["write" + phase]
-            self.read(name, sid)
-            inner = self.edit(name, [
-                dict(op="add_block", type="Inport", name="Duty", ref="duty",
-                     params=dict(OutDataTypeStr="uint16")),
-                dict(op="add_block", type="EnablePort", name="Enable", ref="enable"),
-                dict(op="add_block", type="PWM", name="SetDuty", ref="api",
-                     ReferenceBlock="hsp_driver_lib/NXP/PWM",
-                     params=dict(Api="Pwm_SetDutyCycle_NoUpdate", ChannelSymbol=channel)),
-                dict(op="connect", target="#duty.y1 -> #api.u1")], scope=sid)
-            sid = ids["idle" + phase]
-            self.read(name, sid)
-            self.edit(name, [
-                dict(op="add_block", type="EnablePort", name="Enable", ref="enable"),
-                dict(op="add_block", type="PWM", name="SetIdle", ref="api",
-                     ReferenceBlock="hsp_driver_lib/NXP/PWM",
-                     params=dict(Api="Pwm_SetOutputToIdle", ChannelSymbol=channel))], scope=sid)
-        connections = [dict(op="connect", target=f"{controller_id}.y{i} -> {ids['commands']}.u{i}")
-                       for i in range(1, 4)]
-        phase_source = controller_id + ".y4" if self.family == "bldc" else ids["phase"] + ".y1"
-        connections.extend([
-            dict(op="connect", target=f"{phase_source} -> {ids['commands']}.u4"),
-            dict(op="connect", target=f"{controller_id}.y5 -> {ids['commands']}.u5"),
-            dict(op="connect", target=f"{ids['armed']}.y1 -> {ids['commands']}.u6"),
-            dict(op="connect", target=f"{ids['commands']}.y1 -> {ids['duties']}.u1"),
-            dict(op="connect", target=f"{ids['commands']}.y2 -> {ids['enables']}.u1"),
-            dict(op="connect", target=f"{ids['commands']}.y3 -> {ids['gate']}.u1")])
-        for index, phase in enumerate("ABC", 1):
-            connections.extend([
-                dict(op="connect", target=f"{ids['duties']}.y{index} -> {ids['write'+phase]}.u1"),
-                dict(op="connect", target=f"{ids['enables']}.y{index} -> {ids['write'+phase]}.u2"),
-                dict(op="connect", target=f"{ids['enables']}.y{index} -> {ids['not'+phase]}.u1"),
-                dict(op="connect", target=f"{ids['not'+phase]}.y1 -> {ids['idle'+phase]}.u1")])
-        self.edit(name, connections, layout="incremental")
+        output_code = "(void)a;(void)b;(void)c;(void)phase;(void)gate;(void)armed;(void)sector;(void)direction;"
+        target_code = ("#if defined(HSP_TARGET) && !defined(HSP_PIL)\n"
+                       "const uint16_t duties[3]={a,b,c};\n"
+                       "Ambd_KitCommit(duties,phase,gate,armed,sector,direction);\n#endif")
+        ops = [dict(op="add_block",type="C Function",name="MCSPTE1AK344_PowerStage",ref="kit",
+                    params=dict(CustomCodeSettingLocation="BlockSettings",CodegenUsesSimCustomCode="off",
+                                SimCustomHeaderFile="",SimCustomSourceFile="",OutputCode=output_code,
+                                CustomHeaderFile="ambd_kit_board.h",CustomSourceFile="",
+                                CustomSearchDirectory='"$ambd.board_path$"',
+                                CodegenOutputCode=target_code,GenerateCodeAsIs="on",Priority="50")),
+               dict(op="add_block",type="Constant",name="OutputsArmed",ref="armed",
+                    params=dict(Value="AmbdOutputsArmed",OutDataTypeStr="boolean")),
+               dict(op="add_block",type="DataTypeConversion",name="PhaseMask",ref="phaseMask",
+                    params=dict(OutDataTypeStr="uint8"))]
+        if self.family=="bldc":
+            ops.append(dict(op="add_block",type="BusSelector",name="AppliedCommutation",ref="commutation",
+                            params=dict(OutputSignals="Sector,OutputDirection")))
+        else:
+            ops.extend([dict(op="add_block",type="Constant",name="EnabledPhases",ref="phase",
+                             params=dict(Value="true(3,1)",OutDataTypeStr="boolean")),
+                        dict(op="add_block",type="Constant",name="NoSixStepSector",ref="sector",
+                             params=dict(Value="uint8(0)",OutDataTypeStr="uint8")),
+                        dict(op="add_block",type="Constant",name="PositiveDirection",ref="direction",
+                             params=dict(Value="int8(1)",OutDataTypeStr="int8"))])
+        ids=self.edit(name,ops,layout="incremental")
+        sid=ids['kit'].split('_')[1]
+        self.matlab(f"kitBlock=Simulink.ID.getFullName('{name}:{sid}');"
+                    "symbols=get_param(kitBlock,'SymbolSpec');old=symbols.Symbols;"
+                    "for k=1:numel(old),symbols.deleteSymbol(old(k).Name);end;")
+        for symbol,kind,size in [('a','uint16','1'),('b','uint16','1'),('c','uint16','1'),
+                                 ('phase','uint8','3'),('gate','boolean','1'),('armed','boolean','1'),
+                                 ('sector','uint8','1'),('direction','int8','1')]:
+            self.matlab(f"symbol=symbols.addSymbol('{symbol}');symbol.Type='{kind}';symbol.Size='{size}';")
         self.read(name)
-        self.check(name)
+        connections=[dict(op="connect",target=f"{controller_id}.y{i} -> {ids['kit']}.u{i}") for i in range(1,4)]
+        phase_source=controller_id+'.y4' if self.family=='bldc' else ids['phase']+'.y1'
+        connections.extend([dict(op="connect",target=f"{phase_source} -> {ids['phaseMask']}.u1"),
+                            dict(op="connect",target=f"{ids['phaseMask']}.y1 -> {ids['kit']}.u4"),
+                            dict(op="connect",target=f"{controller_id}.y5 -> {ids['kit']}.u5"),
+                            dict(op="connect",target=f"{ids['armed']}.y1 -> {ids['kit']}.u6")])
+        if self.family=='bldc':
+            connections.extend([dict(op="connect",target=f"{controller_id}.y7 -> {ids['commutation']}.u1"),
+                                dict(op="connect",target=f"{ids['commutation']}.y1 -> {ids['kit']}.u7"),
+                                dict(op="connect",target=f"{ids['commutation']}.y2 -> {ids['kit']}.u8")])
+        else:
+            connections.extend([dict(op="connect",target=f"{ids['sector']}.y1 -> {ids['kit']}.u7"),
+                                dict(op="connect",target=f"{ids['direction']}.y1 -> {ids['kit']}.u8")])
+        self.edit(name,connections,layout="incremental");self.read(name);self.check(name)
         self.matlab(f"set_param('{name}','SimulationCommand','update');save_system('{name}');")
 
     def run_hsp(self):
@@ -279,8 +261,21 @@ class HspBuilderMixin:
         for entry in manifest["models"]:
             if entry["family"] != self.family or entry["role"] not in ("component", "application"):
                 continue
+            if getattr(self,'selected_models',None) and entry['name'] not in self.selected_models:
+                continue
             name = entry["name"]
             self.matlab(f"open_system({quote(ROOT / entry['path'])});")
             self.configure_hsp(name)
-            if entry["role"] == "application" and "Name: TargetCommands" not in self.read(name):
+            if entry["role"] == "application":
+                self.read(name)
+                obsolete=['TargetCommands','OutputsArmed','PhaseDuties','PhaseEnables','HardwareGate','LatchPhases',
+                          'EnabledPhases','MCSPTE1AK344_PowerStage','PhaseMask','AppliedCommutation',
+                          'NoSixStepSector','PositiveDirection']
+                obsolete += [prefix+phase for phase in 'ABC' for prefix in ['WritePhase','IdlePhase','DisabledPhase']]
+                labels='{'+','.join(quote(value) for value in obsolete)+'}'
+                result=self.matlab(f"blocks=find_system('{name}','SearchDepth',1,'Type','block');names={labels};"
+                                   "for k=1:numel(blocks),if ismember(get_param(blocks{k},'Name'),names),"
+                                   "[~,sid]=strtok(Simulink.ID.getSID(blocks{k}),':');fprintf('DELETE_ID blk_%s\\n',sid(2:end));end;end;")
+                ids=[line.split()[1] for line in result.splitlines() if line.startswith('DELETE_ID ')]
+                if ids:self.edit(name,[dict(op='delete',target=identifier) for identifier in ids],layout='incremental')
                 self.add_output_adapter(name)

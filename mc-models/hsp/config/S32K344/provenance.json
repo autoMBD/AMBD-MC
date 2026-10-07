@@ -23,7 +23,16 @@
     "config/Uart.xdm": "0ef07117769098ac66865290d3bd3c1110b7e3a4ce581c8db7e86b9dd6d2660f"
   },
   "changes": [
-    "eMIOS base half-period 8001 -> 5001",
-    "PWM default period 16000 -> 10000 ticks (16 kHz at 160 MHz)"
+    "eMIOS0 CH22: up counter, 10000 ticks per 16 kHz period at 160 MHz",
+    "CH1-3: center-positioned OPWMB phase pulses; CH4: family-specific ADC trigger",
+    "LCU complementary outputs with 96-cycle rising-edge deadtime and active-low high-side pins",
+    "Two ADC units and tagged BCTU FIFO for kit DC-shunt/phase-current/terminal-voltage sampling",
+    "MCSPTE1AK344 analog, Hall, gate and SPI pin mapping; GD3000 INT callback",
+    "Enable ADC1/LCU clocks, PIT status tick and GD3000 trailing-edge SPI with GPIO chip select"
+  ],
+  "references": [
+    "NXP MCSPTE1AK344 application software: PMSM_FOC_2Sh_as_tr and BLDC_6Step examples",
+    "NXP AN13884",
+    "NXP MC34GD3000 datasheet"
   ]
 }

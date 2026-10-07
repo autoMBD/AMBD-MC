@@ -84,8 +84,13 @@ end
 qualified=find(conv(double(running),ones(1024,1),'valid')==1024,1);
 assert(~isempty(qualified),'ambd:OperatingWindow','Recording has no qualified 1024-sample Run window.');
 if sensorless
-    entry=find(source.trace.Mode(1:qualified)==uint8(9),1);
-    required=uint8([8,9,11,12,14]);
+    if strcmp(family,'bldc') && p.CurrentSenseMode==uint8(1)
+        entry=find(source.trace.Mode(1:qualified)==uint8(11),1);
+        required=uint8([8,11,12,14]);
+    else
+        entry=find(source.trace.Mode(1:qualified)==uint8(9),1);
+        required=uint8([8,9,11,12,14]);
+    end
 else
     entry=find(source.trace.Mode(1:qualified)==uint8(12),1);
     required=uint8([6,12,14]);
@@ -182,7 +187,7 @@ try
     result.DownloadReceipt=fullfile(cfg.outputDirectory,'pil','download-result.json');
     receipt=jsondecode(fileread(result.DownloadReceipt));
     result.ElfSha256=receipt.elfSha256;
-    result.Passed=result.PILExecuted&&result.Comparison.Passed&&result.StatesCovered ...
+    result.Passed=result.PILExecuted&&result.Comparison.Passed&&result.ExactOutputs.Passed&&result.StatesCovered ...
         &&result.RunSamples>=1024&&result.FeedbackQualified&&result.CommutationCovered ...
         &&strcmp(receipt.status,'command-completed')&&receipt.executionRequested ...
         &&strcmpi(autombd.hsp.pil.sha256File(receipt.elf),receipt.elfSha256);

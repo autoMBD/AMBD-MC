@@ -65,7 +65,7 @@ class HspModelsTest(unittest.TestCase):
 
     def test_target_components_use_hsp_and_portable_configuration(self):
         components = [p for p in (ROOT / "mc-models").rglob("*.slx")
-                      if not p.stem.endswith("_top") and not p.stem.startswith("FOC_Sub_") and not p.stem.endswith("Library")]
+                      if not p.stem.endswith("_top") and not p.stem.endswith("Library")]
         self.assertEqual(10, len(components))
         for path in components:
             with self.subTest(model=path.stem), zipfile.ZipFile(path) as archive:

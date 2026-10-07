@@ -54,7 +54,7 @@ if p.PositionMode==uint8(0)
     s=hallFeedback(u,s,p);
 else
     s=voltageFeedback(u,s,p);
-    if s.Mode==uint8(9),s=bldc.coast_acquire(u,s,p);end
+    if s.Mode==uint8(9) && p.CurrentSenseMode==uint8(0),s=bldc.coast_acquire(u,s,p);end
 end
 s.ControlSpeed=s.SpeedEstimate;
 end
@@ -100,12 +100,15 @@ s.ZcAge=s.ZcAge+uint32(1);
 if s.ZcCountdown>int32(0),s.ZcCountdown=s.ZcCountdown-int32(1);end
 if u.AppliedSector~=s.AppliedLastSector
     s.AppliedLastSector=u.AppliedSector;s.AppliedAge=uint32(0);
-    s.ZcArmed=false;s.ZcFound=false;
+    s.ZcArmed=false;s.ZcFound=false;s.ZcUnclampedCount=uint16(0);
 else
     s.AppliedAge=s.AppliedAge+uint32(1);
 end
 valid=u.AppliedSector>=uint8(1) && u.AppliedSector<=uint8(6) ...
     && u.VoltageValid && all(isfinite(u.TerminalVoltage)) && isfinite(u.Vdc);
+if p.CurrentSenseMode==uint8(1) && ~valid
+    s.ZcUnclampedCount=uint16(0);s.ZcArmed=false;
+end
 if valid
     floats=uint8([3,2,1,3,2,1]);slopes=single([-1,1,-1,1,-1,1]);
     floating=floats(u.AppliedSector);
@@ -113,13 +116,50 @@ if valid
     signed=slopes(u.AppliedSector)*z;
     sampleReady=s.AppliedAge>=uint32(p.ZcBlankTicks) ...
         && abs(s.Current(floating))<p.FloatCurrentLimit && ~s.ZcFound;
+    if p.CurrentSenseMode==uint8(1)
+        % A DC shunt cannot observe the floating-phase freewheel current.
+        % Require elapsed commutation blanking and actual rail release instead.
+        period=s.ZcPeriod;
+        if period<=single(0) && s.OmegaOpen>single(0)
+            period=single(pi/3)/(s.OmegaOpen*p.Ts);
+        end
+        blank=max(uint32(p.ZcBlankTicks),uint32(ceil(p.DemagBlankFraction*period)));
+        released=u.TerminalVoltage(floating)>p.DemagRailMargin ...
+            && u.TerminalVoltage(floating)<u.Vdc-p.DemagRailMargin;
+        if released
+            s.ZcUnclampedCount=min(s.ZcUnclampedCount,uint16(65534))+uint16(1);
+        else
+            s.ZcUnclampedCount=uint16(0);s.ZcArmed=false;
+        end
+        sampleReady=s.AppliedAge>=blank ...
+            && s.ZcUnclampedCount>=p.DemagReleaseTicks && ~s.ZcFound ...
+            && (s.Mode==uint8(8) || (s.Mode>=uint8(11) && s.Mode<=uint8(14)));
+    end
     if sampleReady
+        if p.CurrentSenseMode==uint8(1) && s.Mode==uint8(8) ...
+                && s.OmegaOpen>=p.ZcMinSpeed && ~s.ZcArmed && signed>=p.ZcHysteresis
+            % A late startup polarity can guide phase catch-up, but is not a
+            % measured crossing and must never increment the qualification count.
+            next=uint8(mod(int16(u.AppliedSector)-int16(1)+int16(s.Direction),int16(6))+int16(1));
+            s.ThetaOpen=single(mod(double(next)*pi/3,2*pi));s.ZcFound=true;
+        end
         if signed < -p.ZcHysteresis,s.ZcArmed=true;end
         if s.ZcArmed && signed>=p.ZcHysteresis
             interval=single(s.ZcAge);
+            firstDcCross=p.CurrentSenseMode==uint8(1) && s.Mode==uint8(8) ...
+                && s.ZcCount==uint16(0) && s.OmegaOpen>=p.ZcMinSpeed;
+            if firstDcCross
+                % No previous measured event exists. Use open-loop timing only
+                % for provisional commutation; subsequent intervals are measured.
+                interval=single(pi/3)/(s.OmegaOpen*p.Ts);
+                s.ZcPeriod=single(0);
+            end
             firstSeeded=s.AcquisitionReady && s.ZcCount==uint16(0) ...
                 && s.ZcPeriod>single(0) && s.Mode>=uint8(11) && s.Mode<=uint8(14);
-            plausible=firstSeeded || (s.ZcAge>=p.ZcMinTicks && s.ZcAge<=p.ZcMaxTicks);
+            plausible=firstDcCross || firstSeeded || (s.ZcAge>=p.ZcMinTicks && s.ZcAge<=p.ZcMaxTicks);
+            if p.CurrentSenseMode==uint8(1) && s.ZcCount>uint16(0)
+                plausible=plausible && u.AppliedSector==s.ZcNextSector;
+            end
             if s.ZcPeriod>single(0) && ~firstSeeded
                 plausible=plausible && interval>=single(.5)*s.ZcPeriod ...
                     && interval<=single(1.8)*s.ZcPeriod;
@@ -129,10 +169,14 @@ if valid
                     if s.ZcCount<=uint16(1),s.ZcPeriod=interval;
                     else,s.ZcPeriod=s.ZcPeriod+single(.3)*(interval-s.ZcPeriod);end
                 end
-                s.ZcCount=s.ZcCount+uint16(1);
+                % The first DC-shunt crossing anchors time. Its period is
+                % provisional until the next adjacent measured crossing.
+                s.ZcCount=min(s.ZcCount,uint16(65534))+uint16(1);
                 s.RawSpeed=single(s.Direction)*single(pi/3)/(s.ZcPeriod*p.Ts);
                 s.SpeedEstimate=s.RawSpeed;
-                s.ZcCountdown=int32(max(round(double(s.ZcPeriod)/2),1));
+                delay=0;
+                if p.CurrentSenseMode==uint8(1),delay=double(p.ActuationDelayTicks);end
+                s.ZcCountdown=int32(max(round(double(s.ZcPeriod)/2)-delay,1));
                 s.ZcNextSector=uint8(mod(int16(u.AppliedSector)-int16(1)+int16(s.Direction),int16(6))+int16(1));
                 s.ZcAge=uint32(0);s.ZcFound=true;s.ZcArmed=false;
             else

@@ -34,7 +34,7 @@
                       <a:a name="ENABLE" value="false" />
                       <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:ref>
-                    <d:var name="IcuDefaultStartEdge" type="ENUMERATION" value="ICU_FALLING_EDGE">
+                    <d:var name="IcuDefaultStartEdge" type="ENUMERATION" value="ICU_RISING_EDGE">
                       </d:var>
                     <d:var name="IcuMeasurementMode" type="ENUMERATION" value="ICU_MODE_SIGNAL_EDGE_DETECT">
                       </d:var>
@@ -45,9 +45,8 @@
                       <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
                     <d:ctr name="IcuSignalEdgeDetection" type="IDENTIFIABLE">
-                      <d:var name="IcuSignalNotification" type="FUNCTION-NAME" value="Hsp_MotorIcuEdge">
-                        <a:a name="ENABLE" value="false" />
-                      </d:var>
+                      <d:var name="IcuSignalNotification" type="FUNCTION-NAME" value="Ambd_KitFaultIrq">
+                        </d:var>
                       <a:a name="ENABLE" value="true" />
                     </d:ctr>
                     <d:ctr name="IcuSignalMeasurement" type="IDENTIFIABLE">

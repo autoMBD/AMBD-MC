@@ -42,9 +42,8 @@
                     <d:var name="GptEnableWakeup" type="BOOLEAN" value="false">
                       <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
-                    <d:var name="GptNotification" type="FUNCTION-NAME" value="Hsp_MotorGptTick">
-                      <a:a name="ENABLE" value="true" />
-                    </d:var>
+                    <d:var name="GptNotification" type="FUNCTION-NAME" value="Ambd_KitTick">
+                      </d:var>
                     <d:ctr name="GptWakeupConfiguration" type="IDENTIFIABLE">
                       <a:a name="ENABLE" value="false" />
                       <d:ref name="GptWakeupSourceRef" type="REFERENCE">

@@ -150,8 +150,8 @@ class HeaderTests(unittest.TestCase):
 
     def test_vendor_and_generated_exclusions_have_reasons(self):
         for name in [
-            'mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/aml/common_aml.h',
-            'mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/include/freemaster_cfg.h',
+            'legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/aml/common_aml.h',
+            'legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/include/freemaster_cfg.h',
             'mc-models/pmsm/data/mc_data_types.m',
             'mc-models/bldc/data/bldc_data_types.m',
         ]:

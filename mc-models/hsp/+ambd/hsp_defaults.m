@@ -67,13 +67,17 @@ cfg.environment.externalProjectRoot = fullfile(hspDirectory,'config','S32K344');
 cfg.environment.configurationTool.projectName = 'Hsp_S32K344_T172';
 cfg.runtime.schedulerMode = 'callback-task';
 cfg.runtime.eventCallbackName = 'Hsp_ModelEvent';
-cfg.runtime.eventCaptureFunction = 'Hsp_MotorCapture';
-cfg.runtime.startFunction = 'Hsp_MotorStart';
-cfg.runtime.stopFunction = 'Hsp_MotorStop';
+cfg.runtime.eventCaptureFunction = 'Ambd_KitCaptureModelInputs';
+cfg.runtime.startFunction = 'Ambd_KitStart';
+cfg.runtime.stopFunction = 'Ambd_KitStop';
 cfg.runtime.eventIrqPriority = 6;
 cfg.runtime.eventTimeoutTicks = 2;
 cfg.runtime.taskStackWords = 4096;
-cfg.runtime.sources = {fullfile(hspDirectory,'runtime','hsp_motor_board.c')};
-cfg.runtime.includeDirectories = {fullfile(hspDirectory,'runtime')};
+cfg.runtime.sources = {fullfile(hspDirectory,'board','ambd_kit_core.c'), ...
+    fullfile(hspDirectory,'board','ambd_kit_board.c'),fullfile(hspDirectory,'board','ambd_kit_bridge.c')};
+cfg.runtime.includeDirectories = {fullfile(hspDirectory,'board')};
+isBldc=startsWith(string(model),"BLDC");
+cfg.runtime.defines={['AMBD_MODEL=',char(model)],['AMBD_BLDC=',num2str(isBldc)]};
+cfg.runtime.compilerFlags={'-O3','-ffp-contract=off'};
 cfg.outputDirectory = fullfile('build',model);
 end

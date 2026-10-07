@@ -80,4 +80,8 @@ p.ZcTimeoutFactor=single(2.5);p.ZcMinSpeed=single(60);
 p.AcquireSpacing=uint16(4);p.AcquireMinVoltage=single(.2);
 p.AcquireTimeout=single(.01);
 p.LowSpeedThreshold=single(75);p.PositionMode=uint8(0);
+p.CurrentSenseMode=uint8(0);p.MinModulation=single(0);
+p.DemagBlankFraction=single(.2);p.DemagRailMargin=single(.3);
+p.DemagReleaseTicks=uint16(2);
+p.ActuationDelayTicks=uint16(0);
 end

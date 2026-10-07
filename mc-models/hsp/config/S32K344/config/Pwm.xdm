@@ -125,7 +125,7 @@
                       <d:ctr name="PwmEmiosChannels_0" type="IDENTIFIABLE">
                         <d:var name="EmiosChId" type="ENUMERATION" value="CH_1">
                           </d:var>
-                        <d:var name="EmiosChMode" type="ENUMERATION" value="EMIOS_PWM_IP_MODE_OPWMCB_LEAD_EDGE">
+                        <d:var name="EmiosChMode" type="ENUMERATION" value="EMIOS_PWM_IP_MODE_OPWMB">
                           </d:var>
                         <d:var name="EmiosChFlagGeneration" type="ENUMERATION" value="Trailing_Edge">
                           <a:a name="IMPORTER_INFO" value="@DEF" />
@@ -172,7 +172,7 @@
                       <d:ctr name="PwmEmiosChannels_1" type="IDENTIFIABLE">
                         <d:var name="EmiosChId" type="ENUMERATION" value="CH_2">
                           </d:var>
-                        <d:var name="EmiosChMode" type="ENUMERATION" value="EMIOS_PWM_IP_MODE_OPWMCB_LEAD_EDGE">
+                        <d:var name="EmiosChMode" type="ENUMERATION" value="EMIOS_PWM_IP_MODE_OPWMB">
                           </d:var>
                         <d:var name="EmiosChFlagGeneration" type="ENUMERATION" value="Trailing_Edge">
                           <a:a name="IMPORTER_INFO" value="@DEF" />
@@ -219,7 +219,7 @@
                       <d:ctr name="PwmEmiosChannels_2" type="IDENTIFIABLE">
                         <d:var name="EmiosChId" type="ENUMERATION" value="CH_3">
                           </d:var>
-                        <d:var name="EmiosChMode" type="ENUMERATION" value="EMIOS_PWM_IP_MODE_OPWMCB_LEAD_EDGE">
+                        <d:var name="EmiosChMode" type="ENUMERATION" value="EMIOS_PWM_IP_MODE_OPWMB">
                           </d:var>
                         <d:var name="EmiosChFlagGeneration" type="ENUMERATION" value="Trailing_Edge">
                           <a:a name="IMPORTER_INFO" value="@DEF" />
@@ -266,7 +266,7 @@
                       <d:ctr name="PwmEmiosChannels_3" type="IDENTIFIABLE">
                         <d:var name="EmiosChId" type="ENUMERATION" value="CH_4">
                           </d:var>
-                        <d:var name="EmiosChMode" type="ENUMERATION" value="EMIOS_PWM_IP_MODE_OPWMCB_LEAD_EDGE">
+                        <d:var name="EmiosChMode" type="ENUMERATION" value="EMIOS_PWM_IP_MODE_OPWMB">
                           </d:var>
                         <d:var name="EmiosChFlagGeneration" type="ENUMERATION" value="Trailing_Edge">
                           <a:a name="IMPORTER_INFO" value="@DEF" />

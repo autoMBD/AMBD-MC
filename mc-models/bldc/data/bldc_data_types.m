@@ -39,7 +39,7 @@
 % Project:     autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>
 % File:        mc_data_types.m
 % Author:      autoMBD <tkung.lqk@foxmail.com>
-% Date:        2026-10-06
+% Date:        2026-10-07
 % Version:     0.1.0
 % Description: Layered Simulink data type definitions generated from
 %              docs/BldcStruct.md.
@@ -122,12 +122,18 @@ tBldcParams = createBusType('Fixed-size BLDC params interface.', {
     'AcquireTimeout', 'BldcSingle_T', 1, 'AcquireTimeout';
     'LowSpeedThreshold', 'BldcSingle_T', 1, 'LowSpeedThreshold';
     'PositionMode', 'BldcUInt8_T', 1, '0 Hall; 1 terminal-voltage sensorless';
+    'CurrentSenseMode', 'BldcUInt8_T', 1, '0 three phase sensors; 1 valid-window DC-link shunt';
+    'MinModulation', 'BldcSingle_T', 1, 'Minimum energized duty in DC-link mode';
+    'DemagBlankFraction', 'BldcSingle_T', 1, 'Commutation-period fraction excluded after switching';
+    'DemagRailMargin', 'BldcSingle_T', 1, 'Floating terminal must leave both clamp rails by this voltage';
+    'DemagReleaseTicks', 'BldcUInt16_T', 1, 'Consecutive unclamped samples required before ZC arming';
+    'ActuationDelayTicks', 'BldcUInt16_T', 1, 'Compensated output activation delay for DC-link commutation';
 });
 
 tBldcInput = createBusType('Fixed-size BLDC input interface.', {
-    'CurrentRaw', 'BldcUInt16_T', 3, 'CurrentRaw';
+    'CurrentRaw', 'BldcUInt16_T', 3, 'Phase ADC encodings; DC-link mode uses element 1 only';
     'Hall', 'BldcUInt8_T', 1, 'Hall';
-    'TerminalVoltage', 'BldcSingle_T', 3, 'Three phase terminal voltages in V';
+    'TerminalVoltage', 'BldcSingle_T', 3, 'Three phase terminal voltages; DC-link mode qualifies the applied floating phase only';
     'Control', 'BldcUInt8_T', 1, 'Control';
     'Fault', 'BldcBool_T', 1, 'Fault';
     'CommandEvent', 'BldcBool_T', 1, 'CommandEvent';
@@ -194,6 +200,10 @@ tBldcRuntime = createBusType('Fixed-size BLDC runtime interface.', {
     'SensorFault', 'BldcUInt16_T', 1, 'SensorFault';
     'ActiveFaults', 'BldcUInt16_T', 1, 'ActiveFaults';
     'FaultBits', 'BldcUInt16_T', 1, 'FaultBits';
+    'PhaseCurrentsValid', 'BldcBool_T', 1, 'True only for actual phase-current sensing';
+    'DcCurrent', 'ValueType: BldcCurrent_V', 1, 'Last valid DC-link current; not a three-phase reconstruction';
+    'DcCurrentValid', 'BldcBool_T', 1, 'Current frame sampled in a qualified conduction window';
+    'ZcUnclampedCount', 'BldcUInt16_T', 1, 'Consecutive floating-voltage rail-release observations';
 });
 
 tBldcDebug = createBusType('Fixed-size BLDC debug interface.', {
@@ -231,6 +241,10 @@ tBldcMonitor = createBusType('Fixed-size BLDC monitor interface.', {
     'HallValid', 'BldcBool_T', 1, 'HallValid';
     'AppliedAge', 'BldcUInt32_T', 1, 'AppliedAge';
     'CurrentMeasured', 'ValueType: BldcCurrent_V', 1, 'CurrentMeasured';
+    'CurrentSenseMode', 'BldcUInt8_T', 1, '0 phase sensors; 1 DC-link shunt';
+    'PhaseCurrentsValid', 'BldcBool_T', 1, 'Validity of the Current vector';
+    'DcCurrent', 'ValueType: BldcCurrent_V', 1, 'Last valid DC-link current';
+    'DcCurrentValid', 'BldcBool_T', 1, 'Validity of this DC-link sample';
 });
 
 function numeric_type = createNumericType(signed_flag, word_length, fraction_length, slope, bias, description)

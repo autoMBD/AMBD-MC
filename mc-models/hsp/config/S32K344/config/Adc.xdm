@@ -1,259 +1,198 @@
-<?xml version='1.0'?>
-<datamodel version="8.0" 
-           xmlns="http://www.tresos.de/_projects/DataModel2/18/root.xsd" 
-           xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd" 
-           xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd" 
-           xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
-
-  <d:ctr type="AUTOSAR" factory="autosar" 
-         xmlns:ad="http://www.tresos.de/_projects/DataModel2/08/admindata.xsd" 
-         xmlns:ce="http://www.tresos.de/_projects/DataModel2/18/childenable.xsd" 
-         xmlns:cd="http://www.tresos.de/_projects/DataModel2/08/customdata.xsd" 
-         xmlns:f="http://www.tresos.de/_projects/DataModel2/14/formulaexpr.xsd" 
-         xmlns:icc="http://www.tresos.de/_projects/DataModel2/08/implconfigclass.xsd" 
-         xmlns:mt="http://www.tresos.de/_projects/DataModel2/11/multitest.xsd"  
-         xmlns:variant="http://www.tresos.de/_projects/DataModel2/11/variant.xsd">
+<?xml version='1.0' encoding='utf-8'?>
+<datamodel xmlns="http://www.tresos.de/_projects/DataModel2/18/root.xsd" xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd" xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd" version="8.0">
+  <d:ctr type="AUTOSAR" factory="autosar">
     <d:lst type="TOP-LEVEL-PACKAGES">
       <d:ctr name="Adc" type="AR-PACKAGE">
         <d:lst type="ELEMENTS">
           <d:chc name="Adc" type="AR-ELEMENT" value="MODULE-CONFIGURATION">
             <d:ctr type="MODULE-CONFIGURATION">
-              <a:a name="DEF" value="ASPath:/TS_T40D34M70I1R0/Adc"/>
+              <a:a name="DEF" value="ASPath:/TS_T40D34M70I1R0/Adc" />
               <d:var name="POST_BUILD_VARIANT_USED" type="BOOLEAN" value="false">
-                <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <a:a name="IMPORTER_INFO" value="@DEF" />
               </d:var>
-              <d:var name="IMPLEMENTATION_CONFIG_VARIANT" type="ENUMERATION" 
-                     value="VariantPostBuild">
-                <a:a name="IMPORTER_INFO" value="@DEF"/>
+              <d:var name="IMPLEMENTATION_CONFIG_VARIANT" type="ENUMERATION" value="VariantPostBuild">
+                <a:a name="IMPORTER_INFO" value="@DEF" />
               </d:var>
               <d:ctr name="AdcConfigSet" type="IDENTIFIABLE">
                 <d:lst name="AdcHwUnit" type="MAP">
                   <d:ctr name="AdcHwUnit_0" type="IDENTIFIABLE">
                     <d:var name="AdcHwUnitId" type="ENUMERATION" value="ADC0">
-                      <a:a name="IMPORTER_INFO">
-                        <a:v>@DEF</a:v>
-                        <a:v>@CALC</a:v>
-                      </a:a>
-                    </d:var>
+                      </d:var>
                     <d:var name="AdcLogicalUnitId" type="INTEGER" value="0">
-                      <a:a name="IMPORTER_INFO">
-                        <a:v>@DEF</a:v>
-                        <a:v>@CALC</a:v>
-                      </a:a>
+                      </d:var>
+                    <d:var name="AdcTransferType" type="ENUMERATION" value="ADC_INTERRUPT">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
-                    <d:var name="AdcTransferType" type="ENUMERATION" 
-                           value="ADC_INTERRUPT">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
-                    </d:var>
-                    <d:ref name="AdcDmaChannelId" type="REFERENCE" >
-                      <a:a name="ENABLE" value="false"/>
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    <d:ref name="AdcDmaChannelId" type="REFERENCE">
+                      <a:a name="ENABLE" value="false" />
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:ref>
-                    <d:ref name="AdcCountingDmaChannelId" type="REFERENCE" >
-                      <a:a name="ENABLE" value="false"/>
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    <d:ref name="AdcCountingDmaChannelId" type="REFERENCE">
+                      <a:a name="ENABLE" value="false" />
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:ref>
-                    <d:var name="AdcClockSource" type="ENUMERATION" 
-                           value="CLK_SRC_0">
-                      <a:a name="ENABLE" value="false"/>
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    <d:var name="AdcClockSource" type="ENUMERATION" value="CLK_SRC_0">
+                      <a:a name="ENABLE" value="false" />
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
                     <d:var name="AdcPrescale" type="INTEGER" value="4">
-                      <a:a name="ENABLE" value="false"/>
+                      <a:a name="ENABLE" value="false" />
                     </d:var>
                     <d:var name="AdcAltPrescale" type="INTEGER" value="2">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
-                    <d:var name="AdcCalibrationPrescale" type="INTEGER" 
-                           value="4"/>
-                    <d:var name="AdcHighSpeedEnable" type="BOOLEAN" 
-                           value="false">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    <d:var name="AdcCalibrationPrescale" type="INTEGER" value="4" />
+                    <d:var name="AdcHighSpeedEnable" type="BOOLEAN" value="false">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
-                    <d:var name="AdcAltHighSpeedEnable" type="BOOLEAN" 
-                           value="false">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    <d:var name="AdcAltHighSpeedEnable" type="BOOLEAN" value="false">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
                     <d:var name="AdcPowerDownDelay" type="INTEGER" value="15">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
                     <d:var name="AdcAltPowerDownDelay" type="INTEGER" value="15">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
                     <d:var name="AdcMuxDelay" type="INTEGER" value="15">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
                     <d:var name="AdcAutoClockOff" type="BOOLEAN" value="false">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
                     <d:var name="AdcBypassSampling" type="BOOLEAN" value="false">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
-                    <d:var name="AdcHwUnitOverwriteEn" type="BOOLEAN" 
-                           value="true">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    <d:var name="AdcHwUnitOverwriteEn" type="BOOLEAN" value="true">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
-                    <d:var name="AdcPresamplingInternalSignal0" 
-                           type="ENUMERATION" value="VREFL">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    <d:var name="AdcPresamplingInternalSignal0" type="ENUMERATION" value="VREFL">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
-                    <d:var name="AdcPresamplingInternalSignal1" 
-                           type="ENUMERATION" value="VREFL">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    <d:var name="AdcPresamplingInternalSignal1" type="ENUMERATION" value="VREFL">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
-                    <d:var name="AdcPresamplingInternalSignal2" 
-                           type="ENUMERATION" value="VREFL">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    <d:var name="AdcPresamplingInternalSignal2" type="ENUMERATION" value="VREFL">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
                     <d:var name="AdcHwUnitUsrOffset" type="INTEGER" value="0">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
                     <d:var name="AdcHwUnitUsrGain" type="INTEGER" value="0">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
-                    <d:var name="AdcHwUnitResolution" type="ENUMERATION" 
-                           value="RESOLUTION_14">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    <d:var name="AdcHwUnitResolution" type="ENUMERATION" value="RESOLUTION_14">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
-                    <d:var name="AdcHwUnitBypassResolution" type="BOOLEAN" 
-                           value="false">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    <d:var name="AdcHwUnitBypassResolution" type="BOOLEAN" value="false">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
-                    <d:var name="AdcHwUnitDmaClearSource" type="ENUMERATION" 
-                           value="DMA_REQ_CLEAR_ON_ACK">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    <d:var name="AdcHwUnitDmaClearSource" type="ENUMERATION" value="DMA_REQ_CLEAR_ON_ACK">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
                     <d:var name="AdcSarHwUnitVref" type="INTEGER" value="53">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
-                    <d:ctr name="SdAdcHwUnitSpecificConfiguration" 
-                           type="IDENTIFIABLE">
-                      <d:var name="SdadcDecimaRate" type="ENUMERATION" 
-                             value="DECIMATION_RATE_1280">
-                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    <d:ctr name="SdAdcHwUnitSpecificConfiguration" type="IDENTIFIABLE">
+                      <d:var name="SdadcDecimaRate" type="ENUMERATION" value="DECIMATION_RATE_1280">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
                       </d:var>
-                      <d:var name="SdadcOutputSetDelay" type="INTEGER" 
-                             value="255">
-                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <d:var name="SdadcOutputSetDelay" type="INTEGER" value="255">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
                       </d:var>
                       <d:var name="SdadcFifoThreshold" type="INTEGER" value="0">
-                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
                       </d:var>
                       <d:var name="SdadcCalibSkipped" type="INTEGER" value="16">
-                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
                       </d:var>
                       <d:var name="SdadcCalibAverage" type="INTEGER" value="16">
-                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
                       </d:var>
-                      <d:ctr name="SdAdcDspssSpecificConfiguration" 
-                             type="IDENTIFIABLE">
-                        <a:a name="ENABLE" value="false"/>
-                        <d:var name="SdAdcDspssScheduleOrder" type="INTEGER" 
-                               value="0">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <d:ctr name="SdAdcDspssSpecificConfiguration" type="IDENTIFIABLE">
+                        <a:a name="ENABLE" value="false" />
+                        <d:var name="SdAdcDspssScheduleOrder" type="INTEGER" value="0">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="SdAdcDspssInputThreshold" type="INTEGER" 
-                               value="20">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="SdAdcDspssInputThreshold" type="INTEGER" value="20">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="SdAdcDspssOutputThreshold" type="INTEGER" 
-                               value="8">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="SdAdcDspssOutputThreshold" type="INTEGER" value="8">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="SdAdcDspssBufferOutputLength" 
-                               type="INTEGER" value="512">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="SdAdcDspssBufferOutputLength" type="INTEGER" value="512">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="SdAdcDspssFilterConfiguration" 
-                               type="ENUMERATION" 
-                               value="DSPSS_FIR_FILTER_STANDARD_GENERAL">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="SdAdcDspssFilterConfiguration" type="ENUMERATION" value="DSPSS_FIR_FILTER_STANDARD_GENERAL">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="SdAdcDspssOptimizationLevel" 
-                               type="ENUMERATION" 
-                               value="DSPSS_CFSDADC_OPTIMIZATION_NONE">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="SdAdcDspssOptimizationLevel" type="ENUMERATION" value="DSPSS_CFSDADC_OPTIMIZATION_NONE">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="SdAdcDspssFIRUpsamplingFactor" 
-                               type="INTEGER" value="1">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="SdAdcDspssFIRUpsamplingFactor" type="INTEGER" value="1">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="SdAdcDspssFIRDownsamplingFactor" 
-                               type="INTEGER" value="5">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="SdAdcDspssFIRDownsamplingFactor" type="INTEGER" value="5">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:lst name="SdAdcDspssFIRTaps" type="MAP"/>
-                        <d:var name="SdAdcDspssIIROrder" type="INTEGER" 
-                               value="2">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:lst name="SdAdcDspssFIRTaps" type="MAP" />
+                        <d:var name="SdAdcDspssIIROrder" type="INTEGER" value="2">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="SdAdcDspssIIRShift" type="INTEGER" 
-                               value="0">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="SdAdcDspssIIRShift" type="INTEGER" value="0">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:lst name="SdAdcDspssIIRTaps" type="MAP"/>
-                        <d:var name="SdAdcDspssCalibrationUse" type="BOOLEAN" 
-                               value="true">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:lst name="SdAdcDspssIIRTaps" type="MAP" />
+                        <d:var name="SdAdcDspssCalibrationUse" type="BOOLEAN" value="true">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="SdAdcDspssCalibrationGain" type="INTEGER" 
-                               value="16384">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="SdAdcDspssCalibrationGain" type="INTEGER" value="16384">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="SdAdcDspssCalibrationOffset" 
-                               type="INTEGER" value="0">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="SdAdcDspssCalibrationOffset" type="INTEGER" value="0">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="SdAdcDspssNumberSkippedSamples" 
-                               type="INTEGER" value="50">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="SdAdcDspssNumberSkippedSamples" type="INTEGER" value="50">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="SdadcDspssErrorNotif" type="FUNCTION-NAME" 
-                               value="NULL_PTR">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="SdadcDspssErrorNotif" type="FUNCTION-NAME" value="NULL_PTR">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
                       </d:ctr>
                     </d:ctr>
-                    <d:ctr name="AdcSelfTestThresholdConfiguration" 
-                           type="IDENTIFIABLE">
-                      <a:a name="ENABLE" value="true"/>
-                      <d:var name="AdcSTAW0RSelfTestHighThresholdValue" 
-                             type="INTEGER" value="13929">
+                    <d:ctr name="AdcSelfTestThresholdConfiguration" type="IDENTIFIABLE">
+                      <a:a name="ENABLE" value="true" />
+                      <d:var name="AdcSTAW0RSelfTestHighThresholdValue" type="INTEGER" value="13929">
                         <a:a name="IMPORTER_INFO">
                           <a:v>@DEF</a:v>
                           <a:v>@CALC</a:v>
                         </a:a>
                       </d:var>
-                      <d:var name="AdcSTAW0RSelfTestLowThresholdValue" 
-                             type="INTEGER" value="6784">
+                      <d:var name="AdcSTAW0RSelfTestLowThresholdValue" type="INTEGER" value="6784">
                         <a:a name="IMPORTER_INFO">
                           <a:v>@DEF</a:v>
                           <a:v>@CALC</a:v>
                         </a:a>
                       </d:var>
-                      <d:var name="AdcSTAW1RSelfTestLowThresholdValue" 
-                             type="INTEGER" value="16377">
+                      <d:var name="AdcSTAW1RSelfTestLowThresholdValue" type="INTEGER" value="16377">
                         <a:a name="IMPORTER_INFO">
                           <a:v>@DEF</a:v>
                           <a:v>@CALC</a:v>
                         </a:a>
                       </d:var>
-                      <d:var name="AdcSTAW2RSelfTestLowThresholdValue" 
-                             type="INTEGER" value="16377">
+                      <d:var name="AdcSTAW2RSelfTestLowThresholdValue" type="INTEGER" value="16377">
                         <a:a name="IMPORTER_INFO">
                           <a:v>@DEF</a:v>
                           <a:v>@CALC</a:v>
                         </a:a>
                       </d:var>
-                      <d:var name="AdcSTAW4RSelfTestHighThresholdValue" 
-                             type="INTEGER" value="100">
+                      <d:var name="AdcSTAW4RSelfTestHighThresholdValue" type="INTEGER" value="100">
                         <a:a name="IMPORTER_INFO">
                           <a:v>@DEF</a:v>
                           <a:v>@CALC</a:v>
                         </a:a>
                       </d:var>
-                      <d:var name="AdcSTAW5RSelfTestHighThresholdValue" 
-                             type="INTEGER" value="100">
+                      <d:var name="AdcSTAW5RSelfTestHighThresholdValue" type="INTEGER" value="100">
                         <a:a name="IMPORTER_INFO">
                           <a:v>@DEF</a:v>
                           <a:v>@CALC</a:v>
@@ -261,483 +200,943 @@
                       </d:var>
                     </d:ctr>
                     <d:ctr name="AdcNormalConvTimings" type="IDENTIFIABLE">
-                      <a:a name="ENABLE" value="true"/>
-                      <d:var name="AdcHardwareAverageEnable" type="BOOLEAN" 
-                             value="false">
-                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <a:a name="ENABLE" value="true" />
+                      <d:var name="AdcHardwareAverageEnable" type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
                       </d:var>
-                      <d:var name="AdcHardwareAverageSelect" type="ENUMERATION" 
-                             value="SAMPLES_4">
-                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <d:var name="AdcHardwareAverageSelect" type="ENUMERATION" value="SAMPLES_4">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
                       </d:var>
-                      <d:var name="AdcSamplingDurationNormal0" type="INTEGER" 
-                             value="22">
-                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <d:var name="AdcSamplingDurationNormal0" type="INTEGER" value="22">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
                       </d:var>
-                      <d:var name="AdcSamplingDurationNormal1" type="INTEGER" 
-                             value="22">
-                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <d:var name="AdcSamplingDurationNormal1" type="INTEGER" value="22">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
                       </d:var>
-                      <d:var name="AdcSamplingDurationNormal2" type="INTEGER" 
-                             value="22">
-                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <d:var name="AdcSamplingDurationNormal2" type="INTEGER" value="22">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
                       </d:var>
                     </d:ctr>
                     <d:ctr name="AdcAlternateConvTimings" type="IDENTIFIABLE">
-                      <a:a name="ENABLE" value="false"/>
-                      <d:var name="AdcHardwareAverageEnableAlternate" 
-                             type="BOOLEAN" value="false">
-                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <a:a name="ENABLE" value="false" />
+                      <d:var name="AdcHardwareAverageEnableAlternate" type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
                       </d:var>
-                      <d:var name="AdcHardwareAverageSelectAlternate" 
-                             type="ENUMERATION" value="SAMPLES_4">
-                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <d:var name="AdcHardwareAverageSelectAlternate" type="ENUMERATION" value="SAMPLES_4">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
                       </d:var>
-                      <d:var name="AdcSamplingDurationAlt0" type="INTEGER" 
-                             value="22">
-                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <d:var name="AdcSamplingDurationAlt0" type="INTEGER" value="22">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
                       </d:var>
-                      <d:var name="AdcSamplingDurationAlt1" type="INTEGER" 
-                             value="22">
-                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <d:var name="AdcSamplingDurationAlt1" type="INTEGER" value="22">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
                       </d:var>
-                      <d:var name="AdcSamplingDurationAlt2" type="INTEGER" 
-                             value="22">
-                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <d:var name="AdcSamplingDurationAlt2" type="INTEGER" value="22">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
                       </d:var>
                     </d:ctr>
                     <d:lst name="AdcChannel" type="MAP">
-                      <d:ctr name="Hsp_Bandgap" type="IDENTIFIABLE">
-                        <d:var name="AdcLogicalChannelId" type="INTEGER" 
-                               value="0"/>
-                        <d:var name="AdcChannelName" type="ENUMERATION" 
-                               value="BANDGAP_ChanNum48"/>
-                        <d:var name="AdcChannelId" type="INTEGER" value="48"/>
-                        <d:var name="AdcChannelConvTime" type="INTEGER" 
-                               value="0">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <d:ctr name="Ambd_Adc0Ch0" type="IDENTIFIABLE">
+                        <d:var name="AdcLogicalChannelId" type="INTEGER" value="0" />
+                        <d:var name="AdcChannelName" type="ENUMERATION" value="P0_ChanNum0" />
+                        <d:var name="AdcChannelId" type="INTEGER" value="0" />
+                        <d:var name="AdcChannelConvTime" type="INTEGER" value="0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcChannelLimitCheck" type="BOOLEAN" 
-                               value="false">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcChannelLimitCheck" type="BOOLEAN" value="false">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcChannelHighLimit" type="INTEGER" 
-                               value="16383">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcChannelHighLimit" type="INTEGER" value="16383">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcChannelLowLimit" type="INTEGER" 
-                               value="0">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcChannelLowLimit" type="INTEGER" value="0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcChannelRangeSelect" type="ENUMERATION" 
-                               value="ADC_RANGE_ALWAYS">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcChannelRangeSelect" type="ENUMERATION" value="ADC_RANGE_ALWAYS">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcChannelRefVoltsrcHigh" 
-                               type="ENUMERATION" value="UPPER_REF_VOLT_0">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcChannelRefVoltsrcHigh" type="ENUMERATION" value="UPPER_REF_VOLT_0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcChannelRefVoltsrcLow" 
-                               type="ENUMERATION" value="LOWER_REF_VOLT_0">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcChannelRefVoltsrcLow" type="ENUMERATION" value="LOWER_REF_VOLT_0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcChannelResolution" type="INTEGER" 
-                               value="14">
-                          <a:a name="ENABLE" value="false"/>
+                        <d:var name="AdcChannelResolution" type="INTEGER" value="14">
+                          <a:a name="ENABLE" value="false" />
                           <a:a name="IMPORTER_INFO">
                             <a:v>@DEF</a:v>
                             <a:v>@CALC</a:v>
                           </a:a>
                         </d:var>
-                        <d:var name="AdcChannelSampTime" type="INTEGER" 
-                               value="22">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcChannelSampTime" type="INTEGER" value="22">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcEnablePresampling" type="BOOLEAN" 
-                               value="false">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcEnablePresampling" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcEnableThresholds" type="BOOLEAN" 
-                               value="false">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcEnableThresholds" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:ref name="AdcThresholdRegister" type="REFERENCE" >
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:ref name="AdcThresholdRegister" type="REFERENCE">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:ref>
-                        <d:var name="AdcWdogNotification" type="FUNCTION-NAME" 
-                               value="NULL_PTR">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcWdogNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
                       </d:ctr>
-                      <d:ctr name="Hsp_Vref" type="IDENTIFIABLE">
-                        <d:var name="AdcLogicalChannelId" type="INTEGER" 
-                               value="1"/>
-                        <d:var name="AdcChannelName" type="ENUMERATION" 
-                               value="VREFH_ChanNum55"/>
-                        <d:var name="AdcChannelId" type="INTEGER" value="55"/>
-                        <d:var name="AdcChannelConvTime" type="INTEGER" 
-                               value="0">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <d:ctr name="Ambd_Adc0Ch1" type="IDENTIFIABLE">
+                        <d:var name="AdcLogicalChannelId" type="INTEGER" value="1" />
+                        <d:var name="AdcChannelName" type="ENUMERATION" value="P1_ChanNum1" />
+                        <d:var name="AdcChannelId" type="INTEGER" value="1" />
+                        <d:var name="AdcChannelConvTime" type="INTEGER" value="0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcChannelLimitCheck" type="BOOLEAN" 
-                               value="false">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcChannelLimitCheck" type="BOOLEAN" value="false">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcChannelHighLimit" type="INTEGER" 
-                               value="16383">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcChannelHighLimit" type="INTEGER" value="16383">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcChannelLowLimit" type="INTEGER" 
-                               value="0">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcChannelLowLimit" type="INTEGER" value="0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcChannelRangeSelect" type="ENUMERATION" 
-                               value="ADC_RANGE_ALWAYS">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcChannelRangeSelect" type="ENUMERATION" value="ADC_RANGE_ALWAYS">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcChannelRefVoltsrcHigh" 
-                               type="ENUMERATION" value="UPPER_REF_VOLT_0">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcChannelRefVoltsrcHigh" type="ENUMERATION" value="UPPER_REF_VOLT_0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcChannelRefVoltsrcLow" 
-                               type="ENUMERATION" value="LOWER_REF_VOLT_0">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcChannelRefVoltsrcLow" type="ENUMERATION" value="LOWER_REF_VOLT_0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcChannelResolution" type="INTEGER" 
-                               value="14">
-                          <a:a name="ENABLE" value="false"/>
+                        <d:var name="AdcChannelResolution" type="INTEGER" value="14">
+                          <a:a name="ENABLE" value="false" />
                           <a:a name="IMPORTER_INFO">
                             <a:v>@DEF</a:v>
                             <a:v>@CALC</a:v>
                           </a:a>
                         </d:var>
-                        <d:var name="AdcChannelSampTime" type="INTEGER" 
-                               value="22">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcChannelSampTime" type="INTEGER" value="22">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcEnablePresampling" type="BOOLEAN" 
-                               value="false">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcEnablePresampling" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcEnableThresholds" type="BOOLEAN" 
-                               value="false">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcEnableThresholds" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:ref name="AdcThresholdRegister" type="REFERENCE" >
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:ref name="AdcThresholdRegister" type="REFERENCE">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:ref>
-                        <d:var name="AdcWdogNotification" type="FUNCTION-NAME" 
-                               value="NULL_PTR">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcWdogNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                      </d:ctr>
+                      <d:ctr name="Ambd_Adc0Ch2" type="IDENTIFIABLE">
+                        <d:var name="AdcLogicalChannelId" type="INTEGER" value="2" />
+                        <d:var name="AdcChannelName" type="ENUMERATION" value="P2_ChanNum2" />
+                        <d:var name="AdcChannelId" type="INTEGER" value="2" />
+                        <d:var name="AdcChannelConvTime" type="INTEGER" value="0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelLimitCheck" type="BOOLEAN" value="false">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelHighLimit" type="INTEGER" value="16383">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelLowLimit" type="INTEGER" value="0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelRangeSelect" type="ENUMERATION" value="ADC_RANGE_ALWAYS">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelRefVoltsrcHigh" type="ENUMERATION" value="UPPER_REF_VOLT_0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelRefVoltsrcLow" type="ENUMERATION" value="LOWER_REF_VOLT_0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelResolution" type="INTEGER" value="14">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO">
+                            <a:v>@DEF</a:v>
+                            <a:v>@CALC</a:v>
+                          </a:a>
+                        </d:var>
+                        <d:var name="AdcChannelSampTime" type="INTEGER" value="22">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcEnablePresampling" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcEnableThresholds" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:ref name="AdcThresholdRegister" type="REFERENCE">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:ref>
+                        <d:var name="AdcWdogNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
                       </d:ctr>
                     </d:lst>
                     <d:lst name="AdcGroup" type="MAP">
-                      <d:ctr name="AdcGroup_0" type="IDENTIFIABLE">
-                        <d:var name="AdcGroupAccessMode" type="ENUMERATION" 
-                               value="ADC_ACCESS_MODE_SINGLE">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <d:ctr name="Ambd_AdcGroup0" type="IDENTIFIABLE">
+                        <d:var name="AdcGroupAccessMode" type="ENUMERATION" value="ADC_ACCESS_MODE_SINGLE">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcGroupConversionMode" type="ENUMERATION" 
-                               value="ADC_CONV_MODE_ONESHOT">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcGroupConversionMode" type="ENUMERATION" value="ADC_CONV_MODE_ONESHOT">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcGroupConversionType" type="ENUMERATION" 
-                               value="ADC_CONV_TYPE_NORMAL">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcGroupConversionType" type="ENUMERATION" value="ADC_CONV_TYPE_NORMAL">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
                         <d:var name="AdcGroupId" type="INTEGER" value="0">
+                          </d:var>
+                        <d:var name="AdcGroupPriority" type="INTEGER" value="0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcGroupReplacement" type="ENUMERATION" value="ADC_GROUP_REPL_ABORT_RESTART">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcGroupTriggSrc" type="ENUMERATION" value="ADC_TRIGG_SRC_SW">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:ref name="AdcGroupHwTriggerSource" type="REFERENCE">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:ref>
+                        <d:var name="AdcHwTrigSignal" type="ENUMERATION" value="ADC_HW_TRIG_RISING_EDGE">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcHwTrigTimer" type="INTEGER" value="0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcExtraNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcDmaErrorNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcStreamingBufferMode" type="ENUMERATION" value="ADC_STREAM_BUFFER_LINEAR">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcEnableOptimizeDmaStreamingGroups" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcEnableHalfInterrupt" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcStreamingNumSamples" type="INTEGER" value="1">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcStreamResultGroup" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcEnableChDisableChGroup" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcWithoutInterrupts" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcWithoutDma" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcExtDMAChanEnable" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:lst name="AdcGroupDefinition">
+                          <d:ref type="REFERENCE" value="ASPath:/Adc/Adc/AdcConfigSet/AdcHwUnit_0/Ambd_Adc0Ch0" />
+                          <d:ref type="REFERENCE" value="ASPath:/Adc/Adc/AdcConfigSet/AdcHwUnit_0/Ambd_Adc0Ch1" />
+                        </d:lst>
+                        <d:lst name="AdcGroupEcucPartitionRef" />
+                        <d:ctr name="AdcGroupConversionConfiguration" type="IDENTIFIABLE">
+                          <d:var name="AdcGroupHardwareAverageEnable" type="BOOLEAN" value="false">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
+                          </d:var>
+                          <d:var name="AdcGroupHardwareAverageSelect" type="ENUMERATION" value="SAMPLES_4">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
+                          </d:var>
+                          <d:var name="AdcSamplingDuration0" type="INTEGER" value="22">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
+                          </d:var>
+                          <d:var name="AdcSamplingDuration1" type="INTEGER" value="22">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
+                          </d:var>
+                          <d:var name="AdcSamplingDuration2" type="INTEGER" value="22">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
+                          </d:var>
+                        </d:ctr>
+                        <d:ctr name="AdcAlternateGroupConvTimings" type="IDENTIFIABLE">
+                          <d:var name="AdcGroupAltHardwareAverageEnable" type="BOOLEAN" value="false">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
+                          </d:var>
+                          <d:var name="AdcGroupAltHardwareAverageSelect" type="ENUMERATION" value="SAMPLES_4">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
+                          </d:var>
+                          <d:var name="AdcAltGroupSamplingDuration0" type="INTEGER" value="22">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
+                          </d:var>
+                          <d:var name="AdcAltGroupSamplingDuration1" type="INTEGER" value="22">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
+                          </d:var>
+                          <d:var name="AdcAltGroupSamplingDuration2" type="INTEGER" value="22">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
+                          </d:var>
+                        </d:ctr>
+                      </d:ctr>
+                    </d:lst>
+                    <d:lst name="AdcThresholdControl" type="MAP" />
+                    <d:lst name="AdcHwUnitEcucPartitionRef" />
+                  </d:ctr>
+                  <d:ctr name="AdcHwUnit_1" type="IDENTIFIABLE">
+                    <d:var name="AdcHwUnitId" type="ENUMERATION" value="ADC1">
+                      </d:var>
+                    <d:var name="AdcLogicalUnitId" type="INTEGER" value="1">
+                      </d:var>
+                    <d:var name="AdcTransferType" type="ENUMERATION" value="ADC_INTERRUPT">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:ref name="AdcDmaChannelId" type="REFERENCE">
+                      <a:a name="ENABLE" value="false" />
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:ref>
+                    <d:ref name="AdcCountingDmaChannelId" type="REFERENCE">
+                      <a:a name="ENABLE" value="false" />
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:ref>
+                    <d:var name="AdcClockSource" type="ENUMERATION" value="CLK_SRC_0">
+                      <a:a name="ENABLE" value="false" />
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="AdcPrescale" type="INTEGER" value="4">
+                      <a:a name="ENABLE" value="false" />
+                    </d:var>
+                    <d:var name="AdcAltPrescale" type="INTEGER" value="2">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="AdcCalibrationPrescale" type="INTEGER" value="4" />
+                    <d:var name="AdcHighSpeedEnable" type="BOOLEAN" value="false">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="AdcAltHighSpeedEnable" type="BOOLEAN" value="false">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="AdcPowerDownDelay" type="INTEGER" value="15">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="AdcAltPowerDownDelay" type="INTEGER" value="15">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="AdcMuxDelay" type="INTEGER" value="15">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="AdcAutoClockOff" type="BOOLEAN" value="false">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="AdcBypassSampling" type="BOOLEAN" value="false">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="AdcHwUnitOverwriteEn" type="BOOLEAN" value="true">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="AdcPresamplingInternalSignal0" type="ENUMERATION" value="VREFL">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="AdcPresamplingInternalSignal1" type="ENUMERATION" value="VREFL">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="AdcPresamplingInternalSignal2" type="ENUMERATION" value="VREFL">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="AdcHwUnitUsrOffset" type="INTEGER" value="0">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="AdcHwUnitUsrGain" type="INTEGER" value="0">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="AdcHwUnitResolution" type="ENUMERATION" value="RESOLUTION_14">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="AdcHwUnitBypassResolution" type="BOOLEAN" value="false">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="AdcHwUnitDmaClearSource" type="ENUMERATION" value="DMA_REQ_CLEAR_ON_ACK">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="AdcSarHwUnitVref" type="INTEGER" value="53">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:ctr name="SdAdcHwUnitSpecificConfiguration" type="IDENTIFIABLE">
+                      <d:var name="SdadcDecimaRate" type="ENUMERATION" value="DECIMATION_RATE_1280">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="SdadcOutputSetDelay" type="INTEGER" value="255">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="SdadcFifoThreshold" type="INTEGER" value="0">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="SdadcCalibSkipped" type="INTEGER" value="16">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="SdadcCalibAverage" type="INTEGER" value="16">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:ctr name="SdAdcDspssSpecificConfiguration" type="IDENTIFIABLE">
+                        <a:a name="ENABLE" value="false" />
+                        <d:var name="SdAdcDspssScheduleOrder" type="INTEGER" value="0">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="SdAdcDspssInputThreshold" type="INTEGER" value="20">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="SdAdcDspssOutputThreshold" type="INTEGER" value="8">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="SdAdcDspssBufferOutputLength" type="INTEGER" value="512">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="SdAdcDspssFilterConfiguration" type="ENUMERATION" value="DSPSS_FIR_FILTER_STANDARD_GENERAL">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="SdAdcDspssOptimizationLevel" type="ENUMERATION" value="DSPSS_CFSDADC_OPTIMIZATION_NONE">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="SdAdcDspssFIRUpsamplingFactor" type="INTEGER" value="1">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="SdAdcDspssFIRDownsamplingFactor" type="INTEGER" value="5">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:lst name="SdAdcDspssFIRTaps" type="MAP" />
+                        <d:var name="SdAdcDspssIIROrder" type="INTEGER" value="2">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="SdAdcDspssIIRShift" type="INTEGER" value="0">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:lst name="SdAdcDspssIIRTaps" type="MAP" />
+                        <d:var name="SdAdcDspssCalibrationUse" type="BOOLEAN" value="true">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="SdAdcDspssCalibrationGain" type="INTEGER" value="16384">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="SdAdcDspssCalibrationOffset" type="INTEGER" value="0">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="SdAdcDspssNumberSkippedSamples" type="INTEGER" value="50">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="SdadcDspssErrorNotif" type="FUNCTION-NAME" value="NULL_PTR">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                      </d:ctr>
+                    </d:ctr>
+                    <d:ctr name="AdcSelfTestThresholdConfiguration" type="IDENTIFIABLE">
+                      <a:a name="ENABLE" value="true" />
+                      <d:var name="AdcSTAW0RSelfTestHighThresholdValue" type="INTEGER" value="13929">
+                        <a:a name="IMPORTER_INFO">
+                          <a:v>@DEF</a:v>
+                          <a:v>@CALC</a:v>
+                        </a:a>
+                      </d:var>
+                      <d:var name="AdcSTAW0RSelfTestLowThresholdValue" type="INTEGER" value="6784">
+                        <a:a name="IMPORTER_INFO">
+                          <a:v>@DEF</a:v>
+                          <a:v>@CALC</a:v>
+                        </a:a>
+                      </d:var>
+                      <d:var name="AdcSTAW1RSelfTestLowThresholdValue" type="INTEGER" value="16377">
+                        <a:a name="IMPORTER_INFO">
+                          <a:v>@DEF</a:v>
+                          <a:v>@CALC</a:v>
+                        </a:a>
+                      </d:var>
+                      <d:var name="AdcSTAW2RSelfTestLowThresholdValue" type="INTEGER" value="16377">
+                        <a:a name="IMPORTER_INFO">
+                          <a:v>@DEF</a:v>
+                          <a:v>@CALC</a:v>
+                        </a:a>
+                      </d:var>
+                      <d:var name="AdcSTAW4RSelfTestHighThresholdValue" type="INTEGER" value="100">
+                        <a:a name="IMPORTER_INFO">
+                          <a:v>@DEF</a:v>
+                          <a:v>@CALC</a:v>
+                        </a:a>
+                      </d:var>
+                      <d:var name="AdcSTAW5RSelfTestHighThresholdValue" type="INTEGER" value="100">
+                        <a:a name="IMPORTER_INFO">
+                          <a:v>@DEF</a:v>
+                          <a:v>@CALC</a:v>
+                        </a:a>
+                      </d:var>
+                    </d:ctr>
+                    <d:ctr name="AdcNormalConvTimings" type="IDENTIFIABLE">
+                      <a:a name="ENABLE" value="true" />
+                      <d:var name="AdcHardwareAverageEnable" type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="AdcHardwareAverageSelect" type="ENUMERATION" value="SAMPLES_4">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="AdcSamplingDurationNormal0" type="INTEGER" value="22">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="AdcSamplingDurationNormal1" type="INTEGER" value="22">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="AdcSamplingDurationNormal2" type="INTEGER" value="22">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                    </d:ctr>
+                    <d:ctr name="AdcAlternateConvTimings" type="IDENTIFIABLE">
+                      <a:a name="ENABLE" value="false" />
+                      <d:var name="AdcHardwareAverageEnableAlternate" type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="AdcHardwareAverageSelectAlternate" type="ENUMERATION" value="SAMPLES_4">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="AdcSamplingDurationAlt0" type="INTEGER" value="22">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="AdcSamplingDurationAlt1" type="INTEGER" value="22">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="AdcSamplingDurationAlt2" type="INTEGER" value="22">
+                        <a:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                    </d:ctr>
+                    <d:lst name="AdcChannel" type="MAP">
+                      <d:ctr name="Ambd_Adc1Ch0" type="IDENTIFIABLE">
+                        <d:var name="AdcLogicalChannelId" type="INTEGER" value="0" />
+                        <d:var name="AdcChannelName" type="ENUMERATION" value="P1_ChanNum1" />
+                        <d:var name="AdcChannelId" type="INTEGER" value="1" />
+                        <d:var name="AdcChannelConvTime" type="INTEGER" value="0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelLimitCheck" type="BOOLEAN" value="false">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelHighLimit" type="INTEGER" value="16383">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelLowLimit" type="INTEGER" value="0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelRangeSelect" type="ENUMERATION" value="ADC_RANGE_ALWAYS">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelRefVoltsrcHigh" type="ENUMERATION" value="UPPER_REF_VOLT_0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelRefVoltsrcLow" type="ENUMERATION" value="LOWER_REF_VOLT_0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelResolution" type="INTEGER" value="14">
+                          <a:a name="ENABLE" value="false" />
                           <a:a name="IMPORTER_INFO">
                             <a:v>@DEF</a:v>
                             <a:v>@CALC</a:v>
                           </a:a>
                         </d:var>
-                        <d:var name="AdcGroupPriority" type="INTEGER" value="0">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcChannelSampTime" type="INTEGER" value="22">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcGroupReplacement" type="ENUMERATION" 
-                               value="ADC_GROUP_REPL_ABORT_RESTART">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcEnablePresampling" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcGroupTriggSrc" type="ENUMERATION" 
-                               value="ADC_TRIGG_SRC_SW">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcEnableThresholds" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:ref name="AdcGroupHwTriggerSource" type="REFERENCE" >
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:ref name="AdcThresholdRegister" type="REFERENCE">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:ref>
-                        <d:var name="AdcHwTrigSignal" type="ENUMERATION" 
-                               value="ADC_HW_TRIG_RISING_EDGE">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcWdogNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                      </d:ctr>
+                      <d:ctr name="Ambd_Adc1Ch1" type="IDENTIFIABLE">
+                        <d:var name="AdcLogicalChannelId" type="INTEGER" value="1" />
+                        <d:var name="AdcChannelName" type="ENUMERATION" value="P2_ChanNum2" />
+                        <d:var name="AdcChannelId" type="INTEGER" value="2" />
+                        <d:var name="AdcChannelConvTime" type="INTEGER" value="0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelLimitCheck" type="BOOLEAN" value="false">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelHighLimit" type="INTEGER" value="16383">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelLowLimit" type="INTEGER" value="0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelRangeSelect" type="ENUMERATION" value="ADC_RANGE_ALWAYS">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelRefVoltsrcHigh" type="ENUMERATION" value="UPPER_REF_VOLT_0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelRefVoltsrcLow" type="ENUMERATION" value="LOWER_REF_VOLT_0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelResolution" type="INTEGER" value="14">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO">
+                            <a:v>@DEF</a:v>
+                            <a:v>@CALC</a:v>
+                          </a:a>
+                        </d:var>
+                        <d:var name="AdcChannelSampTime" type="INTEGER" value="22">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcEnablePresampling" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcEnableThresholds" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:ref name="AdcThresholdRegister" type="REFERENCE">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:ref>
+                        <d:var name="AdcWdogNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                      </d:ctr>
+                      <d:ctr name="Ambd_Adc1Ch2" type="IDENTIFIABLE">
+                        <d:var name="AdcLogicalChannelId" type="INTEGER" value="2" />
+                        <d:var name="AdcChannelName" type="ENUMERATION" value="P3_ChanNum3" />
+                        <d:var name="AdcChannelId" type="INTEGER" value="3" />
+                        <d:var name="AdcChannelConvTime" type="INTEGER" value="0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelLimitCheck" type="BOOLEAN" value="false">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelHighLimit" type="INTEGER" value="16383">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelLowLimit" type="INTEGER" value="0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelRangeSelect" type="ENUMERATION" value="ADC_RANGE_ALWAYS">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelRefVoltsrcHigh" type="ENUMERATION" value="UPPER_REF_VOLT_0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelRefVoltsrcLow" type="ENUMERATION" value="LOWER_REF_VOLT_0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcChannelResolution" type="INTEGER" value="14">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO">
+                            <a:v>@DEF</a:v>
+                            <a:v>@CALC</a:v>
+                          </a:a>
+                        </d:var>
+                        <d:var name="AdcChannelSampTime" type="INTEGER" value="22">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcEnablePresampling" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcEnableThresholds" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:ref name="AdcThresholdRegister" type="REFERENCE">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:ref>
+                        <d:var name="AdcWdogNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                      </d:ctr>
+                    </d:lst>
+                    <d:lst name="AdcGroup" type="MAP">
+                      <d:ctr name="Ambd_AdcGroup1" type="IDENTIFIABLE">
+                        <d:var name="AdcGroupAccessMode" type="ENUMERATION" value="ADC_ACCESS_MODE_SINGLE">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcGroupConversionMode" type="ENUMERATION" value="ADC_CONV_MODE_ONESHOT">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcGroupConversionType" type="ENUMERATION" value="ADC_CONV_TYPE_NORMAL">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcGroupId" type="INTEGER" value="1">
+                          </d:var>
+                        <d:var name="AdcGroupPriority" type="INTEGER" value="0">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcGroupReplacement" type="ENUMERATION" value="ADC_GROUP_REPL_ABORT_RESTART">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:var name="AdcGroupTriggSrc" type="ENUMERATION" value="ADC_TRIGG_SRC_SW">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                        <d:ref name="AdcGroupHwTriggerSource" type="REFERENCE">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:ref>
+                        <d:var name="AdcHwTrigSignal" type="ENUMERATION" value="ADC_HW_TRIG_RISING_EDGE">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
                         <d:var name="AdcHwTrigTimer" type="INTEGER" value="0">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcNotification" type="FUNCTION-NAME" 
-                               value="NULL_PTR">
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcExtraNotification" type="FUNCTION-NAME" 
-                               value="NULL_PTR">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcExtraNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcDmaErrorNotification" 
-                               type="FUNCTION-NAME" value="NULL_PTR">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcDmaErrorNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcStreamingBufferMode" type="ENUMERATION" 
-                               value="ADC_STREAM_BUFFER_LINEAR">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcStreamingBufferMode" type="ENUMERATION" value="ADC_STREAM_BUFFER_LINEAR">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcEnableOptimizeDmaStreamingGroups" 
-                               type="BOOLEAN" value="false">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcEnableOptimizeDmaStreamingGroups" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcEnableHalfInterrupt" type="BOOLEAN" 
-                               value="false">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcEnableHalfInterrupt" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcStreamingNumSamples" type="INTEGER" 
-                               value="1">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcStreamingNumSamples" type="INTEGER" value="1">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcStreamResultGroup" type="BOOLEAN" 
-                               value="false">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcStreamResultGroup" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcEnableChDisableChGroup" type="BOOLEAN" 
-                               value="false">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcEnableChDisableChGroup" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcWithoutInterrupts" type="BOOLEAN" 
-                               value="false">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcWithoutInterrupts" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
                         <d:var name="AdcWithoutDma" type="BOOLEAN" value="false">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="AdcExtDMAChanEnable" type="BOOLEAN" 
-                               value="false">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="AdcExtDMAChanEnable" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
                         <d:lst name="AdcGroupDefinition">
-                          <d:ref type="REFERENCE" 
-                                 value="ASPath:/Adc/Adc/AdcConfigSet/AdcHwUnit_0/Hsp_Bandgap"/>
-                          <d:ref type="REFERENCE" 
-                                 value="ASPath:/Adc/Adc/AdcConfigSet/AdcHwUnit_0/Hsp_Vref"/>
+                          <d:ref type="REFERENCE" value="ASPath:/Adc/Adc/AdcConfigSet/AdcHwUnit_1/Ambd_Adc1Ch0" />
+                          <d:ref type="REFERENCE" value="ASPath:/Adc/Adc/AdcConfigSet/AdcHwUnit_1/Ambd_Adc1Ch1" />
                         </d:lst>
-                        <d:lst name="AdcGroupEcucPartitionRef"/>
-                        <d:ctr name="AdcGroupConversionConfiguration" 
-                               type="IDENTIFIABLE">
-                          <d:var name="AdcGroupHardwareAverageEnable" 
-                                 type="BOOLEAN" value="false">
-                            <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:lst name="AdcGroupEcucPartitionRef" />
+                        <d:ctr name="AdcGroupConversionConfiguration" type="IDENTIFIABLE">
+                          <d:var name="AdcGroupHardwareAverageEnable" type="BOOLEAN" value="false">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
                           </d:var>
-                          <d:var name="AdcGroupHardwareAverageSelect" 
-                                 type="ENUMERATION" value="SAMPLES_4">
-                            <a:a name="IMPORTER_INFO" value="@DEF"/>
+                          <d:var name="AdcGroupHardwareAverageSelect" type="ENUMERATION" value="SAMPLES_4">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
                           </d:var>
-                          <d:var name="AdcSamplingDuration0" type="INTEGER" 
-                                 value="22">
-                            <a:a name="IMPORTER_INFO" value="@DEF"/>
+                          <d:var name="AdcSamplingDuration0" type="INTEGER" value="22">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
                           </d:var>
-                          <d:var name="AdcSamplingDuration1" type="INTEGER" 
-                                 value="22">
-                            <a:a name="IMPORTER_INFO" value="@DEF"/>
+                          <d:var name="AdcSamplingDuration1" type="INTEGER" value="22">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
                           </d:var>
-                          <d:var name="AdcSamplingDuration2" type="INTEGER" 
-                                 value="22">
-                            <a:a name="IMPORTER_INFO" value="@DEF"/>
+                          <d:var name="AdcSamplingDuration2" type="INTEGER" value="22">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
                           </d:var>
                         </d:ctr>
-                        <d:ctr name="AdcAlternateGroupConvTimings" 
-                               type="IDENTIFIABLE">
-                          <d:var name="AdcGroupAltHardwareAverageEnable" 
-                                 type="BOOLEAN" value="false">
-                            <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:ctr name="AdcAlternateGroupConvTimings" type="IDENTIFIABLE">
+                          <d:var name="AdcGroupAltHardwareAverageEnable" type="BOOLEAN" value="false">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
                           </d:var>
-                          <d:var name="AdcGroupAltHardwareAverageSelect" 
-                                 type="ENUMERATION" value="SAMPLES_4">
-                            <a:a name="IMPORTER_INFO" value="@DEF"/>
+                          <d:var name="AdcGroupAltHardwareAverageSelect" type="ENUMERATION" value="SAMPLES_4">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
                           </d:var>
-                          <d:var name="AdcAltGroupSamplingDuration0" 
-                                 type="INTEGER" value="22">
-                            <a:a name="IMPORTER_INFO" value="@DEF"/>
+                          <d:var name="AdcAltGroupSamplingDuration0" type="INTEGER" value="22">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
                           </d:var>
-                          <d:var name="AdcAltGroupSamplingDuration1" 
-                                 type="INTEGER" value="22">
-                            <a:a name="IMPORTER_INFO" value="@DEF"/>
+                          <d:var name="AdcAltGroupSamplingDuration1" type="INTEGER" value="22">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
                           </d:var>
-                          <d:var name="AdcAltGroupSamplingDuration2" 
-                                 type="INTEGER" value="22">
-                            <a:a name="IMPORTER_INFO" value="@DEF"/>
+                          <d:var name="AdcAltGroupSamplingDuration2" type="INTEGER" value="22">
+                            <a:a name="IMPORTER_INFO" value="@DEF" />
                           </d:var>
                         </d:ctr>
                       </d:ctr>
                     </d:lst>
-                    <d:lst name="AdcThresholdControl" type="MAP"/>
-                    <d:lst name="AdcHwUnitEcucPartitionRef"/>
+                    <d:lst name="AdcThresholdControl" type="MAP" />
+                    <d:lst name="AdcHwUnitEcucPartitionRef" />
                   </d:ctr>
                 </d:lst>
                 <d:lst name="AdcHwTrigger" type="MAP">
                   <d:ctr name="AdcHwTrigger_2" type="IDENTIFIABLE">
-                    <d:var name="AdcHwTrigSrc" type="ENUMERATION" 
-                           value="BCTU_EMIOS_0_4"/>
+                    <d:var name="AdcHwTrigSrc" type="ENUMERATION" value="BCTU_EMIOS_0_4" />
                   </d:ctr>
                 </d:lst>
                 <d:lst name="BctuHwUnit" type="MAP">
                   <d:ctr name="BctuHwUnit_0" type="IDENTIFIABLE">
-                    <d:var name="BctuHwUnitId" type="INTEGER" value="0"/>
-                    <d:var name="BctuLogicalUnitId" type="INTEGER" value="0"/>
+                    <d:var name="BctuHwUnitId" type="INTEGER" value="0" />
+                    <d:var name="BctuLogicalUnitId" type="INTEGER" value="0" />
                     <d:var name="BctuLowPowerMode" type="BOOLEAN" value="false">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
-                    <d:var name="BctuGlobalHwTriggers" type="BOOLEAN" 
-                           value="true"/>
-                    <d:var name="BctuNewDataDMAEnableMask" type="INTEGER" 
-                           value="0">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    <d:var name="BctuGlobalHwTriggers" type="BOOLEAN" value="true" />
+                    <d:var name="BctuNewDataDMAEnableMask" type="INTEGER" value="0">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
-                    <d:var name="BctuFifoDmaRawData" type="BOOLEAN" 
-                           value="false">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
-                    </d:var>
-                    <d:var name="BctuTriggerNotification" type="FUNCTION-NAME" 
-                           value="NULL_PTR">
-                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    <d:var name="BctuFifoDmaRawData" type="BOOLEAN" value="false">
+                      </d:var>
+                    <d:var name="BctuTriggerNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                      <a:a name="IMPORTER_INFO" value="@DEF" />
                     </d:var>
                     <d:lst name="BctuInternalTrigger" type="MAP">
                       <d:ctr name="BctuTriggerList" type="IDENTIFIABLE">
-                        <d:ref name="BctuTriggerSource" type="REFERENCE" 
-                               value="ASPath:/Adc/Adc/AdcConfigSet/AdcHwTrigger_2"/>
-                        <d:var name="BctuTriggerLoop" type="BOOLEAN" 
-                               value="false">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:ref name="BctuTriggerSource" type="REFERENCE" value="ASPath:/Adc/Adc/AdcConfigSet/AdcHwTrigger_2" />
+                        <d:var name="BctuTriggerLoop" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="BctuDataDestination" type="ENUMERATION" 
-                               value="BCTU_FIFO1"/>
-                        <d:var name="BctuHwTriggerEnable" type="BOOLEAN" 
-                               value="true">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="BctuDataDestination" type="ENUMERATION" value="BCTU_FIFO1" />
+                        <d:var name="BctuHwTriggerEnable" type="BOOLEAN" value="true">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="BctuTriggerConversionMode" 
-                               type="ENUMERATION" value="LIST"/>
-                        <d:var name="BctuAdcTargetMask" type="INTEGER" value="1">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
-                        </d:var>
-                        <d:ref name="BctuAdcChannelSingle" type="REFERENCE" >
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="BctuTriggerConversionMode" type="ENUMERATION" value="LIST" />
+                        <d:var name="BctuAdcTargetMask" type="INTEGER" value="3">
+                          </d:var>
+                        <d:ref name="BctuAdcChannelSingle" type="REFERENCE">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:ref>
-                        <d:var name="BctuConversionListStartIndex" 
-                               type="INTEGER" value="0">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="BctuConversionListStartIndex" type="INTEGER" value="0">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
                       </d:ctr>
                     </d:lst>
-                    <d:lst name="BctuAdcNotifications" type="MAP"/>
+                    <d:lst name="BctuAdcNotifications" type="MAP" />
                     <d:lst name="BctuListItems" type="MAP">
                       <d:ctr name="Hsp_Sample0" type="IDENTIFIABLE">
-                        <d:var name="BctuAdcChannelList" type="ENUMERATION" 
-                               value="BANDGAP_ChanNum48"/>
-                        <d:var name="BctuNextChannelWaitOnTrig" type="BOOLEAN" 
-                               value="false">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="BctuAdcChannelList" type="ENUMERATION" value="P2_ChanNum2" />
+                        <d:var name="BctuNextChannelWaitOnTrig" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="BctuLastChannel" type="BOOLEAN" 
-                               value="false"/>
+                        <d:var name="BctuLastChannel" type="BOOLEAN" value="false" />
                       </d:ctr>
                       <d:ctr name="Hsp_Sample1" type="IDENTIFIABLE">
-                        <d:var name="BctuAdcChannelList" type="ENUMERATION" 
-                               value="BANDGAP_ChanNum48"/>
-                        <d:var name="BctuNextChannelWaitOnTrig" type="BOOLEAN" 
-                               value="false">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="BctuAdcChannelList" type="ENUMERATION" value="P1_ChanNum1" />
+                        <d:var name="BctuNextChannelWaitOnTrig" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="BctuLastChannel" type="BOOLEAN" 
-                               value="false"/>
+                        <d:var name="BctuLastChannel" type="BOOLEAN" value="false" />
                       </d:ctr>
                       <d:ctr name="Hsp_Sample2" type="IDENTIFIABLE">
-                        <d:var name="BctuAdcChannelList" type="ENUMERATION" 
-                               value="BANDGAP_ChanNum48"/>
-                        <d:var name="BctuNextChannelWaitOnTrig" type="BOOLEAN" 
-                               value="false">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="BctuAdcChannelList" type="ENUMERATION" value="P1_ChanNum1" />
+                        <d:var name="BctuNextChannelWaitOnTrig" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="BctuLastChannel" type="BOOLEAN" 
-                               value="false"/>
+                        <d:var name="BctuLastChannel" type="BOOLEAN" value="false" />
                       </d:ctr>
                       <d:ctr name="Hsp_Sample3" type="IDENTIFIABLE">
-                        <d:var name="BctuAdcChannelList" type="ENUMERATION" 
-                               value="VREFH_ChanNum55"/>
-                        <d:var name="BctuNextChannelWaitOnTrig" type="BOOLEAN" 
-                               value="false">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="BctuAdcChannelList" type="ENUMERATION" value="P1_ChanNum1" />
+                        <d:var name="BctuNextChannelWaitOnTrig" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="BctuLastChannel" type="BOOLEAN" 
-                               value="true"/>
+                        <d:var name="BctuLastChannel" type="BOOLEAN" value="true" />
                       </d:ctr>
                     </d:lst>
                     <d:lst name="BctuResultFifos" type="MAP">
                       <d:ctr name="BctuResultFifos_0" type="IDENTIFIABLE">
-                        <d:var name="BctuResultFifoIndex" type="ENUMERATION" 
-                               value="BCTU_FIFO1">
+                        <d:var name="BctuResultFifoIndex" type="ENUMERATION" value="BCTU_FIFO1">
                           <a:a name="IMPORTER_INFO">
                             <a:v>@DEF</a:v>
                             <a:v>@CALC</a:v>
                           </a:a>
                         </d:var>
-                        <d:var name="BctuWatermarkValue" type="INTEGER" 
-                               value="3"/>
-                        <d:var name="BctuFifoNotificationsEnable" 
-                               type="BOOLEAN" value="true"/>
-                        <d:var name="BctuWatermarkNotification" 
-                               type="FUNCTION-NAME" value="Hsp_ModelEvent"/>
-                        <d:var name="BctuUnderrunNotification" 
-                               type="FUNCTION-NAME" value="NULL_PTR">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="BctuWatermarkValue" type="INTEGER" value="3" />
+                        <d:var name="BctuFifoNotificationsEnable" type="BOOLEAN" value="true" />
+                        <d:var name="BctuWatermarkNotification" type="FUNCTION-NAME" value="Hsp_ModelEvent" />
+                        <d:var name="BctuUnderrunNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="BctuOverrunNotification" 
-                               type="FUNCTION-NAME" 
-                               value="Hsp_ReportModelEventFaultFromISR"/>
-                        <d:var name="BctuFifoDmaEnable" type="BOOLEAN" 
-                               value="false">
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:var name="BctuOverrunNotification" type="FUNCTION-NAME" value="Hsp_ReportModelEventFaultFromISR" />
+                        <d:var name="BctuFifoDmaEnable" type="BOOLEAN" value="false">
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:var>
-                        <d:var name="BctuFifoDmaBuffer" type="LINKER-SYMBOL" 
-                               value="BctuDmaFifo1">
+                        <d:var name="BctuFifoDmaBuffer" type="LINKER-SYMBOL" value="BctuDmaFifo1">
                           <a:a name="IMPORTER_INFO">
                             <a:v>@DEF</a:v>
                             <a:v>@CALC</a:v>
                           </a:a>
                         </d:var>
-                        <d:ref name="BctuFifoDmaChannelId" type="REFERENCE" >
-                          <a:a name="ENABLE" value="false"/>
-                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                        <d:ref name="BctuFifoDmaChannelId" type="REFERENCE">
+                          <a:a name="ENABLE" value="false" />
+                          <a:a name="IMPORTER_INFO" value="@DEF" />
                         </d:ref>
                       </d:ctr>
                     </d:lst>
@@ -746,285 +1145,255 @@
               </d:ctr>
               <d:ctr name="AdcGeneral" type="IDENTIFIABLE">
                 <d:var name="AdcDeInitApi" type="BOOLEAN" value="true">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="AdcDevErrorDetect" type="BOOLEAN" value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="AdcEnableLimitCheck" type="BOOLEAN" value="true">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="AdcEnableQueuing" type="BOOLEAN" value="true">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="AdcPriorityQueueMaxDepth" type="INTEGER" value="1">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcEnableStartStopGroupApi" type="BOOLEAN" 
-                       value="true">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcEnableStartStopGroupApi" type="BOOLEAN" value="true">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="AdcGrpNotifCapability" type="BOOLEAN" value="true">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcHwTriggerApi" type="BOOLEAN" value="true"/>
-                <d:var name="AdcPriorityImplementation" type="ENUMERATION" 
-                       value="ADC_PRIORITY_NONE">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcHwTriggerApi" type="BOOLEAN" value="true" />
+                <d:var name="AdcPriorityImplementation" type="ENUMERATION" value="ADC_PRIORITY_NONE">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="AdcReadGroupApi" type="BOOLEAN" value="true">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcResultAlignment" type="ENUMERATION" 
-                       value="ADC_ALIGN_RIGHT">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcResultAlignment" type="ENUMERATION" value="ADC_ALIGN_RIGHT">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="AdcVersionInfoApi" type="BOOLEAN" value="true">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:lst name="AdcEcucPartitionRef"/>
-                <d:ref name="AdcKernelEcucPartitionRef" type="REFERENCE" >
-                  <a:a name="ENABLE" value="false"/>
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:lst name="AdcEcucPartitionRef" />
+                <d:ref name="AdcKernelEcucPartitionRef" type="REFERENCE">
+                  <a:a name="ENABLE" value="false" />
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:ref>
-                <d:var name="AdcLowPowerStatesSupport" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="ENABLE" value="false"/>
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcLowPowerStatesSupport" type="BOOLEAN" value="false">
+                  <a:a name="ENABLE" value="false" />
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcPowerStateAsynchTransitionMode" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="ENABLE" value="false"/>
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcPowerStateAsynchTransitionMode" type="BOOLEAN" value="false">
+                  <a:a name="ENABLE" value="false" />
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:lst name="AdcPowerStateConfig" type="MAP"/>
+                <d:lst name="AdcPowerStateConfig" type="MAP" />
               </d:ctr>
               <d:lst name="AdcHwConfiguration" type="MAP">
                 <d:ctr name="AdcHwConfiguration_0" type="IDENTIFIABLE">
-                  <d:var name="AdcHwConfiguredId" type="ENUMERATION" 
-                         value="ADC0">
-                    <a:a name="IMPORTER_INFO">
-                      <a:v>@DEF</a:v>
-                      <a:v>@CALC</a:v>
-                    </a:a>
+                  <d:var name="AdcHwConfiguredId" type="ENUMERATION" value="ADC0">
+                    </d:var>
+                  <d:var name="AdcNormalInterruptEnable" type="BOOLEAN" value="true" />
+                  <d:var name="AdcInjectedInterruptEnable" type="BOOLEAN" value="true" />
+                  <d:var name="AdcFifoFullInterruptEnable" type="BOOLEAN" value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF" />
                   </d:var>
-                  <d:var name="AdcNormalInterruptEnable" type="BOOLEAN" 
-                         value="true"/>
-                  <d:var name="AdcInjectedInterruptEnable" type="BOOLEAN" 
-                         value="true"/>
-                  <d:var name="AdcFifoFullInterruptEnable" type="BOOLEAN" 
-                         value="false">
-                    <a:a name="IMPORTER_INFO" value="@DEF"/>
-                  </d:var>
-                  <d:var name="CtuFifoOfInterruptEnable" type="BOOLEAN" 
-                         value="true"/>
+                  <d:var name="CtuFifoOfInterruptEnable" type="BOOLEAN" value="true" />
                   <d:var name="WdgThresholdEnable" type="BOOLEAN" value="false">
-                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF" />
                   </d:var>
                   <d:var name="DmaTransferEnable" type="BOOLEAN" value="false">
-                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF" />
+                  </d:var>
+                </d:ctr>
+                <d:ctr name="AdcHwConfiguration_1" type="IDENTIFIABLE">
+                  <d:var name="AdcHwConfiguredId" type="ENUMERATION" value="ADC1">
+                    </d:var>
+                  <d:var name="AdcNormalInterruptEnable" type="BOOLEAN" value="true" />
+                  <d:var name="AdcInjectedInterruptEnable" type="BOOLEAN" value="true" />
+                  <d:var name="AdcFifoFullInterruptEnable" type="BOOLEAN" value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF" />
+                  </d:var>
+                  <d:var name="CtuFifoOfInterruptEnable" type="BOOLEAN" value="true" />
+                  <d:var name="WdgThresholdEnable" type="BOOLEAN" value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF" />
+                  </d:var>
+                  <d:var name="DmaTransferEnable" type="BOOLEAN" value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF" />
                   </d:var>
                 </d:ctr>
               </d:lst>
               <d:ctr name="AdcPublishedInformation" type="IDENTIFIABLE">
                 <d:var name="AdcChannelValueSigned" type="BOOLEAN" value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcGroupFirstChannelFixed" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcGroupFirstChannelFixed" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="AdcMaxChannelResolution" type="INTEGER" value="14">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
               </d:ctr>
               <d:ctr name="CommonPublishedInformation" type="IDENTIFIABLE">
                 <d:var name="ArReleaseMajorVersion" type="INTEGER" value="4">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="ArReleaseMinorVersion" type="INTEGER" value="9">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="ArReleaseRevisionVersion" type="INTEGER" value="0">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="ModuleId" type="INTEGER" value="123">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="SwMajorVersion" type="INTEGER" value="7">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="SwMinorVersion" type="INTEGER" value="0">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="SwPatchVersion" type="INTEGER" value="1">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="VendorApiInfix" type="STRING" value="">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="VendorId" type="INTEGER" value="43">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
               </d:ctr>
               <d:ctr name="AutosarExt" type="IDENTIFIABLE">
-                <d:var name="AdcTimeoutMethod" type="ENUMERATION" 
-                       value="OSIF_COUNTER_DUMMY">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcTimeoutMethod" type="ENUMERATION" value="OSIF_COUNTER_DUMMY">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="AdcTimeoutVal" type="INTEGER" value="100000">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcSarEnable" type="BOOLEAN" value="true"/>
-                <d:var name="AdcSarIpDevErrorDetect" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcSarEnable" type="BOOLEAN" value="true" />
+                <d:var name="AdcSarIpDevErrorDetect" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="SdadcEnable" type="BOOLEAN" value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="BctuIpDevErrorDetect" type="BOOLEAN" value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="SdadcIpDevErrorDetect" type="BOOLEAN" value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="SdadcDspssErrorNotifCapability" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="SdadcDspssErrorNotifCapability" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="SdadcDspssEnable" type="BOOLEAN" value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="SdAdcDspssSchedMode" type="ENUMERATION" 
-                       value="DSPSS_SAMPLE_THRESHOLD_MODE">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="SdAdcDspssSchedMode" type="ENUMERATION" value="DSPSS_SAMPLE_THRESHOLD_MODE">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:ref name="SdadcDspssInitDmaChannelId" type="REFERENCE" >
-                  <a:a name="ENABLE" value="false"/>
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:ref name="SdadcDspssInitDmaChannelId" type="REFERENCE">
+                  <a:a name="ENABLE" value="false" />
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:ref>
-                <d:var name="AdcMultiPartitionSupport" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcMultiPartitionSupport" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcEnableGroupDependentChannelNames" 
-                       type="BOOLEAN" value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcEnableGroupDependentChannelNames" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="AdcMaxPartitions" type="INTEGER" value="1">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcBypassAbortChainCheck" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcBypassAbortChainCheck" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="AdcConvTimeOnce" type="BOOLEAN" value="true">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcOptimizeOneShotHwTriggerConversions" 
-                       type="BOOLEAN" value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcOptimizeOneShotHwTriggerConversions" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcOptimizeDmaStreamingGroups" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcOptimizeDmaStreamingGroups" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="AdcPreSamplingOnce" type="BOOLEAN" value="true">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcEnableInitialNotification" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcEnableInitialNotification" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcEnableDmaTransferMode" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcEnableDmaTransferMode" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcEnableDmaErrorNotification" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcEnableDmaErrorNotification" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcUseSoftwareInjectedGroups" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcUseSoftwareInjectedGroups" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcUseHardwareNormalGroups" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcUseHardwareNormalGroups" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcEnableUserModeSupport" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcEnableUserModeSupport" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcSetHwUnitPowerModeApi" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcSetHwUnitPowerModeApi" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcEnableChDisableChApi" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcEnableChDisableChApi" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcGetInjectedConvStatusApi" type="BOOLEAN" 
-                       value="true"/>
-                <d:var name="AdcEnableThresholdConfigurationApi" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcGetInjectedConvStatusApi" type="BOOLEAN" value="true" />
+                <d:var name="AdcEnableThresholdConfigurationApi" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcEnableCtuTrigAutosarExtApi" type="BOOLEAN" 
-                       value="true"/>
-                <d:var name="AdcCtuHardwareTriggerOptimization" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcEnableCtuTrigAutosarExtApi" type="BOOLEAN" value="true" />
+                <d:var name="AdcCtuHardwareTriggerOptimization" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcEnableCtuControlModeApi" type="BOOLEAN" 
-                       value="true"/>
-                <d:var name="CtuEnableDmaTransferMode" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcEnableCtuControlModeApi" type="BOOLEAN" value="true" />
+                <d:var name="CtuEnableDmaTransferMode" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcEnableWatchdogApi" type="BOOLEAN" value="true"/>
+                <d:var name="AdcEnableWatchdogApi" type="BOOLEAN" value="true" />
                 <d:var name="AdcEnableSetChannel" type="BOOLEAN" value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcEnableDualClockMode" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcEnableDualClockMode" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcEnableCalibration" type="BOOLEAN" value="true"/>
-                <d:var name="AdcEnableAsyncCalibration" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcEnableCalibration" type="BOOLEAN" value="true" />
+                <d:var name="AdcEnableAsyncCalibration" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcEnableApplyCalibration" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcEnableApplyCalibration" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcSetUserGainAndOffset" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcSetUserGainAndOffset" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="AdcEnableSelfTest" type="BOOLEAN" value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcEnableReadRawDataApi" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcEnableReadRawDataApi" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcEnableGroupStreamingResultReorder" 
-                       type="BOOLEAN" value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcEnableGroupStreamingResultReorder" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcSarEnableTempsenseApi" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcSarEnableTempsenseApi" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
-                <d:var name="AdcSarPowerOnTempSense" type="BOOLEAN" 
-                       value="false">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                <d:var name="AdcSarPowerOnTempSense" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
                 <d:var name="AdcSarTempSenseVsupply" type="INTEGER" value="53">
-                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF" />
                 </d:var>
               </d:ctr>
             </d:ctr>
@@ -1033,5 +1402,4 @@
       </d:ctr>
     </d:lst>
   </d:ctr>
-
 </datamodel>

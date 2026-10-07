@@ -104,7 +104,7 @@ targetCurrent=min(max(targetCurrent,single(0)),p.CurrentLimit);
 s.CurrentDemand=targetCurrent;
 s.CurrentRef=s.CurrentRef+min(max(targetCurrent-s.CurrentRef,-p.CurrentSlew*p.Ts),p.CurrentSlew*p.Ts);
 if stopping && (s.CoastTicks>uint32(0) || ...
-        (s.CurrentRef<=single(.001) && max(abs(s.Current))<single(.2)))
+        (s.CurrentRef<=single(.001) && (p.CurrentSenseMode==uint8(1) || max(abs(s.Current))<single(.2))))
     s.CoastTicks=s.CoastTicks+uint32(1);s=disabled(s);return
 end
 if s.Sector<uint8(1) || s.Sector>uint8(6)
@@ -114,9 +114,26 @@ pairs=uint8([1,2;1,3;2,3;2,1;3,1;3,2]);
 source=pairs(s.Sector,1);
 if s.OutputDirection<int8(0),source=pairs(s.Sector,2);end
 s.CurrentMeasured=s.Current(source);
+if p.CurrentSenseMode==uint8(1),s.CurrentMeasured=s.DcCurrent;end
+previousIntegrator=s.CurrentIntegrator;
 [voltage,s.CurrentIntegrator]=bldc.pi_step(s.CurrentRef-s.CurrentMeasured, ...
     s.CurrentIntegrator,p.KpCurrent,p.KiCurrent,p.Ts,single(0),u.Vdc*p.MaxModulation);
 s.Modulation=voltage/u.Vdc;
+if p.CurrentSenseMode==uint8(1)
+    if ~s.DcCurrentValid,s.CurrentIntegrator=previousIntegrator;end
+    if forced
+        % Voltage-led forced commutation allows rotor/BEMF phase capture;
+        % a tightly held current vector can carry an arbitrary phase offset.
+        voltage=single(2)*p.Ke*s.OmegaOpen/single(p.PolePairs) ...
+            +single(2)*p.Rs*s.CurrentRef;
+        if s.DcCurrentValid && s.DcCurrent>p.CurrentLimit
+            voltage=voltage-p.KpCurrent*(s.DcCurrent-p.CurrentLimit);
+        end
+        s.Modulation=min(max(voltage/u.Vdc,p.MinModulation),p.MaxModulation);
+        s.CurrentIntegrator=s.Modulation*u.Vdc;
+    end
+    s.Modulation=max(s.Modulation,p.MinModulation);
+end
 [s.DutyCounts,s.PhaseEnable]=bldc.commutate(s.Sector,s.OutputDirection,s.Modulation,p.PwmPeriod);
 end
 

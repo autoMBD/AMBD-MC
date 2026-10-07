@@ -43,9 +43,8 @@
                   </d:var>
                 </d:ctr>
                 <d:ctr name="MclTrgMux" type="IDENTIFIABLE">
-                  <d:var name="MclEnableTrgMux" type="BOOLEAN" value="false">
-                    <a:a name="IMPORTER_INFO" value="@DEF" />
-                  </d:var>
+                  <d:var name="MclEnableTrgMux" type="BOOLEAN" value="true">
+                    </d:var>
                 </d:ctr>
                 <d:ctr name="MclEmiosCommon" type="IDENTIFIABLE">
                   <d:var name="MclEnableEmiosCommon" type="BOOLEAN" value="true" />
@@ -56,12 +55,10 @@
                   </d:var>
                 </d:ctr>
                 <d:ctr name="MclLcuConfig" type="IDENTIFIABLE">
-                  <d:var name="MclEnableLcu" type="BOOLEAN" value="false">
-                    <a:a name="IMPORTER_INFO" value="@DEF" />
-                  </d:var>
-                  <d:var name="MclEnableLcuSyncFunc" type="BOOLEAN" value="false">
-                    <a:a name="IMPORTER_INFO" value="@DEF" />
-                  </d:var>
+                  <d:var name="MclEnableLcu" type="BOOLEAN" value="true">
+                    </d:var>
+                  <d:var name="MclEnableLcuSyncFunc" type="BOOLEAN" value="true">
+                    </d:var>
                   <d:var name="MclEnableLcuAsyncFunc" type="BOOLEAN" value="false">
                     <a:a name="IMPORTER_INFO" value="@DEF" />
                   </d:var>
@@ -71,9 +68,220 @@
                 <d:lst name="MclVirtualMemorySection" type="MAP" />
                 <d:lst name="dmaLogicInstance_ConfigType" type="MAP" />
                 <d:lst name="dmaLogicChannel_Type" type="MAP" />
-                <d:lst name="trgmuxInstaceList" type="MAP" />
-                <d:lst name="trgmuxLogicGroup" type="MAP" />
-                <d:lst name="lcuConfiguration" type="MAP" />
+                <d:lst name="trgmuxInstaceList" type="MAP">
+                  <d:ctr name="Ambd_TriggerMux" type="IDENTIFIABLE">
+                    <d:var name="trgmuxHardwareInstance" type="ENUMERATION" value="TRGMUX_IP_HW_INST_0" />
+                  </d:ctr>
+                </d:lst>
+                <d:lst name="trgmuxLogicGroup" type="MAP">
+                  <d:ctr name="Ambd_PwmRouting" type="IDENTIFIABLE">
+                    <d:var name="trgmuxLogicGroupHardwareInstance" type="ENUMERATION" value="TRGMUX_IP_HW_INST_0" />
+                    <d:var name="trgmuxLogicGroup_Name" type="ENUMERATION" value="TRGMUX_IP_LCU0_0" />
+                    <d:var name="trgmuxLogicGroup_Lock" type="BOOLEAN" value="false" />
+                    <d:lst name="trgmuxLogicTrigger" type="MAP">
+                      <d:ctr name="Ambd_RoutePhase0" type="IDENTIFIABLE">
+                        <d:var name="trgmuxLogicTrigger_Name" type="STRING" value="AMBD_PWM_TO_LCU_0" />
+                        <d:var name="trgmuxLogicTrigger_Output" type="ENUMERATION" value="TRGMUX_IP_OUTPUT_LCU0_0_INP_I0" />
+                        <d:var name="trgmuxLogicTrigger_Input" type="ENUMERATION" value="TRGMUX_IP_INPUT_EMIOS0_IPP_CH1" />
+                        <d:ref name="trgmuxLogicTrigger_EcucPartitionRef" type="REFERENCE">
+                          <a:a name="ENABLE" value="false" />
+                        </d:ref>
+                      </d:ctr>
+                      <d:ctr name="Ambd_RoutePhase1" type="IDENTIFIABLE">
+                        <d:var name="trgmuxLogicTrigger_Name" type="STRING" value="AMBD_PWM_TO_LCU_1" />
+                        <d:var name="trgmuxLogicTrigger_Output" type="ENUMERATION" value="TRGMUX_IP_OUTPUT_LCU0_0_INP_I1" />
+                        <d:var name="trgmuxLogicTrigger_Input" type="ENUMERATION" value="TRGMUX_IP_INPUT_EMIOS0_IPP_CH2" />
+                        <d:ref name="trgmuxLogicTrigger_EcucPartitionRef" type="REFERENCE">
+                          <a:a name="ENABLE" value="false" />
+                        </d:ref>
+                      </d:ctr>
+                      <d:ctr name="Ambd_RoutePhase2" type="IDENTIFIABLE">
+                        <d:var name="trgmuxLogicTrigger_Name" type="STRING" value="AMBD_PWM_TO_LCU_2" />
+                        <d:var name="trgmuxLogicTrigger_Output" type="ENUMERATION" value="TRGMUX_IP_OUTPUT_LCU0_0_INP_I2" />
+                        <d:var name="trgmuxLogicTrigger_Input" type="ENUMERATION" value="TRGMUX_IP_INPUT_EMIOS0_IPP_CH3" />
+                        <d:ref name="trgmuxLogicTrigger_EcucPartitionRef" type="REFERENCE">
+                          <a:a name="ENABLE" value="false" />
+                        </d:ref>
+                      </d:ctr>
+                    </d:lst>
+                  </d:ctr>
+                </d:lst>
+                <d:lst name="lcuConfiguration" type="MAP">
+                  <d:ctr name="Ambd_KitLcu" type="IDENTIFIABLE">
+                    <d:lst name="lcuInstanceCfg" type="MAP">
+                      <d:ctr name="Ambd_PowerBridge" type="IDENTIFIABLE">
+                        <d:var name="lcuLogicInstance_LogicName" type="STRING" value="AMBD_POWER_BRIDGE" />
+                        <d:var name="lcuLogicInstance_HwInstID" type="ENUMERATION" value="LCU_IP_HW_INST_0" />
+                        <d:var name="lcuLogicInstance_OperationMode" type="ENUMERATION" value="POLLING" />
+                        <d:var name="lcuLogicCell_UsingForceSignal" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicCell_UsingSyncSignal" type="BOOLEAN" value="false" />
+                      </d:ctr>
+                    </d:lst>
+                    <d:lst name="mclLcuInputConfiguration" type="MAP">
+                      <d:ctr name="Ambd_PwmInput0" type="IDENTIFIABLE">
+                        <d:var name="lcuLogicInput_LogicName" type="STRING" value="AMBD_LCU_INPUT_0" />
+                        <d:var name="lcuLogicInput_HwInstID" type="ENUMERATION" value="LCU_IP_HW_INST_0" />
+                        <d:var name="lcuLogicInput_HwLcID" type="ENUMERATION" value="LCU_IP_HW_LC_0" />
+                        <d:var name="lcuLogicInput_HwInputID" type="ENUMERATION" value="LCU_IP_HW_INPUT_0" />
+                        <d:var name="lcuLogicInput_MuxSelect" type="ENUMERATION" value="LCU_IP_MUX_SEL_LU_IN_0" />
+                        <d:var name="lcuLogicInput_SwOverrideValue" type="ENUMERATION" value="LCU_IP_SW_OVERRIDE_LOGIC_LOW" />
+                        <d:var name="lcuLogicInput_UsingSwOverride" type="BOOLEAN" value="false" />
+                      </d:ctr>
+                      <d:ctr name="Ambd_PwmInput1" type="IDENTIFIABLE">
+                        <d:var name="lcuLogicInput_LogicName" type="STRING" value="AMBD_LCU_INPUT_1" />
+                        <d:var name="lcuLogicInput_HwInstID" type="ENUMERATION" value="LCU_IP_HW_INST_0" />
+                        <d:var name="lcuLogicInput_HwLcID" type="ENUMERATION" value="LCU_IP_HW_LC_0" />
+                        <d:var name="lcuLogicInput_HwInputID" type="ENUMERATION" value="LCU_IP_HW_INPUT_1" />
+                        <d:var name="lcuLogicInput_MuxSelect" type="ENUMERATION" value="LCU_IP_MUX_SEL_LU_IN_1" />
+                        <d:var name="lcuLogicInput_SwOverrideValue" type="ENUMERATION" value="LCU_IP_SW_OVERRIDE_LOGIC_LOW" />
+                        <d:var name="lcuLogicInput_UsingSwOverride" type="BOOLEAN" value="false" />
+                      </d:ctr>
+                      <d:ctr name="Ambd_PwmInput2" type="IDENTIFIABLE">
+                        <d:var name="lcuLogicInput_LogicName" type="STRING" value="AMBD_LCU_INPUT_2" />
+                        <d:var name="lcuLogicInput_HwInstID" type="ENUMERATION" value="LCU_IP_HW_INST_0" />
+                        <d:var name="lcuLogicInput_HwLcID" type="ENUMERATION" value="LCU_IP_HW_LC_1" />
+                        <d:var name="lcuLogicInput_HwInputID" type="ENUMERATION" value="LCU_IP_HW_INPUT_0" />
+                        <d:var name="lcuLogicInput_MuxSelect" type="ENUMERATION" value="LCU_IP_MUX_SEL_LU_IN_2" />
+                        <d:var name="lcuLogicInput_SwOverrideValue" type="ENUMERATION" value="LCU_IP_SW_OVERRIDE_LOGIC_LOW" />
+                        <d:var name="lcuLogicInput_UsingSwOverride" type="BOOLEAN" value="false" />
+                      </d:ctr>
+                    </d:lst>
+                    <d:lst name="mclLcuOutputConfiguration" type="MAP">
+                      <d:ctr name="Ambd_PhaseOutput0" type="IDENTIFIABLE">
+                        <d:var name="lcuLogicOutput_LogicName" type="STRING" value="AMBD_LCU_OUTPUT_0" />
+                        <d:var name="lcuLogicOutput_HwInstID" type="ENUMERATION" value="LCU_IP_HW_INST_0" />
+                        <d:var name="lcuLogicOutput_HwLcID" type="ENUMERATION" value="LCU_IP_HW_LC_0" />
+                        <d:var name="lcuLogicOutput_HwOutputID" type="ENUMERATION" value="LCU_IP_HW_OUTPUT_0" />
+                        <d:var name="lcuLogicOutput_LutControl" type="INTEGER" value="21845" />
+                        <d:var name="lcuLogicOutput_LutRiseFilter" type="INTEGER" value="96" />
+                        <d:var name="lcuLogicOutput_LutFallFilter" type="INTEGER" value="0" />
+                        <d:var name="lcuLogicOutput_InterruptCallback" type="FUNCTION-NAME" value="NULL_PTR" />
+                        <d:var name="lcuLogicOutput_DebugMode" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_LutDmaEnable" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_LutIntEnable" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_UsingForceSignal" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_InvertOutput" type="BOOLEAN" value="false" />
+                        <d:ctr name="lcuLogicOutput_ForceSignalConfiguration" type="IDENTIFIABLE">
+                          <d:var name="lcuLogicOutput_ForceClearMode" type="ENUMERATION" value="LCU_IP_CLEAR_FORCE_SIGNAL_IMMEDIATE" />
+                          <d:var name="lcuLogicOutput_ForceSyncSelect" type="ENUMERATION" value="LCU_IP_SYNC_SEL_INPUT0" />
+                          <d:var name="lcuLogicOutput_ForceDmaEnable" type="BOOLEAN" value="false" />
+                          <d:var name="lcuLogicOutput_ForceIntEnable" type="BOOLEAN" value="false" />
+                          <d:lst name="lcuLogicOutput_ForceSignalSelect" type="MAP" />
+                        </d:ctr>
+                      </d:ctr>
+                      <d:ctr name="Ambd_PhaseOutput1" type="IDENTIFIABLE">
+                        <d:var name="lcuLogicOutput_LogicName" type="STRING" value="AMBD_LCU_OUTPUT_1" />
+                        <d:var name="lcuLogicOutput_HwInstID" type="ENUMERATION" value="LCU_IP_HW_INST_0" />
+                        <d:var name="lcuLogicOutput_HwLcID" type="ENUMERATION" value="LCU_IP_HW_LC_0" />
+                        <d:var name="lcuLogicOutput_HwOutputID" type="ENUMERATION" value="LCU_IP_HW_OUTPUT_1" />
+                        <d:var name="lcuLogicOutput_LutControl" type="INTEGER" value="43690" />
+                        <d:var name="lcuLogicOutput_LutRiseFilter" type="INTEGER" value="96" />
+                        <d:var name="lcuLogicOutput_LutFallFilter" type="INTEGER" value="0" />
+                        <d:var name="lcuLogicOutput_InterruptCallback" type="FUNCTION-NAME" value="NULL_PTR" />
+                        <d:var name="lcuLogicOutput_DebugMode" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_LutDmaEnable" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_LutIntEnable" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_UsingForceSignal" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_InvertOutput" type="BOOLEAN" value="true" />
+                        <d:ctr name="lcuLogicOutput_ForceSignalConfiguration" type="IDENTIFIABLE">
+                          <d:var name="lcuLogicOutput_ForceClearMode" type="ENUMERATION" value="LCU_IP_CLEAR_FORCE_SIGNAL_IMMEDIATE" />
+                          <d:var name="lcuLogicOutput_ForceSyncSelect" type="ENUMERATION" value="LCU_IP_SYNC_SEL_INPUT0" />
+                          <d:var name="lcuLogicOutput_ForceDmaEnable" type="BOOLEAN" value="false" />
+                          <d:var name="lcuLogicOutput_ForceIntEnable" type="BOOLEAN" value="false" />
+                          <d:lst name="lcuLogicOutput_ForceSignalSelect" type="MAP" />
+                        </d:ctr>
+                      </d:ctr>
+                      <d:ctr name="Ambd_PhaseOutput2" type="IDENTIFIABLE">
+                        <d:var name="lcuLogicOutput_LogicName" type="STRING" value="AMBD_LCU_OUTPUT_2" />
+                        <d:var name="lcuLogicOutput_HwInstID" type="ENUMERATION" value="LCU_IP_HW_INST_0" />
+                        <d:var name="lcuLogicOutput_HwLcID" type="ENUMERATION" value="LCU_IP_HW_LC_0" />
+                        <d:var name="lcuLogicOutput_HwOutputID" type="ENUMERATION" value="LCU_IP_HW_OUTPUT_2" />
+                        <d:var name="lcuLogicOutput_LutControl" type="INTEGER" value="13107" />
+                        <d:var name="lcuLogicOutput_LutRiseFilter" type="INTEGER" value="96" />
+                        <d:var name="lcuLogicOutput_LutFallFilter" type="INTEGER" value="0" />
+                        <d:var name="lcuLogicOutput_InterruptCallback" type="FUNCTION-NAME" value="NULL_PTR" />
+                        <d:var name="lcuLogicOutput_DebugMode" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_LutDmaEnable" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_LutIntEnable" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_UsingForceSignal" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_InvertOutput" type="BOOLEAN" value="false" />
+                        <d:ctr name="lcuLogicOutput_ForceSignalConfiguration" type="IDENTIFIABLE">
+                          <d:var name="lcuLogicOutput_ForceClearMode" type="ENUMERATION" value="LCU_IP_CLEAR_FORCE_SIGNAL_IMMEDIATE" />
+                          <d:var name="lcuLogicOutput_ForceSyncSelect" type="ENUMERATION" value="LCU_IP_SYNC_SEL_INPUT0" />
+                          <d:var name="lcuLogicOutput_ForceDmaEnable" type="BOOLEAN" value="false" />
+                          <d:var name="lcuLogicOutput_ForceIntEnable" type="BOOLEAN" value="false" />
+                          <d:lst name="lcuLogicOutput_ForceSignalSelect" type="MAP" />
+                        </d:ctr>
+                      </d:ctr>
+                      <d:ctr name="Ambd_PhaseOutput3" type="IDENTIFIABLE">
+                        <d:var name="lcuLogicOutput_LogicName" type="STRING" value="AMBD_LCU_OUTPUT_3" />
+                        <d:var name="lcuLogicOutput_HwInstID" type="ENUMERATION" value="LCU_IP_HW_INST_0" />
+                        <d:var name="lcuLogicOutput_HwLcID" type="ENUMERATION" value="LCU_IP_HW_LC_0" />
+                        <d:var name="lcuLogicOutput_HwOutputID" type="ENUMERATION" value="LCU_IP_HW_OUTPUT_3" />
+                        <d:var name="lcuLogicOutput_LutControl" type="INTEGER" value="52428" />
+                        <d:var name="lcuLogicOutput_LutRiseFilter" type="INTEGER" value="96" />
+                        <d:var name="lcuLogicOutput_LutFallFilter" type="INTEGER" value="0" />
+                        <d:var name="lcuLogicOutput_InterruptCallback" type="FUNCTION-NAME" value="NULL_PTR" />
+                        <d:var name="lcuLogicOutput_DebugMode" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_LutDmaEnable" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_LutIntEnable" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_UsingForceSignal" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_InvertOutput" type="BOOLEAN" value="true" />
+                        <d:ctr name="lcuLogicOutput_ForceSignalConfiguration" type="IDENTIFIABLE">
+                          <d:var name="lcuLogicOutput_ForceClearMode" type="ENUMERATION" value="LCU_IP_CLEAR_FORCE_SIGNAL_IMMEDIATE" />
+                          <d:var name="lcuLogicOutput_ForceSyncSelect" type="ENUMERATION" value="LCU_IP_SYNC_SEL_INPUT0" />
+                          <d:var name="lcuLogicOutput_ForceDmaEnable" type="BOOLEAN" value="false" />
+                          <d:var name="lcuLogicOutput_ForceIntEnable" type="BOOLEAN" value="false" />
+                          <d:lst name="lcuLogicOutput_ForceSignalSelect" type="MAP" />
+                        </d:ctr>
+                      </d:ctr>
+                      <d:ctr name="Ambd_PhaseOutput4" type="IDENTIFIABLE">
+                        <d:var name="lcuLogicOutput_LogicName" type="STRING" value="AMBD_LCU_OUTPUT_4" />
+                        <d:var name="lcuLogicOutput_HwInstID" type="ENUMERATION" value="LCU_IP_HW_INST_0" />
+                        <d:var name="lcuLogicOutput_HwLcID" type="ENUMERATION" value="LCU_IP_HW_LC_1" />
+                        <d:var name="lcuLogicOutput_HwOutputID" type="ENUMERATION" value="LCU_IP_HW_OUTPUT_0" />
+                        <d:var name="lcuLogicOutput_LutControl" type="INTEGER" value="21845" />
+                        <d:var name="lcuLogicOutput_LutRiseFilter" type="INTEGER" value="96" />
+                        <d:var name="lcuLogicOutput_LutFallFilter" type="INTEGER" value="0" />
+                        <d:var name="lcuLogicOutput_InterruptCallback" type="FUNCTION-NAME" value="NULL_PTR" />
+                        <d:var name="lcuLogicOutput_DebugMode" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_LutDmaEnable" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_LutIntEnable" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_UsingForceSignal" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_InvertOutput" type="BOOLEAN" value="false" />
+                        <d:ctr name="lcuLogicOutput_ForceSignalConfiguration" type="IDENTIFIABLE">
+                          <d:var name="lcuLogicOutput_ForceClearMode" type="ENUMERATION" value="LCU_IP_CLEAR_FORCE_SIGNAL_IMMEDIATE" />
+                          <d:var name="lcuLogicOutput_ForceSyncSelect" type="ENUMERATION" value="LCU_IP_SYNC_SEL_INPUT0" />
+                          <d:var name="lcuLogicOutput_ForceDmaEnable" type="BOOLEAN" value="false" />
+                          <d:var name="lcuLogicOutput_ForceIntEnable" type="BOOLEAN" value="false" />
+                          <d:lst name="lcuLogicOutput_ForceSignalSelect" type="MAP" />
+                        </d:ctr>
+                      </d:ctr>
+                      <d:ctr name="Ambd_PhaseOutput5" type="IDENTIFIABLE">
+                        <d:var name="lcuLogicOutput_LogicName" type="STRING" value="AMBD_LCU_OUTPUT_5" />
+                        <d:var name="lcuLogicOutput_HwInstID" type="ENUMERATION" value="LCU_IP_HW_INST_0" />
+                        <d:var name="lcuLogicOutput_HwLcID" type="ENUMERATION" value="LCU_IP_HW_LC_1" />
+                        <d:var name="lcuLogicOutput_HwOutputID" type="ENUMERATION" value="LCU_IP_HW_OUTPUT_1" />
+                        <d:var name="lcuLogicOutput_LutControl" type="INTEGER" value="43690" />
+                        <d:var name="lcuLogicOutput_LutRiseFilter" type="INTEGER" value="96" />
+                        <d:var name="lcuLogicOutput_LutFallFilter" type="INTEGER" value="0" />
+                        <d:var name="lcuLogicOutput_InterruptCallback" type="FUNCTION-NAME" value="NULL_PTR" />
+                        <d:var name="lcuLogicOutput_DebugMode" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_LutDmaEnable" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_LutIntEnable" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_UsingForceSignal" type="BOOLEAN" value="false" />
+                        <d:var name="lcuLogicOutput_InvertOutput" type="BOOLEAN" value="true" />
+                        <d:ctr name="lcuLogicOutput_ForceSignalConfiguration" type="IDENTIFIABLE">
+                          <d:var name="lcuLogicOutput_ForceClearMode" type="ENUMERATION" value="LCU_IP_CLEAR_FORCE_SIGNAL_IMMEDIATE" />
+                          <d:var name="lcuLogicOutput_ForceSyncSelect" type="ENUMERATION" value="LCU_IP_SYNC_SEL_INPUT0" />
+                          <d:var name="lcuLogicOutput_ForceDmaEnable" type="BOOLEAN" value="false" />
+                          <d:var name="lcuLogicOutput_ForceIntEnable" type="BOOLEAN" value="false" />
+                          <d:lst name="lcuLogicOutput_ForceSignalSelect" type="MAP" />
+                        </d:ctr>
+                      </d:ctr>
+                    </d:lst>
+                  </d:ctr>
+                </d:lst>
                 <d:lst name="EmiosCommon" type="MAP">
                   <d:ctr name="EmiosCommon_0" type="IDENTIFIABLE">
                     <d:var name="EmiosMclInstances" type="ENUMERATION" value="EMIOS_0" />
@@ -92,9 +300,9 @@
                       <d:ctr name="EmiosMclMasterBus_0" type="IDENTIFIABLE">
                         <d:var name="EmiosMclMasterBusNumber" type="ENUMERATION" value="EMIOS_CH_22">
                           </d:var>
-                        <d:var name="EmiosMclMasterBusModeType" type="ENUMERATION" value="MCB_UP_DOWN_COUNTER">
+                        <d:var name="EmiosMclMasterBusModeType" type="ENUMERATION" value="MCB_UP_COUNTER">
                           </d:var>
-                        <d:var name="EmiosMclDefaultPeriod" type="INTEGER" value="5001">
+                        <d:var name="EmiosMclDefaultPeriod" type="INTEGER" value="10000">
                           </d:var>
                         <d:var name="EmiosMclFirstOffsetValue" type="INTEGER" value="0">
                           <a:a name="IMPORTER_INFO" value="@DEF" />

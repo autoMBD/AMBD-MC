@@ -48,6 +48,7 @@
 from pathlib import Path
 import argparse
 import importlib.util
+import json
 import sys
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -62,7 +63,7 @@ def load_builder(family):
     return module
 
 
-def build(call, family, output, configure_only=False):
+def build(call, family, output, configure_only=False, models=None):
     module = load_builder(family)
     class Builder(HspBuilderMixin, module.Builder):
         def interface_module(self):
@@ -70,6 +71,7 @@ def build(call, family, output, configure_only=False):
     Builder.family = family
     Builder.library_name = "BldcControllerLibrary" if family == "bldc" else "McControllerLibrary"
     builder = Builder(call, output)
+    builder.selected_models=models
     if configure_only:
         builder.configure_existing()
     else:
@@ -80,7 +82,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--family", choices=("bldc", "pmsm"), action="append")
     parser.add_argument("--configure-only", action="store_true", help="Inspect and configure existing saved models.")
+    parser.add_argument("--model",action="append",help="Select a target model for configuration-only edits.")
     args = parser.parse_args()
+    if args.model:
+        known={entry['name'] for entry in json.loads((ROOT/'mc-models/hsp/models.json').read_text())['models']
+               if entry['role'] in ('component','application') and entry['family'] in (args.family or ['bldc','pmsm'])}
+        if not args.configure_only or not set(args.model)<=known:
+            parser.error('--model requires --configure-only and target models in the selected families.')
     sys.path.insert(0, str(ROOT / "tools/agent"))
     import configuration
     import environment
@@ -89,7 +97,7 @@ def main():
     with Client(command, cwd=ROOT, env=env, timeout=1200) as client:
         client.initialize()
         for family in args.family or ("bldc", "pmsm"):
-            build(client.call, family, ROOT / ".agent-env/hsp-authoring" / family, args.configure_only)
+            build(client.call, family, ROOT / ".agent-env/hsp-authoring" / family, args.configure_only,args.model)
 
 
 if __name__ == "__main__":

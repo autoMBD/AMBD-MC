@@ -51,9 +51,26 @@ function s = kernel(u,s,~)
 %#codegen
 p=s.Parameters;
 s.PreviousMode=s.Mode;s.FastTick=u.DrivingEvent;s.SpeedTick=false;
-s.Current=(single(u.CurrentRaw)-p.AdcOffset)/p.AdcCountsPerAmp;
+s.PhaseCurrentsValid=p.CurrentSenseMode==uint8(0);
+if s.PhaseCurrentsValid
+    s.Current=(single(u.CurrentRaw)-p.AdcOffset)/p.AdcCountsPerAmp;
+    s.DcCurrent=single(0);s.DcCurrentValid=false;
+else
+    % Unobserved phase currents are explicitly invalid, never decay evidence.
+    s.Current=zeros(3,1,'single');s.DcCurrentValid=u.VoltageValid;
+    if s.DcCurrentValid
+        s.DcCurrent=(single(u.CurrentRaw(1))-p.AdcOffset)/p.AdcCountsPerAmp;
+    end
+end
 s.SensorFault=uint16(0);
 if s.FastTick
+    if p.CurrentSenseMode==uint8(1) && s.Mode==uint8(3)
+        if ~s.GateEnable && u.AppliedSector==uint8(0)
+            s.CoastTicks=min(s.CoastTicks,uint32(4294967294))+uint32(1);
+        else
+            s.CoastTicks=uint32(0);
+        end
+    end
     % Saturating ages retain timeout meaning even after long execution.
     s.Tick=s.Tick+uint32(1);s.ModeTicks=s.ModeTicks+uint32(1);
     s.SlowCounter=s.SlowCounter+uint16(1);

@@ -142,6 +142,7 @@ def main():
             unit_file = folder / 'unit-results.json'
             evaluate(client,
                      f"addpath({quote(ROOT / 'mc-models/pmsm')},{quote(ROOT / 'mc-models/pmsm/algo')}); "
+                     "load_system('simulink');drawnow; "
                      "suite=testsuite(fullfile(pwd,'tests','pmsm'),'IncludeSubfolders',false); "
                      "results=run(suite); unit=struct('Total',numel(results),"
                      "'Passed',sum([results.Passed]),'Failed',sum([results.Failed]),"

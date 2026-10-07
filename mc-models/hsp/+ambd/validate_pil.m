@@ -55,6 +55,7 @@ function result = validate_pil(model,family,outputDirectory)
 
 if ~isfolder(outputDirectory),mkdir(outputDirectory);end
 result=struct('Model',model,'Family',family,'Passed',false,'Stage','running');
+normal=[];target=[];
 writeResult(outputDirectory,result);
 try
     [in,faultSamples]=ambd.pil_fixture(model,family);
@@ -89,7 +90,7 @@ try
     assert(result.Passed,'ambd:PilAcceptance','PIL acceptance failed for %s; see %s.',model,outputDirectory);
 catch exception
     result.Passed=false;result.Stage='failed';result.Error=exception.message;
-    if exist('normal','var')&&exist('target','var')
+    if isa(normal,'Simulink.SimulationOutput')&&isa(target,'Simulink.SimulationOutput')
         save(fullfile(outputDirectory,'traces.mat'),'normal','target','in','result','-v7.3');
     end
     writeResult(outputDirectory,result);rethrow(exception);
