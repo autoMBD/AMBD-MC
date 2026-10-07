@@ -6,6 +6,11 @@ PMSM 矢量控制（FOC）和 BLDC Hall／无感六步控制。项目提供类�
 
 ## 从这里开始
 
+首次接触项目可先阅读
+[仓库 README](https://github.com/autoMBD/AMBD-MC/blob/main/README.md)，了解项目内容、
+目录与参与方式。只阅读或改进文档不需要 MATLAB；运行模型前先按
+[环境与工作流](manual/index.md)准备依赖，再选择下面的路径。
+
 1. [准备环境并运行第一个场景](manual/getting-started.md)。
 2. 选择 [PMSM 手册](manual/pmsm.md) 或 [BLDC 手册](manual/bldc.md)。
 3. 了解 [框架与数据流](specs/architecture.md)，按 [场景示例](manual/examples.md) 查看结果。
@@ -26,6 +31,10 @@ PMSM 矢量控制（FOC）和 BLDC Hall／无感六步控制。项目提供类�
 详见[板级验证边界](hardware/mcspte1ak344.md#验证边界)。
 
 ## 项目资料
+
+欢迎从文档改进、问题复现或算法与模型贡献开始。浏览
+[GitHub Issues](https://github.com/autoMBD/AMBD-MC/issues) 选择问题，按
+[贡献指南](project/contributing.md)提交改动，并说明实际验证结果。
 
 - [常见问题](manual/faq.md)与[实际变更记录](project/changelog.md)
 - [开发贡献](project/contributing.md)与[文档维护](development/documentation.md)
