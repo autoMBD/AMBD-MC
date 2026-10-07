@@ -13,7 +13,7 @@ calibration latching precedes acquisition so ADC conversion, feedback, protectio
 and regulation all use one coherent calibration set in each frame. McKernel
 advances the divide-by-16 scheduler; TimerEvent permits the due slow update.
 
-`BLDC_Ctrl_MBD` and `BLDC_Ctrl_CodeModel` are ERT host wrappers. Hall and
+`BLDC_Ctrl_MBD` and `BLDC_Ctrl_CodeModel` are S32K344 HSP target components. Hall and
 sensorless wrapper/top pairs in `platform/pil` reference the same core with
 separate SimulationInput parameter overrides. The plant resides outside the SIL
 controller. Its truth outputs never enter the sensorless or Hall speed regulator.

@@ -1,5 +1,8 @@
 # BLDC host plant validation record
 
+> 历史验证记录：结果仅适用于本文所列日期、运行编号和源码基线，不表示当前修改已重新验收。验证层级与本地证据说明见[验证索引](../../../validation/index.md)。
+
+
 Validated on 2026-10-06 with MATLAB R2026a through a new, owned session of
 the project's pinned official MCP server. No hardware callbacks, legacy
 models or PMSM sources were used or modified.

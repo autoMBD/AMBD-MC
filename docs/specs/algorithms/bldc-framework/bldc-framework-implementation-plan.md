@@ -2,7 +2,7 @@
 
 Baseline 2026-10-06. The system/architecture contracts gate integration.
 Detailed tracked steps and commit checkpoints are in
-[the work plan](../../../superpowers/plans/2026-10-06-bldc-framework-sil.md).
+[the work plan](https://github.com/autoMBD/AMBD-MC/blob/main/docs/superpowers/plans/2026-10-06-bldc-framework-sil.md).
 
 1. Verify base branch, official tools, eligibility and protected-source inventory;
    freeze units, bipolar PWM, sampled-terminal timing, Hall/sector map and state API.

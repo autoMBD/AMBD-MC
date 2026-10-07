@@ -85,9 +85,13 @@ comparison: phase R=0.56 ohm, nonsalient phase L=0.4 mH, pole pairs=2,
 flux constant=0.0039052261 Wb, J=1.2e-5 kg m², B=0.0005 N m s/rad.
 These are declared simulation assumptions, not measured BLDC identification.
 The phase BEMF coefficient per mechanical speed is p*flux, torque is its dot
-product with normalized trapezoid and phase currents. Target is host Windows x64
-ERT C. MCU WCET, deadtime compensation, ADC hardware timing and physical motor
-validation require later HSP integration and are outside this PC-only request.
+product with normalized trapezoid and phase currents. The original 2026-10-06 acceptance targeted host Windows x64 ERT C.
+The current S32K344 HSP integration adds target builds, PIL and board adaptation;
+see the [HSP guide](../../../hsp-s32k344.md) and
+[2026-10-07 evidence](../../../validation/2026-10-07-hsp-s32k344.md).
+Physical current calibration, gate waveforms, loaded motor operation and normal-run
+WCET remain outside the recorded validation. Configuration or PIL evidence does
+not establish these power-stage results.
 
 ## Research notes
 

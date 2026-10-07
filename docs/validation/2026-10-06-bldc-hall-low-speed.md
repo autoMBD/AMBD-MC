@@ -1,5 +1,8 @@
 # BLDC Hall low-speed gain scheduling
 
+> 历史验证记录：结果仅适用于本文所列日期、运行编号和源码基线，不表示当前修改已重新验收。验证层级与本地证据说明见[验证索引](index.md)。
+
+
 Date: 2026-10-06. The complete preliminary Normal matrix
 `20261006T041159Z-0232c41c` passed 32 of 33 cases. The sole failed case was
 `hall_low_speed`: its 20 electrical rad/s request produced sustained speed

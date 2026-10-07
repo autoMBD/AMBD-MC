@@ -1,307 +1,49 @@
-# 高级教程
+# 验证与复现
 
-本教程深入探讨项目的高级功能和复杂应用场景。
+面向已运行过主机场景的开发者。Python 验证入口需要
+[锁定的 Agent 环境](../agent-environment.md)，会创建独立的官方 MCP 会话。
 
-## 概述
+## 独立对象参考与完整 SIL
 
-本教程适合已经掌握基础用法的用户，将介绍：
-- 高级配置和自定义
-- 性能优化技巧
-- 扩展开发指南
-- 集成第三方服务
+在仓库根目录执行：
 
-## 高级配置
-
-### 自定义插件系统
-
-```python
-from your_project.plugin import PluginManager, BasePlugin
-
-# 创建自定义插件
-class CustomPlugin(BasePlugin):
-    def __init__(self, config):
-        super().__init__(config)
-        self.name = "CustomPlugin"
-    
-    def execute(self, context):
-        # 自定义逻辑
-        result = self._process_context(context)
-        return result
-    
-    def _process_context(self, context):
-        # 处理上下文
-        return {"processed": True, "data": context}
-
-# 注册插件
-manager = PluginManager()
-manager.register_plugin(CustomPlugin)
-manager.load_plugins()
-
-# 使用插件
-results = manager.execute_all({"test": "data"})
+```powershell
+python tools/pmsm/validate_plant_reference.py
+python tools/pmsm/validate_sil.py
+python tools/bldc/validate_plant_reference.py
+python tools/bldc/validate_sil.py
 ```
 
-### 配置多环境部署
+对象参考检查物理实现及数值收敛；SIL 验收运行单元测试、
+独立 Normal/SIL 闭环、同输入重放和代码生成检查。
+每次完整验收建立新的报告目录，记录执行环境与源码指纹。
 
-创建环境特定的配置文件：
+## 局部排查
 
-```yaml
-# config.production.yaml
-database:
-  host: "prod-db.example.com"
-  port: 5432
-  ssl: true
-
-cache:
-  redis:
-    host: "redis.example.com"
-    port: 6379
-
-# config.development.yaml
-database:
-  host: "localhost"
-  port: 5432
-  ssl: false
-
-cache:
-  redis:
-    host: "localhost"
-    port: 6379
+```powershell
+python tools/pmsm/validate_sil.py --scenario sensorless_forward
+python tools/bldc/validate_sil.py --scenario hall_steps
 ```
 
-使用环境配置：
+局部运行标记 `CompleteMatrix=false`，不能替代完整验收。
+BLDC 还支持 `--normal-only --collect-failures` 收集物理场景问题；
+此结果也不构成完整 SIL 验收。
 
-```bash
-export APP_ENV=production
-python app.py
-```
+## 判断结果
 
-## 性能优化
+- 完整运行同时检查 `Passed`、`CompleteMatrix` 和源码未变化门槛。
+- 独立闭环验证控制行为；同输入重放验证模型与代码数值关系。
+- 查看精确比较与浮点容差的独立记录，不把“曲线接近”当作逐位一致。
+- 工具未安装、许可证不可用、输入缺失与算法失败分开诊断；
+  缺少任务输入标记 SKIP，不记为 PASS。
 
-### 缓存策略
+[PMSM 数值决策](../validation/2026-10-06-pmsm-numerical-equivalence.md)
+与 [BLDC 完整验收](../validation/2026-10-06-bldc-sil-acceptance.md)
+保留历史判据和结果；当前运行仍需生成自己的证据。
 
-```python
-from your_project.cache import LRUCache, RedisCache
+## 目标处理器与功率板
 
-# 使用LRU缓存
-cache = LRUCache(maxsize=1000)
-
-@cache.memoize(ttl=300)  # 缓存5分钟
-def expensive_operation(x, y):
-    # 耗时计算
-    time.sleep(2)
-    return x * y
-
-# 使用Redis分布式缓存
-redis_cache = RedisCache(
-    host="localhost",
-    port=6379,
-    db=0,
-    ttl=3600  # 1小时过期
-)
-```
-
-### 异步处理
-
-```python
-import asyncio
-from your_project.async_processor import AsyncProcessor
-
-async def process_batch(items):
-    processor = AsyncProcessor()
-    
-    # 并发处理
-    tasks = [processor.process(item) for item in items]
-    results = await asyncio.gather(*tasks, return_exceptions=True)
-    
-    # 处理结果
-    successful = [r for r in results if not isinstance(r, Exception)]
-    failed = [r for r in results if isinstance(r, Exception)]
-    
-    return successful, failed
-
-# 运行异步任务
-async def main():
-    items = [1, 2, 3, 4, 5]
-    successful, failed = await process_batch(items)
-    print(f"成功: {len(successful)}, 失败: {len(failed)}")
-
-asyncio.run(main())
-```
-
-## 扩展开发
-
-### 创建自定义模块
-
-1. 创建模块文件 `extensions/my_module.py`：
-
-```python
-from your_project.base import BaseExtension
-
-class MyExtension(BaseExtension):
-    """自定义扩展模块"""
-    
-    def __init__(self, config):
-        super().__init__(config)
-        self.version = "1.0.0"
-    
-    def setup(self):
-        """初始化扩展"""
-        self.logger.info("设置MyExtension")
-    
-    def teardown(self):
-        """清理扩展"""
-        self.logger.info("清理MyExtension")
-    
-    def custom_method(self, data):
-        """自定义方法"""
-        return {"processed": data, "extension": "my_module"}
-```
-
-2. 注册扩展：
-
-```python
-from your_project.registry import ExtensionRegistry
-from extensions.my_module import MyExtension
-
-registry = ExtensionRegistry()
-registry.register("my_extension", MyExtension)
-```
-
-## 集成第三方服务
-
-### 集成消息队列
-
-```python
-from your_project.integrations import MessageQueue
-
-# 连接到RabbitMQ
-mq = MessageQueue(
-    host="localhost",
-    port=5672,
-    username="guest",
-    password="guest",
-    queue="task_queue"
-)
-
-# 发送消息
-mq.publish({"task": "process", "data": "example"})
-
-# 消费消息
-def callback(message):
-    print(f"收到消息: {message}")
-    # 处理消息
-    return True
-
-mq.consume(callback)
-```
-
-### 集成监控系统
-
-```python
-from your_project.monitoring import MetricsCollector
-
-# 创建指标收集器
-metrics = MetricsCollector(
-    prometheus_url="http://localhost:9090",
-    application_name="myapp"
-)
-
-# 记录指标
-@metrics.timer("function_execution_time")
-def business_logic():
-    # 业务逻辑
-    pass
-
-# 自定义指标
-metrics.gauge("active_users", 150)
-metrics.increment("requests_processed")
-```
-
-## 安全最佳实践
-
-### 安全配置
-
-```yaml
-security:
-  # 启用HTTPS
-  ssl:
-    enabled: true
-    cert: "/path/to/cert.pem"
-    key: "/path/to/key.pem"
-  
-  # 认证与授权
-  auth:
-    jwt_secret: "your-secret-key"
-    token_expiry: 3600
-  
-  # 防止常见攻击
-  protection:
-    csrf: true
-    xss: true
-    sql_injection: true
-```
-
-### 安全审计
-
-```bash
-# 运行安全扫描
-python security_audit.py --scan
-
-# 检查依赖漏洞
-pip-audit
-
-# 静态代码安全分析
-bandit -r your_project/
-```
-
-## 故障排除与调试
-
-### 高级调试技巧
-
-```python
-import logging
-from your_project.debug import Debugger
-
-# 设置详细日志
-logging.basicConfig(level=logging.DEBUG)
-
-# 使用交互式调试器
-debugger = Debugger()
-debugger.enable_profiling()
-
-# 性能分析
-with debugger.profile("critical_section"):
-    # 关键代码段
-    perform_critical_operation()
-
-# 生成性能报告
-debugger.generate_report("performance_report.html")
-```
-
-### 监控与告警
-
-```python
-from your_project.alerting import AlertManager
-
-alert_manager = AlertManager(
-    slack_webhook="https://hooks.slack.com/services/...",
-    email_settings={"smtp_server": "smtp.example.com"}
-)
-
-# 设置告警规则
-alert_manager.add_rule(
-    name="high_error_rate",
-    condition=lambda metrics: metrics.error_rate > 0.1,
-    action=alert_manager.send_slack_alert
-)
-
-# 触发告警
-alert_manager.check_and_alert(current_metrics)
-```
-
-## 下一步
-
-- 查看 [架构文档](../architecture.md) 了解系统设计
-- 参考 [API 文档](../api/index.md) 获取接口详情
-- 贡献您的扩展，查看 [贡献指南](../contributing.md)
+主机通过后按 [HSP 指南](../hsp-s32k344.md) 准备独立工作副本、外部工具链及
+明确的探针/UART 配置，再进行目标构建和 PIL。PIL 比较处理器代码数值，
+并不证明真实电流标定、栅极波形或带载闭环。板级工作见
+[MCSPTE1AK344 指南](../mcspte1ak344.md)。

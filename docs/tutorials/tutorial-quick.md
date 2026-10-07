@@ -1,126 +1,47 @@
-# 基础教程
+# 基础教程：运行并检查一个场景
 
-本教程将引导您快速了解项目的基本用法和核心功能。
+先完成[快速开始](../getting-started.md)。以下以 BLDC Hall 为例，
+所有命令在仓库根目录的 MATLAB 会话中运行。
 
-## 概述
+## 1. 初始化
 
-本教程适合初学者，将介绍：
-- 项目的基本概念
-- 核心功能的使用方法
-- 常见任务的完成步骤
-
-## 准备工作
-
-在开始之前，请确保您已经：
-1. 完成 [环境安装](../getting-started.md)
-2. 克隆了项目代码
-3. 安装了所有依赖
-
-## 第一步：初始化项目
-
-### 配置文件
-
-创建或修改配置文件 `config.yaml`：
-
-```yaml
-# 基本配置
-project:
-  name: "我的项目"
-  version: "1.0.0"
-
-# 数据库配置
-database:
-  host: "localhost"
-  port: 5432
-  name: "mydb"
-  user: "admin"
-
-# 日志配置
-logging:
-  level: "INFO"
-  file: "logs/app.log"
+```matlab
+info = bldc_setup;
 ```
 
-### 初始化脚本
+入口检查类型并连接 BLDC 字典。保留 `info`，
+不要为普通仿真重建模型或同步默认标定。
 
-运行初始化脚本：
+## 2. 运行场景
 
-```bash
-python scripts/init.py
+```matlab
+result = bldc_run_host_case("hall_steps","Normal");
+assert(result.Passed, 'Hall 场景未通过验收');
 ```
 
-## 第二步：使用核心功能
+入口选择场景所需顶层、控制模式、参数和输入，
+并通过 `Simulink.SimulationInput` 临时应用。仅打开一个带有
+`Sensorless` 名字的模型，不会自动切换其参数。
 
-### 功能模块 A
+## 3. 查看日志
 
-```python
-from your_project.module_a import FeatureA
-
-# 创建实例
-feature = FeatureA(config_path="config.yaml")
-
-# 执行功能
-result = feature.process(input_data="example")
-
-# 查看结果
-print(result)
+```matlab
+disp(result);
+saved = load(result.TraceFile);
+disp(fieldnames(saved));
+disp(saved.assessment);
 ```
 
-### 功能模块 B
+MAT 文件包含 `trace`、`scenario`、`metadata` 和 `assessment`，
+分别记录信号、场景、执行信息和物理验收。文件位于 `.agent-env/`。
+验收失败应查看具体检查和诊断，不应通过扩大容差将失败变为通过。
 
-```python
-from your_project.module_b import FeatureB
+## 4. 扩展到无感或 SIL
 
-feature_b = FeatureB()
-feature_b.analyze(data_file="data.csv")
+```matlab
+result = bldc_run_host_case("sensorless_forward","Normal");
 ```
 
-## 第三步：运行示例
-
-运行提供的示例代码：
-
-```bash
-python examples/basic_usage.py
-```
-
-## 第四步：验证结果
-
-检查输出文件或日志，确保功能正常运行：
-
-```bash
-cat output/result.json
-tail -f logs/app.log
-```
-
-## 常见任务
-
-### 任务 1：数据处理
-
-```python
-from your_project.data_processor import DataProcessor
-
-processor = DataProcessor()
-processed_data = processor.clean_and_transform("raw_data.csv")
-processor.save("processed_data.csv")
-```
-
-### 任务 2：模型训练
-
-```python
-from your_project.trainer import ModelTrainer
-
-trainer = ModelTrainer()
-model = trainer.train(
-    training_data="train.csv",
-    validation_data="val.csv",
-    epochs=10
-)
-trainer.save_model("model.pkl")
-```
-
-## 下一步
-
-完成本教程后，您可以：
-- 探索 [高级教程](./tutorial-advanced.md) 了解更复杂的功能
-- 查看 [示例](../examples/example1.md) 学习实际应用
-- 阅读 [API 文档](../api/index.md) 了解详细接口
+确认主机编译器和代码生成产品可用后，可将执行模式改为 `"SIL"`。
+单个场景通过不等于完整矩阵通过；完整流程见
+[验证与复现教程](tutorial-advanced.md)和 [BLDC 手册](../manual/bldc.md)。

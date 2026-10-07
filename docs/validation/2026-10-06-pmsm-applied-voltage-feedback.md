@@ -1,5 +1,8 @@
 # Applied-voltage feedback for the PMSM observer
 
+> 历史验证记录：结果仅适用于本文所列日期、运行编号和源码基线，不表示当前修改已重新验收。验证层级与本地证据说明见[验证索引](index.md)。
+
+
 Date: 2026-10-06. This is a causal interface correction; replay tolerances are unchanged.
 
 The first complete sensorless Normal/SIL fixed-input replay failed materially.

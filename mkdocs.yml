@@ -1,35 +1,93 @@
 site_name: AMBD-MC Docs
-site_description: "AMBD-MC — autoMBD Motor Control Documentation"
+site_description: AMBD-MC — autoMBD Motor Control Documentation
 site_author: autoMBD
 repo_name: autoMBD/AMBD-MC
 repo_url: https://github.com/autoMBD/AMBD-MC
 nav:
-  - Home: index.md
-  - Quick Start: getting-started.md
-  - Architecture: architecture.md
-  - Tutorials:
-      - Quick Tutorial: tutorials/tutorial-quick.md
-      - Advanced: tutorials/tutorial-advanced.md
-  - Examples: examples/example.md
-  - Changelog: changelog.md
-  - FAQ: faq.md
-  - doc-license: doc-lic.md
-  - Contributing: doc-contributing.md
-
+- 首页: index.md
+- 快速开始: getting-started.md
+- 使用手册:
+  - 工作流与环境: manual/index.md
+  - PMSM: manual/pmsm.md
+  - BLDC: manual/bldc.md
+  - 框架与数据流: architecture.md
+  - 基础教程: tutorials/tutorial-quick.md
+  - 场景示例: examples/example.md
+  - 验证与复现: tutorials/tutorial-advanced.md
+  - S32K344 HSP: hsp-s32k344.md
+  - MCSPTE1AK344: mcspte1ak344.md
+  - 常见问题: faq.md
+- 设计参考:
+  - PMSM 类型: McStruct.md
+  - BLDC 类型: BldcStruct.md
+  - PMSM 控制框架:
+    - 架构: specs/algorithms/pmsm-framework/pmsm-framework-architecture.md
+    - 实施顺序: specs/algorithms/pmsm-framework/pmsm-framework-implementation-plan.md
+    - 系统规格: specs/algorithms/pmsm-framework/pmsm-framework-system.md
+    - 测试计划: specs/algorithms/pmsm-framework/pmsm-framework-test-plan.md
+  - BLDC 控制框架:
+    - 架构: specs/algorithms/bldc-framework/bldc-framework-architecture.md
+    - 实施顺序: specs/algorithms/bldc-framework/bldc-framework-implementation-plan.md
+    - 系统规格: specs/algorithms/bldc-framework/bldc-framework-system.md
+    - 测试计划: specs/algorithms/bldc-framework/bldc-framework-test-plan.md
+  - PMSM 对象:
+    - 实施与验证: specs/plant-models/pmsm-host/pmsm-host-implementation-test-plan.md
+    - 系统与架构: specs/plant-models/pmsm-host/pmsm-host-system-architecture.md
+  - BLDC 对象:
+    - 架构: specs/plant-models/bldc-host/bldc-host-architecture.md
+    - 实施顺序: specs/plant-models/bldc-host/bldc-host-implementation-plan.md
+    - 系统规格: specs/plant-models/bldc-host/bldc-host-system.md
+    - 测试计划: specs/plant-models/bldc-host/bldc-host-test-plan.md
+    - 历史验证: specs/plant-models/bldc-host/bldc-host-validation.md
+- 验证记录:
+  - 验证层级与证据: validation/index.md
+  - 2026-10-07 S32K344 HSP 验证记录: validation/2026-10-07-hsp-s32k344.md
+  - 2026-10-06 PMSM 框架与 PC SIL 最终验收: validation/2026-10-06-pmsm-sil-acceptance.md
+  - 2026-10-06 PMSM Normal/SIL numerical-equivalence decision: validation/2026-10-06-pmsm-numerical-equivalence.md
+  - 2026-10-06 Portable evaluation of PMSM transcendental functions: validation/2026-10-06-pmsm-math-precision.md
+  - 2026-10-06 Applied-voltage feedback for the PMSM observer: validation/2026-10-06-pmsm-applied-voltage-feedback.md
+  - 2026-10-06 BLDC 框架与 PC SIL 验收: validation/2026-10-06-bldc-sil-acceptance.md
+  - 2026-10-06 BLDC Hall low-speed gain scheduling: validation/2026-10-06-bldc-hall-low-speed.md
+  - 2026-10-06 BLDC terminal-voltage acquisition decision: validation/2026-10-06-bldc-acquisition.md
+  - Agent 环境历史验收: agent-environment-validation.md
+- 开发与维护:
+  - Agent 环境: agent-environment.md
+  - 文档维护: documentation.md
+  - 贡献指南: doc-contributing.md
+  - 许可范围: doc-lic.md
+  - 变更记录: changelog.md
 theme:
   name: material
   palette:
-    primary: 'indigo'
-    accent: 'indigo'
+    primary: indigo
+    accent: indigo
   features:
-    - navigation.instant
-    - content.code.copy
-
+  - navigation.instant
+  - content.code.copy
+  language: zh
 markdown_extensions:
-  - toc:
-      permalink: true
-  - admonition
-  - pymdownx.superfences
-  - pymdownx.tabbed
+- toc:
+    permalink: true
+    slugify: !!python/name:markdown.extensions.toc.slugify_unicode
+- admonition
+- pymdownx.superfences
+- pymdownx.tabbed
 plugins:
-  - search
+- search
+site_url: https://autombd.github.io/AMBD-MC/
+site_dir: .agent-env/docs/site
+edit_uri: ''
+strict: true
+exclude_docs: |
+  /superpowers/
+  /license-header-audit.md
+validation:
+  nav:
+    omitted_files: warn
+    not_found: warn
+    absolute_links: warn
+  links:
+    not_found: warn
+    absolute_links: warn
+    unrecognized_links: warn
+    anchors: warn

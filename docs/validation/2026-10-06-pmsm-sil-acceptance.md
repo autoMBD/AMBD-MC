@@ -1,5 +1,8 @@
 # PMSM 框架与 PC SIL 最终验收
 
+> 历史验证记录：结果仅适用于本文所列日期、运行编号和源码基线，不表示当前修改已重新验收。验证层级与本地证据说明见[验证索引](index.md)。
+
+
 验收日期：2026-10-06。结论：本次约定的五个里程碑及 R1–R8 全部通过。
 实现保留在当前分支 `8-update-pmsm-models` 的工作区，未创建提交、未推送远程。
 
@@ -9,7 +12,7 @@
 环境为 MATLAB/Simulink R2026a、Embedded Coder、Windows 主机、MinGW64 C 14.2.0；
 通过项目锁定的官方 MATLAB MCP 新会话执行。
 
-- [完整汇总 JSON](../../.agent-env/pmsm/validation/20261005T224813Z-3da48fe6/summary.json)：
+- 完整汇总 JSON（本地工件：`.agent-env/pmsm/validation/20261005T224813Z-3da48fe6/summary.json`）：
   `Passed=true`、`CompleteMatrix=true`、`SourcesUnchanged=true`。
 - 87/87 MATLAB 单元测试通过：算法 19、运行时 36、初始化 15、对象 5、验收器 12；
   无失败、无未完成测试。
@@ -21,7 +24,7 @@
 - 13 组独立闭环比较全部通过；速度、电流、占空比最大差异均为 0，
   gate、状态及故障输出一致。
 - `FOC_Ctrl_CodeModel` 独立 ERT 构建通过，见
-  [构建日志](../../.agent-env/pmsm/validation/20261005T224813Z-3da48fe6/standalone-codegen.log)。
+  构建日志（本地工件：`.agent-env/pmsm/validation/20261005T224813Z-3da48fe6/standalone-codegen.log`）。
   汇总记录生成的控制器 C、独立主机 EXE、两个 SIL EXE 的路径、大小和 SHA-256。
   验收结束后重新计算源文件与五项构建产物指纹，全部一致。
 
@@ -43,7 +46,7 @@
 | R8 平台边界 | 该次主机执行链独立于硬件工具；记录采样/电压反馈/PWM/gate 接口 | 活跃模型无硬件依赖；195 项受保护文件指纹保持不变 |
 
 五个里程碑分别为：类型与初始化、控制算法、框架集成、独立主机对象和平台、
-可复现验收与交付。详见[完成清单](../superpowers/plans/2026-10-06-pmsm-framework-sil.md)。
+可复现验收与交付。完成情况见本页“需求与里程碑对应”；原实施计划已归档，不随本站发布。
 状态转换由显式 MATLAB 函数实现并置于对应模型模块内，沿用 `eSmStates` 编号。
 
 ## 场景结果
@@ -73,17 +76,17 @@
 所有场景均检查完整时间区间、采样网格、有限值、状态路径、gate、故障和
 各自的稳态/超调窗口，具体值见汇总中每个 `Assessment.Checks`。
 
-已目视复核[反转](../../.agent-env/pmsm/validation/20261005T224813Z-3da48fe6/comparison/reversal/closed-loop.png)、
-[故障恢复](../../.agent-env/pmsm/validation/20261005T224813Z-3da48fe6/comparison/fault_recovery/closed-loop.png)、
-[饱和恢复](../../.agent-env/pmsm/validation/20261005T224813Z-3da48fe6/comparison/saturation_recovery/closed-loop.png)
-及[低速转闭环](../../.agent-env/pmsm/validation/20261005T224813Z-3da48fe6/comparison/low_speed_transition/closed-loop.png)波形。
+已目视复核反转（本地工件：`.agent-env/pmsm/validation/20261005T224813Z-3da48fe6/comparison/reversal/closed-loop.png`）、
+故障恢复（本地工件：`.agent-env/pmsm/validation/20261005T224813Z-3da48fe6/comparison/fault_recovery/closed-loop.png`）、
+饱和恢复（本地工件：`.agent-env/pmsm/validation/20261005T224813Z-3da48fe6/comparison/saturation_recovery/closed-loop.png`）
+及低速转闭环（本地工件：`.agent-env/pmsm/validation/20261005T224813Z-3da48fe6/comparison/low_speed_transition/closed-loop.png`）波形。
 
 ## 对象独立校验与数值问题闭环
 
 原创对象与 MathWorks Interior PMSM 连续模型的 5 个案例全部通过：零平衡、
 正反向空载、正反向带载及非零初态。另进行积分步长减半比较。
 最大相电流误差约 2.384e-7 A，最大机械速度误差约 1.884e-6 rad/s，
-均低于预设门槛。见[对象校验结果](../../.agent-env/pmsm-plant-validation/results.json)。
+均低于预设门槛。见对象校验结果（本地工件：`.agent-env/pmsm-plant-validation/results.json`）。
 该证据对应的对象源文件哈希与最终实现一致。此参考比较仅覆盖 gate 开启的
 平均电压模型；gate 关闭的衰减/滑行近似由单独单元测试验证。
 
@@ -121,7 +124,7 @@ python tools/pmsm/validate_plant_reference.py
 python tools/pmsm/validate_sil.py
 ```
 
-MATLAB 交互入口与接口约定见 [PMSM 使用说明](../../mc-models/pmsm/README.md)。
+MATLAB 交互入口与接口约定见 [PMSM 使用说明](https://github.com/autoMBD/AMBD-MC/blob/main/mc-models/pmsm/README.md)。
 `build_models.py` 用于需要时重建生产模型；普通验收不修改生产模型。
 
 本记录覆盖 PC SIL。低于约 75 电 rad/s 的请求采用已声明的 I/f 回退，

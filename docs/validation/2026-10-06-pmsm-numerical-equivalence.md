@@ -1,5 +1,8 @@
 # PMSM Normal/SIL numerical-equivalence decision
 
+> 历史验证记录：结果仅适用于本文所列日期、运行编号和源码基线，不表示当前修改已重新验收。验证层级与本地证据说明见[验证索引](index.md)。
+
+
 Date: 2026-10-06. Applies to the host verification configuration, PWM period65535, single-precision controller and the documented scenarios. This is an explicit engineering update to the initial acceptance proposal, made under the user's authorization to resolve unspecified technical choices autonomously.
 
 ## Evidence before the decision

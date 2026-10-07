@@ -1,5 +1,8 @@
 # BLDC 框架与 PC SIL 验收
 
+> 历史验证记录：结果仅适用于本文所列日期、运行编号和源码基线，不表示当前修改已重新验收。验证层级与本地证据说明见[验证索引](index.md)。
+
+
 验收日期：2026-10-06。开发分支：`codex/bldc-models`。
 本报告对应原创 Hall / 端电压无感六步控制、独立物理对象、7 个生产模型、
 类型初始化及 PC 生成 C 验证。约定的五个里程碑及 B1–B10 验收全部通过。
@@ -17,7 +20,7 @@ PMSM 工作；用户指定的 `820f966` 是该提交的直接祖先。BLDC 实�
 通过项目锁定的官方 MATLAB MCP 新会话，在 MATLAB/Simulink R2026a、
 Embedded Coder、Windows 主机和 MinGW64 C 14.2.0 上执行。
 
-- [完整汇总](../../.agent-env/bldc/validation/20261006T051120Z-4fe9e38c/summary.json) 的 `Passed=true`、`Status=PASS`、
+- 完整汇总（本地工件：`.agent-env/bldc/validation/20261006T051120Z-4fe9e38c/summary.json`） 的 `Passed=true`、`Status=PASS`、
   `CompleteMatrix=true`、`SourcesUnchanged=true`；完整运行进程退出码为 0。
 - 165/165 MATLAB 测试通过，无失败、无未完成；19/19 Python 基础设施测试通过。
 - 40 个工况各运行 Normal 和实际 SIL，共 80 次独立物理验收通过。
@@ -31,7 +34,7 @@ Embedded Coder、Windows 主机和 MinGW64 C 14.2.0 上执行。
   逐位统计另用原始字节比较，包含正负零差异，不以数值相等代替逐位相等。
 - `BLDC_Ctrl_CodeModel` 独立 ERT 构建，以及 Hall、无感两个 SIL 主机 EXE
   均有实际构建/执行日志。重新核对 5 项生成 C / EXE 的大小和 SHA-256。
-- [独立末次审计](../../.agent-env/bldc/validation/20261006T051120Z-4fe9e38c/independent-final-audit.json) 再次核对
+- 独立末次审计（本地工件：`.agent-env/bldc/validation/20261006T051120Z-4fe9e38c/independent-final-audit.json`） 再次核对
   66 项验收来源、重放模型、原生证据绑定、全部逐工况结果与
   272 项受保护文件；同时保存汇总及完整 MCP 日志的 SHA-256。
 
@@ -85,10 +88,10 @@ Embedded Coder、Windows 主机和 MinGW64 C 14.2.0 上执行。
 | `sensorless_parameters_high_flux` | 56,001 | 3.9216 | 202.5078 | PASS |
 
 已复核低速、反转、饱和恢复、无感接管、低速转闭环及故障恢复的图与断言值。
-示例：[Hall 反转](../../.agent-env/bldc/validation/20261006T051120Z-4fe9e38c/comparison/hall_reversal/closed-loop.png)、
-[饱和恢复](../../.agent-env/bldc/validation/20261006T051120Z-4fe9e38c/comparison/hall_saturation_recovery/closed-loop.png)、
-[无感启动](../../.agent-env/bldc/validation/20261006T051120Z-4fe9e38c/comparison/sensorless_forward/closed-loop.png)、
-[无感低速转闭环](../../.agent-env/bldc/validation/20261006T051120Z-4fe9e38c/comparison/sensorless_low_transition/closed-loop.png)。
+示例：Hall 反转（本地工件：`.agent-env/bldc/validation/20261006T051120Z-4fe9e38c/comparison/hall_reversal/closed-loop.png`）、
+饱和恢复（本地工件：`.agent-env/bldc/validation/20261006T051120Z-4fe9e38c/comparison/hall_saturation_recovery/closed-loop.png`）、
+无感启动（本地工件：`.agent-env/bldc/validation/20261006T051120Z-4fe9e38c/comparison/sensorless_forward/closed-loop.png`）、
+无感低速转闭环（本地工件：`.agent-env/bldc/validation/20261006T051120Z-4fe9e38c/comparison/sensorless_low_transition/closed-loop.png`）。
 以上本地完整证据位于忽略目录，不随 Git 发布；本报告保存可复查摘要。
 
 饱和场景的 6 A 电流参考限幅持续 1.3 s，卸载后参考降至约 4.057 A。
@@ -217,7 +220,7 @@ python tools/bldc/validate_sil.py
 python tools/pmsm/validate_sil.py
 ```
 
-日常单场景入口、模型和接口说明见 [BLDC README](../../mc-models/bldc/README.md)。
+日常单场景入口、模型和接口说明见 [BLDC README](https://github.com/autoMBD/AMBD-MC/blob/main/mc-models/bldc/README.md)。
 日志、完整采样 MAT、波形图、编译缓存和主机二进制位于忽略目录 `.agent-env/`，
 不随 Git 发布。清理该目录后先重建原生物理证据，再运行完整 SIL。
 局部 `--scenario` 或 `--normal-only` 运行不构成完整验收。

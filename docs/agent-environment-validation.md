@@ -1,8 +1,11 @@
 # Agent 环境验收记录（2026-09-11）
 
+> 本文记录 2026-09-11 的环境基线。当时“无活动模型”的检查不代表当前仓库状态；当前使用方法见 [Agent 环境](agent-environment.md)，电机验证见[验证索引](validation/index.md)。
+
+
 关联 [#10](https://github.com/autoMBD/AMBD-MC/issues/10)。实现分支 `codex/10-mathworks-agent-env` 从 main `094313534a69c77e32eedb500beae02fcaefdf59` 创建。
 
-验证环境：Windows 11 x64、PowerShell 7、Python 3.14.6、MATLAB R2026a（26.1.0.3203278）、Codex Desktop/CLI 0.150.1。官方版本及 SHA-256 见 [official.lock.json](../tools/agent/official.lock.json)。
+验证环境：Windows 11 x64、PowerShell 7、Python 3.14.6、MATLAB R2026a（26.1.0.3203278）、Codex Desktop/CLI 0.150.1。官方版本及 SHA-256 见 [official.lock.json](https://github.com/autoMBD/AMBD-MC/blob/main/tools/agent/official.lock.json)。
 
 | 检查 | 实际结果 |
 |---|---|

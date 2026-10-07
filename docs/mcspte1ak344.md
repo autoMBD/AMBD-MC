@@ -2,9 +2,9 @@
 
 本配置面向 S32K344EVB-T172、DEVKIT-MOTORGD 和套件 Sunrise 电机，使用
 autoMBD HSP 0.1.0 的外部 EB 工程、NXP RTD 7.0.1 和 FreeRTOS 运行框架。
-硬件映射依据 NXP 的 [套件指南](https://www.nxp.com.cn/document/guide/getting-started-with-the-mcspte1ak344-development-kit:GS-MCSPTE1AK344)、
-[AN13884](https://www.nxp.com/docs/en/application-note/AN13884.pdf)、官方 BLDC
-六步换相示例及 [GD3000 数据手册](https://www.nxp.com/docs/en/data-sheet/MC34GD3000.pdf)。
+硬件映射依据 NXP 的 [套件指南](https://www.nxp.com/document/guide/getting-started-with-the-mcspte1ak344-development-kit%3AGS-MCSPTE1AK344)、
+[AN13884（套件文档入口，下载需 NXP 账户）](https://www.nxp.com/design/design-center/development-boards-and-designs/MCSPTE1AK344)、官方 BLDC
+六步换相示例及 [GD3000 数据手册入口](https://www.nxp.com/products/GD3000)。
 NXP 驱动、参考应用和工具均由本机安装提供，不随本项目分发。
 
 ## 采样与驱动

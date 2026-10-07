@@ -2,18 +2,20 @@ name: Build and deploy docs
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,54 +24,92 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements-docs.txt
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install mkdocs-material
+      - name: Install pinned documentation dependencies
+        run: python -m pip install -r requirements-docs.txt
 
-      - name: Build docs
-        run: |
-          mkdocs build --verbose
+      - name: Test publication checker
+        run: python -m unittest discover -s tests/docs -v
 
-      - name: Check site directory
-        run: |
-          ls -la
-          test -d site || (echo "site directory not found" && exit 1)
+      - name: Build docs with strict validation
+        run: python -m mkdocs build --strict
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
+      - name: Check rendered links, search, sitemap and publication scope
+        run: python tools/docs/check_site.py .agent-env/docs/site
 
-      - name: Check links (optional)
-        run: |
-          npm install -g markdown-link-check
-          # 检查docs目录下的所有markdown文件，忽略错误
-          find ./docs -name "*.md" -exec markdown-link-check {} \; || true
+      - name: Check external and repository source links
+        if: matrix.os == 'ubuntu-latest'
+        run: python tools/docs/check_site.py .agent-env/docs/site --external
 
-      - name: Upload site artifact
+      - name: Upload reviewed site artifact
+        if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v4
         with:
           name: site
-          path: site
-          retention-days: 1
+          path: .agent-env/docs/site
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
 
   deploy:
     needs: build
-    if: (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     steps:
-      - name: Download artifact
+      - name: Download validated artifact
         uses: actions/download-artifact@v4
         with:
           name: site
           path: site
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
-      - name: Upload artifact
+
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
           path: site
+
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Verify deployed homepage, search and sitemap
+        env:
+          PAGES_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          import time
+          from urllib.request import Request, urlopen
+
+          base = os.environ["PAGES_URL"].rstrip("/") + "/"
+          for name in ("index.html", "search/search_index.json", "sitemap.xml"):
+              expected = (Path("site") / name).read_bytes()
+              for attempt in range(6):
+                  try:
+                      request = Request(base + name, headers={"Cache-Control": "no-cache"})
+                      with urlopen(request, timeout=20) as response:
+                          actual = response.read()
+                      if actual == expected:
+                          print("Verified deployed artifact:", name)
+                          break
+                  except OSError as error:
+                      print("Retry:", name, error)
+                  if attempt == 5:
+                      raise SystemExit("Deployed artifact differs or is unreachable: " + name)
+                  time.sleep(5)
+          PY

@@ -1,5 +1,8 @@
 # Portable evaluation of PMSM transcendental functions
 
+> 历史验证记录：结果仅适用于本文所列日期、运行编号和源码基线，不表示当前修改已重新验收。验证层级与本地证据说明见[验证索引](index.md)。
+
+
 Date: 2026-10-06. Controller state, calibrations and signal interfaces remain
 single precision. Selected transcendental functions evaluate in double before
 rounding back to the input precision. No acceptance tolerance is changed.
@@ -58,5 +61,5 @@ PC SIL and must be measured during that target's integration.
 MathWorks identifies math-library implementations, algorithm sensitivity and
 open/closed-loop behavior as possible sources of model/code differences, and
 recommends locating the differing computations. See
-[Numerical consistency of model and generated code](https://www.mathworks.com/help/ecoder/ug/numerical-consistency-of-model-and-generated-code-simulation-results.html).
+[Numerical consistency of model and generated code](https://www.mathworks.com/help/rtw/ug/numerical-consistency-of-model-and-generated-code-simulation-results.html).
 The causal conclusion above comes from this project's controlled experiment.
