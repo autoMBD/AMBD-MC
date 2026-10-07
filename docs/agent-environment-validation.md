@@ -20,7 +20,7 @@
 | Simulink Test | 依照官方 `testing-simulink-models` skill，draft 和完整编译各运行 1 个场景、1 项评估，均通过 |
 | 仓库模型结构 | 保存的 BLDC 模型含 9 个根级块、295 个保存块；直接解析 XML 并经官方 model_scan 搜索，原文件 SHA-256 不变 |
 | 当前 mc-models / 类型生成器 | SKIP：main 尚无活动 `.slx` 模型和 `tools/generate_data_type_from_md.m`；没有合入其他分支或修改 legacy |
-| skills 能力筛选 | 51 项满足所检查的 manifest 条件；AI 部署 skill 因缺少 PyTorch/LiteRT 支持包标为不可用；NXP MBDT 未探测到 |
+| skills 能力筛选 | 51 项满足所检查的 manifest 条件；AI 部署 skill 因缺少 PyTorch/LiteRT 支持包标为不可用 |
 | 更新检测 | 已锁版本与当日最新官方 release 一致，版本差异为空 |
 | 候选切换 / 回滚 | 使用缓存增加 1 个 settings skill，52 → 53；报告正确列出新增 skill，随后验收并回滚到原 52 个 |
 | 更新失败保护 | Gherkin 参数校验失败时没有切换活动环境；修正测试调用后，完整验收通过 |

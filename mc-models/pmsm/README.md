@@ -1,9 +1,9 @@
-# PMSM 控制框架与 PC SIL
+# PMSM 控制与 S32K344 HSP
 
-主线为 `MotorFramework`、两个 `platform/pil` 顶层闭环模型和
-`platform/codegen` 控制器封装。控制器使用显式状态、类型化接口和独立
-PMSM 平均值对象。历史文件名 `PIL` 不表示运行处理器在环；当前验证使用
-Windows 主机上的 **Software-in-the-loop (SIL)**，不连接开发板或下载固件。
+控制器采用显式状态、类型化接口和独立 PMSM 平均值对象。共享
+`McControllerLibrary` 连接到各 HSP 组件，支持 Normal/SIL 对照和
+S32K344 PIL。[目标配置、代码生成与 PIL](../../docs/hsp-s32k344.md)
+基于 autoMBD HSP 0.1.0，使用独立工作副本。
 
 ## 启动与参数
 
@@ -16,7 +16,7 @@ open_system('FOC_PIL_StateMch_top');
 
 入口设置相对路径，校验 Markdown 类型与保存的数据字典，读取已有标定，
 将缓存、生成代码和报告放在 `.agent-env/` 下。保留返回的 `info`，以维持
-字典枚举的生命周期。它不执行历史 `FOC_Config.m`，也不需要 MBDT 或 HSP。
+字典枚举的生命周期。目标组件需要已启用的 autoMBD HSP 0.1.0。
 
 仅在主动修改 `docs/McStruct.md` 或默认参数、需要重置字典时执行
 `info = pmsm_setup(SyncDictionary=true)`。同步重建本框架拥有的类型和默认
@@ -28,21 +28,19 @@ open_system('FOC_PIL_StateMch_top');
 | `McPlant_Params` | 独立对象参数 |
 | `McRuntime_Init` | 控制器初态 |
 | `McInput_Default` | 类型化输入默认值 |
-| `tMcDrive_Param` | 旧框架描述结构；修改它不会自动改写当前控制器增益 |
+| `tMcDrive_Param` | 电机参数描述结构；控制器使用 `McControl_Params` 标定 |
 
 场景通过 `Simulink.SimulationInput` 临时覆盖参数和运行模式，不保存覆盖。
-`commom/McStruct.m` 是初始化兼容入口。旧的独立 `FOC_Sub_*` 模型和
-`FOC_Config.m` 不属于当前验证执行链，不作为本次 SIL 的验证对象。
 `legacy/` 保持原样，遵循其独立许可。
 
 ## 模型与控制约定
 
 | 模型 | 职责 |
 |---|---|
-| `algo/MotorFramework.slx` | McKernel、McTuning、McEventHub、McFault、McStateMachine、McDataFlow、McDebug 执行链 |
-| `platform/pil/FOC_PIL_Algth_model.slx`、`FOC_PIL_StateMch_model.slx` | 同一完整控制器的 Model Reference 封装 |
+| `algo/McControllerLibrary.slx`、`MotorFramework.slx` | McKernel、McTuning、McEventHub、McFault、McStateMachine、McDataFlow、McDebug 执行链 |
+| `platform/pil/FOC_PIL_Algth_model.slx`、`FOC_PIL_StateMch_model.slx` | 共享完整控制算法的 HSP 组件 |
 | `platform/pil/FOC_PIL_Algth_top.slx`、`FOC_PIL_StateMch_top.slx` | 控制器、ADC/PWM 适配、独立对象和真值日志 |
-| `platform/codegen/FOC_Ctrl_CodeModel.slx`、`FOC_Ctrl_MBD.slx` | 主机 ERT C 代码生成封装 |
+| `platform/codegen/FOC_Ctrl_CodeModel.slx`、`FOC_Ctrl_MBD.slx` | HSP C 代码入口；`FOC_Ctrl_MBD` 含 RTD PWM/DIO 输出 |
 
 - 快环 16 kHz（62.5 µs），速度环 1 kHz。角度为电角度 rad，速度为电角速度
   rad/s；对象日志的 `OmegaTruth` 也转换为电角速度。
@@ -102,18 +100,18 @@ TRACKING 中停止、故障恢复、母线故障、饱和恢复、对象参数�
 求值再舍入，减少数学库差异在积分环节的累积。证据与取舍见
 [数学精度决策](../../docs/validation/2026-10-06-pmsm-math-precision.md)。
 
-`python tools/pmsm/build_models.py` 可重建生产模型，并在 `.agent-env/`
+`python tools/hsp/build_models.py --family pmsm` 可重建生产模型，并在 `.agent-env/`
 备份旧模型；普通验证不要求重建。
 
 ## HSP 迁移边界与验证范围
 
-未来 HSP 适配层负责采样、时基、命令、故障、PWM 装载和 gate 控制。
+HSP 应用边界负责采样、时基、命令、故障、PWM 装载和 gate 控制。
 它必须统一电/机械角度、ADC/PWM 标度、采样与电压施加延时；控制器不直接
 访问板级 API。详见 [架构规格](../../docs/specs/algorithms/pmsm-framework/pmsm-framework-architecture.md)。
 控制器末尾两个输入 `AppliedVoltageAlpha/Beta` 为与电流采样对齐的实际施加
 电压，主机从延迟的 PWM 计数、gate 和该区间母线电压重建；HSP 需提供相同
 物理含义的反馈，不能用尚未施加的命令电压代替。
-当前未导入 HSP 或 NXP 参考实现，也未完成 HSP 硬件适配。
+S32K344 外部工程、Runtime 和目标 API 适配见 HSP 集成说明。
 
 平均值逆变器不模拟开关纹波、死区、二极管续流或硬件故障延迟；gate 关闭
 采用电流衰减/机械滑行近似。SIL 不能替代 MCU 时序、ADC 同步、保护电路

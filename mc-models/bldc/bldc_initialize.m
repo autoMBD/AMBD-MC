@@ -85,6 +85,9 @@ sourceDirectories=[bldcRoot;fullfile(bldcRoot,'algo'); ...
     fullfile(bldcRoot,'platform','pil');fullfile(repoRoot,'tools')];
 sourceDirectories=sourceDirectories(isfolder(sourceDirectories));
 for directory=sourceDirectories',addpath(char(directory));end
+% Initialize Simulink before creating dictionaries in a fresh MATLAB session.
+load_system('simulink');
+drawnow;
 if ~isfile(dictionaryFile)
     if ~options.SyncDictionary
         error('bldc:MissingDictionary','Dictionary missing; use SyncDictionary=true.');

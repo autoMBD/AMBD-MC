@@ -1,0 +1,9 @@
+{
+  "source": "autoMBD HSP 0.1.0",
+  "directory": "examples/s32k3/motor-control",
+  "sha256": {
+    "hsp_motor_board.c": "b6db9ec5d024ea78d65898e2353bd709ace3868a16213447ec5a760296a53e9f",
+    "hsp_motor_board.h": "483e45a800221f03b80a5a1c1c15a95c53255797e39853857869441799702d7f"
+  },
+  "modified": false
+}

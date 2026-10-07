@@ -1,8 +1,9 @@
-# BLDC 六步控制框架与 PC SIL
+# BLDC 六步控制与 S32K344 HSP
 
 框架提供 Hall 六步控制和基于实测端电压的无感六步控制，使用独立的
 梯形反电势电机及带续流二极管的逆变器对象。控制器保存显式状态，
-模型执行链不依赖 MBDT、板级 SDK 或外部 HSP 工程。
+目标组件使用 autoMBD HSP 0.1.0、S32K344 外部 EB 工程和 RTD API。
+[目标配置、代码生成与 PIL](../../docs/hsp-s32k344.md)使用独立工作副本。
 
 ## 启动与仿真
 
@@ -35,10 +36,10 @@ info = bldc_setup(SyncDictionary=true);
 
 | 文件/数据 | 用途 |
 |---|---|
-| `algo/BLDCFramework.slx` | 调参锁存、采样/时基、事件、故障、状态机、调制和诊断 |
-| `platform/pil/BLDC_PIL_Hall_model.slx`、`BLDC_PIL_Sensorless_model.slx` | 同一控制器的主机 Model Reference 封装 |
+| `algo/BldcControllerLibrary.slx`、`BLDCFramework.slx` | 调参锁存、采样/时基、事件、故障、状态机、调制和诊断 |
+| `platform/pil/BLDC_PIL_Hall_model.slx`、`BLDC_PIL_Sensorless_model.slx` | 共享控制算法的 HSP 组件 |
 | `platform/pil/BLDC_PIL_Hall_top.slx`、`BLDC_PIL_Sensorless_top.slx` | 控制器、独立对象、测量适配、真值和完整输入日志 |
-| `platform/codegen/BLDC_Ctrl_CodeModel.slx`、`BLDC_Ctrl_MBD.slx` | ERT C 主机代码生成入口 |
+| `platform/codegen/BLDC_Ctrl_CodeModel.slx`、`BLDC_Ctrl_MBD.slx` | HSP C 代码入口；`BLDC_Ctrl_MBD` 含 RTD PWM/DIO 输出 |
 | `BldcControl_Params` | 控制器标定；仅在停机状态锁存 |
 | `BldcPlant_Params` | 独立对象参数，可用于失配验证 |
 | `BldcRuntime_Init`、`BldcInput_Default` | 类型化初态和输入默认值 |
@@ -61,7 +62,8 @@ info = bldc_setup(SyncDictionary=true);
   复位时仍存在的外部故障或无效 Hall 不会被清除。
 - 输出 `DutyA/B/C` 是高侧 PWM 计数，周期 65535。两个有效桥臂采用双极性
   互补 PWM，源/汇计数和严格等于周期。`PhaseEnable=false` 表示该相两管
-  全关；`GateEnable=false` 全局关断。有效桥臂的低侧互补和死区由 HSP 实现。
+  全关；`GateEnable=false` 全局关断。实际低侧互补、死区和两管关断由功率板
+  适配落实；单路 PWM idle 不能单独代表桥臂高阻。
 - 无感启动先对齐、强制换相，再短暂全关断测量相位。测量种子只安排临时
   换相；必须继续采集真实浮相过零才能宣告闭环就绪。详见
   [接管决策](../../docs/validation/2026-10-06-bldc-acquisition.md)。
@@ -98,7 +100,7 @@ EXE 的指纹；完整矩阵和所有门槛通过才构成完整 SIL 验收。`-
 用于局部调试；`--normal-only --collect-failures` 用于收集物理场景问题，
 这些运行均标记 `CompleteMatrix=false`。
 
-`python tools/bldc/build_models.py` 可重建生产模型，先在忽略目录备份旧模型；
+`python tools/hsp/build_models.py --family bldc` 可重建生产模型，先在忽略目录备份旧模型；
 已加载的脏模型会被拒绝，防止丢失未保存工作。普通验证无需重建生产模型。
 
 ## 适用范围与 HSP 边界
@@ -109,5 +111,4 @@ Hall 和无感回路不读取电机的角度、速度或内部反电势真值；
 
 平均对象保留电流连续性、二极管续流和浮相端电压，开关纹波在独立原生
 参考中单独验证。当前结果不替代死区、MOSFET 损耗、ADC 硬件时序、MCU
-最坏执行时间和实机保护验证。历史 `config/`、`uti/` 和旧 MAT 配置文件
-不属于当前执行链。本次开发未修改 `legacy/`，也未写入 HSP/NXP 外部参考。
+最坏执行时间和实机保护验证。板级配置、显式 Runtime 源码和端口标度见 HSP 集成说明。归档文件位于 `legacy/`。

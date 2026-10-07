@@ -41,14 +41,18 @@
 % Author:      autoMBD <tkung.lqk@foxmail.com>
 % Date:        2026-10-06
 % Version:     0.1.0
-% Description: Initialize the repository's PMSM models without hardware tools.
+% Description: Initialize PMSM algorithms and autoMBD HSP components.
 % =================================================================================
 
 function info = pmsm_setup(varargin)
-%PMSM_SETUP Initialize the repository's PMSM models without hardware tools.
+%pmsm_setup - Initialize PMSM algorithms and autoMBD HSP components
 %   INFO = PMSM_SETUP initializes paths and verifies saved types/parameters.
 %   INFO = PMSM_SETUP(SyncDictionary=true) explicitly regenerates owned data.
 root=fileparts(mfilename('fullpath'));
+assert(~isempty(which('autombd.hsp.initialize')), ...
+    'ambd:MissingHsp','Install autoMBD HSP 0.1.0 before opening motor models.');
+autombd.hsp.initialize;
+addpath(fullfile(root,'mc-models','hsp'));
 addpath(fullfile(root,'mc-models','pmsm'));
 info=mc_initialize(varargin{:});
 addpath(fullfile(root,'mc-models','pmsm','platform','codegen'));

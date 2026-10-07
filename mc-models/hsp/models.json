@@ -1,0 +1,103 @@
+{
+  "hspVersion": "0.1.0",
+  "targetId": "nxp.s32k3.s32k344-custom",
+  "samplePeriod": 6.25e-05,
+  "models": [
+    {
+      "name": "BLDCFramework",
+      "path": "mc-models/bldc/algo/BLDCFramework.slx",
+      "family": "bldc",
+      "role": "component"
+    },
+    {
+      "name": "BLDC_Ctrl_CodeModel",
+      "path": "mc-models/bldc/platform/codegen/BLDC_Ctrl_CodeModel.slx",
+      "family": "bldc",
+      "role": "component"
+    },
+    {
+      "name": "BLDC_Ctrl_MBD",
+      "path": "mc-models/bldc/platform/codegen/BLDC_Ctrl_MBD.slx",
+      "family": "bldc",
+      "role": "application"
+    },
+    {
+      "name": "BLDC_PIL_Hall_model",
+      "path": "mc-models/bldc/platform/pil/BLDC_PIL_Hall_model.slx",
+      "family": "bldc",
+      "role": "component"
+    },
+    {
+      "name": "BLDC_PIL_Hall_top",
+      "path": "mc-models/bldc/platform/pil/BLDC_PIL_Hall_top.slx",
+      "family": "bldc",
+      "role": "harness"
+    },
+    {
+      "name": "BLDC_PIL_Sensorless_model",
+      "path": "mc-models/bldc/platform/pil/BLDC_PIL_Sensorless_model.slx",
+      "family": "bldc",
+      "role": "component"
+    },
+    {
+      "name": "BLDC_PIL_Sensorless_top",
+      "path": "mc-models/bldc/platform/pil/BLDC_PIL_Sensorless_top.slx",
+      "family": "bldc",
+      "role": "harness"
+    },
+    {
+      "name": "BldcControllerLibrary",
+      "path": "mc-models/bldc/algo/BldcControllerLibrary.slx",
+      "family": "bldc",
+      "role": "library"
+    },
+    {
+      "name": "MotorFramework",
+      "path": "mc-models/pmsm/algo/MotorFramework.slx",
+      "family": "pmsm",
+      "role": "component"
+    },
+    {
+      "name": "FOC_Ctrl_CodeModel",
+      "path": "mc-models/pmsm/platform/codegen/FOC_Ctrl_CodeModel.slx",
+      "family": "pmsm",
+      "role": "component"
+    },
+    {
+      "name": "FOC_Ctrl_MBD",
+      "path": "mc-models/pmsm/platform/codegen/FOC_Ctrl_MBD.slx",
+      "family": "pmsm",
+      "role": "application"
+    },
+    {
+      "name": "FOC_PIL_Algth_model",
+      "path": "mc-models/pmsm/platform/pil/FOC_PIL_Algth_model.slx",
+      "family": "pmsm",
+      "role": "component"
+    },
+    {
+      "name": "FOC_PIL_Algth_top",
+      "path": "mc-models/pmsm/platform/pil/FOC_PIL_Algth_top.slx",
+      "family": "pmsm",
+      "role": "harness"
+    },
+    {
+      "name": "FOC_PIL_StateMch_model",
+      "path": "mc-models/pmsm/platform/pil/FOC_PIL_StateMch_model.slx",
+      "family": "pmsm",
+      "role": "component"
+    },
+    {
+      "name": "FOC_PIL_StateMch_top",
+      "path": "mc-models/pmsm/platform/pil/FOC_PIL_StateMch_top.slx",
+      "family": "pmsm",
+      "role": "harness"
+    },
+    {
+      "name": "McControllerLibrary",
+      "path": "mc-models/pmsm/algo/McControllerLibrary.slx",
+      "family": "pmsm",
+      "role": "library"
+    }
+  ]
+}

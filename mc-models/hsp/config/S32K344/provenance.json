@@ -1,0 +1,29 @@
+{
+  "source": "autoMBD HSP 0.1.0",
+  "template": "s32k344-motor",
+  "templateVersion": 7,
+  "sourceHashes": {
+    ".prefs/pref_general.xdm": "f17c4fe5438e273a45b4d5c363f95c6a0f5b4c6ae1c6a1f6baa092944f5a3e27",
+    ".project": "b8e0578412bf3850efb91ea583c90cc71de00db20b2a9e8c2778328eeb94dce0",
+    "config/Adc.xdm": "12b354d024d7f88a786af8cdb7189e4c64c3df9ea965b8c3fd09c66ccae0afeb",
+    "config/BaseNXP.xdm": "5cf9ef76fa2caa49b91193eb2948f224aa7fcab47a13531b7b8f83ca2b9cd7c7",
+    "config/Dio.xdm": "0c6f5507cce23e42955e493d40825614f6254cdb16e9b5a2cfcd63bb8f02f982",
+    "config/EcuC.xdm": "4092d7c88b832fcf3cfabb337bd9140276a7e2ccc233e64ed8ee25699ce5dee7",
+    "config/Gpt.xdm": "1151afa3bed9969ad04c6329980a144c1e042d4c744e0e700f869b86d71de814",
+    "config/Icu.xdm": "d926c12426b002bf6b0a9a1e438929374d5a72951f556b0cd6666f0fe208d00e",
+    "config/Mcl.xdm": "e16b73bb56589760273e1ce1794620fa76388ea6f0eeb2b356b43adcea128f69",
+    "config/Mcu.xdm": "3a19f578d76a1128bfbacfe8848b103abf10c61439ac13f551edc51c2ff45368",
+    "config/Platform.xdm": "4f73a5ea38071e14c1b737c502187cafb376dbf5d0304987f22dc0049920b8f0",
+    "config/Port.xdm": "66d0e2d617b10a99e53e0fde1b7a10f0f96dba58043bad7a45e759ffd53db52f",
+    "config/Pwm.xdm": "f3e6126455399b97241724abe7137055708cf2c07b8234c1fcede8a9fc147e50",
+    "config/Resource.xdm": "2b375a5ad62a7508398c5f96904a6056c92998b5b77a72cf95a9e3cd247d3816",
+    "config/Rm.xdm": "5f2116e6e578602d18d1b93a9b7cf9be828ea1b2581b59d71b61b0b78e444b26",
+    "config/Spi.xdm": "1b4223db132baa84c3449948fce43e54a59bfae3a22a5b726cef84b4a2b21fb5",
+    "config/SystemModel2.tdb": "05930fd6caa566f39b5ea0c544b62b299065ee2891069d764ec1ea0ef6a5927b",
+    "config/Uart.xdm": "0ef07117769098ac66865290d3bd3c1110b7e3a4ce581c8db7e86b9dd6d2660f"
+  },
+  "changes": [
+    "eMIOS base half-period 8001 -> 5001",
+    "PWM default period 16000 -> 10000 ticks (16 kHz at 160 MHz)"
+  ]
+}

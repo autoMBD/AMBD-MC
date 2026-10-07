@@ -1,0 +1,3307 @@
+{
+  "SchemaVersion": 1,
+  "PhysicalMotorIntegrationVerified": false,
+  "Environment": {
+    "MATLAB": "R2026a",
+    "HSP": "0.1.0",
+    "Target": "NXP S32K344",
+    "RTD": "7.0.1",
+    "GCC": "10.2",
+    "EB": "30",
+    "FreeRTOS": "11.1.0"
+  },
+  "Host": {
+    "bldc": {
+      "ReportId": "20261007T044216Z-590d634c",
+      "ReportSHA256": "ff0d66f8f90c7480a9e9b84d11c27f8aa6d1307ab048945feb2747b4170b7c87",
+      "Passed": true,
+      "CompleteMatrix": true,
+      "UnitTests": {
+        "Total": 165,
+        "Passed": 165,
+        "Failed": 0,
+        "Incomplete": 0
+      },
+      "Executions": 80,
+      "Comparisons": 40,
+      "Replays": 40,
+      "SourcesUnchanged": true,
+      "SourceHashes": {
+        "bldc_setup.m": "086bd1c0e2ccd666f2cb9c45e3fc97f74fc677b37876b8e92d447fd6dcfaaf52",
+        "docs/BldcStruct.md": "902695f2bfccc13ede5c8ac4c52e28d27ff30ae098a660b57356259c3fc38d19",
+        "mc-models/bldc/algo/+bldc/coast_acquire.m": "005cf8e245e751711c8fe9fb7152b67b3f762f3a252b2f65293601a301d2945e",
+        "mc-models/bldc/algo/+bldc/commutate.m": "dca0a9dc47111d285ed4066b0394cfc1027560725acb129e0e4a1c377567a85e",
+        "mc-models/bldc/algo/+bldc/dataflow.m": "4af46f778e1248a1f330c7243960862c9a31c29589cf1f62d412649dea7f05c9",
+        "mc-models/bldc/algo/+bldc/default_input.m": "f0d994482cf3956f0645d593d44629fe564b86e6a665b8025275da9004254f1d",
+        "mc-models/bldc/algo/+bldc/defaults.m": "121d17ce811ecb32a9c89fc71bff18982ab524396b8b0fe26bc0eecd7c0720c1",
+        "mc-models/bldc/algo/+bldc/event_hub.m": "707978c9331a7382b50ae3b6dcca0744f3c07fdd771287cf8d2263b4e1938cbc",
+        "mc-models/bldc/algo/+bldc/feedback.m": "70521d4affb8f624a07fd8e2f5908d0ef9edf449eec1532b9cf6f3ed0e59f438",
+        "mc-models/bldc/algo/+bldc/hall_decode.m": "7a5d6eb6d5decc80b97c1c6d23906a3cf2f2754ab922d41aa9911583fb27f230",
+        "mc-models/bldc/algo/+bldc/hall_signal.m": "2f953084389fed2f013d6e5aa61934287334d568bfb9d5a5757d2ab042c6f172",
+        "mc-models/bldc/algo/+bldc/initial_state.m": "495ffac877659ba0e07403a9bc761ebe2435426d21d62c0212db3108d2a7e83f",
+        "mc-models/bldc/algo/+bldc/kernel.m": "a75e73a427d75895bb5060b5df6b7abf9d55e7f0370f84fdea9b09caf4d3b15b",
+        "mc-models/bldc/algo/+bldc/monitor.m": "1006cf7ac317a65447192b64eb9c8250f750af65334f29cd3cec8b28ff7e22cb",
+        "mc-models/bldc/algo/+bldc/phase_network.m": "767f3b13ec4c8504ae03955f45a03b35b631f7a42dfe983782902d05a947068f",
+        "mc-models/bldc/algo/+bldc/pi_step.m": "26e2ef2c8ff37602fa774fce9a36e5ef0301aa1c409c85315a7a0708f86a7d52",
+        "mc-models/bldc/algo/+bldc/plant_measure.m": "ea7682034cfaf9bc036e2be3fc854d9a8c02a4aab7e4fca65bd6168334879dbe",
+        "mc-models/bldc/algo/+bldc/plant_step.m": "fbd4c3db65e814271d4a7c25a314f62cc301fda89f2e26dae4b30650870c0eec",
+        "mc-models/bldc/algo/+bldc/protection.m": "d91f73758cfb362860fcaabc5c233ca476c9a11b99fd4446ad29327495720935",
+        "mc-models/bldc/algo/+bldc/sector.m": "e22493ec024f13e7a699c37d09a11188a99e6f7419e08802dfe49f3fb2758a9c",
+        "mc-models/bldc/algo/+bldc/speed_gains.m": "828e123d7d483fd7ca9b0efa2266001d530fa434b62d54e1374037466168969b",
+        "mc-models/bldc/algo/+bldc/step.m": "eb3c341958ad9d852e542c8a0c3566171a61501568ab0ac3758aad2cc9dce5e8",
+        "mc-models/bldc/algo/+bldc/supervisor.m": "d520e406b9a22b949c7a38c5e7edd5b309d9137a3cff7f7866c08ccd5ba0fdda",
+        "mc-models/bldc/algo/+bldc/trapezoid.m": "9e772b4d355101fcdf191cc616b35dd70c3e902ee15d313164b7377262a86a59",
+        "mc-models/bldc/algo/+bldc/tuning.m": "1a7e2c3d864956fe18684bf9ef69267a2eb33b507f3fa0cc25188d9011f77666",
+        "mc-models/bldc/algo/+bldc/voltage_angle.m": "ad5df95eca73ec266c87ecfd00deb3204f8e454698c1d0cd9c6643cc58533d97",
+        "mc-models/bldc/algo/BldcControllerLibrary.slx": "41dabcc196d4bd336c6f7a04b4670f5d11f826bd09751112027ffbb3fad41d55",
+        "mc-models/bldc/algo/BLDCFramework.slx": "5bf617d329593f92c258edac4b4d109714af0480e859ce3a21d20d8be887c38a",
+        "mc-models/bldc/bldc_initialize.m": "49fd44e20f403c7207c2b7bf585d6cd9cee428d95f43573a02f3cd87a7012c44",
+        "mc-models/bldc/commom/BldcData.sldd": "5971b5aa184e423340a32bac9c8a3b71e32d6be7879462d13c6788675208d861",
+        "mc-models/bldc/data/bldc_data_types.m": "b603f15c90a2a70c192dc2bcd3984411f25fd39a2b5a24c97aaa01cf4252fd2c",
+        "mc-models/bldc/platform/codegen/BLDC_Ctrl_CodeModel.slx": "50c027f745dc3c0406756679ffbe2fee4e200255550ff4921e6f9faaa74f5a7c",
+        "mc-models/bldc/platform/codegen/BLDC_Ctrl_MBD.slx": "344cce888ea3bd9fe28ecb49fd859795aa42e8087a6377e61bf9abc3580f7dbb",
+        "mc-models/bldc/platform/pil/bldc_assess_host_trace.m": "0ec3c10d14eb870df2a4e362f18b995acbbe7c157a635c0d2d4a8b9defe9639d",
+        "mc-models/bldc/platform/pil/bldc_compare_host_cases.m": "b5aac0e50eb3061d04662fb33ceac04307e46064c532fc5ee53ae1ea24aff2e5",
+        "mc-models/bldc/platform/pil/bldc_compare_outputs.m": "5faebd8b8c6bfa34c7f55f1ac2c09c20e78c98f73c6df7eb6c87a3a49208009a",
+        "mc-models/bldc/platform/pil/bldc_host_scenario.m": "a50158bb30bb5e26c7ee2a504ca15028d8be99b914755d7af28041ecc141564e",
+        "mc-models/bldc/platform/pil/bldc_measurement_adapter.m": "b2f955bcb3fb9895e3340561332f0582c6229c1dfc8cdec7b8549a6b2b5eb3f1",
+        "mc-models/bldc/platform/pil/BLDC_PIL_Hall_model.slx": "9168b1ed8b410e20524b5b42e49f1112982eabb8e383549c87f7140d6121fec4",
+        "mc-models/bldc/platform/pil/BLDC_PIL_Hall_top.slx": "8fdf5cc293c0bff45849f39ee8235fe30c9e54bb1aea46fabd184c03f19028db",
+        "mc-models/bldc/platform/pil/BLDC_PIL_Sensorless_model.slx": "d316361e1b11984eea0ddaa5f8a1af42cf751ba836788ea545bb5927da667ae3",
+        "mc-models/bldc/platform/pil/BLDC_PIL_Sensorless_top.slx": "74c516277238e57c36ebd7b93a7fe644fdd79db13b3bd3eb0cec34d91daef908",
+        "mc-models/bldc/platform/pil/bldc_read_trace.m": "63c6dd63ae607cf25bc688446e7c4a2365e21694dd3946c476b3d935e4036809",
+        "mc-models/bldc/platform/pil/bldc_run_host_case.m": "6cfd25e11ed1951c59a4c8da0c9cc887b8d05212cf1787c23693106a997041a0",
+        "mc-models/bldc/platform/pil/bldc_run_replay.m": "2f22660de78e3b96deb84d96e9453f5ed9d96ad3c4049b5d24695ec042dc0a74",
+        "tests/bldc/bldcAcceptanceTest.m": "42fcd8fa7c523328eb2184f0ea6d60b88bc091eadb333bdacc2a0081aa4fb42d",
+        "tests/bldc/bldcAlgorithmsTest.m": "6f3049aad4c583f286b89a015448ae9c9f72ba2d5a0a83521b91b400aa6c7ebb",
+        "tests/bldc/bldcInitializeTest.m": "6f44a19f9f04c73293afded324cad63dedcb379aeddcf2c183dbce28913e3c22",
+        "tests/bldc/bldcMeasurementAdapterTest.m": "d04208978dc72b70a3294f8d232e4404b25e26337933b8ef25295d3d7f6f85a1",
+        "tests/bldc/bldcPlantTest.m": "524dda526f83a18f9b8f7703798ba099b53dba7e483b1d43112944843481e0a8",
+        "tests/bldc/bldcRuntimeTest.m": "a072272dadd0fa71386603ab30dada1a8c48e746549d0640635082aa480a1750",
+        "tests/bldc/bldcVoltageAcquisitionTest.m": "8f7ff2b8b79d72004430e1b75cda3d3cac31f7a79ab9111e6a25007f34e4ebd3",
+        "tests/bldc/helpers/compare_plant_reference.m": "0f8020a2af85c0d944979bac6f360de153d0ebc1d44446cdd684c7504b2f1214",
+        "tests/bldc/helpers/plant_parameters.m": "a9c5ee8729d1ed3406262d55cd3bcee222db80d4f22e8bd1e04790fd99bb9005",
+        "tests/bldc/helpers/plant_physical_checks.m": "87247bf4c38ea083f8c68c91873fceb39666e1a6f95e709f54a6a53d8ff1a782",
+        "tests/bldc/helpers/plant_terminal_acceptance.m": "3fb29cbed8c22c0fc752b47f7f90e1c968858213af73838253c5a7e222dff8ae",
+        "tests/bldc/helpers/plant_terminal_fixture.m": "6acb358f0c38b7d1ab2978aa61f17115eab9f37168a9b86ebba256da45ee1698",
+        "tests/bldc/helpers/plant_torque_checks.m": "6f1613b6f013175b6e840ee7ec5536c2ef4360fbf6b4120f2ae136cfdda99660",
+        "tests/bldc/test_model_builder.py": "880ff9b822975dcdc357e17eb3d1c628a94dd37c19e171285549035b2e7278ee",
+        "tests/bldc/test_plant_reference_runner.py": "1c5598f5a0d19f9435d208a8a12515c19126e5e1811f938947644a492becbfb1",
+        "tests/bldc/test_sil_publication.py": "cf32730f11875b0878a0f3cc2db2fbb1fb057b5e43c9603b5606132d913b966a",
+        "tools/bldc/build_models.py": "d7dc1446326c762b336a7d9e1818e19fd88c1adb797cdd43f56983a99b9342c9",
+        "tools/bldc/create_replay_model.py": "789117394b806e8e916ceedc01c5245bdd484e887d41ec52fbee4d7d55ce1941",
+        "tools/bldc/validate_plant_reference.py": "e075c8b00ceef393b7ed090d1bb892450c49d140384aa307b4ff678ce4629493",
+        "tools/bldc/validate_sil.py": "46245777ae9b874a5784e26b9de117e25126985d06bf231b52951343f6eba881",
+        "tools/generate_data_type_from_md.m": "9d9b9a51ff8ebdbad289896ec2354e404e37cd39f2b3347992426b3a10b379a8",
+        "tools/pmsm/build_models.py": "2a4d94859693cc967f8c85a302a4e73bc84ada20e695a669d69b0354b06d93a1"
+      }
+    },
+    "pmsm": {
+      "ReportId": "20261007T040645Z-9cb9b27f",
+      "ReportSHA256": "6784b78c78bef09a5248a30ac567f07c73a75043578aa3ce945e9fe1f82fbc70",
+      "Passed": true,
+      "CompleteMatrix": true,
+      "UnitTests": {
+        "Total": 87,
+        "Passed": 87,
+        "Failed": 0,
+        "Incomplete": 0
+      },
+      "Executions": 26,
+      "Comparisons": 13,
+      "Replays": 13,
+      "SourcesUnchanged": true,
+      "SourceHashes": {
+        "docs/McStruct.md": "4a0264d6eaea7e6a9206e70b6887fcaedbe7894760ee91c75ab86773fc0604c5",
+        "mc-models/pmsm/algo/+mc/acquire.m": "e78353feb817b479889a98a7f4c8cd215877ab26c0acc995d80124a9ea0e0c1a",
+        "mc-models/pmsm/algo/+mc/applied_voltage.m": "a3460b699cc050a0bff1b86fa5b6027573825b49030ca0e5546e69576d0fbdc8",
+        "mc-models/pmsm/algo/+mc/clarke.m": "c0603b74c971f3d638b54d05549b08b00ce76de5dffb10b0caccaa44834d18ff",
+        "mc-models/pmsm/algo/+mc/current_control.m": "fa3cd0eb4f8b3ae13748426e8beb6e773ae1bd16a5708128c632982e20554137",
+        "mc-models/pmsm/algo/+mc/dataflow.m": "25ca375f7932503db090ca144dbba2c2e87bd05d69d63e911ead226d5b787585",
+        "mc-models/pmsm/algo/+mc/default_input.m": "498c86c67924383debc551e3591400132d3c6b4fcaef7b83e6896ae8b3172635",
+        "mc-models/pmsm/algo/+mc/defaults.m": "389253bec490e52c4ca5a2b9b915184e20d5350c652ea73a6f2428e5621982ab",
+        "mc-models/pmsm/algo/+mc/event_hub.m": "a96cf90f7fc04f7cf408cbbcee0fc1a29124dd21c57b5748a5d7ee513545f4bf",
+        "mc-models/pmsm/algo/+mc/initial_state.m": "221202fe36622dcace7a0231f6fd5d3dd24bb5d9fd365a5de4859f09e7775d57",
+        "mc-models/pmsm/algo/+mc/invpark.m": "a7a4a23d77e754c23b0be4eb2e58ee10f340948e6c2c8c0fd47ae9acf7d23db4",
+        "mc-models/pmsm/algo/+mc/kernel.m": "2b41294a3b457f1e365bde11ecd542775636de36edcc23eb88c87f9d3ece8ea6",
+        "mc-models/pmsm/algo/+mc/monitor.m": "50ac316abdd7061f17a3fc938409f31b9375ad3302174759836bf351ecbe5641",
+        "mc-models/pmsm/algo/+mc/observer_initial.m": "36f3a9f0d260743e7ba4a7e39b35f15283badfba9b8c9793eba393a95ce4b52d",
+        "mc-models/pmsm/algo/+mc/observer_step.m": "90193dade991ac75e05e326bc322291fb1c01128c7ebb87830dfb8a753c18423",
+        "mc-models/pmsm/algo/+mc/park.m": "54c1ddbfbcd8a10013428384e68f213164a21c21b8aa922333766788e472bd95",
+        "mc-models/pmsm/algo/+mc/pi_step.m": "4696d559493f48d98a7a3397a02b0d82924f5c06e3337852b6ca43986e008981",
+        "mc-models/pmsm/algo/+mc/plant_measure.m": "d752c5200e7f9a0daa42d0d427bb2e6a623e8166fe03e87ef643bb9d5b2d0e7c",
+        "mc-models/pmsm/algo/+mc/plant_step.m": "15a56b23d8a91b47430a693fc857d80718542bd460bead62e2cc0d5ebf9c0ad2",
+        "mc-models/pmsm/algo/+mc/protection.m": "d6d328d87333a12147ee9e728457b38ae6a0c873d99340785b6295707375f4ef",
+        "mc-models/pmsm/algo/+mc/step.m": "de0da7ed5740d99ebfdf55cdb9b0ded6d0ad83a49c6edeb9e6b74d72234c0552",
+        "mc-models/pmsm/algo/+mc/supervisor.m": "ac9a7edf7d7dcef34359709c719ef91026cd300628ce19152a2ce9e710bb6cc7",
+        "mc-models/pmsm/algo/+mc/svpwm.m": "4a779c6191c62e892f15a213ab7cf921c9d8fff954e63f2e923cafaa5280d24f",
+        "mc-models/pmsm/algo/+mc/tuning.m": "a688998456712d6be4643868ab1682d68e1746347f3ca89d8602a1e63d216366",
+        "mc-models/pmsm/algo/+mc/wrap_angle.m": "e99e569da986a516da95d9ec55e920b3c6cdcc71a368f5fd23f53067368a6512",
+        "mc-models/pmsm/algo/McControllerLibrary.slx": "d74238b3c6c127d6ac98dc1258974bc62fbd186929a33f3803ca8bbdd642c53f",
+        "mc-models/pmsm/algo/MotorFramework.slx": "83b327038650b0f39d3338bade79f5870646afac076c4f7cacca79a4731ea145",
+        "mc-models/pmsm/commom/McData.sldd": "f1fab9505477e486356c7390c6f62b2887b1d7754a2b9a26da6f11be2835103f",
+        "mc-models/pmsm/data/mc_data_types.m": "104e11263f4071efd79a652349b2cca45b69b9a6d591aaab33e8750e2228282b",
+        "mc-models/pmsm/mc_initialize.m": "3dd6b374d2ea7d85d80ecdd2f715e5ca67d58a76429e0e2e603600a1b0ef32ac",
+        "mc-models/pmsm/platform/codegen/FOC_Ctrl_CodeModel.slx": "1ab96047d4278fbedd549778a6d765ee7fae28e73c06b657241153933f0517dd",
+        "mc-models/pmsm/platform/codegen/FOC_Ctrl_MBD.slx": "b710d9e4de17ce3cadf3446e0c96fc2df63308f4648f0861e87b1093fbc5739e",
+        "mc-models/pmsm/platform/pil/FOC_PIL_Algth_model.slx": "a35f43d284861427f6218958cc3a37597e5a7c44b8fb72c6d5caa0c256d5eebc",
+        "mc-models/pmsm/platform/pil/FOC_PIL_Algth_top.slx": "e7752c73df2966d8c422597fa4e5ce8b737072c6ffcdc5630a76416150c78cd2",
+        "mc-models/pmsm/platform/pil/FOC_PIL_StateMch_model.slx": "efd66e4ff8553104f76648e40d08d2d168860ce9100949a95ca765701ef75109",
+        "mc-models/pmsm/platform/pil/FOC_PIL_StateMch_top.slx": "002df7cf938831b7d4c54d7508dc7041c013f76540c5ef556bd68183705c4068",
+        "mc-models/pmsm/platform/pil/mc_assess_host_trace.m": "aca94036c5f756dd89d40aebb1a8c1c4ed22fef218b7de2e8a5df2f7bad2c7c4",
+        "mc-models/pmsm/platform/pil/mc_compare_host_cases.m": "b689a45262115bff2114c267e457f92a061d94908cfc0db3937d51d6edc9b165",
+        "mc-models/pmsm/platform/pil/mc_compare_replay.m": "713ff1434b8f48ad35b89cabb2e8a88a7f6c05950a5e604308dfaa36b9fb2d93",
+        "mc-models/pmsm/platform/pil/mc_host_scenario.m": "af95d05c15e63ed905bed6b2e911664fcc5c5120bc266e1e20e1230ef12447a8",
+        "mc-models/pmsm/platform/pil/mc_read_host_trace.m": "23a62929700caa63453d2492f94ac438d97e98d1a144736145e445741816870c",
+        "mc-models/pmsm/platform/pil/mc_run_host_case.m": "8faf67edb8523ce8cdda8c4f22238e63fb3f227079935e61762bf6b2f3154ccb",
+        "mc-models/pmsm/platform/pil/mc_run_replay.m": "79c00bdff4c30fd873d43d9991ceac72093244474d8cc57dc725353802143f96",
+        "pmsm_setup.m": "c775888ac94b0bba6839120d8cc40cf44e42136b3d12764ba1d7aa2d6174fb0e",
+        "tests/pmsm/helpers/compare_plant_reference.m": "e35c7a9c16353bdc03318a76345461b6fab8225a84f1f6dca3f3273ce11b3d28",
+        "tests/pmsm/test_mc_acceptance.m": "08fe74bab1d7b9f4b078971f80063fd268218f4ba619c6cb0e0fe4f744a75b84",
+        "tests/pmsm/test_mc_algorithms.m": "0be1095048fc47a2186d32800dd6d4176f6d55aa2a515185d6b78b28cf7d36b2",
+        "tests/pmsm/test_mc_initialize.m": "8a5e1dadee9930297787c01ee8faa7f6d1f135bb345c3df397022991002e559d",
+        "tests/pmsm/test_mc_plant.m": "dd7be14a7143782d8890364ce3c9e291aabf5b7f63de63e7e44b5b47177c8023",
+        "tests/pmsm/test_mc_runtime.m": "9b9fca3f115fc8466ae3b7824f0ec06a1f10e1828c824f03bada726af2a475e9",
+        "tools/generate_data_type_from_md.m": "9d9b9a51ff8ebdbad289896ec2354e404e37cd39f2b3347992426b3a10b379a8",
+        "tools/pmsm/build_models.py": "2a4d94859693cc967f8c85a302a4e73bc84ada20e695a669d69b0354b06d93a1",
+        "tools/pmsm/create_replay_model.py": "d2ab4cb7ae73bfd7655b19a54c073488d780f53490c01aeb8317a6c003a94ead",
+        "tools/pmsm/validate_plant_reference.py": "6e89ce0bf2886cfe9b6c46bcda032cc3fd5266650d0d1413fbf92824b0b18118",
+        "tools/pmsm/validate_sil.py": "a1548c0a8b4cad80a8e4887c2b40f6d96ae57091bbb08a95b5676bbc8c7ef20c"
+      }
+    }
+  },
+  "Target": {
+    "ReportId": "e35710dd",
+    "ReportSHA256": "0f68ffaaf3ceb770fffb7c7aecec5e6f26b7958dec802b936633da071d1ab3ce",
+    "Passed": true,
+    "CompleteMatrix": true,
+    "SourcesUnchanged": true,
+    "SettingsUnchanged": true,
+    "SourceHashes": {
+      "hsp_setup.m": "046e9a72e4a89cbfd183445a0096f4fcbc314cd08afc8625a4c129df239f8f56",
+      "hsp_stage.m": "4ec40945a39d17d56f9240dab342999f37c2a6a282776f0764238d77724e37d7",
+      "mc-models/bldc/algo/+bldc/coast_acquire.m": "005cf8e245e751711c8fe9fb7152b67b3f762f3a252b2f65293601a301d2945e",
+      "mc-models/bldc/algo/+bldc/commutate.m": "dca0a9dc47111d285ed4066b0394cfc1027560725acb129e0e4a1c377567a85e",
+      "mc-models/bldc/algo/+bldc/dataflow.m": "4af46f778e1248a1f330c7243960862c9a31c29589cf1f62d412649dea7f05c9",
+      "mc-models/bldc/algo/+bldc/default_input.m": "f0d994482cf3956f0645d593d44629fe564b86e6a665b8025275da9004254f1d",
+      "mc-models/bldc/algo/+bldc/defaults.m": "121d17ce811ecb32a9c89fc71bff18982ab524396b8b0fe26bc0eecd7c0720c1",
+      "mc-models/bldc/algo/+bldc/event_hub.m": "707978c9331a7382b50ae3b6dcca0744f3c07fdd771287cf8d2263b4e1938cbc",
+      "mc-models/bldc/algo/+bldc/feedback.m": "70521d4affb8f624a07fd8e2f5908d0ef9edf449eec1532b9cf6f3ed0e59f438",
+      "mc-models/bldc/algo/+bldc/hall_decode.m": "7a5d6eb6d5decc80b97c1c6d23906a3cf2f2754ab922d41aa9911583fb27f230",
+      "mc-models/bldc/algo/+bldc/hall_signal.m": "2f953084389fed2f013d6e5aa61934287334d568bfb9d5a5757d2ab042c6f172",
+      "mc-models/bldc/algo/+bldc/initial_state.m": "495ffac877659ba0e07403a9bc761ebe2435426d21d62c0212db3108d2a7e83f",
+      "mc-models/bldc/algo/+bldc/kernel.m": "a75e73a427d75895bb5060b5df6b7abf9d55e7f0370f84fdea9b09caf4d3b15b",
+      "mc-models/bldc/algo/+bldc/monitor.m": "1006cf7ac317a65447192b64eb9c8250f750af65334f29cd3cec8b28ff7e22cb",
+      "mc-models/bldc/algo/+bldc/phase_network.m": "767f3b13ec4c8504ae03955f45a03b35b631f7a42dfe983782902d05a947068f",
+      "mc-models/bldc/algo/+bldc/pi_step.m": "26e2ef2c8ff37602fa774fce9a36e5ef0301aa1c409c85315a7a0708f86a7d52",
+      "mc-models/bldc/algo/+bldc/plant_measure.m": "ea7682034cfaf9bc036e2be3fc854d9a8c02a4aab7e4fca65bd6168334879dbe",
+      "mc-models/bldc/algo/+bldc/plant_step.m": "fbd4c3db65e814271d4a7c25a314f62cc301fda89f2e26dae4b30650870c0eec",
+      "mc-models/bldc/algo/+bldc/protection.m": "d91f73758cfb362860fcaabc5c233ca476c9a11b99fd4446ad29327495720935",
+      "mc-models/bldc/algo/+bldc/sector.m": "e22493ec024f13e7a699c37d09a11188a99e6f7419e08802dfe49f3fb2758a9c",
+      "mc-models/bldc/algo/+bldc/speed_gains.m": "828e123d7d483fd7ca9b0efa2266001d530fa434b62d54e1374037466168969b",
+      "mc-models/bldc/algo/+bldc/step.m": "eb3c341958ad9d852e542c8a0c3566171a61501568ab0ac3758aad2cc9dce5e8",
+      "mc-models/bldc/algo/+bldc/supervisor.m": "d520e406b9a22b949c7a38c5e7edd5b309d9137a3cff7f7866c08ccd5ba0fdda",
+      "mc-models/bldc/algo/+bldc/trapezoid.m": "9e772b4d355101fcdf191cc616b35dd70c3e902ee15d313164b7377262a86a59",
+      "mc-models/bldc/algo/+bldc/tuning.m": "1a7e2c3d864956fe18684bf9ef69267a2eb33b507f3fa0cc25188d9011f77666",
+      "mc-models/bldc/algo/+bldc/voltage_angle.m": "ad5df95eca73ec266c87ecfd00deb3204f8e454698c1d0cd9c6643cc58533d97",
+      "mc-models/bldc/algo/BldcControllerLibrary.slx": "41dabcc196d4bd336c6f7a04b4670f5d11f826bd09751112027ffbb3fad41d55",
+      "mc-models/bldc/algo/BLDCFramework.slx": "5bf617d329593f92c258edac4b4d109714af0480e859ce3a21d20d8be887c38a",
+      "mc-models/bldc/bldc_initialize.m": "49fd44e20f403c7207c2b7bf585d6cd9cee428d95f43573a02f3cd87a7012c44",
+      "mc-models/bldc/commom/BldcData.sldd": "5971b5aa184e423340a32bac9c8a3b71e32d6be7879462d13c6788675208d861",
+      "mc-models/bldc/data/bldc_data_types.m": "b603f15c90a2a70c192dc2bcd3984411f25fd39a2b5a24c97aaa01cf4252fd2c",
+      "mc-models/bldc/platform/codegen/BLDC_Ctrl_CodeModel.slx": "50c027f745dc3c0406756679ffbe2fee4e200255550ff4921e6f9faaa74f5a7c",
+      "mc-models/bldc/platform/codegen/BLDC_Ctrl_MBD.slx": "344cce888ea3bd9fe28ecb49fd859795aa42e8087a6377e61bf9abc3580f7dbb",
+      "mc-models/bldc/platform/pil/bldc_assess_host_trace.m": "0ec3c10d14eb870df2a4e362f18b995acbbe7c157a635c0d2d4a8b9defe9639d",
+      "mc-models/bldc/platform/pil/bldc_compare_host_cases.m": "b5aac0e50eb3061d04662fb33ceac04307e46064c532fc5ee53ae1ea24aff2e5",
+      "mc-models/bldc/platform/pil/bldc_compare_outputs.m": "5faebd8b8c6bfa34c7f55f1ac2c09c20e78c98f73c6df7eb6c87a3a49208009a",
+      "mc-models/bldc/platform/pil/bldc_host_scenario.m": "a50158bb30bb5e26c7ee2a504ca15028d8be99b914755d7af28041ecc141564e",
+      "mc-models/bldc/platform/pil/bldc_measurement_adapter.m": "b2f955bcb3fb9895e3340561332f0582c6229c1dfc8cdec7b8549a6b2b5eb3f1",
+      "mc-models/bldc/platform/pil/BLDC_PIL_Hall_model.slx": "9168b1ed8b410e20524b5b42e49f1112982eabb8e383549c87f7140d6121fec4",
+      "mc-models/bldc/platform/pil/BLDC_PIL_Hall_top.slx": "8fdf5cc293c0bff45849f39ee8235fe30c9e54bb1aea46fabd184c03f19028db",
+      "mc-models/bldc/platform/pil/BLDC_PIL_Sensorless_model.slx": "d316361e1b11984eea0ddaa5f8a1af42cf751ba836788ea545bb5927da667ae3",
+      "mc-models/bldc/platform/pil/BLDC_PIL_Sensorless_top.slx": "74c516277238e57c36ebd7b93a7fe644fdd79db13b3bd3eb0cec34d91daef908",
+      "mc-models/bldc/platform/pil/bldc_read_trace.m": "63c6dd63ae607cf25bc688446e7c4a2365e21694dd3946c476b3d935e4036809",
+      "mc-models/bldc/platform/pil/bldc_run_host_case.m": "6cfd25e11ed1951c59a4c8da0c9cc887b8d05212cf1787c23693106a997041a0",
+      "mc-models/bldc/platform/pil/bldc_run_replay.m": "2f22660de78e3b96deb84d96e9453f5ed9d96ad3c4049b5d24695ec042dc0a74",
+      "mc-models/hsp/+ambd/compare_outputs.m": "f2cb3502220c0017b3bd5e7783a4741b7c736426321eb6db42738327af575253",
+      "mc-models/hsp/+ambd/hsp_defaults.m": "a3de82ce67d64b37a68627dcb49b952208674b25207e8f4f6be47e61e9470aa1",
+      "mc-models/hsp/+ambd/pil_fixture.m": "c1d9ddb7478c1ad6b5786e203b624bd9293a8b3476087df44bd888b04090746a",
+      "mc-models/hsp/+ambd/pwm_command.m": "3ab511fc40aac6835d94d9e66aa3e49fcb6bc884686c6748616d315ae1882283",
+      "mc-models/hsp/+ambd/validate_pil.m": "c7348d28f233e3b9adfac083d7594d6e0b2ffaff90553dfedc4828414402b29f",
+      "mc-models/hsp/config/S32K344/.prefs/pref_general.xdm": "f17c4fe5438e273a45b4d5c363f95c6a0f5b4c6ae1c6a1f6baa092944f5a3e27",
+      "mc-models/hsp/config/S32K344/config/Adc.xdm": "12b354d024d7f88a786af8cdb7189e4c64c3df9ea965b8c3fd09c66ccae0afeb",
+      "mc-models/hsp/config/S32K344/config/BaseNXP.xdm": "5cf9ef76fa2caa49b91193eb2948f224aa7fcab47a13531b7b8f83ca2b9cd7c7",
+      "mc-models/hsp/config/S32K344/config/Dio.xdm": "0c6f5507cce23e42955e493d40825614f6254cdb16e9b5a2cfcd63bb8f02f982",
+      "mc-models/hsp/config/S32K344/config/EcuC.xdm": "4092d7c88b832fcf3cfabb337bd9140276a7e2ccc233e64ed8ee25699ce5dee7",
+      "mc-models/hsp/config/S32K344/config/Gpt.xdm": "1151afa3bed9969ad04c6329980a144c1e042d4c744e0e700f869b86d71de814",
+      "mc-models/hsp/config/S32K344/config/Icu.xdm": "d926c12426b002bf6b0a9a1e438929374d5a72951f556b0cd6666f0fe208d00e",
+      "mc-models/hsp/config/S32K344/config/Mcl.xdm": "79e6df3045e384eec7c404b87f8639f3d440177333d1045ea88da82d69ec8e5d",
+      "mc-models/hsp/config/S32K344/config/Mcu.xdm": "3a19f578d76a1128bfbacfe8848b103abf10c61439ac13f551edc51c2ff45368",
+      "mc-models/hsp/config/S32K344/config/Platform.xdm": "4f73a5ea38071e14c1b737c502187cafb376dbf5d0304987f22dc0049920b8f0",
+      "mc-models/hsp/config/S32K344/config/Port.xdm": "66d0e2d617b10a99e53e0fde1b7a10f0f96dba58043bad7a45e759ffd53db52f",
+      "mc-models/hsp/config/S32K344/config/Pwm.xdm": "3f253f0cf568510b1620515e45d3bfd3c1b4394f00a37fcb3cee93cb8e8d36fc",
+      "mc-models/hsp/config/S32K344/config/Resource.xdm": "2b375a5ad62a7508398c5f96904a6056c92998b5b77a72cf95a9e3cd247d3816",
+      "mc-models/hsp/config/S32K344/config/Rm.xdm": "5f2116e6e578602d18d1b93a9b7cf9be828ea1b2581b59d71b61b0b78e444b26",
+      "mc-models/hsp/config/S32K344/config/Spi.xdm": "1b4223db132baa84c3449948fce43e54a59bfae3a22a5b726cef84b4a2b21fb5",
+      "mc-models/hsp/config/S32K344/config/SystemModel2.tdb": "05930fd6caa566f39b5ea0c544b62b299065ee2891069d764ec1ea0ef6a5927b",
+      "mc-models/hsp/config/S32K344/config/Uart.xdm": "0ef07117769098ac66865290d3bd3c1110b7e3a4ce581c8db7e86b9dd6d2660f",
+      "mc-models/hsp/config/S32K344/provenance.json": "38da73224ea6afaea9c92d9ffc89ae02fa10a2b3d0299a7556f7d251d0dc5297",
+      "mc-models/hsp/models.json": "ac4a60d99b2821829282ceafc815ae286f5d66b4c3114d4a38981eb3d4956f0d",
+      "mc-models/hsp/runtime/hsp_motor_board.c": "b6db9ec5d024ea78d65898e2353bd709ace3868a16213447ec5a760296a53e9f",
+      "mc-models/hsp/runtime/hsp_motor_board.h": "483e45a800221f03b80a5a1c1c15a95c53255797e39853857869441799702d7f",
+      "mc-models/hsp/runtime/provenance.json": "b4d0ca2da5252a080bf225ea0cfbd8ae20a3797aabd96fa8af553e9e4b93555b",
+      "mc-models/pmsm/algo/+mc/acquire.m": "e78353feb817b479889a98a7f4c8cd215877ab26c0acc995d80124a9ea0e0c1a",
+      "mc-models/pmsm/algo/+mc/applied_voltage.m": "a3460b699cc050a0bff1b86fa5b6027573825b49030ca0e5546e69576d0fbdc8",
+      "mc-models/pmsm/algo/+mc/clarke.m": "c0603b74c971f3d638b54d05549b08b00ce76de5dffb10b0caccaa44834d18ff",
+      "mc-models/pmsm/algo/+mc/current_control.m": "fa3cd0eb4f8b3ae13748426e8beb6e773ae1bd16a5708128c632982e20554137",
+      "mc-models/pmsm/algo/+mc/dataflow.m": "25ca375f7932503db090ca144dbba2c2e87bd05d69d63e911ead226d5b787585",
+      "mc-models/pmsm/algo/+mc/default_input.m": "498c86c67924383debc551e3591400132d3c6b4fcaef7b83e6896ae8b3172635",
+      "mc-models/pmsm/algo/+mc/defaults.m": "389253bec490e52c4ca5a2b9b915184e20d5350c652ea73a6f2428e5621982ab",
+      "mc-models/pmsm/algo/+mc/event_hub.m": "a96cf90f7fc04f7cf408cbbcee0fc1a29124dd21c57b5748a5d7ee513545f4bf",
+      "mc-models/pmsm/algo/+mc/initial_state.m": "221202fe36622dcace7a0231f6fd5d3dd24bb5d9fd365a5de4859f09e7775d57",
+      "mc-models/pmsm/algo/+mc/invpark.m": "a7a4a23d77e754c23b0be4eb2e58ee10f340948e6c2c8c0fd47ae9acf7d23db4",
+      "mc-models/pmsm/algo/+mc/kernel.m": "2b41294a3b457f1e365bde11ecd542775636de36edcc23eb88c87f9d3ece8ea6",
+      "mc-models/pmsm/algo/+mc/monitor.m": "50ac316abdd7061f17a3fc938409f31b9375ad3302174759836bf351ecbe5641",
+      "mc-models/pmsm/algo/+mc/observer_initial.m": "36f3a9f0d260743e7ba4a7e39b35f15283badfba9b8c9793eba393a95ce4b52d",
+      "mc-models/pmsm/algo/+mc/observer_step.m": "90193dade991ac75e05e326bc322291fb1c01128c7ebb87830dfb8a753c18423",
+      "mc-models/pmsm/algo/+mc/park.m": "54c1ddbfbcd8a10013428384e68f213164a21c21b8aa922333766788e472bd95",
+      "mc-models/pmsm/algo/+mc/pi_step.m": "4696d559493f48d98a7a3397a02b0d82924f5c06e3337852b6ca43986e008981",
+      "mc-models/pmsm/algo/+mc/plant_measure.m": "d752c5200e7f9a0daa42d0d427bb2e6a623e8166fe03e87ef643bb9d5b2d0e7c",
+      "mc-models/pmsm/algo/+mc/plant_step.m": "15a56b23d8a91b47430a693fc857d80718542bd460bead62e2cc0d5ebf9c0ad2",
+      "mc-models/pmsm/algo/+mc/protection.m": "d6d328d87333a12147ee9e728457b38ae6a0c873d99340785b6295707375f4ef",
+      "mc-models/pmsm/algo/+mc/step.m": "de0da7ed5740d99ebfdf55cdb9b0ded6d0ad83a49c6edeb9e6b74d72234c0552",
+      "mc-models/pmsm/algo/+mc/supervisor.m": "ac9a7edf7d7dcef34359709c719ef91026cd300628ce19152a2ce9e710bb6cc7",
+      "mc-models/pmsm/algo/+mc/svpwm.m": "4a779c6191c62e892f15a213ab7cf921c9d8fff954e63f2e923cafaa5280d24f",
+      "mc-models/pmsm/algo/+mc/tuning.m": "a688998456712d6be4643868ab1682d68e1746347f3ca89d8602a1e63d216366",
+      "mc-models/pmsm/algo/+mc/wrap_angle.m": "e99e569da986a516da95d9ec55e920b3c6cdcc71a368f5fd23f53067368a6512",
+      "mc-models/pmsm/algo/McControllerLibrary.slx": "d74238b3c6c127d6ac98dc1258974bc62fbd186929a33f3803ca8bbdd642c53f",
+      "mc-models/pmsm/algo/MotorFramework.slx": "83b327038650b0f39d3338bade79f5870646afac076c4f7cacca79a4731ea145",
+      "mc-models/pmsm/commom/McData.sldd": "f1fab9505477e486356c7390c6f62b2887b1d7754a2b9a26da6f11be2835103f",
+      "mc-models/pmsm/data/mc_data_types.m": "104e11263f4071efd79a652349b2cca45b69b9a6d591aaab33e8750e2228282b",
+      "mc-models/pmsm/mc_initialize.m": "3dd6b374d2ea7d85d80ecdd2f715e5ca67d58a76429e0e2e603600a1b0ef32ac",
+      "mc-models/pmsm/platform/codegen/FOC_Ctrl_CodeModel.slx": "1ab96047d4278fbedd549778a6d765ee7fae28e73c06b657241153933f0517dd",
+      "mc-models/pmsm/platform/codegen/FOC_Ctrl_MBD.slx": "b710d9e4de17ce3cadf3446e0c96fc2df63308f4648f0861e87b1093fbc5739e",
+      "mc-models/pmsm/platform/pil/FOC_PIL_Algth_model.slx": "a35f43d284861427f6218958cc3a37597e5a7c44b8fb72c6d5caa0c256d5eebc",
+      "mc-models/pmsm/platform/pil/FOC_PIL_Algth_top.slx": "e7752c73df2966d8c422597fa4e5ce8b737072c6ffcdc5630a76416150c78cd2",
+      "mc-models/pmsm/platform/pil/FOC_PIL_StateMch_model.slx": "efd66e4ff8553104f76648e40d08d2d168860ce9100949a95ca765701ef75109",
+      "mc-models/pmsm/platform/pil/FOC_PIL_StateMch_top.slx": "002df7cf938831b7d4c54d7508dc7041c013f76540c5ef556bd68183705c4068",
+      "mc-models/pmsm/platform/pil/mc_assess_host_trace.m": "aca94036c5f756dd89d40aebb1a8c1c4ed22fef218b7de2e8a5df2f7bad2c7c4",
+      "mc-models/pmsm/platform/pil/mc_compare_host_cases.m": "b689a45262115bff2114c267e457f92a061d94908cfc0db3937d51d6edc9b165",
+      "mc-models/pmsm/platform/pil/mc_compare_replay.m": "713ff1434b8f48ad35b89cabb2e8a88a7f6c05950a5e604308dfaa36b9fb2d93",
+      "mc-models/pmsm/platform/pil/mc_host_scenario.m": "af95d05c15e63ed905bed6b2e911664fcc5c5120bc266e1e20e1230ef12447a8",
+      "mc-models/pmsm/platform/pil/mc_read_host_trace.m": "23a62929700caa63453d2492f94ac438d97e98d1a144736145e445741816870c",
+      "mc-models/pmsm/platform/pil/mc_run_host_case.m": "8faf67edb8523ce8cdda8c4f22238e63fb3f227079935e61762bf6b2f3154ccb",
+      "mc-models/pmsm/platform/pil/mc_run_replay.m": "79c00bdff4c30fd873d43d9991ceac72093244474d8cc57dc725353802143f96",
+      "tools/hsp/build_models.py": "3f0c47625f48c12494a3799444db781c48024b2ad77b9cd80ecf94b87eda9678",
+      "tools/hsp/model_support.py": "1c5f20659bf5377b8569f5bdc5730d7f03e6361285bea3aa647f502e848e2382",
+      "tools/hsp/validate_target.py": "4bbbc36d6ab55850435ebc5298b93b2745246b5d90aac1cda6de7a8dab3019be"
+    },
+    "Models": [
+      {
+        "Model": "BLDC_Ctrl_MBD",
+        "Family": "bldc",
+        "NativeBuildPassed": true,
+        "ApplicationElfSHA256": "0d0bdfbe3712ce4b799385c1195075183cee7240875d428fc09e7399add54e32",
+        "PILPassed": true,
+        "PILMode": "processor-in-the-loop (pil)",
+        "PILElfSHA256": "217070c7391bccb36e76588feaf7112da58935515e770aa91d79d2d3ccc04c1f",
+        "Samples": 129,
+        "ExactComparedValues": 7353,
+        "MaximumAbsoluteError": 0,
+        "FaultGateOff": true,
+        "GateWasActive": true
+      },
+      {
+        "Model": "BLDCFramework",
+        "Family": "bldc",
+        "NativeBuildPassed": true,
+        "ApplicationElfSHA256": "778d824fe1178664f972f943b3195d81ef529ceeaa9a5d720968c3d327a5bb96",
+        "PILPassed": true,
+        "PILMode": "processor-in-the-loop (pil)",
+        "PILElfSHA256": "861ca3f23b61be5f423fdee1016182de412d35fe133911770f0d76c59abc9acf",
+        "Samples": 129,
+        "ExactComparedValues": 7353,
+        "MaximumAbsoluteError": 0,
+        "FaultGateOff": true,
+        "GateWasActive": true
+      },
+      {
+        "Model": "BLDC_Ctrl_CodeModel",
+        "Family": "bldc",
+        "NativeBuildPassed": true,
+        "ApplicationElfSHA256": "a3fee80197efe0252afdb0032c9f350f7eca56fd46694734bc345c967dbebb73",
+        "PILPassed": true,
+        "PILMode": "processor-in-the-loop (pil)",
+        "PILElfSHA256": "e2aaa89d85612e29a800e1f4952b81e2e23b47b9a75fd5c794e212adb641f435",
+        "Samples": 129,
+        "ExactComparedValues": 7353,
+        "MaximumAbsoluteError": 0,
+        "FaultGateOff": true,
+        "GateWasActive": true
+      },
+      {
+        "Model": "BLDC_PIL_Hall_model",
+        "Family": "bldc",
+        "NativeBuildPassed": true,
+        "ApplicationElfSHA256": "19c434cc66d7d1d8febae3089d4d5c6eba2e081f453e5990d3427d7abbd204a4",
+        "PILPassed": true,
+        "PILMode": "processor-in-the-loop (pil)",
+        "PILElfSHA256": "68d27a3e9b91121e1a1a2bfabae987ff9badb1a3e9c40d06ff0e595ab0a6e772",
+        "Samples": 129,
+        "ExactComparedValues": 7353,
+        "MaximumAbsoluteError": 0,
+        "FaultGateOff": true,
+        "GateWasActive": true
+      },
+      {
+        "Model": "BLDC_PIL_Sensorless_model",
+        "Family": "bldc",
+        "NativeBuildPassed": true,
+        "ApplicationElfSHA256": "967a17e7dd413b56067621245874a752eeac3ab18596b612543d85cd76c06fd1",
+        "PILPassed": true,
+        "PILMode": "processor-in-the-loop (pil)",
+        "PILElfSHA256": "9d2ef8a619369aabad72697f55d0a47ad4f3d1e110133e178cdafe48dc8a56e8",
+        "Samples": 129,
+        "ExactComparedValues": 7353,
+        "MaximumAbsoluteError": 0,
+        "FaultGateOff": true,
+        "GateWasActive": true
+      },
+      {
+        "Model": "FOC_Ctrl_MBD",
+        "Family": "pmsm",
+        "NativeBuildPassed": true,
+        "ApplicationElfSHA256": "fece6fd24837f18561e498413ddccf7cc9449362432c2512363d6e49a123f1cc",
+        "PILPassed": true,
+        "PILMode": "processor-in-the-loop (pil)",
+        "PILElfSHA256": "2e48e0cf31d771ee1569c6e7b29b1c978af2f2e1a99716ea7911b9ed01f3e129",
+        "Samples": 129,
+        "ExactComparedValues": 4644,
+        "MaximumAbsoluteError": 0,
+        "FaultGateOff": true,
+        "GateWasActive": true
+      },
+      {
+        "Model": "MotorFramework",
+        "Family": "pmsm",
+        "NativeBuildPassed": true,
+        "ApplicationElfSHA256": "0f454a09306aa9cf8ac1bf03f6409a18d7f45b10de459da7d60fecf3a2599154",
+        "PILPassed": true,
+        "PILMode": "processor-in-the-loop (pil)",
+        "PILElfSHA256": "64df3eccf980e7383820017a73810543809dba4228028fc33b17c8cf2735761b",
+        "Samples": 129,
+        "ExactComparedValues": 4644,
+        "MaximumAbsoluteError": 0,
+        "FaultGateOff": true,
+        "GateWasActive": true
+      },
+      {
+        "Model": "FOC_Ctrl_CodeModel",
+        "Family": "pmsm",
+        "NativeBuildPassed": true,
+        "ApplicationElfSHA256": "9a603f17c2ea2d4a705e6f1a2fcee8ebb394e41d2c2b14a90252fa6a511e5e06",
+        "PILPassed": true,
+        "PILMode": "processor-in-the-loop (pil)",
+        "PILElfSHA256": "aa6d0253c94d61ef1c4e67558e29fdbcae493a36ebe53b946ae46ae2945c8b47",
+        "Samples": 129,
+        "ExactComparedValues": 4644,
+        "MaximumAbsoluteError": 0,
+        "FaultGateOff": true,
+        "GateWasActive": true
+      },
+      {
+        "Model": "FOC_PIL_Algth_model",
+        "Family": "pmsm",
+        "NativeBuildPassed": true,
+        "ApplicationElfSHA256": "d4799e38b206c68c5f5b88a8db5c46603fac1d05ffdc10dc82fffb496b872a61",
+        "PILPassed": true,
+        "PILMode": "processor-in-the-loop (pil)",
+        "PILElfSHA256": "18a1bce63dcc081037c9b679c83f8612198eda3a74ae5f860baccefe70dd84fa",
+        "Samples": 129,
+        "ExactComparedValues": 4644,
+        "MaximumAbsoluteError": 0,
+        "FaultGateOff": true,
+        "GateWasActive": true
+      },
+      {
+        "Model": "FOC_PIL_StateMch_model",
+        "Family": "pmsm",
+        "NativeBuildPassed": true,
+        "ApplicationElfSHA256": "16a1178ac8862ac67b0c9d4e46d5c9ebd12aa13ec08bd2eecabd6e2867a61280",
+        "PILPassed": true,
+        "PILMode": "processor-in-the-loop (pil)",
+        "PILElfSHA256": "371ff8f19636a55ebef62c00796c9746dd598d820bc949730beb84fa1f0f44da",
+        "Samples": 129,
+        "ExactComparedValues": 4644,
+        "MaximumAbsoluteError": 0,
+        "FaultGateOff": true,
+        "GateWasActive": true
+      }
+    ]
+  },
+  "OperationalPIL": {
+    "ReportId": "842fcd41",
+    "ReportSHA256": "5e9cd13c345ff39d6ddec58c8823a3832fd64dc2bfe56c50349da1e93c7e1f11",
+    "Passed": true,
+    "CompleteMatrix": true,
+    "SourcesUnchanged": true,
+    "SettingsUnchanged": true,
+    "SourceArtifactsUnchanged": true,
+    "SourceHashes": {
+      "hsp_setup.m": "046e9a72e4a89cbfd183445a0096f4fcbc314cd08afc8625a4c129df239f8f56",
+      "hsp_stage.m": "4ec40945a39d17d56f9240dab342999f37c2a6a282776f0764238d77724e37d7",
+      "mc-models/bldc/algo/+bldc/coast_acquire.m": "005cf8e245e751711c8fe9fb7152b67b3f762f3a252b2f65293601a301d2945e",
+      "mc-models/bldc/algo/+bldc/commutate.m": "dca0a9dc47111d285ed4066b0394cfc1027560725acb129e0e4a1c377567a85e",
+      "mc-models/bldc/algo/+bldc/dataflow.m": "4af46f778e1248a1f330c7243960862c9a31c29589cf1f62d412649dea7f05c9",
+      "mc-models/bldc/algo/+bldc/default_input.m": "f0d994482cf3956f0645d593d44629fe564b86e6a665b8025275da9004254f1d",
+      "mc-models/bldc/algo/+bldc/defaults.m": "121d17ce811ecb32a9c89fc71bff18982ab524396b8b0fe26bc0eecd7c0720c1",
+      "mc-models/bldc/algo/+bldc/event_hub.m": "707978c9331a7382b50ae3b6dcca0744f3c07fdd771287cf8d2263b4e1938cbc",
+      "mc-models/bldc/algo/+bldc/feedback.m": "70521d4affb8f624a07fd8e2f5908d0ef9edf449eec1532b9cf6f3ed0e59f438",
+      "mc-models/bldc/algo/+bldc/hall_decode.m": "7a5d6eb6d5decc80b97c1c6d23906a3cf2f2754ab922d41aa9911583fb27f230",
+      "mc-models/bldc/algo/+bldc/hall_signal.m": "2f953084389fed2f013d6e5aa61934287334d568bfb9d5a5757d2ab042c6f172",
+      "mc-models/bldc/algo/+bldc/initial_state.m": "495ffac877659ba0e07403a9bc761ebe2435426d21d62c0212db3108d2a7e83f",
+      "mc-models/bldc/algo/+bldc/kernel.m": "a75e73a427d75895bb5060b5df6b7abf9d55e7f0370f84fdea9b09caf4d3b15b",
+      "mc-models/bldc/algo/+bldc/monitor.m": "1006cf7ac317a65447192b64eb9c8250f750af65334f29cd3cec8b28ff7e22cb",
+      "mc-models/bldc/algo/+bldc/phase_network.m": "767f3b13ec4c8504ae03955f45a03b35b631f7a42dfe983782902d05a947068f",
+      "mc-models/bldc/algo/+bldc/pi_step.m": "26e2ef2c8ff37602fa774fce9a36e5ef0301aa1c409c85315a7a0708f86a7d52",
+      "mc-models/bldc/algo/+bldc/plant_measure.m": "ea7682034cfaf9bc036e2be3fc854d9a8c02a4aab7e4fca65bd6168334879dbe",
+      "mc-models/bldc/algo/+bldc/plant_step.m": "fbd4c3db65e814271d4a7c25a314f62cc301fda89f2e26dae4b30650870c0eec",
+      "mc-models/bldc/algo/+bldc/protection.m": "d91f73758cfb362860fcaabc5c233ca476c9a11b99fd4446ad29327495720935",
+      "mc-models/bldc/algo/+bldc/sector.m": "e22493ec024f13e7a699c37d09a11188a99e6f7419e08802dfe49f3fb2758a9c",
+      "mc-models/bldc/algo/+bldc/speed_gains.m": "828e123d7d483fd7ca9b0efa2266001d530fa434b62d54e1374037466168969b",
+      "mc-models/bldc/algo/+bldc/step.m": "eb3c341958ad9d852e542c8a0c3566171a61501568ab0ac3758aad2cc9dce5e8",
+      "mc-models/bldc/algo/+bldc/supervisor.m": "d520e406b9a22b949c7a38c5e7edd5b309d9137a3cff7f7866c08ccd5ba0fdda",
+      "mc-models/bldc/algo/+bldc/trapezoid.m": "9e772b4d355101fcdf191cc616b35dd70c3e902ee15d313164b7377262a86a59",
+      "mc-models/bldc/algo/+bldc/tuning.m": "1a7e2c3d864956fe18684bf9ef69267a2eb33b507f3fa0cc25188d9011f77666",
+      "mc-models/bldc/algo/+bldc/voltage_angle.m": "ad5df95eca73ec266c87ecfd00deb3204f8e454698c1d0cd9c6643cc58533d97",
+      "mc-models/bldc/algo/BldcControllerLibrary.slx": "41dabcc196d4bd336c6f7a04b4670f5d11f826bd09751112027ffbb3fad41d55",
+      "mc-models/bldc/algo/BLDCFramework.slx": "5bf617d329593f92c258edac4b4d109714af0480e859ce3a21d20d8be887c38a",
+      "mc-models/bldc/bldc_initialize.m": "49fd44e20f403c7207c2b7bf585d6cd9cee428d95f43573a02f3cd87a7012c44",
+      "mc-models/bldc/commom/BldcData.sldd": "5971b5aa184e423340a32bac9c8a3b71e32d6be7879462d13c6788675208d861",
+      "mc-models/bldc/data/bldc_data_types.m": "b603f15c90a2a70c192dc2bcd3984411f25fd39a2b5a24c97aaa01cf4252fd2c",
+      "mc-models/bldc/platform/codegen/BLDC_Ctrl_CodeModel.slx": "50c027f745dc3c0406756679ffbe2fee4e200255550ff4921e6f9faaa74f5a7c",
+      "mc-models/bldc/platform/codegen/BLDC_Ctrl_MBD.slx": "344cce888ea3bd9fe28ecb49fd859795aa42e8087a6377e61bf9abc3580f7dbb",
+      "mc-models/bldc/platform/pil/bldc_assess_host_trace.m": "0ec3c10d14eb870df2a4e362f18b995acbbe7c157a635c0d2d4a8b9defe9639d",
+      "mc-models/bldc/platform/pil/bldc_compare_host_cases.m": "b5aac0e50eb3061d04662fb33ceac04307e46064c532fc5ee53ae1ea24aff2e5",
+      "mc-models/bldc/platform/pil/bldc_compare_outputs.m": "5faebd8b8c6bfa34c7f55f1ac2c09c20e78c98f73c6df7eb6c87a3a49208009a",
+      "mc-models/bldc/platform/pil/bldc_host_scenario.m": "a50158bb30bb5e26c7ee2a504ca15028d8be99b914755d7af28041ecc141564e",
+      "mc-models/bldc/platform/pil/bldc_measurement_adapter.m": "b2f955bcb3fb9895e3340561332f0582c6229c1dfc8cdec7b8549a6b2b5eb3f1",
+      "mc-models/bldc/platform/pil/BLDC_PIL_Hall_model.slx": "9168b1ed8b410e20524b5b42e49f1112982eabb8e383549c87f7140d6121fec4",
+      "mc-models/bldc/platform/pil/BLDC_PIL_Hall_top.slx": "8fdf5cc293c0bff45849f39ee8235fe30c9e54bb1aea46fabd184c03f19028db",
+      "mc-models/bldc/platform/pil/BLDC_PIL_Sensorless_model.slx": "d316361e1b11984eea0ddaa5f8a1af42cf751ba836788ea545bb5927da667ae3",
+      "mc-models/bldc/platform/pil/BLDC_PIL_Sensorless_top.slx": "74c516277238e57c36ebd7b93a7fe644fdd79db13b3bd3eb0cec34d91daef908",
+      "mc-models/bldc/platform/pil/bldc_read_trace.m": "63c6dd63ae607cf25bc688446e7c4a2365e21694dd3946c476b3d935e4036809",
+      "mc-models/bldc/platform/pil/bldc_run_host_case.m": "6cfd25e11ed1951c59a4c8da0c9cc887b8d05212cf1787c23693106a997041a0",
+      "mc-models/bldc/platform/pil/bldc_run_replay.m": "2f22660de78e3b96deb84d96e9453f5ed9d96ad3c4049b5d24695ec042dc0a74",
+      "mc-models/hsp/+ambd/compare_outputs.m": "f2cb3502220c0017b3bd5e7783a4741b7c736426321eb6db42738327af575253",
+      "mc-models/hsp/+ambd/hsp_defaults.m": "a3de82ce67d64b37a68627dcb49b952208674b25207e8f4f6be47e61e9470aa1",
+      "mc-models/hsp/+ambd/pil_fixture.m": "c1d9ddb7478c1ad6b5786e203b624bd9293a8b3476087df44bd888b04090746a",
+      "mc-models/hsp/+ambd/pwm_command.m": "3ab511fc40aac6835d94d9e66aa3e49fcb6bc884686c6748616d315ae1882283",
+      "mc-models/hsp/+ambd/validate_pil.m": "c7348d28f233e3b9adfac083d7594d6e0b2ffaff90553dfedc4828414402b29f",
+      "mc-models/hsp/config/S32K344/.prefs/pref_general.xdm": "f17c4fe5438e273a45b4d5c363f95c6a0f5b4c6ae1c6a1f6baa092944f5a3e27",
+      "mc-models/hsp/config/S32K344/config/Adc.xdm": "12b354d024d7f88a786af8cdb7189e4c64c3df9ea965b8c3fd09c66ccae0afeb",
+      "mc-models/hsp/config/S32K344/config/BaseNXP.xdm": "5cf9ef76fa2caa49b91193eb2948f224aa7fcab47a13531b7b8f83ca2b9cd7c7",
+      "mc-models/hsp/config/S32K344/config/Dio.xdm": "0c6f5507cce23e42955e493d40825614f6254cdb16e9b5a2cfcd63bb8f02f982",
+      "mc-models/hsp/config/S32K344/config/EcuC.xdm": "4092d7c88b832fcf3cfabb337bd9140276a7e2ccc233e64ed8ee25699ce5dee7",
+      "mc-models/hsp/config/S32K344/config/Gpt.xdm": "1151afa3bed9969ad04c6329980a144c1e042d4c744e0e700f869b86d71de814",
+      "mc-models/hsp/config/S32K344/config/Icu.xdm": "d926c12426b002bf6b0a9a1e438929374d5a72951f556b0cd6666f0fe208d00e",
+      "mc-models/hsp/config/S32K344/config/Mcl.xdm": "79e6df3045e384eec7c404b87f8639f3d440177333d1045ea88da82d69ec8e5d",
+      "mc-models/hsp/config/S32K344/config/Mcu.xdm": "3a19f578d76a1128bfbacfe8848b103abf10c61439ac13f551edc51c2ff45368",
+      "mc-models/hsp/config/S32K344/config/Platform.xdm": "4f73a5ea38071e14c1b737c502187cafb376dbf5d0304987f22dc0049920b8f0",
+      "mc-models/hsp/config/S32K344/config/Port.xdm": "66d0e2d617b10a99e53e0fde1b7a10f0f96dba58043bad7a45e759ffd53db52f",
+      "mc-models/hsp/config/S32K344/config/Pwm.xdm": "3f253f0cf568510b1620515e45d3bfd3c1b4394f00a37fcb3cee93cb8e8d36fc",
+      "mc-models/hsp/config/S32K344/config/Resource.xdm": "2b375a5ad62a7508398c5f96904a6056c92998b5b77a72cf95a9e3cd247d3816",
+      "mc-models/hsp/config/S32K344/config/Rm.xdm": "5f2116e6e578602d18d1b93a9b7cf9be828ea1b2581b59d71b61b0b78e444b26",
+      "mc-models/hsp/config/S32K344/config/Spi.xdm": "1b4223db132baa84c3449948fce43e54a59bfae3a22a5b726cef84b4a2b21fb5",
+      "mc-models/hsp/config/S32K344/config/SystemModel2.tdb": "05930fd6caa566f39b5ea0c544b62b299065ee2891069d764ec1ea0ef6a5927b",
+      "mc-models/hsp/config/S32K344/config/Uart.xdm": "0ef07117769098ac66865290d3bd3c1110b7e3a4ce581c8db7e86b9dd6d2660f",
+      "mc-models/hsp/config/S32K344/provenance.json": "38da73224ea6afaea9c92d9ffc89ae02fa10a2b3d0299a7556f7d251d0dc5297",
+      "mc-models/hsp/models.json": "ac4a60d99b2821829282ceafc815ae286f5d66b4c3114d4a38981eb3d4956f0d",
+      "mc-models/hsp/runtime/hsp_motor_board.c": "b6db9ec5d024ea78d65898e2353bd709ace3868a16213447ec5a760296a53e9f",
+      "mc-models/hsp/runtime/hsp_motor_board.h": "483e45a800221f03b80a5a1c1c15a95c53255797e39853857869441799702d7f",
+      "mc-models/hsp/runtime/provenance.json": "b4d0ca2da5252a080bf225ea0cfbd8ae20a3797aabd96fa8af553e9e4b93555b",
+      "mc-models/pmsm/algo/+mc/acquire.m": "e78353feb817b479889a98a7f4c8cd215877ab26c0acc995d80124a9ea0e0c1a",
+      "mc-models/pmsm/algo/+mc/applied_voltage.m": "a3460b699cc050a0bff1b86fa5b6027573825b49030ca0e5546e69576d0fbdc8",
+      "mc-models/pmsm/algo/+mc/clarke.m": "c0603b74c971f3d638b54d05549b08b00ce76de5dffb10b0caccaa44834d18ff",
+      "mc-models/pmsm/algo/+mc/current_control.m": "fa3cd0eb4f8b3ae13748426e8beb6e773ae1bd16a5708128c632982e20554137",
+      "mc-models/pmsm/algo/+mc/dataflow.m": "25ca375f7932503db090ca144dbba2c2e87bd05d69d63e911ead226d5b787585",
+      "mc-models/pmsm/algo/+mc/default_input.m": "498c86c67924383debc551e3591400132d3c6b4fcaef7b83e6896ae8b3172635",
+      "mc-models/pmsm/algo/+mc/defaults.m": "389253bec490e52c4ca5a2b9b915184e20d5350c652ea73a6f2428e5621982ab",
+      "mc-models/pmsm/algo/+mc/event_hub.m": "a96cf90f7fc04f7cf408cbbcee0fc1a29124dd21c57b5748a5d7ee513545f4bf",
+      "mc-models/pmsm/algo/+mc/initial_state.m": "221202fe36622dcace7a0231f6fd5d3dd24bb5d9fd365a5de4859f09e7775d57",
+      "mc-models/pmsm/algo/+mc/invpark.m": "a7a4a23d77e754c23b0be4eb2e58ee10f340948e6c2c8c0fd47ae9acf7d23db4",
+      "mc-models/pmsm/algo/+mc/kernel.m": "2b41294a3b457f1e365bde11ecd542775636de36edcc23eb88c87f9d3ece8ea6",
+      "mc-models/pmsm/algo/+mc/monitor.m": "50ac316abdd7061f17a3fc938409f31b9375ad3302174759836bf351ecbe5641",
+      "mc-models/pmsm/algo/+mc/observer_initial.m": "36f3a9f0d260743e7ba4a7e39b35f15283badfba9b8c9793eba393a95ce4b52d",
+      "mc-models/pmsm/algo/+mc/observer_step.m": "90193dade991ac75e05e326bc322291fb1c01128c7ebb87830dfb8a753c18423",
+      "mc-models/pmsm/algo/+mc/park.m": "54c1ddbfbcd8a10013428384e68f213164a21c21b8aa922333766788e472bd95",
+      "mc-models/pmsm/algo/+mc/pi_step.m": "4696d559493f48d98a7a3397a02b0d82924f5c06e3337852b6ca43986e008981",
+      "mc-models/pmsm/algo/+mc/plant_measure.m": "d752c5200e7f9a0daa42d0d427bb2e6a623e8166fe03e87ef643bb9d5b2d0e7c",
+      "mc-models/pmsm/algo/+mc/plant_step.m": "15a56b23d8a91b47430a693fc857d80718542bd460bead62e2cc0d5ebf9c0ad2",
+      "mc-models/pmsm/algo/+mc/protection.m": "d6d328d87333a12147ee9e728457b38ae6a0c873d99340785b6295707375f4ef",
+      "mc-models/pmsm/algo/+mc/step.m": "de0da7ed5740d99ebfdf55cdb9b0ded6d0ad83a49c6edeb9e6b74d72234c0552",
+      "mc-models/pmsm/algo/+mc/supervisor.m": "ac9a7edf7d7dcef34359709c719ef91026cd300628ce19152a2ce9e710bb6cc7",
+      "mc-models/pmsm/algo/+mc/svpwm.m": "4a779c6191c62e892f15a213ab7cf921c9d8fff954e63f2e923cafaa5280d24f",
+      "mc-models/pmsm/algo/+mc/tuning.m": "a688998456712d6be4643868ab1682d68e1746347f3ca89d8602a1e63d216366",
+      "mc-models/pmsm/algo/+mc/wrap_angle.m": "e99e569da986a516da95d9ec55e920b3c6cdcc71a368f5fd23f53067368a6512",
+      "mc-models/pmsm/algo/McControllerLibrary.slx": "d74238b3c6c127d6ac98dc1258974bc62fbd186929a33f3803ca8bbdd642c53f",
+      "mc-models/pmsm/algo/MotorFramework.slx": "83b327038650b0f39d3338bade79f5870646afac076c4f7cacca79a4731ea145",
+      "mc-models/pmsm/commom/McData.sldd": "f1fab9505477e486356c7390c6f62b2887b1d7754a2b9a26da6f11be2835103f",
+      "mc-models/pmsm/data/mc_data_types.m": "104e11263f4071efd79a652349b2cca45b69b9a6d591aaab33e8750e2228282b",
+      "mc-models/pmsm/mc_initialize.m": "3dd6b374d2ea7d85d80ecdd2f715e5ca67d58a76429e0e2e603600a1b0ef32ac",
+      "mc-models/pmsm/platform/codegen/FOC_Ctrl_CodeModel.slx": "1ab96047d4278fbedd549778a6d765ee7fae28e73c06b657241153933f0517dd",
+      "mc-models/pmsm/platform/codegen/FOC_Ctrl_MBD.slx": "b710d9e4de17ce3cadf3446e0c96fc2df63308f4648f0861e87b1093fbc5739e",
+      "mc-models/pmsm/platform/pil/FOC_PIL_Algth_model.slx": "a35f43d284861427f6218958cc3a37597e5a7c44b8fb72c6d5caa0c256d5eebc",
+      "mc-models/pmsm/platform/pil/FOC_PIL_Algth_top.slx": "e7752c73df2966d8c422597fa4e5ce8b737072c6ffcdc5630a76416150c78cd2",
+      "mc-models/pmsm/platform/pil/FOC_PIL_StateMch_model.slx": "efd66e4ff8553104f76648e40d08d2d168860ce9100949a95ca765701ef75109",
+      "mc-models/pmsm/platform/pil/FOC_PIL_StateMch_top.slx": "002df7cf938831b7d4c54d7508dc7041c013f76540c5ef556bd68183705c4068",
+      "mc-models/pmsm/platform/pil/mc_assess_host_trace.m": "aca94036c5f756dd89d40aebb1a8c1c4ed22fef218b7de2e8a5df2f7bad2c7c4",
+      "mc-models/pmsm/platform/pil/mc_compare_host_cases.m": "b689a45262115bff2114c267e457f92a061d94908cfc0db3937d51d6edc9b165",
+      "mc-models/pmsm/platform/pil/mc_compare_replay.m": "713ff1434b8f48ad35b89cabb2e8a88a7f6c05950a5e604308dfaa36b9fb2d93",
+      "mc-models/pmsm/platform/pil/mc_host_scenario.m": "af95d05c15e63ed905bed6b2e911664fcc5c5120bc266e1e20e1230ef12447a8",
+      "mc-models/pmsm/platform/pil/mc_read_host_trace.m": "23a62929700caa63453d2492f94ac438d97e98d1a144736145e445741816870c",
+      "mc-models/pmsm/platform/pil/mc_run_host_case.m": "8faf67edb8523ce8cdda8c4f22238e63fb3f227079935e61762bf6b2f3154ccb",
+      "mc-models/pmsm/platform/pil/mc_run_replay.m": "79c00bdff4c30fd873d43d9991ceac72093244474d8cc57dc725353802143f96",
+      "tools/hsp/build_models.py": "3f0c47625f48c12494a3799444db781c48024b2ad77b9cd80ecf94b87eda9678",
+      "tools/hsp/model_support.py": "1c5f20659bf5377b8569f5bdc5730d7f03e6361285bea3aa647f502e848e2382",
+      "tools/hsp/validate_target.py": "4bbbc36d6ab55850435ebc5298b93b2745246b5d90aac1cda6de7a8dab3019be",
+      "tools/validate_motor_pil.py": "18bd93fc62d33ebe4ac50ae3766da13bcdc81ffa780c7df8255ecd014a35951d",
+      "tests/hsp/run_operational_pil.m": "33f8a7e8f0a70f0b0837f6830998e686ace5bf4a945c50c46ddd791233369a98"
+    },
+    "SourceArtifacts": {
+      ".agent-env/bldc/validation/20261007T044216Z-590d634c/summary.json": "ff0d66f8f90c7480a9e9b84d11c27f8aa6d1307ab048945feb2747b4170b7c87",
+      ".agent-env/bldc/validation/20261007T044216Z-590d634c/closed-loop/hall_steps/Normal/trace.mat": "5ba17c1c0459963004fdbadc5e679859e2a38ae938e988266e661670f8819001",
+      ".agent-env/bldc/validation/20261007T044216Z-590d634c/closed-loop/sensorless_forward/Normal/trace.mat": "957d6b8677ac3479491ea3fb6fff5776b821f1f29cbff2bfe0e06c5cc327772d",
+      ".agent-env/pmsm/validation/20261007T040645Z-9cb9b27f/summary.json": "6784b78c78bef09a5248a30ac567f07c73a75043578aa3ce945e9fe1f82fbc70",
+      ".agent-env/pmsm/validation/20261007T040645Z-9cb9b27f/closed-loop/sensored_steps/Normal/trace.mat": "3b503d692d1e9c7b49f8909ebd3f6ffe80640e2d481ef07c1c163335634a8bd2",
+      ".agent-env/pmsm/validation/20261007T040645Z-9cb9b27f/replay/sensored_steps/input-recording.mat": "4aaab1d0180cb8ccf02e60f5cfd70ffc9db6521d04a7e4bcdd78523572bfda8b",
+      ".agent-env/pmsm/validation/20261007T040645Z-9cb9b27f/closed-loop/sensorless_forward/Normal/trace.mat": "e395237284debf48ae1a670c11e7d710a785fd00085dc70f75d1a563d6a49773",
+      ".agent-env/pmsm/validation/20261007T040645Z-9cb9b27f/replay/sensorless_forward/input-recording.mat": "40caa4c7e797eeb2eec65fcde8f43d6595172e2948c5c987199b71377a19f1e9"
+    },
+    "Cases": [
+      {
+        "Model": "BLDC_PIL_Hall_model",
+        "Family": "bldc",
+        "Scenario": "hall_steps",
+        "Sensorless": false,
+        "Passed": true,
+        "PILExecuted": true,
+        "ExecutionMode": "processor-in-the-loop (pil)",
+        "Samples": 2302,
+        "SourceFirstSample": 2693,
+        "SourceLastSample": 4994,
+        "SourceStartTime": 0.16825,
+        "SourceStopTime": 0.3120625,
+        "MaximumTimeGridError": 4.163336342344337e-17,
+        "RequiredStates": [
+          6,
+          12,
+          14
+        ],
+        "ObservedStates": [
+          6,
+          12,
+          14
+        ],
+        "RunSamples": 2269,
+        "StatesCovered": true,
+        "FeedbackQualified": true,
+        "RunSectors": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "CommutationCovered": true,
+        "ElfSha256": "0a9f0a2c6ebf7a5bc942e021ab6a5ac63eb0a290ecf12376a6772c0581eb45d4",
+        "RecordedNormalAlignment": {
+          "Passed": true,
+          "TimeExactlyEqual": true,
+          "StrictBitwisePassed": true,
+          "AbsoluteTolerance": 1e-05,
+          "RelativeTolerance": 1e-05,
+          "Fields": {
+            "Mode": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "FaultBits": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Tick": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Current": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "CurrentReference": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "CurrentDemand": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "SpeedRequest": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "SpeedRamped": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "SpeedEstimate": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "ControlSpeed": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Sector": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Direction": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "OutputDirection": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Modulation": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "GateEnable": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "PhaseEnable": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "FeedbackReady": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "ZcCount": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "ZcPeriod": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "ZcCountdown": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "AcquisitionReady": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "PositionMode": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "VoltageResidual": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "CurrentIntegrator": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "SpeedIntegrator": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "HallSector": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "HallValid": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "AppliedAge": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "CurrentMeasured": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "DutyCounts": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "PhaseMask": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "GateOutput": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "DebugData": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "DebugEnabled": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            }
+          }
+        },
+        "Comparison": {
+          "Passed": true,
+          "TimeExactlyEqual": true,
+          "StrictBitwisePassed": true,
+          "AbsoluteTolerance": 1e-05,
+          "RelativeTolerance": 1e-05,
+          "Fields": {
+            "Mode": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "FaultBits": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Tick": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Current": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "CurrentReference": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "CurrentDemand": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "SpeedRequest": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "SpeedRamped": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "SpeedEstimate": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "ControlSpeed": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Sector": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Direction": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "OutputDirection": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Modulation": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "GateEnable": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "PhaseEnable": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "FeedbackReady": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "ZcCount": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "ZcPeriod": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "ZcCountdown": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "AcquisitionReady": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "PositionMode": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "VoltageResidual": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "CurrentIntegrator": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "SpeedIntegrator": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "HallSector": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "HallValid": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "AppliedAge": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "CurrentMeasured": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "DutyCounts": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "PhaseMask": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "GateOutput": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "DebugData": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "DebugEnabled": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            }
+          }
+        },
+        "ExactOutputs": {
+          "Passed": true,
+          "ValueCount": 131214,
+          "Signals": [
+            {
+              "Signal": "port1",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port2",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port3",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port4",
+              "Passed": true,
+              "ValueCount": 6906,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port5",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.Enabled",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.Data",
+              "Passed": true,
+              "ValueCount": 36832,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.Mode",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.FaultBits",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.Tick",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.Current",
+              "Passed": true,
+              "ValueCount": 6906,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.CurrentReference",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.CurrentDemand",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.SpeedRequest",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.SpeedRamped",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.SpeedEstimate",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.ControlSpeed",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.Sector",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.Direction",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.OutputDirection",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.Modulation",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.GateEnable",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.PhaseEnable",
+              "Passed": true,
+              "ValueCount": 6906,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.FeedbackReady",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.ZcCount",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.ZcPeriod",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.ZcCountdown",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.AcquisitionReady",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.PositionMode",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.VoltageResidual",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.CurrentIntegrator",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.SpeedIntegrator",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.HallSector",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.HallValid",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.AppliedAge",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.CurrentMeasured",
+              "Passed": true,
+              "ValueCount": 2302,
+              "MaxAbsoluteError": 0
+            }
+          ]
+        },
+        "SourceTraceSha256": "5ba17c1c0459963004fdbadc5e679859e2a38ae938e988266e661670f8819001"
+      },
+      {
+        "Model": "BLDC_PIL_Sensorless_model",
+        "Family": "bldc",
+        "Scenario": "sensorless_forward",
+        "Sensorless": true,
+        "Passed": true,
+        "PILExecuted": true,
+        "ExecutionMode": "processor-in-the-loop (pil)",
+        "Samples": 3465,
+        "SourceFirstSample": 21705,
+        "SourceLastSample": 25169,
+        "SourceStartTime": 1.3565,
+        "SourceStopTime": 1.573,
+        "MaximumTimeGridError": 1.249000902703301e-16,
+        "RequiredStates": [
+          8,
+          9,
+          11,
+          12,
+          14
+        ],
+        "ObservedStates": [
+          8,
+          9,
+          11,
+          12,
+          14
+        ],
+        "RunSamples": 1024,
+        "StatesCovered": true,
+        "FeedbackQualified": true,
+        "RunSectors": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "CommutationCovered": true,
+        "ElfSha256": "84cdaa6a158bd3c6e9c2008b82ba0e9e7513da82fba7ee1358ad3c8ca265b469",
+        "RecordedNormalAlignment": {
+          "Passed": true,
+          "TimeExactlyEqual": true,
+          "StrictBitwisePassed": true,
+          "AbsoluteTolerance": 1e-05,
+          "RelativeTolerance": 1e-05,
+          "Fields": {
+            "Mode": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "FaultBits": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Tick": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Current": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "CurrentReference": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "CurrentDemand": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "SpeedRequest": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "SpeedRamped": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "SpeedEstimate": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "ControlSpeed": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Sector": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Direction": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "OutputDirection": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Modulation": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "GateEnable": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "PhaseEnable": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "FeedbackReady": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "ZcCount": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "ZcPeriod": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "ZcCountdown": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "AcquisitionReady": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "PositionMode": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "VoltageResidual": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "CurrentIntegrator": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "SpeedIntegrator": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "HallSector": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "HallValid": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "AppliedAge": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "CurrentMeasured": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "DutyCounts": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "PhaseMask": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "GateOutput": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "DebugData": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "DebugEnabled": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            }
+          }
+        },
+        "Comparison": {
+          "Passed": true,
+          "TimeExactlyEqual": true,
+          "StrictBitwisePassed": true,
+          "AbsoluteTolerance": 1e-05,
+          "RelativeTolerance": 1e-05,
+          "Fields": {
+            "Mode": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "FaultBits": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Tick": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Current": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "CurrentReference": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "CurrentDemand": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "SpeedRequest": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "SpeedRamped": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "SpeedEstimate": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "ControlSpeed": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Sector": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Direction": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "OutputDirection": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "Modulation": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "GateEnable": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "PhaseEnable": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "FeedbackReady": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "ZcCount": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "ZcPeriod": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "ZcCountdown": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "AcquisitionReady": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "PositionMode": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "VoltageResidual": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "CurrentIntegrator": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "SpeedIntegrator": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "HallSector": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "HallValid": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "AppliedAge": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "CurrentMeasured": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "DutyCounts": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "PhaseMask": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "GateOutput": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "DebugData": {
+              "Passed": true,
+              "ExactRequired": false,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            },
+            "DebugEnabled": {
+              "Passed": true,
+              "ExactRequired": true,
+              "BitwiseEqual": true,
+              "MaximumAbsoluteDifference": 0,
+              "MismatchCount": 0
+            }
+          }
+        },
+        "ExactOutputs": {
+          "Passed": true,
+          "ValueCount": 197505,
+          "Signals": [
+            {
+              "Signal": "port1",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port2",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port3",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port4",
+              "Passed": true,
+              "ValueCount": 10395,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port5",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.Enabled",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.Data",
+              "Passed": true,
+              "ValueCount": 55440,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.Mode",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.FaultBits",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.Tick",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.Current",
+              "Passed": true,
+              "ValueCount": 10395,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.CurrentReference",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.CurrentDemand",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.SpeedRequest",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.SpeedRamped",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.SpeedEstimate",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.ControlSpeed",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.Sector",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.Direction",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.OutputDirection",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.Modulation",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.GateEnable",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.PhaseEnable",
+              "Passed": true,
+              "ValueCount": 10395,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.FeedbackReady",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.ZcCount",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.ZcPeriod",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.ZcCountdown",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.AcquisitionReady",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.PositionMode",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.VoltageResidual",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.CurrentIntegrator",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.SpeedIntegrator",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.HallSector",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.HallValid",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.AppliedAge",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port7.CurrentMeasured",
+              "Passed": true,
+              "ValueCount": 3465,
+              "MaxAbsoluteError": 0
+            }
+          ]
+        },
+        "SourceTraceSha256": "957d6b8677ac3479491ea3fb6fff5776b821f1f29cbff2bfe0e06c5cc327772d"
+      },
+      {
+        "Model": "FOC_PIL_Algth_model",
+        "Family": "pmsm",
+        "Scenario": "sensored_steps",
+        "Sensorless": false,
+        "Passed": true,
+        "PILExecuted": true,
+        "ExecutionMode": "processor-in-the-loop (pil)",
+        "Samples": 1057,
+        "SourceFirstSample": 3173,
+        "SourceLastSample": 4229,
+        "SourceStartTime": 0.19825,
+        "SourceStopTime": 0.26425,
+        "MaximumTimeGridError": 3.469446951953614e-17,
+        "RequiredStates": [
+          6,
+          12,
+          14
+        ],
+        "ObservedStates": [
+          6,
+          12,
+          14
+        ],
+        "RunSamples": 1024,
+        "StatesCovered": true,
+        "FeedbackQualified": true,
+        "CommutationCovered": true,
+        "ElfSha256": "fca1d9563cf3adff160365ca8c30d81bd77057ba821a02982a72a4ee84f6ebfc",
+        "RecordedNormalAlignment": {
+          "Mode": "RecordedNormalAlignment",
+          "Passed": true,
+          "TimeExactlyEqual": true,
+          "AllValuesExactlyEqual": true,
+          "FiniteOutputs": true,
+          "StrictBitwisePassed": true,
+          "StrictPWMBitwisePassed": true,
+          "PWMPolicy": "bitwise-recording-alignment",
+          "PWMPolicyRationale": "Finite-precision duty differences may cross a half-count rounding boundary; both count arrays must equal their own rounded duty and every accepted difference must be adjacent across that same boundary.",
+          "ContinuousDutyAbsoluteTolerance": 1e-06,
+          "OtherFloatingAbsoluteTolerance": 0.0001,
+          "OtherFloatingRelativeTolerance": 0.0001,
+          "PWMMaximumCountDifference": 1,
+          "Fields": {
+            "DutyCounts": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "GateOutput": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Mode": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "FaultBits": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Tick": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "SpeedRequest": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Omega": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Theta": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Current": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "CurrentDq": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "ReferenceDq": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Voltage": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Duty": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "GateEnable": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "ObserverReady": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "FluxMagnitude": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "PositionMode": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            }
+          },
+          "PWMQuantization": {
+            "ReferenceRequantizationMatches": true,
+            "ActualRequantizationMatches": true,
+            "MismatchCount": 0,
+            "AllMismatchesAdjacent": true,
+            "AllMismatchesStraddleHalfCount": true,
+            "StraddleViolationCount": 0,
+            "QuantizationViolationCount": 0,
+            "MaximumCountDifference": 0,
+            "MaxNormalizedDutyDifference": 0,
+            "MaxScaledDutyDifference": 0,
+            "MaxMismatchHalfCountDistance": 0,
+            "FirstBoundaryExample": {}
+          }
+        },
+        "Comparison": {
+          "Mode": "NormalVersusPIL",
+          "Passed": true,
+          "TimeExactlyEqual": true,
+          "AllValuesExactlyEqual": true,
+          "FiniteOutputs": true,
+          "StrictBitwisePassed": true,
+          "StrictPWMBitwisePassed": true,
+          "PWMPolicy": "quantization-aware",
+          "PWMPolicyRationale": "Finite-precision duty differences may cross a half-count rounding boundary; both count arrays must equal their own rounded duty and every accepted difference must be adjacent across that same boundary.",
+          "ContinuousDutyAbsoluteTolerance": 1e-06,
+          "OtherFloatingAbsoluteTolerance": 0.0001,
+          "OtherFloatingRelativeTolerance": 0.0001,
+          "PWMMaximumCountDifference": 1,
+          "Fields": {
+            "DutyCounts": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "GateOutput": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Mode": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "FaultBits": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Tick": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "SpeedRequest": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Omega": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Theta": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Current": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "CurrentDq": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "ReferenceDq": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Voltage": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Duty": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "GateEnable": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "ObserverReady": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "FluxMagnitude": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "PositionMode": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Debug_DebugEn": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Debug_DebugChannel": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Debug_DebugData": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            }
+          },
+          "PWMQuantization": {
+            "ReferenceRequantizationMatches": true,
+            "ActualRequantizationMatches": true,
+            "MismatchCount": 0,
+            "AllMismatchesAdjacent": true,
+            "AllMismatchesStraddleHalfCount": true,
+            "StraddleViolationCount": 0,
+            "QuantizationViolationCount": 0,
+            "MaximumCountDifference": 0,
+            "MaxNormalizedDutyDifference": 0,
+            "MaxScaledDutyDifference": 0,
+            "MaxMismatchHalfCountDistance": 0,
+            "FirstBoundaryExample": {}
+          }
+        },
+        "ExactOutputs": {
+          "Passed": true,
+          "ValueCount": 38052,
+          "Signals": [
+            {
+              "Signal": "port1",
+              "Passed": true,
+              "ValueCount": 1057,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port2",
+              "Passed": true,
+              "ValueCount": 1057,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port3",
+              "Passed": true,
+              "ValueCount": 1057,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port4.DebugEn",
+              "Passed": true,
+              "ValueCount": 1057,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port4.DebugChannel",
+              "Passed": true,
+              "ValueCount": 1057,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port4.DebugData",
+              "Passed": true,
+              "ValueCount": 8456,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port5",
+              "Passed": true,
+              "ValueCount": 1057,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.Mode",
+              "Passed": true,
+              "ValueCount": 1057,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.FaultBits",
+              "Passed": true,
+              "ValueCount": 1057,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.Tick",
+              "Passed": true,
+              "ValueCount": 1057,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.SpeedRequest",
+              "Passed": true,
+              "ValueCount": 1057,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.Omega",
+              "Passed": true,
+              "ValueCount": 1057,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.Theta",
+              "Passed": true,
+              "ValueCount": 1057,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.Current",
+              "Passed": true,
+              "ValueCount": 3171,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.CurrentDq",
+              "Passed": true,
+              "ValueCount": 2114,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.ReferenceDq",
+              "Passed": true,
+              "ValueCount": 2114,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.Voltage",
+              "Passed": true,
+              "ValueCount": 2114,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.Duty",
+              "Passed": true,
+              "ValueCount": 3171,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.GateEnable",
+              "Passed": true,
+              "ValueCount": 1057,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.ObserverReady",
+              "Passed": true,
+              "ValueCount": 1057,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.FluxMagnitude",
+              "Passed": true,
+              "ValueCount": 1057,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.PositionMode",
+              "Passed": true,
+              "ValueCount": 1057,
+              "MaxAbsoluteError": 0
+            }
+          ]
+        },
+        "SourceTraceSha256": "3b503d692d1e9c7b49f8909ebd3f6ffe80640e2d481ef07c1c163335634a8bd2",
+        "InputRecordingSha256": "4aaab1d0180cb8ccf02e60f5cfd70ffc9db6521d04a7e4bcdd78523572bfda8b"
+      },
+      {
+        "Model": "FOC_PIL_StateMch_model",
+        "Family": "pmsm",
+        "Scenario": "sensorless_forward",
+        "Sensorless": true,
+        "Passed": true,
+        "PILExecuted": true,
+        "ExecutionMode": "processor-in-the-loop (pil)",
+        "Samples": 4258,
+        "SourceFirstSample": 21416,
+        "SourceLastSample": 25673,
+        "SourceStartTime": 1.3384375,
+        "SourceStopTime": 1.6045,
+        "MaximumTimeGridError": 1.942890293094024e-16,
+        "RequiredStates": [
+          8,
+          9,
+          11,
+          12,
+          14
+        ],
+        "ObservedStates": [
+          8,
+          9,
+          11,
+          12,
+          14
+        ],
+        "RunSamples": 1024,
+        "StatesCovered": true,
+        "FeedbackQualified": true,
+        "CommutationCovered": true,
+        "ElfSha256": "6993458417a816ca18ca9a5ca94a1ed9a64401d834b37d493ed6656d85fba058",
+        "RecordedNormalAlignment": {
+          "Mode": "RecordedNormalAlignment",
+          "Passed": true,
+          "TimeExactlyEqual": true,
+          "AllValuesExactlyEqual": true,
+          "FiniteOutputs": true,
+          "StrictBitwisePassed": true,
+          "StrictPWMBitwisePassed": true,
+          "PWMPolicy": "bitwise-recording-alignment",
+          "PWMPolicyRationale": "Finite-precision duty differences may cross a half-count rounding boundary; both count arrays must equal their own rounded duty and every accepted difference must be adjacent across that same boundary.",
+          "ContinuousDutyAbsoluteTolerance": 1e-06,
+          "OtherFloatingAbsoluteTolerance": 0.0001,
+          "OtherFloatingRelativeTolerance": 0.0001,
+          "PWMMaximumCountDifference": 1,
+          "Fields": {
+            "DutyCounts": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "GateOutput": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Mode": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "FaultBits": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Tick": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "SpeedRequest": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Omega": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Theta": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Current": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "CurrentDq": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "ReferenceDq": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Voltage": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Duty": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "GateEnable": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "ObserverReady": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "FluxMagnitude": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "PositionMode": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            }
+          },
+          "PWMQuantization": {
+            "ReferenceRequantizationMatches": true,
+            "ActualRequantizationMatches": true,
+            "MismatchCount": 0,
+            "AllMismatchesAdjacent": true,
+            "AllMismatchesStraddleHalfCount": true,
+            "StraddleViolationCount": 0,
+            "QuantizationViolationCount": 0,
+            "MaximumCountDifference": 0,
+            "MaxNormalizedDutyDifference": 0,
+            "MaxScaledDutyDifference": 0,
+            "MaxMismatchHalfCountDistance": 0,
+            "FirstBoundaryExample": {}
+          }
+        },
+        "Comparison": {
+          "Mode": "NormalVersusPIL",
+          "Passed": true,
+          "TimeExactlyEqual": true,
+          "AllValuesExactlyEqual": true,
+          "FiniteOutputs": true,
+          "StrictBitwisePassed": true,
+          "StrictPWMBitwisePassed": true,
+          "PWMPolicy": "quantization-aware",
+          "PWMPolicyRationale": "Finite-precision duty differences may cross a half-count rounding boundary; both count arrays must equal their own rounded duty and every accepted difference must be adjacent across that same boundary.",
+          "ContinuousDutyAbsoluteTolerance": 1e-06,
+          "OtherFloatingAbsoluteTolerance": 0.0001,
+          "OtherFloatingRelativeTolerance": 0.0001,
+          "PWMMaximumCountDifference": 1,
+          "Fields": {
+            "DutyCounts": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "GateOutput": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Mode": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "FaultBits": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Tick": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "SpeedRequest": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Omega": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Theta": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Current": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "CurrentDq": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "ReferenceDq": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Voltage": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Duty": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "GateEnable": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "ObserverReady": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "FluxMagnitude": {
+              "Passed": true,
+              "ExactRequired": false,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "PositionMode": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Debug_DebugEn": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Debug_DebugChannel": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            },
+            "Debug_DebugData": {
+              "Passed": true,
+              "ExactRequired": true,
+              "ExactlyEqual": true,
+              "MaxAbsoluteDifference": 0,
+              "ExactDifferenceCount": 0,
+              "MismatchCount": 0,
+              "FirstMismatchIndex": [],
+              "FirstMismatchTime": []
+            }
+          },
+          "PWMQuantization": {
+            "ReferenceRequantizationMatches": true,
+            "ActualRequantizationMatches": true,
+            "MismatchCount": 0,
+            "AllMismatchesAdjacent": true,
+            "AllMismatchesStraddleHalfCount": true,
+            "StraddleViolationCount": 0,
+            "QuantizationViolationCount": 0,
+            "MaximumCountDifference": 0,
+            "MaxNormalizedDutyDifference": 0,
+            "MaxScaledDutyDifference": 0,
+            "MaxMismatchHalfCountDistance": 0,
+            "FirstBoundaryExample": {}
+          }
+        },
+        "ExactOutputs": {
+          "Passed": true,
+          "ValueCount": 153288,
+          "Signals": [
+            {
+              "Signal": "port1",
+              "Passed": true,
+              "ValueCount": 4258,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port2",
+              "Passed": true,
+              "ValueCount": 4258,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port3",
+              "Passed": true,
+              "ValueCount": 4258,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port4.DebugEn",
+              "Passed": true,
+              "ValueCount": 4258,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port4.DebugChannel",
+              "Passed": true,
+              "ValueCount": 4258,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port4.DebugData",
+              "Passed": true,
+              "ValueCount": 34064,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port5",
+              "Passed": true,
+              "ValueCount": 4258,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.Mode",
+              "Passed": true,
+              "ValueCount": 4258,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.FaultBits",
+              "Passed": true,
+              "ValueCount": 4258,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.Tick",
+              "Passed": true,
+              "ValueCount": 4258,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.SpeedRequest",
+              "Passed": true,
+              "ValueCount": 4258,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.Omega",
+              "Passed": true,
+              "ValueCount": 4258,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.Theta",
+              "Passed": true,
+              "ValueCount": 4258,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.Current",
+              "Passed": true,
+              "ValueCount": 12774,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.CurrentDq",
+              "Passed": true,
+              "ValueCount": 8516,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.ReferenceDq",
+              "Passed": true,
+              "ValueCount": 8516,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.Voltage",
+              "Passed": true,
+              "ValueCount": 8516,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.Duty",
+              "Passed": true,
+              "ValueCount": 12774,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.GateEnable",
+              "Passed": true,
+              "ValueCount": 4258,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.ObserverReady",
+              "Passed": true,
+              "ValueCount": 4258,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.FluxMagnitude",
+              "Passed": true,
+              "ValueCount": 4258,
+              "MaxAbsoluteError": 0
+            },
+            {
+              "Signal": "port6.PositionMode",
+              "Passed": true,
+              "ValueCount": 4258,
+              "MaxAbsoluteError": 0
+            }
+          ]
+        },
+        "SourceTraceSha256": "e395237284debf48ae1a670c11e7d710a785fd00085dc70f75d1a563d6a49773",
+        "InputRecordingSha256": "40caa4c7e797eeb2eec65fcde8f43d6595172e2948c5c987199b71377a19f1e9"
+      }
+    ]
+  },
+  "Status": "hardware-integration-blocked"
+}

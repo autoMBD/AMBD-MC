@@ -4,13 +4,9 @@
     ".agent-env/": "Official bundles, caches and generated runtime outputs.",
     ".agents/": "Skills and third-party toolkit registrations; preserve original notices.",
     ".codex/": "Local agent configuration.",
-    "mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/": "NXP/Freescale independent copyright and license notices.",
-    "mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Project_Settings/Linker_Files/": "NXP/Freescale linker scripts with independent copyright.",
-    "mc-models/bldc/config/BLDC_Ctrl_MBD_DS/Project_Settings/Linker_Files/": "NXP/Freescale linker scripts with independent copyright."
+    "mc-models/hsp/runtime/": "Unmodified autoMBD HSP 0.1.0 runtime helpers; Apache-2.0 notices retained."
   },
   "files": {
-    "mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/include/freemaster_cfg.h": "NXP FreeMASTER configuration with independent copyright.",
-    "mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Project_Settings/Startup_Code/startup_S32K144.S": "NXP generated startup code with independent copyright.",
     "mc-models/pmsm/data/mc_data_types.m": "Generated data-type artifact; maintained by generate_data_type_from_md.m.",
     "mc-models/bldc/data/bldc_data_types.m": "Generated data-type artifact; maintained by generate_data_type_from_md.m."
   }
