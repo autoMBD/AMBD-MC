@@ -55,7 +55,7 @@ function result = run_operational_pil(model,family,traceFile,recordingFile,outpu
 %   RESULT = run_operational_pil(...,false) prepares and checks Normal
 %   only. That result is explicitly incomplete and does not claim PIL.
 %
-%   See also hsp_stage, ambd.compare_outputs
+%   See also ambd_mc, ambd.compare_outputs
 
 if nargin<6,execute=true;end
 if ~isfolder(outputDirectory),mkdir(outputDirectory);end

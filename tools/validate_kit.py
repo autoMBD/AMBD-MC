@@ -116,7 +116,7 @@ def main():
             for family in ['bldc','pmsm']:
                 model='BLDC_Ctrl_CodeModel' if family=='bldc' else 'FOC_Ctrl_CodeModel'
                 if args.reference_report:
-                    evaluate(f"stage=hsp_stage({quote(family)},{quote(args.settings.resolve())});disp('KIT_STAGE_READY');",'KIT_STAGE_READY')
+                    evaluate(f"stage=ambd_mc('stage',{quote(family)},{quote(args.settings.resolve())});disp('KIT_STAGE_READY');",'KIT_STAGE_READY')
                     for case in [x for x in accepted['Cases'] if x['Family']==family]:
                         unchanged();destination=folder/case['Name']
                         evaluate(f"result=run_operational_pil({quote(model)},{quote(family)},{quote(ROOT/case['Trace'])},"
@@ -128,7 +128,7 @@ def main():
                 else:
                     reference_function='kit_'+family+'_reference'
                     mex_name=reference_function+'_mex'
-                    evaluate(f"info={family}_setup;open_system({quote(ROOT/'mc-models'/family/'platform/codegen'/(model+'.slx'))});"
+                    evaluate(f"info=ambd_mc('setup','{family}');open_system({quote(ROOT/'mc-models'/family/'platform/codegen'/(model+'.slx'))});"
                              f"addpath({quote(folder)},'-begin');p=ambd.kit_parameters({quote(family)});plantp=p;plantp.Friction=single(1e-5);"
                              +( "plantp.PlantSubsteps=uint16(4);" if family=='bldc' else '')+
                              f"cfg=coder.config('mex');cfg.GenerateReport=false;codegen('-config',cfg,{quote(reference_function)},"

@@ -83,8 +83,9 @@ def quote(value):
 
 
 def source_hashes():
-    paths = [ROOT / 'pmsm_setup.m', ROOT / 'docs/McStruct.md',
+    paths = [ROOT / 'ambd_mc.m', ROOT / 'docs/McStruct.md',
              ROOT / 'tools/generate_data_type_from_md.m']
+    paths.extend(sorted((ROOT / 'private').glob('ambd_mc_*.m')))
     for folder in ('mc-models/pmsm', 'tests/pmsm', 'tools/pmsm'):
         paths.extend(p for p in (ROOT / folder).rglob('*')
                      if p.suffix in ('.m', '.slx', '.sldd', '.py'))
@@ -153,7 +154,7 @@ def main():
             summary['UnitTests'] = json.loads(unit_file.read_text(encoding='utf-8'))
         with new_client() as client:
             client.initialize()
-            evaluate(client, f"addpath({quote(ROOT)}); info=pmsm_setup; disp('SETUP_PASS');", 'SETUP_PASS')
+            evaluate(client, f"addpath({quote(ROOT)}); info=ambd_mc('setup','pmsm'); disp('SETUP_PASS');", 'SETUP_PASS')
             compiler_file = folder / 'compiler.json'
             evaluate(client,
                      "compiler=mex.getCompilerConfigurations('C','Selected'); "

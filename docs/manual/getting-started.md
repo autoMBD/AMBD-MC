@@ -14,6 +14,34 @@ cd AMBD-MC
 在 MATLAB 中将当前目录切换到仓库根目录。活动模型位于
 `mc-models/pmsm/` 和 `mc-models/bldc/`。
 
+## 统一 MATLAB 入口 {#matlab}
+
+根目录的 `ambd_mc.m` 是公共操作入口。无参数调用或 `ambd_mc("help")`
+显示帮助；操作命令必须显式指定家族，不再默认初始化全部模型。
+
+| 调用 | 行为与返回值 |
+|---|---|
+| `info = ambd_mc("setup","pmsm")` | 返回 PMSM 初始化信息；通过 `info.DictionaryConnection` 保持字典连接 |
+| `info = ambd_mc("setup","bldc")` | 返回 BLDC 初始化信息及字典连接 |
+| `info = ambd_mc("setup","all")` | 返回 `Root`、`Family`、`HspVersion`，以及 `info.Bldc` 和 `info.Pmsm` 两组初始化信息 |
+| `stage = ambd_mc("stage","bldc",settingsFile)` | 为单个家族建立独立工作副本；PMSM 同样支持。返回 `Stage`、`Models`、HSP 元数据以及 `Bldc` 或 `Pmsm` 初始化信息 |
+
+`setup` 支持以下名称-值选项，也接受 `'Name',value` 语法：
+
+- `SyncDictionary=false`：默认只验证类型，保留标定；显式 `true` 同步类型并重置框架默认标定，拒绝未保存的字典修改。必须传逻辑标量。
+- `Dictionary=""`：默认选择该家族源字典。可为单个家族指定其他字典；同步写入仍受源字典／`.agent-env/` 边界约束。`all` 不接受非空 `Dictionary`，分别初始化各家族以指定不同字典。
+- `OutputDirectory=""`：默认写入 `.agent-env/pmsm/` 或 `.agent-env/bldc/`。显式目录必须在 `.agent-env/` 内；`all` 在指定目录下按 `bldc/` 和 `pmsm/` 分开保存生成物。
+
+命令和家族使用表中的小写全名，选项使用完整名称。未知命令、非法家族、
+缺失参数或非法选项会给出 `ambd:*` 错误。`stage` 只接受家族和本机 JSON
+配置路径，不接受 `setup` 选项；具体保护和目标构建步骤见
+[HSP 指南](../hardware/hsp-s32k344.md)。相对路径以 MATLAB 当前目录解析。
+
+升级已有脚本时，将原家族初始化调用替换为对应的 `ambd_mc("setup",...)`；
+单家族返回字段不变。原 HSP 单家族初始化的聚合字段现为直接返回，
+例如改为读取 `info.DictionaryConnection`；`all` 和 stage 保持聚合字段。
+四个旧根目录操作函数已移除；未来操作通过此入口的子命令扩展。
+
 ## 运行第一个场景
 
 选择一种电机执行即可。
@@ -21,14 +49,14 @@ cd AMBD-MC
 PMSM 有感基线：
 
 ```matlab
-info = pmsm_setup;
+info = ambd_mc("setup","pmsm");
 result = mc_run_host_case('FOC_PIL_Algth_top','sensored_steps','Normal');
 ```
 
 BLDC Hall 基线：
 
 ```matlab
-info = bldc_setup;
+info = ambd_mc("setup","bldc");
 result = bldc_run_host_case("hall_steps","Normal");
 ```
 

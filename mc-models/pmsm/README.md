@@ -7,7 +7,7 @@
 从仓库根目录初始化 MATLAB：
 
 ```matlab
-info = pmsm_setup;
+info = ambd_mc("setup","pmsm");
 ```
 
 保留 `info` 以维持字典连接；普通启动保留已有标定。

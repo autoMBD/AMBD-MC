@@ -80,7 +80,7 @@ def read_application_receipt(stage, model):
 
 
 def source_hashes(families):
-    paths = [ROOT / "hsp_setup.m", ROOT / "hsp_stage.m"]
+    paths = [ROOT / "ambd_mc.m", *sorted((ROOT / "private").glob("ambd_mc_*.m"))]
     for directory in [ROOT / "mc-models/hsp", ROOT / "tools/hsp"] + [ROOT / "mc-models" / f for f in families]:
         paths.extend(p for p in directory.rglob('*') if p.is_file()
                      and p.suffix.lower() in ('.m', '.slx', '.sldd', '.py', '.json', '.c', '.h', '.xdm', '.tdb')
@@ -140,7 +140,7 @@ def main():
             with Client(command, cwd=ROOT, env=env, timeout=1800) as client:
                 client.initialize()
                 stage_file = folder / (family + '-stage.txt')
-                evaluate(client, f"addpath({quote(ROOT)});stageInfo=hsp_stage({quote(family)},{quote(settings)});"
+                evaluate(client, f"addpath({quote(ROOT)});stageInfo=ambd_mc('stage',{quote(family)},{quote(settings)});"
                          f"fid=fopen({quote(stage_file)},'w');fprintf(fid,'%s',stageInfo.Stage);fclose(fid);"
                          "disp('HSP_STAGE_READY');", 'HSP_STAGE_READY')
                 stage = Path(stage_file.read_text(encoding='utf-8'))

@@ -224,10 +224,7 @@ class HspBuilderMixin:
             raise RuntimeError(gate)
         self.backup()
         self.matlab(f"cd({quote(ROOT)});addpath({quote(ROOT)});"
-                    f"addpath({quote(ROOT / 'mc-models/hsp')});"
-                    "assert(~isempty(which('autombd.hsp.initialize')),'ambd:MissingHsp','Install autoMBD HSP 0.1.0.');"
-                    "autombd.hsp.initialize;"
-                    f"info={self.family}_setup;"
+                    f"info=ambd_mc('setup','{self.family}');"
                     f"Simulink.fileGenControl('set','CacheFolder',{quote(self.artifacts / 'cache')},"
                     f"'CodeGenFolder',{quote(self.artifacts / 'codegen')},'createDir',true);")
         self.core(self.library_name)
@@ -255,8 +252,7 @@ class HspBuilderMixin:
     def configure_existing(self):
         """Update target configuration after inspecting the saved family models."""
         self.matlab(f"cd({quote(ROOT)});addpath({quote(ROOT)});"
-                    f"addpath({quote(ROOT / 'mc-models/hsp')});autombd.hsp.initialize;"
-                    f"info={self.family}_setup;")
+                    f"info=ambd_mc('setup','{self.family}');")
         manifest = json.loads((ROOT / "mc-models/hsp/models.json").read_text(encoding="utf-8"))
         for entry in manifest["models"]:
             if entry["family"] != self.family or entry["role"] not in ("component", "application"):

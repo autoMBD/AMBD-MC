@@ -93,6 +93,24 @@ class HspModelsTest(unittest.TestCase):
             with self.subTest(path=relative):
                 self.assertFalse((ROOT / relative).exists())
 
+    def test_only_unified_root_matlab_entrypoint(self):
+        self.assertEqual(["ambd_mc.m"], sorted(p.name for p in ROOT.glob("*.m")))
+
+    def test_no_retired_entrypoint_calls_in_active_models_or_tools(self):
+        retired = ("pmsm" + "_setup", "bldc" + "_setup",
+                   "hsp" + "_setup", "hsp" + "_stage")
+        pattern = re.compile(r"\b(?:" + "|".join(retired) + r")\b")
+        for path in (ROOT / "mc-models").rglob("*.slx"):
+            with self.subTest(model=path.stem), zipfile.ZipFile(path) as archive:
+                for name in archive.namelist():
+                    if name.endswith(".xml"):
+                        self.assertNotRegex(archive.read(name).decode("utf-8"), pattern)
+        for directory in ("tools", "mc-models"):
+            for path in (ROOT / directory).rglob("*"):
+                if path.suffix in (".m", ".py"):
+                    with self.subTest(source=path.relative_to(ROOT)):
+                        self.assertNotRegex(path.read_text(encoding="utf-8"), pattern)
+
     def test_smoke_detects_supported_hardware_package(self):
         smoke = (ROOT / "tools/agent/matlab/ambd_smoke.m").read_text(encoding="utf-8")
         self.assertTrue("autoMbdHspDetected" in smoke)

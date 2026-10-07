@@ -108,8 +108,9 @@ def save_report(folder, summary, transcript):
 
 
 def source_hashes():
-    paths = [ROOT / name for name in ('bldc_setup.m', 'docs/BldcStruct.md',
+    paths = [ROOT / name for name in ('ambd_mc.m', 'docs/BldcStruct.md',
              'tools/generate_data_type_from_md.m', 'tools/pmsm/build_models.py')]
+    paths.extend(sorted((ROOT / 'private').glob('ambd_mc_*.m')))
     for folder in ('mc-models/bldc', 'tests/bldc', 'tools/bldc'):
         paths.extend(p for p in (ROOT / folder).rglob('*')
                      if p.suffix in ('.m', '.slx', '.sldd', '.py'))
@@ -201,7 +202,7 @@ def main():
                 raise RuntimeError('One or more unit tests did not pass.')
         with new_client() as client:
             client.initialize()
-            evaluate(client, f"addpath({quote(ROOT)});info=bldc_setup;disp('BLDC_SETUP_PASS');", 'BLDC_SETUP_PASS')
+            evaluate(client, f"addpath({quote(ROOT)});info=ambd_mc('setup','bldc');disp('BLDC_SETUP_PASS');", 'BLDC_SETUP_PASS')
             if not args.normal_only:
                 compiler_file = folder / 'compiler.json'
                 evaluate(client, "cc=mex.getCompilerConfigurations('C','Selected');assert(~isempty(cc));"

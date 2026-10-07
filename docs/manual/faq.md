@@ -14,7 +14,7 @@ HSP 0.1.0。Python 用于环境管理和验证编排。各工作流前提见
 
 ## 字典类型不一致时怎么办？
 
-确认从仓库根目录调用正确的 `pmsm_setup` 或 `bldc_setup`，
+确认从仓库根目录调用正确的 `ambd_mc("setup","pmsm")` 或 `ambd_mc("setup","bldc")`，
 以及 MATLAB 路径没有指向旧副本。普通启动保留标定并报告类型差异。
 明确需要同步当前类型和默认参数时才使用 `SyncDictionary=true`；
 先处理未保存的字典修改。详见 [PMSM](pmsm.md) 或

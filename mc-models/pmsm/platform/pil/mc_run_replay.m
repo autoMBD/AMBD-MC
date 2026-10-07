@@ -54,7 +54,7 @@ function result = mc_run_replay(traceFile,outputDirectory,buildDirectory)
 %   absolute and relative bounds of 1e-4. Strict results remain separate.
 %   RESULT = mc_run_replay(TRACEFILE,OUTPUTDIRECTORY) selects an artifact
 %   directory below .agent-env; no production model or dictionary is saved.
-%   See also mc_run_host_case, pmsm_setup
+%   See also mc_run_host_case, ambd_mc
 arguments
     traceFile (1,1) string
     outputDirectory (1,1) string = ""

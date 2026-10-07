@@ -56,7 +56,7 @@ ADC 进入 CTU 控制时会重新初始化共享 BCTU，因此驱动在这一步
 
 ## 参数与命令
 
-`hsp_stage` 在独立字典中选用 `ambd.kit_parameters`：两对极、相电阻
+`ambd_mc("stage",...)` 在独立字典中选用 `ambd.kit_parameters`：两对极、相电阻
 0.192 Ω、PMSM Ld/Lq 为 96/107 µH、磁链 0.005872 Wb。这些是初始工程标定。
 BLDC 默认 Hall、DC 分流，开环启动电流 1 A；PMSM 默认无感观测器，根输入
 `RotorAngle` 不提供虚构位置。无感 BLDC 可显式设 `PositionMode=1`。

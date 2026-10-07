@@ -37,16 +37,16 @@
 % 何权利主张、损害赔偿或其他责任承担责任。
 % =================================================================================
 % Project:     autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>
-% File:        hsp_stage.m
+% File:        ambd_mc_stage.m
 % Author:      autoMBD <tkung.lqk@foxmail.com>
-% Date:        2026-10-07
+% Date:        2026-10-08
 % Version:     0.1.0
 % Description: Stage portable source models for isolated target builds and PIL.
 % =================================================================================
 
-function info = hsp_stage(family,localSettingsFile)
-%hsp_stage - Prepare isolated model copies for S32K344 builds and PIL
-%   INFO = hsp_stage(FAMILY,LOCALSETTINGSFILE) copies the selected model
+function info = ambd_mc_stage(root,family,localSettingsFile)
+%ambd_mc_stage - Prepare isolated model copies for S32K344 builds and PIL
+%   INFO = ambd_mc_stage(ROOT,FAMILY,LOCALSETTINGSFILE) copies the selected model
 %   family and EB project below .agent-env. Local tool paths and target
 %   connection settings are applied only to these working copies.
 %
@@ -54,12 +54,8 @@ function info = hsp_stage(family,localSettingsFile)
 %   rejected; clean models from this project may be closed and reopened
 %   from the stage. The returned dictionary owners must remain alive.
 %
-%   See also hsp_setup, autombd.hsp.config.importExternalProject
+%   See also ambd_mc, autombd.hsp.config.importExternalProject
 
-family=string(family);
-assert(isscalar(family)&&ismember(family,["bldc","pmsm"]), ...
-    'ambd:Family','Stage one family: bldc or pmsm.');
-root=fileparts(mfilename('fullpath'));
 if family=="bldc",dictionary='BldcData.sldd';else,dictionary='McData.sldd';end
 sourceDictionary=Simulink.data.dictionary.open( ...
     fullfile(root,'mc-models',family,'commom',dictionary));
@@ -96,7 +92,9 @@ copyfile(fullfile(root,'mc-models',family,'commom',dictionary),fullfile(folder,t
 configuration=fullfile(folder,'configuration','S32K344');
 mkdir(fileparts(configuration));
 copyfile(fullfile(root,'mc-models','hsp','config','S32K344'),configuration);
-info=hsp_setup(family,Dictionary=fullfile(folder,targetDictionary));
+options=struct('Dictionary',string(fullfile(folder,targetDictionary)), ...
+    'OutputDirectory',"",'SyncDictionary',false);
+info=ambd_mc_setup(root,family,options);
 if family=="bldc"
     details=info.Bldc;prefix='Bldc';
     parameters=ambd.kit_parameters(family);runtime=bldc.initial_state(parameters);

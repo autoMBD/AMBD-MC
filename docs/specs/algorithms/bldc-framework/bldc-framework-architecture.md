@@ -125,7 +125,7 @@ Fault latch clears only on command 0 after the triggering condition is safe.
 
 ## Initialization and model APIs
 
-`bldc_setup` resolves paths, verifies saved types and calibrations, and directs
+`ambd_mc("setup","bldc")` resolves paths, verifies saved types and calibrations, and directs
 generated files below `.agent-env/bldc`. Explicit `SyncDictionary=true` updates
 owned types/defaults transactionally while preserving unrelated dictionary data.
 Normal startup preserves existing calibration. Runtime state is rebuilt from

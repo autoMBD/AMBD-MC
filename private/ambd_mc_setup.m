@@ -37,27 +37,41 @@
 % 何权利主张、损害赔偿或其他责任承担责任。
 % =================================================================================
 % Project:     autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>
-% File:        bldc_setup.m
+% File:        ambd_mc_setup.m
 % Author:      autoMBD <tkung.lqk@foxmail.com>
-% Date:        2026-10-06
+% Date:        2026-10-08
 % Version:     0.1.0
-% Description: BLDC model paths and verify its dictionary
+% Description: Initialize the motor model suite with autoMBD HSP 0.1.0.
 % =================================================================================
 
-function info = bldc_setup(options)
-%bldc_setup - Add BLDC model paths and verify its dictionary
-%   INFO = bldc_setup initializes the BLDC source and model search paths.
-%   INFO = bldc_setup(SyncDictionary=true) explicitly resets BLDC defaults.
-%   See also bldc_initialize
+function info = ambd_mc_setup(root,family,options)
+%ambd_mc_setup - Share HSP initialization and retain family dictionary owners
 
-arguments
-    options.SyncDictionary {mustBeA(options.SyncDictionary,'logical'),mustBeScalarOrEmpty} = false
-end
-root=fileparts(mfilename('fullpath'));
 assert(~isempty(which('autombd.hsp.initialize')), ...
     'ambd:MissingHsp','Install autoMBD HSP 0.1.0 before opening motor models.');
+addons=matlab.addons.installedAddons;
+selected=addons.Name=="autoMBD HSP" & addons.Enabled;
+assert(any(selected)&&all(addons.Version(selected)=="0.1.0"), ...
+    'ambd:HspVersion','This project requires enabled autoMBD HSP 0.1.0.');
 autombd.hsp.initialize;
 addpath(fullfile(root,'mc-models','hsp'));
-addpath(fullfile(root,'mc-models','bldc'));
-info=bldc_initialize(SyncDictionary=options.SyncDictionary);
+info=struct('Root',root,'Family',family,'HspVersion',"0.1.0");
+if ismember(family,["bldc","all"])
+    addpath(fullfile(root,'mc-models','bldc'));
+    args=familyOptions(options,family,"bldc");
+    info.Bldc=bldc_initialize(args{:});
+end
+if ismember(family,["pmsm","all"])
+    addpath(fullfile(root,'mc-models','pmsm'));
+    addpath(fullfile(root,'mc-models','pmsm','platform','codegen'));
+    args=familyOptions(options,family,"pmsm");
+    info.Pmsm=mc_initialize(args{:});
+end
+end
+
+function args=familyOptions(options,selection,family)
+if selection=="all" && options.OutputDirectory~=""
+    options.OutputDirectory=fullfile(options.OutputDirectory,family);
+end
+args=namedargs2cell(options);
 end
