@@ -49,7 +49,7 @@ PR 必须说明文档同步情况，列出涉及的 `docs/` 页面和更新内�
 ```powershell
 python -m venv .agent-env/docs/venv
 # 标准 Windows Python；其他平台使用该环境的 bin/python
-.agent-env/docs/venv/Scripts/python.exe -m pip install -r requirements-docs.txt
+.agent-env/docs/venv/Scripts/python.exe -m pip install -r tools/requirements-docs.txt
 .agent-env/docs/venv/Scripts/python.exe -m unittest discover -s tests/docs -v
 .agent-env/docs/venv/Scripts/python.exe -m mkdocs build --strict
 .agent-env/docs/venv/Scripts/python.exe tools/docs/check_site.py .agent-env/docs/site --external
