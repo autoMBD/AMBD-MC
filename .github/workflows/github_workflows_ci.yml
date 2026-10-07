@@ -21,10 +21,13 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: SPDX / license header check (.m files)
+      - name: Complete MIT source headers and saved model annotations
         shell: bash
         run: |
-          python tools/test_check_spdx.py || exit $?
+          python tools/test_check_spdx.py --models || exit $?
+
+      - name: Test header validation and ownership scope
+        run: python -m unittest discover -s tests/headers -v
 
       - name: Detect large files (>10MB)
         shell: bash
