@@ -1,6 +1,6 @@
 # BLDC framework architecture
 
-Status: interface baseline, 2026-10-06. Implements B1–B10 in the system spec.
+Public interface contract implementing B1–B10 in the system specification.
 
 ## Composition and execution order
 
@@ -13,7 +13,7 @@ calibration latching precedes acquisition so ADC conversion, feedback, protectio
 and regulation all use one coherent calibration set in each frame. McKernel
 advances the divide-by-16 scheduler; TimerEvent permits the due slow update.
 
-`BLDC_Ctrl_MBD` and `BLDC_Ctrl_CodeModel` are ERT host wrappers. Hall and
+`BLDC_Ctrl_MBD` and `BLDC_Ctrl_CodeModel` are S32K344 HSP target components. Hall and
 sensorless wrapper/top pairs in `platform/pil` reference the same core with
 separate SimulationInput parameter overrides. The plant resides outside the SIL
 controller. Its truth outputs never enter the sensorless or Hall speed regulator.
@@ -87,7 +87,7 @@ first real armed floating-phase crossing establishes the timestamp; the second
 provides a complete 60-degree interval. Six qualified real crossings are required
 before closed-loop readiness. Use the provisional period only until measured
 periods exist. Invalid acquisition or lost crossings have explicit timeouts.
-See the [acquisition decision](../../../validation/2026-10-06-bldc-acquisition.md).
+
 
 The speed PI produces a nonnegative current magnitude in the selected direction,
 with request slew limiting and conditional integration at the 6 A limit.
@@ -131,19 +131,15 @@ owned types/defaults transactionally while preserving unrelated dictionary data.
 Normal startup preserves existing calibration. Runtime state is rebuilt from
 typed defaults each run. Dirty or foreign dictionary mutation is refused.
 
-All structural model edits use official `model_edit`, followed by `model_read`
-and `model_check`. `library.settingsLookup` found no custom library configuration.
-The existing PMSM builder provides previously tested official-tool patterns;
-document any narrow pinned-tool API limitation before using a metadata fallback.
-ERT configuration must match throughout the model-reference hierarchy and actual
-host code/executable evidence must be collected before claiming SIL.
+ERT configuration must match throughout the model-reference hierarchy.
+Verification methods and result interpretation are described in the
+[verification guide](../../../manual/verification.md).
 
-## Technical choices and review boundaries
+## Numerical and plant boundaries
 
 Controller values are single, time counters integer and all arrays fixed-size.
 Selected math may evaluate in double then cast if causally justified by replay;
 no output coarsening or reset introduced merely to hide differences. Separate
 plant parameters permit R/L/flux/inertia/load perturbation without retuning the
 controller. Physical-domain details and independent validation belong to the
-BLDC host plant specification. Phase 0 review checks this contract before model
-or controller integration; any change updates both sides and regression tests.
+BLDC host plant specification. Interface changes must remain consistent on both sides.

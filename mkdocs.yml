@@ -1,35 +1,101 @@
 site_name: AMBD-MC Docs
-site_description: "AMBD-MC — autoMBD Motor Control Documentation"
+site_description: AMBD-MC — autoMBD Motor Control Documentation
 site_author: autoMBD
 repo_name: autoMBD/AMBD-MC
 repo_url: https://github.com/autoMBD/AMBD-MC
 nav:
-  - Home: index.md
-  - Quick Start: getting-started.md
-  - Architecture: architecture.md
-  - Tutorials:
-      - Quick Tutorial: tutorials/tutorial-quick.md
-      - Advanced: tutorials/tutorial-advanced.md
-  - Examples: examples/example.md
-  - Changelog: changelog.md
-  - FAQ: faq.md
-  - doc-license: doc-lic.md
-  - Contributing: doc-contributing.md
-
+- 首页: index.md
+- 使用手册:
+  - 环境与工作流: manual/index.md
+  - 快速开始: manual/getting-started.md
+  - PMSM: manual/pmsm.md
+  - BLDC: manual/bldc.md
+  - 场景示例: manual/examples.md
+  - 验证与复现: manual/verification.md
+  - 常见问题: manual/faq.md
+- 硬件集成:
+  - S32K344 HSP: hardware/hsp-s32k344.md
+  - MCSPTE1AK344: hardware/mcspte1ak344.md
+- 设计参考:
+  - 总体架构: specs/architecture.md
+  - PMSM 类型: McStruct.md
+  - BLDC 类型: BldcStruct.md
+  - PMSM 控制框架:
+    - 系统规格: specs/algorithms/pmsm-framework/pmsm-framework-system.md
+    - 架构: specs/algorithms/pmsm-framework/pmsm-framework-architecture.md
+  - BLDC 控制框架:
+    - 系统规格: specs/algorithms/bldc-framework/bldc-framework-system.md
+    - 架构: specs/algorithms/bldc-framework/bldc-framework-architecture.md
+  - 电机对象:
+    - PMSM: specs/plant-models/pmsm-host/pmsm-host-system-architecture.md
+    - BLDC 系统: specs/plant-models/bldc-host/bldc-host-system.md
+    - BLDC 架构: specs/plant-models/bldc-host/bldc-host-architecture.md
+- 开发指南:
+  - Agent 环境: development/agent-environment.md
+  - 文档维护: development/documentation.md
+- 项目说明:
+  - 许可: project/license.md
+  - 贡献: project/contributing.md
+  - 变更记录: project/changelog.md
 theme:
   name: material
   palette:
-    primary: 'indigo'
-    accent: 'indigo'
+    primary: indigo
+    accent: indigo
   features:
-    - navigation.instant
-    - content.code.copy
-
+  - navigation.instant
+  - content.code.copy
+  language: zh
 markdown_extensions:
-  - toc:
-      permalink: true
-  - admonition
-  - pymdownx.superfences
-  - pymdownx.tabbed
+- toc:
+    permalink: true
+    slugify: !!python/name:markdown.extensions.toc.slugify_unicode
+- admonition
+- pymdownx.superfences
+- pymdownx.tabbed
 plugins:
-  - search
+- search
+- redirects:
+    redirect_maps:
+      getting-started.md: manual/getting-started.md
+      architecture.md: specs/architecture.md
+      faq.md: manual/faq.md
+      hsp-s32k344.md: hardware/hsp-s32k344.md
+      mcspte1ak344.md: hardware/mcspte1ak344.md
+      agent-environment.md: development/agent-environment.md
+      documentation.md: development/documentation.md
+      doc-contributing.md: project/contributing.md
+      doc-lic.md: project/license.md
+      changelog.md: project/changelog.md
+      tutorials/tutorial-advanced.md: manual/verification.md
+      examples/example.md: manual/examples.md
+      tutorials/tutorial-quick.md: manual/getting-started.md
+site_url: https://autombd.github.io/AMBD-MC/
+site_dir: .agent-env/docs/site
+edit_uri: ''
+strict: true
+exclude_docs: |
+  /validation/
+  /superpowers/
+  **/plans/
+  **/reports/
+  **/audits/
+  agent-environment-validation.md
+  license-header-audit.md
+  *-implementation-plan.md
+  *-implementation-test-plan.md
+  *-test-plan.md
+  *-validation.md
+  *-acceptance.md
+  *-audit.md
+  *-report.md
+validation:
+  nav:
+    omitted_files: warn
+    not_found: warn
+    absolute_links: warn
+  links:
+    not_found: warn
+    absolute_links: warn
+    unrecognized_links: warn
+    anchors: warn

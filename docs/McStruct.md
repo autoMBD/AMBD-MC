@@ -1,6 +1,6 @@
 # McStruct 数据结构参考手册
 
-> 类型事实来源：本 Markdown；`mc-models/pmsm/commom/McStruct.m` 仅保留为初始化入口。
+> 类型事实来源：本 Markdown；当前初始化入口为仓库根目录的 `pmsm_setup.m`，内部调用 `mc_initialize`。
 >
 > 本文档汇总了 PMSM 电机控制系统中使用的全部 Simulink `Bus` 和 `Enum` 定义，按功能模块分类整理。
 >
@@ -357,6 +357,8 @@ PI 调节器及算法模块参数。
 
 ---
 
+<a id="7-故障与调试类fault--debug"></a>
+
 ## 7. 故障与调试类（Fault & Debug）
 
 ### tMcFault
@@ -398,6 +400,8 @@ PI 调节器及算法模块参数。
 | TrackingGain | McUInt16_T | 跟踪增益 |
 
 ---
+
+<a id="8-配置与参数类config--parameter"></a>
 
 ## 8. 配置与参数类（Config & Parameter）
 

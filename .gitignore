@@ -80,3 +80,26 @@ __pycache__/
 .codex/config.toml
 .agents/skills/ambd-mathworks
 
+
+# Internal development documents belong only in .agent-env/
+/docs/validation/
+/docs/superpowers/
+/docs/**/plans/
+/docs/**/reports/
+/docs/**/audits/
+/docs/agent-environment-validation.md
+/docs/license-header-audit.md
+/docs/**/*-implementation-plan.md
+/docs/**/*-implementation-test-plan.md
+/docs/**/*-test-plan.md
+/docs/**/*-validation.md
+/docs/**/*-acceptance.md
+/docs/**/*-audit.md
+
+# Common task-record locations outside docs are internal as well
+/plans/
+/reports/
+/audits/
+/*-plan.md
+/*-report.md
+/*-audit.md

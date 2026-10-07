@@ -1,6 +1,6 @@
 # PMSM Framework Architecture
 
-Status: implementation baseline. Updated 2026-10-06.
+Public architecture and interface contract.
 
 The existing named framework modules are retained and made executable. Control functions are original MATLAB implementations suitable for Embedded Coder, called from MATLAB Function blocks. Their explicit state is held by a typed Unit Delay, so reset, scheduling, Normal execution and generated C share one transition function. Inactive draft Stateflow diagrams are replaced by an explicit, tested state-transition implementation; state names/codes retain the McStruct enumeration contract. This avoids retaining visually present but nonexecuting duplicate logic.
 
@@ -30,7 +30,7 @@ requires updating the model configuration and revalidating the entire hierarchy.
 
 Existing conceptual ports are retained: Ia, Ib, Ic (uint16 offset-binary ADC); McControl (0=reset/disarmed, 1=run, 2=controlled stop); FaultEvent; McCtrlEvent; McDrivingEvent; McTimerEvent; McTuningPort (tMcTuning). Add SpeedReq (single electrical rad/s), DcBusVoltage (single V), RotorAngle (single electrical rad). RotorAngle affects control only in explicitly selected sensored mode; a disarmed sample may initialize the otherwise-unused position history. The sensorless observer function has no angle/plant-truth argument, and tests require sensorless outputs to be independent of the position input.
 
-The final two inputs are AppliedVoltageAlpha and AppliedVoltageBeta (single V), packed as tMcInput.AppliedVoltage. They describe the voltage applied during the interval producing the current sample. The host adapter reconstructs it from the delayed, quantized PWM counts, delayed gate and the interval's DC bus voltage. The observer must use this feedback, never its own unquantized requested voltage. Replay records the same applied-voltage inputs as the current recording; feeding a newly generated voltage command against frozen recorded currents creates an inconsistent experiment. See the [feedback decision](../../../validation/2026-10-06-pmsm-applied-voltage-feedback.md).
+The final two inputs are AppliedVoltageAlpha and AppliedVoltageBeta (single V), packed as tMcInput.AppliedVoltage. They describe the voltage applied during the interval producing the current sample. The host adapter reconstructs it from the delayed, quantized PWM counts, delayed gate and the interval's DC bus voltage. The observer must use this feedback, never its own unquantized requested voltage. Replay records the same applied-voltage inputs as the current recording; feeding a newly generated voltage command against frozen recorded currents creates an inconsistent experiment.
 
 Outputs are DutyA/B/C (uint16 timer counts), DebugPort (tMcDebug), GateEnable (boolean) and Monitor (typed telemetry). Normalized duty equals counts/PwmPeriod. A disabled gate overrides duties at the inverter boundary; disabled numerical duties are centered at 0.5, not interpreted as permission to energize a bridge.
 
@@ -66,36 +66,25 @@ The zero-speed deadband is inclusive: requests with absolute value at most
 1 electrical rad/s remain disarmed or initiate a controlled stop. Direction
 capture and reverse-start handling only apply outside that deadband.
 
-## APIs verified in R2026a
-
-Official model_overview/model_read/model_scan/model_check work through the pinned MCP. model_edit creates/wires/configures blocks and Stateflow elements. It rejects MATLAB Function Script both as a block parameter and a chart target (probe responses0009/0012). The documented MATLABFunctionConfiguration.FunctionScript property works (response0016) and is used only for function code, after block creation by model_edit. No upstream tool file is changed.
-
-Host compiler: MinGW64 C14.2.0 detected by mex.getCompilerConfigurations. Full SIL proof requires an actual compiled run, not this detection.
-
-## Research sources
+## References
 
 - PMSM dq dynamics and amplitude conventions: https://www.mathworks.com/help/autoblks/ref/interiorpmsm.html
 - Flux estimation principles: https://www.mathworks.com/help/mcb/ref/fluxobserver.html
 - MATLAB Function script API: https://www.mathworks.com/help/simulink/slref/simulink.matlabfunctionconfiguration.html
 - Actual host SIL semantics: https://www.mathworks.com/help/ecoder/ug/software-and-processor-in-the-loop-sil-and-pil-simulation.html
 
-Protected local references are consulted for architectural integration boundaries only. No code or model subsystem is copied from HSP/NXP projects or legacy.
-
 ## Low-speed and numerical equivalence policy
 
 Below 75 electrical rad/s (1.25*ObserverMinSpeed), sensorless operation is explicitly I/f fallback; it is not claimed to be observable closed-loop control. Entering the closed-loop-eligible speed domain starts a new acquisition timeout. Stopping from I/f, or losing observer qualification while stopping, preserves the last applied control frame and ramps frequency/current down; it never switches to an unqualified angle. Numerical-state failure latches fault512 and forces finite centered duty with gate disabled in the same step.
 
 In this low-speed domain, I/f current scales with absolute requested frequency
-relative to OpenLoopSpeed while retaining CurrentSlew. Applying the full 3.5-A
-startup current to a 20-rad/s request produced excessive acceleration in the
-virtual plant; the scaled request limits that transient without using rotor
+relative to OpenLoopSpeed while retaining CurrentSlew. Scaling the request limits low-speed acceleration without using rotor
 truth or changing the full-speed startup path. This remains open-loop operation,
 not a guarantee of load rejection at unobservable speeds.
 
-The exact replay comparison distinguishes deterministic integer status/gate from float-derived PWM quantization. See [the numerical decision](../../../validation/2026-10-06-pmsm-numerical-equivalence.md).
+The exact replay comparison distinguishes deterministic integer status/gate from float-derived PWM quantization. Acceptance limits are defined in the [system specification](pmsm-framework-system.md).
 
 State and interfaces use single precision. Selected trigonometric, angle and
 square-root evaluations use double intermediates and explicitly round back,
 avoiding amplified library-rounding discrepancies in recorded-input replay.
-The [precision decision](../../../validation/2026-10-06-pmsm-math-precision.md)
-records the causal experiment and the future-target execution-time tradeoff.
+Target execution time for these intermediate evaluations must be assessed separately from numerical agreement.
