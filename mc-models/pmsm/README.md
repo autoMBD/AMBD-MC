@@ -11,5 +11,5 @@ info = pmsm_setup;
 ```
 
 保留 `info` 以维持字典连接；普通启动保留已有标定。
-首次运行见[快速开始](../../docs/getting-started.md)，
-目标代码与 PIL 见[HSP 指南](../../docs/hsp-s32k344.md)。
+首次运行见[快速开始](../../docs/manual/getting-started.md)，
+目标代码与 PIL 见[HSP 指南](../../docs/hardware/hsp-s32k344.md)。

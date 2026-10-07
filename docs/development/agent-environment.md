@@ -2,7 +2,8 @@
 
 本项目使用 MathWorks 官方 MATLAB MCP Server、MATLAB Agentic Toolkit 和 Simulink Agentic Toolkit。Simulink 工具通过官方 `tools/tools.json` 扩展同一个 MCP Server；项目只提供依赖管理、启动入口和验收客户端。关联 [issue #10](https://github.com/autoMBD/AMBD-MC/issues/10)。
 
-本次实测结果见 [验收记录](agent-environment-validation.md)。
+配置检查使用 Doctor，真实执行使用 Smoke。运行记录只保存在本机 `.agent-env/`，
+按[验证指南](../manual/verification.md)区分环境可用性与模型行为验收。
 
 ## 快速开始
 
@@ -95,7 +96,7 @@ Doctor 只检查 Python、MATLAB 路径、WINDIR、锁文件、bundle 完整性�
 
 报告在 `.agent-env/reports/<环境 ID>-<运行 ID>/smoke.json`。退出码 0 表示该命令成功，1 表示错误（参数错误由 argparse 返回 2）。失败保留报告和候选文件以便诊断。运行时间取决于 MATLAB 冷启动，可用 `-Timeout` 调整单次 MCP 请求上限。
 
-活动模型见 `mc-models/hsp/models.json`，Markdown 类型生成由 `tools/generate_data_type_from_md.m` 提供。Smoke 检查实际存在的模型与类型入口；缺少任务输入时报告 **SKIP**。基础环境 PASS 不代表目标代码或电机控制行为通过验收；S32K344 构建与 PIL 流程见 [HSP 集成说明](hsp-s32k344.md)。
+活动模型见 `mc-models/hsp/models.json`，Markdown 类型生成由 `tools/generate_data_type_from_md.m` 提供。Smoke 检查实际存在的模型与类型入口；缺少任务输入时报告 **SKIP**。基础环境 PASS 不代表目标代码或电机控制行为通过验收；S32K344 构建与 PIL 流程见 [HSP 集成说明](../hardware/hsp-s32k344.md)。
 
 | 现象 | 处理 |
 |---|---|

@@ -6,12 +6,12 @@ for NXP S32K344 code generation and processor-in-the-loop (PIL).
 
 - [PMSM setup and validation](mc-models/pmsm/README.md)
 - [BLDC Hall/sensorless six-step setup and validation](mc-models/bldc/README.md)
-- [S32K344 HSP configuration, build and PIL](docs/hsp-s32k344.md)
-- [HSP S32K344 validation evidence](docs/validation/2026-10-07-hsp-s32k344.md)
+- [S32K344 HSP configuration, build and PIL](docs/hardware/hsp-s32k344.md)
+- [Validation workflows and result interpretation](docs/manual/verification.md)
 
 ## Agent development environment
 
-Windows + MATLAB/Simulink + Codex: see [MathWorks agent environment](docs/agent-environment.md)
+Windows + MATLAB/Simulink + Codex: see [MathWorks agent environment](docs/development/agent-environment.md)
 for reproducible setup, official MCP/skills, update checks and rollback.
 
 NOTICE

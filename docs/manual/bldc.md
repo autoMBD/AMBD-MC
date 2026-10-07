@@ -3,17 +3,12 @@
 框架提供 Hall 六步控制和基于实测端电压的无感六步控制，使用独立的
 梯形反电势电机及带续流二极管的逆变器对象。控制器保存显式状态，
 目标组件使用 autoMBD HSP 0.1.0、S32K344 外部 EB 工程和 RTD API。
-[目标配置、代码生成与 PIL](../hsp-s32k344.md)使用独立工作副本。
+[目标配置、代码生成与 PIL](../hardware/hsp-s32k344.md)使用独立工作副本。
 
 ## 启动与仿真
 
-在仓库根目录启动 MATLAB：
-
-```matlab
-info = bldc_setup;
-result = bldc_run_host_case("hall_steps","Normal");
-result = bldc_run_host_case("sensorless_forward","SIL");
-```
+在仓库根目录使用 `bldc_setup` 初始化。首次运行及日志读取见
+[快速开始](getting-started.md)，Hall 和无感调用见[场景示例](examples.md)。
 
 `bldc_run_host_case` 自动选择对应顶层，并通过 `Simulink.SimulationInput`
 临时设置控制模式、独立对象参数、初态和输入波形。它不保存这些覆盖。
@@ -66,7 +61,7 @@ info = bldc_setup(SyncDictionary=true);
   适配落实；单路 PWM idle 不能单独代表桥臂高阻。
 - 无感启动先对齐、强制换相，再短暂全关断测量相位。测量种子只安排临时
   换相；必须继续采集真实浮相过零才能宣告闭环就绪。详见
-  [接管决策](../validation/2026-10-06-bldc-acquisition.md)。
+  [反馈与接管架构](../specs/algorithms/bldc-framework/bldc-framework-architecture.md)。
 - 默认低于 75 电 rad/s 的无感请求采用明确的强制换相状态，不声明无感
   闭环性能。停止先降低电流，再全关断滑行；重新反向驱动前完成停止守卫。
 
@@ -78,30 +73,15 @@ J=1.2e-5 kg m²、B=0.0005 N m s/rad。参考电流限制 6 A、过流阈值 10 
 
 ## 验证与复现
 
-2026-10-06 完整验收：165 项 MATLAB 测试、19 项 Python 测试、40 个
-Normal/SIL 工况及 40 组逐位一致的输入重放通过；PMSM 全矩阵回归通过。
-详见[最终验收报告](../validation/2026-10-06-bldc-sil-acceptance.md)。
+通用命令、完整矩阵与局部调试规则见[验证指南](verification.md)。
+BLDC 独立参考包含 Simscape BLDC、六开关与续流二极管，检查浮相端电压、
+过零、续流释放、电流/转矩以及平均对象与开关纹波的关系。
+场景入口见[场景示例](examples.md)，判据见
+[BLDC 系统规格](../specs/algorithms/bldc-framework/bldc-framework-system.md)。
 
-先按[项目环境说明](../agent-environment.md)配置锁定的官方工具，再执行：
-
-```powershell
-python tools/bldc/validate_plant_reference.py
-python tools/bldc/validate_sil.py
-python tools/pmsm/validate_sil.py
-```
-
-第一步与独立 Simscape BLDC、六开关和六二极管比较，检查浮相端电压、
-过零、续流释放、电流/转矩以及平均模型和开关纹波的关系。第二步运行
-组件测试、独立 Normal/SIL 闭环、同输入回放，并收集 SIL 生成的 C 与主机 EXE 证据。独立目标构建见 [HSP 指南](../hsp-s32k344.md)。第三步验证
-既有 PMSM 模型未回归。所有报告、模型缓存和二进制保存在 `.agent-env/`。
-
-每次正式 BLDC 验收创建新目录，记录源文件、回放模型、编译器及主机
-EXE 的指纹；完整矩阵和所有门槛通过才构成完整 SIL 验收。`--scenario`
-用于局部调试；`--normal-only --collect-failures` 用于收集物理场景问题，
-这些运行均标记 `CompleteMatrix=false`。
-
-`python tools/hsp/build_models.py --family bldc` 可重建生产模型，先在忽略目录备份旧模型；
-已加载的脏模型会被拒绝，防止丢失未保存工作。普通验证无需重建生产模型。
+完整矩阵和所有门槛通过才构成完整 SIL 验收；SIL 生成的 C 与主机 EXE
+证据不能替代独立目标构建。目标构建及模型重建统一见
+[HSP 指南](../hardware/hsp-s32k344.md)。普通验证无需重建生产模型。
 
 ## 适用范围与 HSP 边界
 
@@ -110,5 +90,5 @@ Hall 和无感回路不读取电机的角度、速度或内部反电势真值；
 这一含义以及 ADC 标度、互补 PWM、相关闭和 gate 的语义。
 
 平均对象保留电流连续性、二极管续流和浮相端电压，开关纹波在独立原生
-参考中单独验证。当前结果不替代死区、MOSFET 损耗、ADC 硬件时序、MCU
+参考中单独验证。这些仿真方法不替代死区、MOSFET 损耗、ADC 硬件时序、MCU
 最坏执行时间和实机保护验证。板级配置、显式 Runtime 源码和端口标度见 HSP 集成说明。归档文件位于 `legacy/`。

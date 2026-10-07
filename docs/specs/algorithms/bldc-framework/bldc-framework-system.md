@@ -1,6 +1,6 @@
 # BLDC framework system specification
 
-Status: implementation baseline, 2026-10-06. Owner: autoMBD / 小T.
+Public system requirements and interface contract.
 
 ## Objective and existing baseline
 
@@ -85,15 +85,13 @@ comparison: phase R=0.56 ohm, nonsalient phase L=0.4 mH, pole pairs=2,
 flux constant=0.0039052261 Wb, J=1.2e-5 kg m², B=0.0005 N m s/rad.
 These are declared simulation assumptions, not measured BLDC identification.
 The phase BEMF coefficient per mechanical speed is p*flux, torque is its dot
-product with normalized trapezoid and phase currents. The original 2026-10-06 acceptance targeted host Windows x64 ERT C.
-The current S32K344 HSP integration adds target builds, PIL and board adaptation;
-see the [HSP guide](../../../hsp-s32k344.md) and
-[2026-10-07 evidence](../../../validation/2026-10-07-hsp-s32k344.md).
+product with normalized trapezoid and phase currents. Host Normal/SIL uses Windows x64 generated C.
+S32K344 target generation and PIL use the [HSP integration](../../../hardware/hsp-s32k344.md).
 Physical current calibration, gate waveforms, loaded motor operation and normal-run
-WCET remain outside the recorded validation. Configuration or PIL evidence does
-not establish these power-stage results.
+WCET require separate hardware verification; configuration or PIL alone does not
+establish these results.
 
-## Research notes
+## References
 
 MathWorks documents terminal-voltage ZC detection, alignment/open-loop acquisition,
 demagnetization blanking and 30-degree commutation delay in

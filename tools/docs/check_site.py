@@ -51,6 +51,8 @@ from html.parser import HTMLParser
 import json
 from pathlib import Path
 import posixpath
+import re
+import subprocess
 import sys
 from urllib.error import HTTPError, URLError
 from urllib.parse import unquote, urldefrag, urljoin, urlsplit
@@ -60,8 +62,50 @@ import xml.etree.ElementTree as ET
 SITE_URL = "https://autombd.github.io/AMBD-MC/"
 REPO_URL = "https://github.com/autoMBD/AMBD-MC/"
 FORBIDDEN = {".agent-env", "legacy", "superpowers", "license-header-audit",
-             ".codex", ".agents"}
+             ".codex", ".agents", "validation", "plans", "reports", "audits",
+             "agent-environment-validation"}
 BINARY_SUFFIXES = {".slx", ".sldd", ".mat", ".elf", ".exe", ".dll"}
+INTERNAL_SUFFIXES = ("-implementation-plan", "-implementation-test-plan", "-test-plan",
+                     "-validation", "-acceptance", "-audit", "-report", "-plan")
+PUBLIC_FOLDERS = {"manual", "hardware", "specs", "development", "project"}
+ROOT_DOCUMENTS = {"index.md", "McStruct.md", "BldcStruct.md"}
+PROTECTED_SOURCE_PREFIXES = ("legacy/", ".agents/", "mc-models/hsp/config/")
+DOCUMENT_SUFFIXES = {".md", ".json", ".yaml", ".yml", ".txt", ".rst", ".html",
+                     ".csv", ".tsv", ".log", ".pdf"}
+
+
+def internal_document(name):
+    """Recognize internal document paths in either the repository or built site."""
+    parts = Path(name).parts
+    for part in parts:
+        stem = Path(part).stem.lower()
+        if (part.lower() in FORBIDDEN or stem in FORBIDDEN
+                or stem.endswith(INTERNAL_SUFFIXES) or re.match(r"^\d{4}-\d{2}-\d{2}-", stem)):
+            return True
+    return False
+
+
+def check_tracked_documents(repository):
+    """Check the index, including ignored files that were force-added to Git."""
+    names = subprocess.check_output(
+        ["git", "-C", str(repository), "ls-files", "-z"], encoding="utf-8"
+    ).split("\0")
+    errors = []
+    for name in filter(None, names):
+        parts = Path(name).parts
+        if name.startswith(PROTECTED_SOURCE_PREFIXES):
+            continue
+        if parts[0].lower() == ".agent-env":
+            errors.append(f"Internal file tracked by Git: {name}")
+        elif Path(name).suffix.lower() in DOCUMENT_SUFFIXES and internal_document(name):
+            errors.append(f"Internal document tracked by Git: {name}")
+        elif parts[0].lower() == "docs":
+            if internal_document(name):
+                errors.append(f"Internal document tracked by Git: {name}")
+            elif ((len(parts) == 2 and parts[1] not in ROOT_DOCUMENTS)
+                  or (len(parts) > 2 and parts[1] not in PUBLIC_FOLDERS)):
+                errors.append(f"Unclassified public document: {name}")
+    return errors
 
 
 class Page(HTMLParser):
@@ -69,12 +113,18 @@ class Page(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.anchors = set()
         self.links = []
+        self.redirect = None
         self.feed(text)
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         if tag == "link" and set(attrs.get("rel", "").split()) & {"preconnect", "dns-prefetch"}:
             return
+        if tag == "meta" and attrs.get("http-equiv", "").lower() == "refresh":
+            match = re.search(r"url\s*=\s*(.+)", attrs.get("content", ""), re.I)
+            if match:
+                self.redirect = match[1].strip(" \"'")
+                self.links.append(self.redirect)
         if attrs.get("id"):
             self.anchors.add(attrs["id"])
         if tag == "a" and attrs.get("name"):
@@ -96,8 +146,7 @@ def inspect_site(root, site_url=SITE_URL):
         raise ValueError("site_url must end in /")
 
     for name in files:
-        parts = set(Path(name).parts) | {Path(name).stem}
-        if parts & FORBIDDEN or Path(name).suffix.lower() in BINARY_SUFFIXES:
+        if internal_document(name) or Path(name).suffix.lower() in BINARY_SUFFIXES:
             errors.append(f"Forbidden publication: {name}")
 
     def resolve(reference, origin):
@@ -109,6 +158,11 @@ def inspect_site(root, site_url=SITE_URL):
             errors.append(f"Unsupported URL: {origin} -> {reference}")
             return None
         if (url.scheme, url.netloc) != (base.scheme, base.netloc):
+            path = unquote(url.path)
+            if (url.netloc in {"github.com", "raw.githubusercontent.com"}
+                    and path.startswith("/autoMBD/AMBD-MC/") and "/docs/" in path
+                    and internal_document("docs/" + path.split("/docs/", 1)[1])):
+                errors.append(f"Internal document link: {origin} -> {reference}")
             external.add(urldefrag(url.geturl())[0])
             return None
         path = unquote(url.path)
@@ -133,7 +187,7 @@ def inspect_site(root, site_url=SITE_URL):
         for reference in page.links:
             resolve(reference, name)
 
-    expected = set(pages) - {"404.html"}
+    expected = {name for name, page in pages.items() if not page.redirect} - {"404.html"}
     if "index.html" not in expected:
         errors.append("Missing homepage: index.html")
     try:
@@ -205,14 +259,19 @@ def main():
     parser.add_argument("--external", action="store_true")
     parser.add_argument("--exceptions", type=Path, default=Path(__file__).with_name("link-exceptions.json"))
     args = parser.parse_args()
+    repository = Path(__file__).resolve().parents[2]
     errors, links = inspect_site(args.site, args.site_url)
+    errors.extend(check_tracked_documents(repository))
     for error in errors:
         print(error)
     if errors:
         print(f"FAIL: {len(errors)} local publication errors")
         return 1
-    count = len(list(args.site.rglob("*.html"))) - 1
-    print(f"PASS: local links, anchors, search, sitemap and publication boundaries ({count} pages)")
+    documents = [Page(path.read_text(encoding="utf-8")) for path in args.site.rglob("*.html")
+                 if path.relative_to(args.site).as_posix() != "404.html"]
+    redirects = sum(bool(page.redirect) for page in documents)
+    print(f"PASS: repository boundary, local links, anchors, search, sitemap and publication "
+          f"scope ({len(documents) - redirects} pages, {redirects} redirects)")
     if args.external:
         rules = json.loads(args.exceptions.read_text(encoding="utf-8"))
         for url, rule in rules.items():
@@ -220,7 +279,6 @@ def main():
                     or not rule.get("reason") or not rule.get("statuses")
                     or not all(isinstance(s, int) and 400 <= s <= 599 for s in rule["statuses"])):
                 raise ValueError(f"Invalid exact-URL exception: {url}")
-        repository = Path(__file__).resolve().parents[2]
         with ThreadPoolExecutor(max_workers=4) as pool:
             results = list(pool.map(lambda url: check_external(url, rules, repository), sorted(links)))
         for message, _ in results:

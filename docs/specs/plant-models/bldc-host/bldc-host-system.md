@@ -1,8 +1,7 @@
 # BLDC host plant system specification
 
 The original five-state phase-domain plant supports PC Normal/SIL control
-validation. It is a virtual motor, not an identified hardware model. Existing
-PMSM and legacy models are excluded from all edits.
+validation. It is a virtual motor, not an identified hardware model.
 
 Commands u are three uint16 high-side counts, three Boolean phase enables and
 a Boolean gate enable. Disturbances w are bus voltage (V) and resisting shaft

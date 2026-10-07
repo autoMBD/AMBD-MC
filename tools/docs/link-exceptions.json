@@ -1,23 +1,5 @@
 {
-  "https://www.mathworks.com/help/rtw/ug/numerical-consistency-of-model-and-generated-code-simulation-results.html": {
-    "statuses": [
-      403
-    ],
-    "reason": "2026-10-08: official MathWorks reference; automated HTTP requests receive Access Denied. Only HTTP 403 is excepted; 404, server errors and timeouts remain failures."
-  },
   "https://www.mathworks.com/help/mcb/ref/sensorlesssixstepcommutation.html": {
-    "statuses": [
-      403
-    ],
-    "reason": "2026-10-08: official MathWorks reference; automated HTTP requests receive Access Denied. Only HTTP 403 is excepted; 404, server errors and timeouts remain failures."
-  },
-  "https://www.mathworks.com/help/simulink/ug/compare-simulation-data.html": {
-    "statuses": [
-      403
-    ],
-    "reason": "2026-10-08: official MathWorks reference; automated HTTP requests receive Access Denied. Only HTTP 403 is excepted; 404, server errors and timeouts remain failures."
-  },
-  "https://www.mathworks.com/help/sltest/ug/back-to-back-equivalence-testing.html": {
     "statuses": [
       403
     ],

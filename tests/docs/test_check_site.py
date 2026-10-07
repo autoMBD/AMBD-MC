@@ -49,6 +49,7 @@ import importlib.util
 import json
 from pathlib import Path
 import tempfile
+import subprocess
 import unittest
 
 SCRIPT = Path(__file__).resolve().parents[2] / "tools/docs/check_site.py"
@@ -139,12 +140,89 @@ class SiteTests(unittest.TestCase):
         self.assertEqual(errors, [])
         self.assertEqual(links, {"https://outside.test/doc"})
 
+    def test_internal_report_and_plan_paths_are_forbidden(self):
+        for name in ("validation/report/index.html", "agent-environment-validation/index.html",
+                     "specs/motor-test-plan/index.html", "reports/run.json"):
+            with self.subTest(name=name):
+                self.write(name, "internal fixture")
+                self.assertTrue(any("Forbidden publication" in error for error in self.errors()))
+
+    def test_public_redirect_is_checked_but_not_indexed(self):
+        self.write("old/index.html", '<meta http-equiv="refresh" content="0; url=../guide/">')
+        self.assertEqual(self.errors(), [])
+
+    def test_broken_redirect_fails(self):
+        self.write("old/index.html", '<meta http-equiv="refresh" content="0; url=../missing/">')
+        self.assertTrue(any("Missing target" in error for error in self.errors()))
+
+    def test_private_github_history_link_is_rejected(self):
+        self.write("index.html", '<a href="https://github.com/autoMBD/AMBD-MC/blob/af47a41/docs/validation/report.md">private</a>')
+        self.assertTrue(any("Internal document link" in error for error in self.errors()))
+
     def test_exception_is_exact_and_status_limited(self):
         rules = {"https://outside.test/doc": {"statuses": [403], "reason": "Bot protection"}}
         self.assertTrue(checker.is_exception("https://outside.test/doc", 403, rules))
         self.assertFalse(checker.is_exception("https://outside.test/doc", 404, rules))
         self.assertFalse(checker.is_exception("https://outside.test/other", 403, rules))
 
+
+
+class RepositoryPolicyTests(unittest.TestCase):
+    def setUp(self):
+        self.assertTrue(callable(getattr(checker, "check_tracked_documents", None)),
+                        "Git-tracked document boundary check is not implemented")
+        self.directory = tempfile.TemporaryDirectory()
+        self.addCleanup(self.directory.cleanup)
+        self.root = Path(self.directory.name)
+        subprocess.run(["git", "init", "--quiet", str(self.root)], check=True)
+
+    def track(self, name):
+        path = self.root / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("fixture", encoding="utf-8")
+        subprocess.run(["git", "-C", str(self.root), "add", "-f", "--", name], check=True)
+
+    def test_public_guides_and_generator_sources_are_allowed(self):
+        for name in ("docs/index.md", "docs/McStruct.md", "docs/BldcStruct.md",
+                     "docs/manual/verification.md", "docs/hardware/environment.example.json",
+                     "docs/specs/algorithms/motor/system.md"):
+            self.track(name)
+        self.assertEqual(checker.check_tracked_documents(self.root), [])
+
+    def test_force_added_internal_documents_are_rejected(self):
+        names = ("docs/validation/run.json", "docs/superpowers/plans/task.md",
+                 "docs/agent-environment-validation.md", "docs/license-header-audit.md",
+                 "docs/specs/motor-implementation-plan.md", "docs/specs/motor-test-plan.md",
+                 "docs/project/2026-10-08-results.md", ".agent-env/reports/run.json")
+        for name in names:
+            self.track(name)
+        errors = checker.check_tracked_documents(self.root)
+        for name in names:
+            self.assertTrue(any(name in error for error in errors), name)
+
+    def test_internal_documents_outside_docs_are_rejected(self):
+        names = ("plans/task-implementation-plan.md", "reports/run-acceptance.md",
+                 "audit-report.md", "task-plan.md", "DOCS/Validation/run.json")
+        for name in names:
+            self.track(name)
+        errors = checker.check_tracked_documents(self.root)
+        for name in names:
+            self.assertTrue(any(name in error for error in errors), name)
+
+    def test_protected_historical_and_third_party_trees_are_not_reclassified(self):
+        for name in ("legacy/reports/old.md", ".agents/skills/vendor/plans/template.md",
+                     "mc-models/hsp/config/S32K344/reports/vendor.json"):
+            self.track(name)
+        self.assertEqual(checker.check_tracked_documents(self.root), [])
+
+    def test_internal_file_still_in_index_is_rejected_after_local_delete(self):
+        self.track("docs/validation/run.md")
+        (self.root / "docs/validation/run.md").unlink()
+        self.assertTrue(checker.check_tracked_documents(self.root))
+
+    def test_new_loose_root_page_is_rejected(self):
+        self.track("docs/new-topic.md")
+        self.assertTrue(checker.check_tracked_documents(self.root))
 
 
 class HttpTests(unittest.TestCase):

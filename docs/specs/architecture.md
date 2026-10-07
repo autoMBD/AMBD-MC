@@ -19,8 +19,8 @@ PMSM 和 BLDC 各有独立的算法包、类型源、数据字典与主机电机
 | McDebug | 输出监控、状态与调试信息 |
 
 具体执行顺序和接口以
-[PMSM 架构规格](specs/algorithms/pmsm-framework/pmsm-framework-architecture.md)、
-[BLDC 架构规格](specs/algorithms/bldc-framework/bldc-framework-architecture.md) 为准。
+[PMSM 架构规格](algorithms/pmsm-framework/pmsm-framework-architecture.md)、
+[BLDC 架构规格](algorithms/bldc-framework/bldc-framework-architecture.md) 为准。
 
 ## 主机闭环与目标边界
 
@@ -50,7 +50,7 @@ PMSM 有感基线可接收位置输入，BLDC Hall 模式使用 Hall 信号。
 
 ## 类型与标定
 
-[PMSM 类型源](McStruct.md)和 [BLDC 类型源](BldcStruct.md)由
+[PMSM 类型源](../McStruct.md)和 [BLDC 类型源](../BldcStruct.md)由
 [类型生成器](https://github.com/autoMBD/AMBD-MC/blob/main/tools/generate_data_type_from_md.m)
 读取。初始化检查生成类型与字典是否一致；正常启动保留已有标定。
 控制器参数与对象参数分开，场景使用临时覆盖实现失配、扰动和故障测试。
@@ -61,5 +61,5 @@ Normal 检查模型行为；SIL 执行主机生成 C；同输入重放比较模�
 PIL 在目标处理器执行生成代码。独立闭环与同输入重放解决不同问题，
 两者均不能替代实机采样、功率级与实时性测试。
 
-模型角色和目标部署见 [HSP 指南](hsp-s32k344.md)，
-实际覆盖范围见[验证索引](validation/index.md)。
+模型角色和目标部署见 [HSP 指南](../hardware/hsp-s32k344.md)，
+各验证层级和结果判读见[验证指南](../manual/verification.md)。
