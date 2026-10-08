@@ -1,0 +1,706 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:datamodel xmlns:ns0="http://www.tresos.de/_projects/DataModel2/16/root.xsd" xmlns:ns1="http://www.tresos.de/_projects/DataModel2/06/data.xsd" xmlns:ns2="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd" version="7.0">
+  <ns1:ctr type="AUTOSAR" factory="autosar">
+    <ns1:lst type="TOP-LEVEL-PACKAGES">
+      <ns1:ctr name="Pwm" type="AR-PACKAGE">
+        <ns1:lst type="ELEMENTS">
+          <ns1:chc name="Pwm" type="AR-ELEMENT" value="MODULE-CONFIGURATION">
+            <ns1:ctr type="MODULE-CONFIGURATION">
+              <ns2:a name="DEF" value="ASPath:/TS_T40D2M30I0R0/Pwm" />
+              <ns1:var name="POST_BUILD_VARIANT_USED" type="BOOLEAN" value="false">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </ns1:var>
+              <ns1:var name="IMPLEMENTATION_CONFIG_VARIANT" type="ENUMERATION" value="VariantPostBuild">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </ns1:var>
+              <ns1:ctr name="PwmChannelConfigSet" type="IDENTIFIABLE">
+                <ns1:lst name="PwmChannel" type="MAP">
+                  <ns1:ctr name="Hsp_PhaseA" type="IDENTIFIABLE">
+                    <ns1:var name="PwmChannelId" type="INTEGER" value="0" />
+                    <ns1:lst name="PwmChannelEcucPartitionRef" />
+                    <ns1:ref name="PwmHwChannel" type="REFERENCE" value="ASPath:/Pwm/Pwm/PwmChannelConfigSet/PwmFtm_0/PwmFtmCh_0" />
+                    <ns1:var name="PwmChannelClass" type="ENUMERATION" value="PWM_VARIABLE_PERIOD">
+                      <ns2:a name="ENABLE" value="false" />
+                    </ns1:var>
+                    <ns1:var name="PwmPeriodInTicks" type="BOOLEAN" value="true" />
+                    <ns1:var name="PwmPeriodDefault" type="FLOAT" value="10000" />
+                    <ns1:var name="PwmDutycycleDefault" type="INTEGER" value="16384" />
+                    <ns1:var name="PwmPolarity" type="ENUMERATION" value="PWM_LOW" />
+                    <ns1:var name="PwmIdleState" type="ENUMERATION" value="PWM_HIGH" />
+                    <ns1:var name="PwmNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:ref name="PwmMcuClockReferencePoint" type="REFERENCE" value="ASPath:/Mcu/Mcu/McuModuleConfiguration/McuClockSettingConfig_0/Hsp_FtmClock" />
+                  </ns1:ctr>
+                  <ns1:ctr name="Hsp_PhaseB" type="IDENTIFIABLE">
+                    <ns1:var name="PwmChannelId" type="INTEGER" value="1" />
+                    <ns1:lst name="PwmChannelEcucPartitionRef" />
+                    <ns1:ref name="PwmHwChannel" type="REFERENCE" value="ASPath:/Pwm/Pwm/PwmChannelConfigSet/PwmFtm_0/PwmFtmCh_1" />
+                    <ns1:var name="PwmChannelClass" type="ENUMERATION" value="PWM_VARIABLE_PERIOD">
+                      <ns2:a name="ENABLE" value="false" />
+                    </ns1:var>
+                    <ns1:var name="PwmPeriodInTicks" type="BOOLEAN" value="true" />
+                    <ns1:var name="PwmPeriodDefault" type="FLOAT" value="10000" />
+                    <ns1:var name="PwmDutycycleDefault" type="INTEGER" value="16384" />
+                    <ns1:var name="PwmPolarity" type="ENUMERATION" value="PWM_LOW" />
+                    <ns1:var name="PwmIdleState" type="ENUMERATION" value="PWM_HIGH" />
+                    <ns1:var name="PwmNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:ref name="PwmMcuClockReferencePoint" type="REFERENCE" value="ASPath:/Mcu/Mcu/McuModuleConfiguration/McuClockSettingConfig_0/Hsp_FtmClock" />
+                  </ns1:ctr>
+                  <ns1:ctr name="Hsp_PhaseC" type="IDENTIFIABLE">
+                    <ns1:var name="PwmChannelId" type="INTEGER" value="2" />
+                    <ns1:lst name="PwmChannelEcucPartitionRef" />
+                    <ns1:ref name="PwmHwChannel" type="REFERENCE" value="ASPath:/Pwm/Pwm/PwmChannelConfigSet/PwmFtm_0/PwmFtmCh_2" />
+                    <ns1:var name="PwmChannelClass" type="ENUMERATION" value="PWM_VARIABLE_PERIOD">
+                      <ns2:a name="ENABLE" value="false" />
+                    </ns1:var>
+                    <ns1:var name="PwmPeriodInTicks" type="BOOLEAN" value="true" />
+                    <ns1:var name="PwmPeriodDefault" type="FLOAT" value="10000" />
+                    <ns1:var name="PwmDutycycleDefault" type="INTEGER" value="16384" />
+                    <ns1:var name="PwmPolarity" type="ENUMERATION" value="PWM_LOW" />
+                    <ns1:var name="PwmIdleState" type="ENUMERATION" value="PWM_HIGH" />
+                    <ns1:var name="PwmNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:ref name="PwmMcuClockReferencePoint" type="REFERENCE" value="ASPath:/Mcu/Mcu/McuModuleConfiguration/McuClockSettingConfig_0/Hsp_FtmClock" />
+                  </ns1:ctr>
+                  <ns1:ctr name="Hsp_AdcTrigger" type="IDENTIFIABLE">
+                    <ns1:var name="PwmChannelId" type="INTEGER" value="3" />
+                    <ns1:lst name="PwmChannelEcucPartitionRef" />
+                    <ns1:ref name="PwmHwChannel" type="REFERENCE" value="ASPath:/Pwm/Pwm/PwmChannelConfigSet/PwmFtm_0/PwmFtmCh_3" />
+                    <ns1:var name="PwmChannelClass" type="ENUMERATION" value="PWM_VARIABLE_PERIOD">
+                      <ns2:a name="ENABLE" value="false" />
+                    </ns1:var>
+                    <ns1:var name="PwmPeriodInTicks" type="BOOLEAN" value="true" />
+                    <ns1:var name="PwmPeriodDefault" type="FLOAT" value="10000" />
+                    <ns1:var name="PwmDutycycleDefault" type="INTEGER" value="16384" />
+                    <ns1:var name="PwmPolarity" type="ENUMERATION" value="PWM_HIGH" />
+                    <ns1:var name="PwmIdleState" type="ENUMERATION" value="PWM_LOW" />
+                    <ns1:var name="PwmNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:ref name="PwmMcuClockReferencePoint" type="REFERENCE" value="ASPath:/Mcu/Mcu/McuModuleConfiguration/McuClockSettingConfig_0/Hsp_FtmClock" />
+                  </ns1:ctr>
+                </ns1:lst>
+                <ns1:lst name="PwmFtm" type="MAP">
+                  <ns1:ctr name="PwmFtm_0" type="IDENTIFIABLE">
+                    <ns1:var name="PwmHwInstance" type="ENUMERATION" value="Ftm_3" />
+                    <ns1:ctr name="PwmFtmClkCfg" type="IDENTIFIABLE">
+                      <ns1:var name="PwmFtmClockSource" type="ENUMERATION" value="System_clock">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="PwmFtmClockPrescaler" type="ENUMERATION" value="Divide_by_1">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="PwmFtmClockPrescalerAlternate" type="ENUMERATION" value="Divide_by_1">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                    </ns1:ctr>
+                    <ns1:ctr name="PwmFtmGlobalChCfg" type="IDENTIFIABLE">
+                      <ns1:var name="PwmFtmCounterMode" type="ENUMERATION" value="Center_Aligned_mode">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="PwmFtmPeriod" type="INTEGER" value="10000">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="PwmFtmPeriodDither" type="INTEGER" value="0">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="PwmFtmDeadTime" type="INTEGER" value="48">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="PwmFtmDeadTimePrescaler" type="ENUMERATION" value="Divide_by_1">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                    </ns1:ctr>
+                    <ns1:ctr name="PwmFtmInstCfg" type="IDENTIFIABLE">
+                      <ns1:var name="PwmFtmDebugMode" type="ENUMERATION" value="Debug_Mode_00">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="PwmFtmWriteProtection" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="PwmFtmInitTrigger" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="PwmFtmInitTriggerMode" type="ENUMERATION" value="Trigger_on_Reload_Point">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="PwmFtmOverflowIrq" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:ctr name="PwmFtmOverflowIrqCallback" type="IDENTIFIABLE">
+                        <ns1:var name="PwmFtmOverflowIrqFunctionCallback" type="FUNCTION-NAME" value="NULL_PTR">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmOverflowIrqParameterCallback" type="FUNCTION-NAME" value="NULL_PTR">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                      </ns1:ctr>
+                      <ns1:var name="PwmFtmReloadIrq" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:ctr name="PwmFtmReloadIrqCallback" type="IDENTIFIABLE">
+                        <ns1:var name="PwmFtmReloadIrqFunctionCallback" type="FUNCTION-NAME" value="NULL_PTR">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmReloadIrqParameterCallback" type="FUNCTION-NAME" value="NULL_PTR">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                      </ns1:ctr>
+                    </ns1:ctr>
+                    <ns1:ctr name="PwmFtmSyncCfg" type="IDENTIFIABLE">
+                      <ns1:var name="PwmFtmSyncMode" type="ENUMERATION" value="Software_sync_trigger">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="PwmFtmHwTrig0" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="PwmFtmHwTrig1" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="PwmFtmHwTrig2" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="PwmFtmAutoHwTrig" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="PwmFtmMaxLoadPoint" type="BOOLEAN" value="true">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="PwmFtmMinLoadPoint" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="PwmFtmHalfCycleLoadPoint" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="PwmFtmHalfCycleLoadPointValue" type="INTEGER" value="0">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="PwmFtmReloadPointFrequency" type="INTEGER" value="0">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="PwmFtmInvertControl" type="ENUMERATION" value="Sync_on_FTM_Clock_rising_edge">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="PwmFtmSwOutControl" type="ENUMERATION" value="Sync_on_FTM_Clock_rising_edge">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="PwmFtmOutputMask" type="ENUMERATION" value="Sync_on_FTM_Sync_Trigger">
+                        </ns1:var>
+                      <ns1:var name="PwmFtmCounterInitial" type="ENUMERATION" value="Sync_on_FTM_Sync_Trigger">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="PwmFtmCounterSync" type="ENUMERATION" value="Sync_disabled">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                    </ns1:ctr>
+                    <ns1:ctr name="FtmGlobalFaultCfg" type="IDENTIFIABLE">
+                      <ns1:var name="FtmFaultFunctionality" type="ENUMERATION" value="FAULT_DISABLED">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="FtmFaultFilterValue" type="INTEGER" value="0">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="FtmFaultOutputState" type="ENUMERATION" value="SAFE_VALUE">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="FtmFaultIrqUsed" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:lst name="FtmFaultSettings" type="MAP" />
+                    </ns1:ctr>
+                    <ns1:ctr name="PwmFtmSimCfg" type="IDENTIFIABLE">
+                      <ns1:var name="PwmFtmObeControl" type="BOOLEAN" value="true">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                    </ns1:ctr>
+                    <ns1:lst name="PwmFtmCh" type="MAP">
+                      <ns1:ctr name="PwmFtmCh_0" type="IDENTIFIABLE">
+                        <ns1:var name="PwmFtmChId" type="ENUMERATION" value="CH_0">
+                          </ns1:var>
+                        <ns1:var name="PwmFtmChPulseType" type="ENUMERATION" value="High_true_pulse">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChInitOutput" type="ENUMERATION" value="HIGH">
+                          </ns1:var>
+                        <ns1:var name="PwmFtmChPolarity" type="ENUMERATION" value="Channel_active_LOW">
+                          <ns2:a name="IMPORTER_INFO">
+                            <ns2:v>@DEF</ns2:v>
+                            <ns2:v>@CALC</ns2:v>
+                          </ns2:a>
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChDutyCycle" type="INTEGER" value="16384">
+                          </ns1:var>
+                        <ns1:var name="PwmFtmChDutyCycleDither" type="INTEGER" value="0">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChInterrupt" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:ctr name="PwmFtmChInterruptCallback" type="IDENTIFIABLE">
+                          <ns1:var name="PwmFtmChInterruptFunctionCallback" type="FUNCTION-NAME" value="NULL_PTR">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmChInterruptParameterCallback" type="FUNCTION-NAME" value="NULL_PTR">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                        </ns1:ctr>
+                        <ns1:var name="PwmFtmChPwmOutputEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="PwmFtmChSwCtrlEnable" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChExternTriggerEnable" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChSwCtrlValue" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChMatchLoadPointEnable" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmPairChEnable" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:ctr name="PwmFtmPairedCh" type="IDENTIFIABLE">
+                          <ns1:var name="PwmFtmPairedChDeadtimeEnable" type="BOOLEAN" value="true">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChSync" type="BOOLEAN" value="true">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChExtTrig" type="BOOLEAN" value="false">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChComplementary" type="BOOLEAN" value="true">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmDutyDitheringPaired" type="BOOLEAN" value="false">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChCombineMode" type="ENUMERATION" value="Combine_modes_disabled">
+                            <ns2:a name="IMPORTER_INFO">
+                              <ns2:v>@DEF</ns2:v>
+                              <ns2:v>@CALC</ns2:v>
+                            </ns2:a>
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChComplementaryMode" type="ENUMERATION" value="Duplicate_Output">
+                            <ns2:a name="IMPORTER_INFO">
+                              <ns2:v>@DEF</ns2:v>
+                              <ns2:v>@CALC</ns2:v>
+                            </ns2:a>
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChPhaseShift" type="INTEGER" value="0">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                        </ns1:ctr>
+                      </ns1:ctr>
+                      <ns1:ctr name="PwmFtmCh_1" type="IDENTIFIABLE">
+                        <ns1:var name="PwmFtmChId" type="ENUMERATION" value="CH_2">
+                          </ns1:var>
+                        <ns1:var name="PwmFtmChPulseType" type="ENUMERATION" value="High_true_pulse">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChInitOutput" type="ENUMERATION" value="HIGH">
+                          </ns1:var>
+                        <ns1:var name="PwmFtmChPolarity" type="ENUMERATION" value="Channel_active_LOW">
+                          <ns2:a name="IMPORTER_INFO">
+                            <ns2:v>@DEF</ns2:v>
+                            <ns2:v>@CALC</ns2:v>
+                          </ns2:a>
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChDutyCycle" type="INTEGER" value="16384">
+                          </ns1:var>
+                        <ns1:var name="PwmFtmChDutyCycleDither" type="INTEGER" value="0">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChInterrupt" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:ctr name="PwmFtmChInterruptCallback" type="IDENTIFIABLE">
+                          <ns1:var name="PwmFtmChInterruptFunctionCallback" type="FUNCTION-NAME" value="NULL_PTR">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmChInterruptParameterCallback" type="FUNCTION-NAME" value="NULL_PTR">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                        </ns1:ctr>
+                        <ns1:var name="PwmFtmChPwmOutputEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="PwmFtmChSwCtrlEnable" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChExternTriggerEnable" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChSwCtrlValue" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChMatchLoadPointEnable" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmPairChEnable" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:ctr name="PwmFtmPairedCh" type="IDENTIFIABLE">
+                          <ns1:var name="PwmFtmPairedChDeadtimeEnable" type="BOOLEAN" value="true">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChSync" type="BOOLEAN" value="true">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChExtTrig" type="BOOLEAN" value="false">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChComplementary" type="BOOLEAN" value="true">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmDutyDitheringPaired" type="BOOLEAN" value="false">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChCombineMode" type="ENUMERATION" value="Combine_modes_disabled">
+                            <ns2:a name="IMPORTER_INFO">
+                              <ns2:v>@DEF</ns2:v>
+                              <ns2:v>@CALC</ns2:v>
+                            </ns2:a>
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChComplementaryMode" type="ENUMERATION" value="Duplicate_Output">
+                            <ns2:a name="IMPORTER_INFO">
+                              <ns2:v>@DEF</ns2:v>
+                              <ns2:v>@CALC</ns2:v>
+                            </ns2:a>
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChPhaseShift" type="INTEGER" value="0">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                        </ns1:ctr>
+                      </ns1:ctr>
+                      <ns1:ctr name="PwmFtmCh_2" type="IDENTIFIABLE">
+                        <ns1:var name="PwmFtmChId" type="ENUMERATION" value="CH_4">
+                          </ns1:var>
+                        <ns1:var name="PwmFtmChPulseType" type="ENUMERATION" value="High_true_pulse">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChInitOutput" type="ENUMERATION" value="HIGH">
+                          </ns1:var>
+                        <ns1:var name="PwmFtmChPolarity" type="ENUMERATION" value="Channel_active_LOW">
+                          <ns2:a name="IMPORTER_INFO">
+                            <ns2:v>@DEF</ns2:v>
+                            <ns2:v>@CALC</ns2:v>
+                          </ns2:a>
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChDutyCycle" type="INTEGER" value="16384">
+                          </ns1:var>
+                        <ns1:var name="PwmFtmChDutyCycleDither" type="INTEGER" value="0">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChInterrupt" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:ctr name="PwmFtmChInterruptCallback" type="IDENTIFIABLE">
+                          <ns1:var name="PwmFtmChInterruptFunctionCallback" type="FUNCTION-NAME" value="NULL_PTR">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmChInterruptParameterCallback" type="FUNCTION-NAME" value="NULL_PTR">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                        </ns1:ctr>
+                        <ns1:var name="PwmFtmChPwmOutputEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="PwmFtmChSwCtrlEnable" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChExternTriggerEnable" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChSwCtrlValue" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChMatchLoadPointEnable" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmPairChEnable" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:ctr name="PwmFtmPairedCh" type="IDENTIFIABLE">
+                          <ns1:var name="PwmFtmPairedChDeadtimeEnable" type="BOOLEAN" value="true">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChSync" type="BOOLEAN" value="true">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChExtTrig" type="BOOLEAN" value="false">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChComplementary" type="BOOLEAN" value="true">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmDutyDitheringPaired" type="BOOLEAN" value="false">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChCombineMode" type="ENUMERATION" value="Combine_modes_disabled">
+                            <ns2:a name="IMPORTER_INFO">
+                              <ns2:v>@DEF</ns2:v>
+                              <ns2:v>@CALC</ns2:v>
+                            </ns2:a>
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChComplementaryMode" type="ENUMERATION" value="Duplicate_Output">
+                            <ns2:a name="IMPORTER_INFO">
+                              <ns2:v>@DEF</ns2:v>
+                              <ns2:v>@CALC</ns2:v>
+                            </ns2:a>
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChPhaseShift" type="INTEGER" value="0">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                        </ns1:ctr>
+                      </ns1:ctr>
+                      <ns1:ctr name="PwmFtmCh_3" type="IDENTIFIABLE">
+                        <ns1:var name="PwmFtmChId" type="ENUMERATION" value="CH_6">
+                          </ns1:var>
+                        <ns1:var name="PwmFtmChPulseType" type="ENUMERATION" value="High_true_pulse">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChInitOutput" type="ENUMERATION" value="LOW">
+                          </ns1:var>
+                        <ns1:var name="PwmFtmChPolarity" type="ENUMERATION" value="Channel_active_HIGH">
+                          <ns2:a name="IMPORTER_INFO">
+                            <ns2:v>@DEF</ns2:v>
+                            <ns2:v>@CALC</ns2:v>
+                          </ns2:a>
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChDutyCycle" type="INTEGER" value="16384">
+                          </ns1:var>
+                        <ns1:var name="PwmFtmChDutyCycleDither" type="INTEGER" value="0">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChInterrupt" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:ctr name="PwmFtmChInterruptCallback" type="IDENTIFIABLE">
+                          <ns1:var name="PwmFtmChInterruptFunctionCallback" type="FUNCTION-NAME" value="NULL_PTR">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmChInterruptParameterCallback" type="FUNCTION-NAME" value="NULL_PTR">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                        </ns1:ctr>
+                        <ns1:var name="PwmFtmChPwmOutputEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="PwmFtmChSwCtrlEnable" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChExternTriggerEnable" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChSwCtrlValue" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmChMatchLoadPointEnable" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PwmFtmPairChEnable" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:ctr name="PwmFtmPairedCh" type="IDENTIFIABLE">
+                          <ns1:var name="PwmFtmPairedChDeadtimeEnable" type="BOOLEAN" value="false">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChSync" type="BOOLEAN" value="true">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChExtTrig" type="BOOLEAN" value="false">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChComplementary" type="BOOLEAN" value="false">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmDutyDitheringPaired" type="BOOLEAN" value="false">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChCombineMode" type="ENUMERATION" value="Combine_modes_disabled">
+                            <ns2:a name="IMPORTER_INFO">
+                              <ns2:v>@DEF</ns2:v>
+                              <ns2:v>@CALC</ns2:v>
+                            </ns2:a>
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChComplementaryMode" type="ENUMERATION" value="Duplicate_Output">
+                            <ns2:a name="IMPORTER_INFO">
+                              <ns2:v>@DEF</ns2:v>
+                              <ns2:v>@CALC</ns2:v>
+                            </ns2:a>
+                          </ns1:var>
+                          <ns1:var name="PwmFtmPairedChPhaseShift" type="INTEGER" value="0">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                        </ns1:ctr>
+                      </ns1:ctr>
+                    </ns1:lst>
+                  </ns1:ctr>
+                </ns1:lst>
+                <ns1:lst name="PwmFlexio" type="MAP" />
+                <ns1:lst name="PwmHwResourceConfig" type="MAP">
+                  <ns1:ctr name="PwmHwResourceConfig_0" type="IDENTIFIABLE">
+                    <ns1:var name="PwmHwResourceId" type="ENUMERATION" value="FTM_3_CH_0" />
+                    <ns1:var name="PwmIsrEnable" type="BOOLEAN" value="false" />
+                  </ns1:ctr>
+                  <ns1:ctr name="PwmHwResourceConfig_1" type="IDENTIFIABLE">
+                    <ns1:var name="PwmHwResourceId" type="ENUMERATION" value="FTM_3_CH_2" />
+                    <ns1:var name="PwmIsrEnable" type="BOOLEAN" value="false" />
+                  </ns1:ctr>
+                  <ns1:ctr name="PwmHwResourceConfig_2" type="IDENTIFIABLE">
+                    <ns1:var name="PwmHwResourceId" type="ENUMERATION" value="FTM_3_CH_4" />
+                    <ns1:var name="PwmIsrEnable" type="BOOLEAN" value="false" />
+                  </ns1:ctr>
+                  <ns1:ctr name="PwmHwResourceConfig_3" type="IDENTIFIABLE">
+                    <ns1:var name="PwmHwResourceId" type="ENUMERATION" value="FTM_3_CH_6" />
+                    <ns1:var name="PwmIsrEnable" type="BOOLEAN" value="false" />
+                  </ns1:ctr>
+                </ns1:lst>
+              </ns1:ctr>
+              <ns1:ctr name="PwmGeneral" type="IDENTIFIABLE">
+                <ns1:var name="PwmMultipartitionEnabled" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PwmDevErrorDetect" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PwmDutycycleUpdatedEndperiod" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PwmPeriodUpdatedEndperiod" type="BOOLEAN" value="true" />
+                <ns1:var name="PwmNotificationSupported" type="BOOLEAN" value="false" />
+                <ns1:var name="PwmEnableUserModeSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PwmLowPowerStatesSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PwmPowerStateAsynchTransitionMode" type="BOOLEAN" value="false">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PwmEnableDualClockMode" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PwmEnableExternalTrigger" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PwmEnableMaskOutputs" type="BOOLEAN" value="true" />
+                <ns1:var name="PwmFaultSupported" type="BOOLEAN" value="true" />
+                <ns1:var name="PwmReloadNotificationSupported" type="BOOLEAN" value="true" />
+                <ns1:var name="PwmMultiChannelSync" type="BOOLEAN" value="true" />
+                <ns1:var name="PwmIndex" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:lst name="PwmEcucPartitionRef" />
+                <ns1:ref name="PwmKernelEcucPartitionRef" type="REFERENCE">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:ref>
+                <ns1:lst name="PwmPowerStateConfig" type="MAP" />
+              </ns1:ctr>
+              <ns1:ctr name="PwmConfigurationOfOptApiServices" type="IDENTIFIABLE">
+                <ns1:var name="PwmDeInitApi" type="BOOLEAN" value="true" />
+                <ns1:var name="PwmGetOutputState" type="BOOLEAN" value="true" />
+                <ns1:var name="PwmSetDutyCycle" type="BOOLEAN" value="true" />
+                <ns1:var name="PwmSetOutputToIdle" type="BOOLEAN" value="true" />
+                <ns1:var name="PwmSetPeriodAndDuty" type="BOOLEAN" value="true" />
+                <ns1:var name="PwmVersionInfoApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PwmGetChannelStateApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PwmSetDutyCycle_NoUpdate" type="BOOLEAN" value="false" />
+                <ns1:var name="PwmSetPeriodAndDuty_NoUpdate" type="BOOLEAN" value="false" />
+                <ns1:var name="PwmSetDutyPhaseShift" type="BOOLEAN" value="true" />
+                <ns1:var name="PwmSetChannelDeadTime" type="BOOLEAN" value="true" />
+                <ns1:var name="PwmForceOutputToZeroApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PwmEnableTrigger" type="BOOLEAN" value="true" />
+                <ns1:var name="PwmDisableTrigger" type="BOOLEAN" value="true" />
+                <ns1:var name="PwmResetCounter" type="BOOLEAN" value="true" />
+                <ns1:var name="PwmFastUpdateApi" type="BOOLEAN" value="true" />
+              </ns1:ctr>
+              <ns1:ctr name="CommonPublishedInformation" type="IDENTIFIABLE">
+                <ns1:var name="ArReleaseMajorVersion" type="INTEGER" value="4">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ArReleaseMinorVersion" type="INTEGER" value="7">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ArReleaseRevisionVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ModuleId" type="INTEGER" value="121">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwMajorVersion" type="INTEGER" value="3">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwMinorVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwPatchVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="VendorApiInfix" type="STRING" value="">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="VendorId" type="INTEGER" value="43">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+              </ns1:ctr>
+            </ns1:ctr>
+          </ns1:chc>
+        </ns1:lst>
+      </ns1:ctr>
+    </ns1:lst>
+  </ns1:ctr>
+</ns0:datamodel>

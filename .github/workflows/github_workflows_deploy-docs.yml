@@ -41,6 +41,8 @@ jobs:
 
       - name: Check external and repository source links
         if: matrix.os == 'ubuntu-latest'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: python tools/docs/check_site.py .agent-env/docs/site --external
 
       - name: Upload reviewed site artifact

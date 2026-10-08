@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:datamodel xmlns:ns0="http://www.tresos.de/_projects/DataModel2/16/root.xsd" xmlns:ns1="http://www.tresos.de/_projects/DataModel2/06/data.xsd" xmlns:ns2="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd" version="7.0">
+  <ns1:ctr type="AUTOSAR" factory="autosar">
+    <ns1:lst type="TOP-LEVEL-PACKAGES">
+      <ns1:ctr name="Mcl" type="AR-PACKAGE">
+        <ns1:lst type="ELEMENTS">
+          <ns1:chc name="Mcl" type="AR-ELEMENT" value="MODULE-CONFIGURATION">
+            <ns1:ctr type="MODULE-CONFIGURATION">
+              <ns2:a name="DEF" value="ASPath:/TS_T40D2M30I0R0/Mcl" />
+              <ns1:var name="POST_BUILD_VARIANT_USED" type="BOOLEAN" value="true">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </ns1:var>
+              <ns1:var name="IMPLEMENTATION_CONFIG_VARIANT" type="ENUMERATION" value="VariantPostBuild">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </ns1:var>
+              <ns1:ctr name="MclGeneral" type="IDENTIFIABLE">
+                <ns1:var name="MclEnableDemReportErrorStatus" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="MclEnableDevErrorDetect" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="Mcl_VersionInfoApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="MclEnableUserModeSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="MclEnableMultipartitionSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="MclEnableVirtualAddressMappingSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:ctr name="MclDma" type="IDENTIFIABLE">
+                  <ns1:var name="MclEnableDma" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="MclCache" type="IDENTIFIABLE">
+                  <ns1:var name="MclEnableCache" type="BOOLEAN" value="false">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:var name="MclCacheTimeoutValue" type="INTEGER" value="0">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:var name="MclCacheTimeoutMethod" type="ENUMERATION" value="OSIF_COUNTER_DUMMY">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                </ns1:ctr>
+                <ns1:ctr name="MclTrgMux" type="IDENTIFIABLE">
+                  <ns1:var name="MclEnableTrgMux" type="BOOLEAN" value="true" />
+                </ns1:ctr>
+                <ns1:ctr name="MclFlexioCommon" type="IDENTIFIABLE">
+                  <ns1:var name="MclEnableFlexioCommon" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="MclFtmCommon" type="IDENTIFIABLE">
+                  <ns1:var name="Mcl_FtmCommonTimebase" type="BOOLEAN" value="true" />
+                  <ns1:var name="Mcl_FtmSplitCommonTimebase" type="BOOLEAN" value="false">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                </ns1:ctr>
+              </ns1:ctr>
+              <ns1:ctr name="MclConfig" type="IDENTIFIABLE">
+                <ns1:lst name="MclVirtualMemorySection" type="MAP" />
+                <ns1:ctr name="MclDemEventParameterRefs" type="IDENTIFIABLE">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns1:ref name="MCL_E_TIMEOUT_FAILURE" type="REFERENCE">
+                    <ns2:a name="ENABLE" value="false" />
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:ref>
+                </ns1:ctr>
+                <ns1:lst name="dmaLogicInstance_ConfigType" type="MAP" />
+                <ns1:lst name="dmaLogicChannel_Type" type="MAP" />
+                <ns1:lst name="trgmuxInstaceList" type="MAP">
+                  <ns1:ctr name="trgmuxInstaceList_0" type="IDENTIFIABLE">
+                    <ns1:var name="trgmuxHardwareInstance" type="ENUMERATION" value="TRGMUX_IP_HW_INST_0">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                  </ns1:ctr>
+                </ns1:lst>
+                <ns1:lst name="trgmuxLogicGroup" type="MAP">
+                  <ns1:ctr name="Ambd_AdcRoute0" type="IDENTIFIABLE">
+                    <ns1:var name="trgmuxLogicGroupHardwareInstance" type="ENUMERATION" value="TRGMUX_IP_HW_INST_0">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="trgmuxLogicGroup_Name" type="ENUMERATION" value="TRGMUX_IP_PDB0">
+                      <ns2:a name="IMPORTER_INFO">
+                        <ns2:v>@DEF</ns2:v>
+                        <ns2:v>@CALC</ns2:v>
+                      </ns2:a>
+                    </ns1:var>
+                    <ns1:var name="trgmuxLogicGroup_Lock" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:lst name="trgmuxLogicTrigger" type="MAP">
+                      <ns1:ctr name="trgmuxLogicTrigger_0" type="IDENTIFIABLE">
+                        <ns1:var name="trgmuxLogicTrigger_Name" type="STRING" value="AMBD_ADC0_TRIGGER">
+                          <ns2:a name="IMPORTER_INFO">
+                            <ns2:v>@DEF</ns2:v>
+                            <ns2:v>@CALC</ns2:v>
+                          </ns2:a>
+                        </ns1:var>
+                        <ns1:var name="trgmuxLogicTrigger_Output" type="ENUMERATION" value="TRGMUX_IP_OUTPUT_PDB0_TRIGGER_IN0">
+                          <ns2:a name="IMPORTER_INFO">
+                            <ns2:v>@DEF</ns2:v>
+                            <ns2:v>@CALC</ns2:v>
+                          </ns2:a>
+                        </ns1:var>
+                        <ns1:var name="trgmuxLogicTrigger_Input" type="ENUMERATION" value="TRGMUX_IP_INPUT_LOGIC0_VSS">
+                          <ns2:a name="IMPORTER_INFO">
+                            <ns2:v>@DEF</ns2:v>
+                            <ns2:v>@CALC</ns2:v>
+                          </ns2:a>
+                        </ns1:var>
+                        <ns1:ref name="trgmuxLogicTrigger_EcucPartitionRef" type="REFERENCE">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:ref>
+                      </ns1:ctr>
+                    </ns1:lst>
+                  </ns1:ctr>
+                  <ns1:ctr name="Ambd_AdcRoute1" type="IDENTIFIABLE">
+                    <ns1:var name="trgmuxLogicGroupHardwareInstance" type="ENUMERATION" value="TRGMUX_IP_HW_INST_0">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="trgmuxLogicGroup_Name" type="ENUMERATION" value="TRGMUX_IP_PDB1">
+                      <ns2:a name="IMPORTER_INFO">
+                        <ns2:v>@DEF</ns2:v>
+                        <ns2:v>@CALC</ns2:v>
+                      </ns2:a>
+                    </ns1:var>
+                    <ns1:var name="trgmuxLogicGroup_Lock" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:lst name="trgmuxLogicTrigger" type="MAP">
+                      <ns1:ctr name="trgmuxLogicTrigger_0" type="IDENTIFIABLE">
+                        <ns1:var name="trgmuxLogicTrigger_Name" type="STRING" value="AMBD_ADC1_TRIGGER">
+                          <ns2:a name="IMPORTER_INFO">
+                            <ns2:v>@DEF</ns2:v>
+                            <ns2:v>@CALC</ns2:v>
+                          </ns2:a>
+                        </ns1:var>
+                        <ns1:var name="trgmuxLogicTrigger_Output" type="ENUMERATION" value="TRGMUX_IP_OUTPUT_PDB1_TRIGGER_IN0">
+                          <ns2:a name="IMPORTER_INFO">
+                            <ns2:v>@DEF</ns2:v>
+                            <ns2:v>@CALC</ns2:v>
+                          </ns2:a>
+                        </ns1:var>
+                        <ns1:var name="trgmuxLogicTrigger_Input" type="ENUMERATION" value="TRGMUX_IP_INPUT_LOGIC0_VSS">
+                          <ns2:a name="IMPORTER_INFO">
+                            <ns2:v>@DEF</ns2:v>
+                            <ns2:v>@CALC</ns2:v>
+                          </ns2:a>
+                        </ns1:var>
+                        <ns1:ref name="trgmuxLogicTrigger_EcucPartitionRef" type="REFERENCE">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:ref>
+                      </ns1:ctr>
+                    </ns1:lst>
+                  </ns1:ctr>
+                </ns1:lst>
+                <ns1:lst name="FlexioCommon" type="MAP" />
+              </ns1:ctr>
+              <ns1:ctr name="CommonPublishedInformation" type="IDENTIFIABLE">
+                <ns1:var name="ArReleaseMajorVersion" type="INTEGER" value="4">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ArReleaseMinorVersion" type="INTEGER" value="7">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ArReleaseRevisionVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ModuleId" type="INTEGER" value="255">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwMajorVersion" type="INTEGER" value="3">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwMinorVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwPatchVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="VendorId" type="INTEGER" value="43">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+              </ns1:ctr>
+            </ns1:ctr>
+          </ns1:chc>
+        </ns1:lst>
+      </ns1:ctr>
+    </ns1:lst>
+  </ns1:ctr>
+</ns0:datamodel>

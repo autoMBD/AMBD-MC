@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:datamodel xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd" xmlns:ns0="http://www.tresos.de/_projects/DataModel2/16/root.xsd" xmlns:ns2="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd" version="7.0">
+  <d:ctr type="AUTOSAR" factory="autosar">
+    <d:lst type="TOP-LEVEL-PACKAGES">
+      <d:ctr name="EcuC" type="AR-PACKAGE">
+        <d:lst type="ELEMENTS">
+          <d:chc name="EcuC" type="AR-ELEMENT" value="MODULE-CONFIGURATION">
+            <d:ctr type="MODULE-CONFIGURATION">
+              <ns2:a name="DEF" value="ASPath:/TS_T40D2M30I0R0/EcuC" />
+              <d:var name="IMPLEMENTATION_CONFIG_VARIANT" type="ENUMERATION" value="VariantPostBuild">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </d:var>
+              <d:lst name="EcucHardware" type="MAP" />
+              <d:lst name="EcucPartitionCollection" type="MAP" />
+              <d:lst name="EcucPduCollection" type="MAP" />
+              <d:ctr name="EcucSelectedLoadableVariant" type="IDENTIFIABLE">
+                <ns2:a name="ENABLE" value="false" />
+                <d:ref name="EcucSelectedLoadableRef" type="REFERENCE">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:ref>
+              </d:ctr>
+              <d:ctr name="EcucPostBuildVariants" type="IDENTIFIABLE">
+                <ns2:a name="ENABLE" value="false" />
+                <d:ref name="EcucSelectedPostBuildVariantRef" type="REFERENCE">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:ref>
+                <d:lst name="EcucPostBuildVariantRef">
+                  <d:ref type="REFERENCE">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </d:ref>
+                </d:lst>
+              </d:ctr>
+            </d:ctr>
+          </d:chc>
+        </d:lst>
+      </d:ctr>
+    </d:lst>
+  </d:ctr>
+</ns0:datamodel>

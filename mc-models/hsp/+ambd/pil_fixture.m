@@ -47,15 +47,16 @@
 function [in,faultSamples] = pil_fixture(model,family)
 %pil_fixture - Create a bounded target input replay
 %   [IN,FAULTSAMPLES] = pil_fixture(MODEL,FAMILY) creates 129 samples at
-%   16 kHz, exercising reset, startup, injected fault, reset and restart.
+%   the staged target period, exercising reset, startup, injected fault, reset and restart.
 %   Current and position inputs vary deterministically. The saved model
 %   and calibration dictionary are not changed.
 %
 %   See also Simulink.SimulationInput, ambd.compare_outputs
 
-time=(0:128)'*6.25e-5;
+cfg=autombd.hsp.config.read(model);period=cfg.environment.execution.basePeriodSeconds;
+time=(0:128)'*period;
 if strcmp(family,'bldc')
-    p=bldc.defaults;
+    p=bldc.defaults;p.Ts=single(period);
     if contains(model,'Sensorless'),p.PositionMode=uint8(1);end
     u=bldc.default_input(p);
     names={'CurrentRaw','Hall','TerminalVoltage','Control','Fault','CommandEvent', ...
@@ -65,7 +66,7 @@ if strcmp(family,'bldc')
     parameterName='BldcControl_Params';parameterType='tBldcParams';
     stateName='BldcRuntime_Init';stateType='tBldcRuntime';state=bldc.initial_state(p);
 else
-    p=mc.defaults;
+    p=mc.defaults;p.Ts=single(period);
     if contains(model,'Algth'),p.PositionMode=uint8(1);end
     u=mc.default_input(p);
     names={'Ia','Ib','Ic','McControl','FaultEvent','McCtrlEvent','McDrivingEvent', ...

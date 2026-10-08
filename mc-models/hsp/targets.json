@@ -1,0 +1,56 @@
+{
+  "s32k344": {
+    "name": "s32k344",
+    "targetId": "nxp.s32k3.s32k344-custom",
+    "kit": "MCSPTE1AK344",
+    "configuration": "S32K344",
+    "templateId": "s32k344-motor",
+    "projectName": "Hsp_S32K344_T172",
+    "boardSource": "ambd_kit_board.c",
+    "define": "AMBD_TARGET_S32K344=1",
+    "samplePeriod": 6.25e-05,
+    "adcBits": 14,
+    "coreClockHz": 160000000,
+    "pwmPeriodTicks": 10000,
+    "uartInstance": 6,
+    "uartRx": "PTA15",
+    "uartTx": "PTA16",
+    "pwmDutyTicks": 10000,
+    "motor": {
+      "name": "Sunrise 42BLY3A78-24110",
+      "polePairs": 2,
+      "resistance": 0.192,
+      "ld": 9.6e-05,
+      "lq": 0.000107,
+      "flux": 0.005872,
+      "inertia": 1.2e-05
+    }
+  },
+  "s32k144": {
+    "name": "s32k144",
+    "targetId": "nxp.s32k1.s32k144-custom",
+    "kit": "MCSPTE1AK144",
+    "configuration": "S32K144",
+    "templateId": "s32k144-motor",
+    "projectName": "Hsp_S32K144_Motor",
+    "boardSource": "ambd_kit_s32k144.c",
+    "define": "AMBD_TARGET_S32K144=1",
+    "samplePeriod": 0.000125,
+    "adcBits": 12,
+    "coreClockHz": 80000000,
+    "pwmPeriodTicks": 10000,
+    "uartInstance": 1,
+    "uartRx": "PTC6",
+    "uartTx": "PTC7",
+    "pwmDutyTicks": 5000,
+    "motor": {
+      "name": "Sunrise 42BLY3A78-24110",
+      "polePairs": 2,
+      "resistance": 0.192,
+      "ld": 9.6e-05,
+      "lq": 0.000107,
+      "flux": 0.005872,
+      "inertia": 1.2e-05
+    }
+  }
+}

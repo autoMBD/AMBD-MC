@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:datamodel xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd" xmlns:ns0="http://www.tresos.de/_projects/DataModel2/16/root.xsd" xmlns:ns2="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd" version="7.0">
+  <d:ctr type="AUTOSAR" factory="autosar">
+    <d:lst type="TOP-LEVEL-PACKAGES">
+      <d:ctr name="CanIf" type="AR-PACKAGE">
+        <d:lst type="ELEMENTS">
+          <d:chc name="CanIf" type="AR-ELEMENT" value="MODULE-CONFIGURATION">
+            <d:ctr type="MODULE-CONFIGURATION">
+              <ns2:a name="DEF" value="ASPath:/TS_T40D2M30I0R0/CanIf" />
+              <d:var name="POST_BUILD_VARIANT_USED" type="BOOLEAN" value="false" />
+              <d:var name="IMPLEMENTATION_CONFIG_VARIANT" type="ENUMERATION" value="VariantLinkTime">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </d:var>
+              <d:ctr name="CanIfPublicCfg" type="IDENTIFIABLE">
+                <d:lst name="CanIfPublicCddHeaderFile" />
+                <d:var name="CanIfDevErrorDetect" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="CanIfWakeupSupport" type="BOOLEAN" value="false" />
+              </d:ctr>
+              <d:lst name="CanIfCtrlDrvCfg" type="MAP">
+                <d:ctr name="CanIfCtrlDrvCfg_0" type="IDENTIFIABLE">
+                  <d:ref name="CanIfCtrlDrvNameRef" type="REFERENCE" value="ASPath:/Can_43_FLEXCAN/Can/CanGeneral" />
+                  <d:lst name="CanIfCtrlCfg" type="MAP">
+                    <d:ctr name="CanIfCtrlCfg_0" type="IDENTIFIABLE">
+                      <d:var name="CanIfCtrlId" type="INTEGER" value="0">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </d:var>
+                      <d:ref name="CanIfCtrlCanCtrlRef" type="REFERENCE" value="ASPath:/Can_43_FLEXCAN/Can/CanConfigSet/CanController_0">
+                        </d:ref>
+                    </d:ctr>
+                  </d:lst>
+                </d:ctr>
+              </d:lst>
+              <d:ctr name="CanIfInitCfg" type="IDENTIFIABLE">
+                <d:var name="CanIfMaxRxPduCfg" type="INTEGER" value="0">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="CanIfMaxTxPduCfg" type="INTEGER" value="0">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:lst name="CanIfTxPduCfg" type="MAP" />
+                <d:lst name="CanIfRxPduCfg" type="MAP" />
+                <d:lst name="CanIfBufferCfg" type="MAP" />
+                <d:lst name="CanIfInitHohCfg" type="MAP" />
+              </d:ctr>
+              <d:ctr name="CanIfDispatchCfg" type="IDENTIFIABLE">
+                <d:var name="CanIfDispatchUserCtrlBusOffName" type="FUNCTION-NAME" value="NULL_PTR">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="CanIfDispatchUserCtrlBusOffUL" type="ENUMERATION" value="CDD">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+              </d:ctr>
+            </d:ctr>
+          </d:chc>
+        </d:lst>
+      </d:ctr>
+    </d:lst>
+  </d:ctr>
+</ns0:datamodel>

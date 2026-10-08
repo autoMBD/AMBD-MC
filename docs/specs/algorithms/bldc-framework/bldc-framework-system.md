@@ -6,7 +6,7 @@ Public system requirements and interface contract.
 
 The BLDC framework provides Hall and sensorless six-step control, typed data,
 shared algorithm library components, an independently validated host plant,
-and autoMBD HSP 0.1.0 target generation and PIL for S32K344. Normal and SIL
+and autoMBD HSP 0.1.0 target generation and PIL for S32K144 and S32K344. Normal and SIL
 remain the host functional and numerical references.
 
 ## Requirements
@@ -15,7 +15,7 @@ remain the host functional and numerical references.
 |---|---|
 | B1 | A repository-relative `ambd_mc("setup","bldc")` initializes types, persistent dictionary and calibrations in a fresh session, repeatedly without destructive reset; Markdown and generated types agree. |
 | B2 | `BLDCFramework` preserves McKernel, McTuning, McEventHub, McFault, McStateMachine, McDataFlow and McDebug responsibilities; BldcControllerLibrary shares the algorithm and application wrappers own native API calls. |
-| B3 | Explicit single-precision controller state at 16 kHz; integer divide-by-16 speed loop at 1 kHz; fault/reset priority and disabled outputs deterministic even without a driving tick. |
+| B3 | Explicit single-precision controller state at the selected fast rate (16 kHz host/S32K344, 8 kHz S32K144); integer divide-by-16 or divide-by-8 speed loop at 1 kHz; fault/reset priority and disabled outputs deterministic even without a driving tick. |
 | B4 | Hall six-step uses measured Hall edges for sector/direction/speed, including invalid codes, illegal transitions and timeout diagnostics. Sensorless control uses sampled terminal voltages, currents and the actual prior commutation state, without rotor speed/angle or internal BEMF truth. |
 | B5 | Alignment, forced-current startup, qualified zero crossing, 30-degree delayed commutation, closed-loop run, controlled stop, reversal/restart, protection, explicit safe reset and declared low-speed behavior are exercised. Loss of qualified feedback cannot silently sustain uncontrolled drive. |
 | B6 | Anti-windup speed PI and current PI regulate positive motoring current in the selected direction; bounded current reference and bipolar modulation; complementary active legs and one floating leg. Every run checks no simultaneous physical high/low gate command, current envelope, finite outputs and safe fault disable. |
@@ -25,6 +25,8 @@ remain the host functional and numerical references.
 | B10 | Fresh-session scripts reproduce results below `.agent-env`; both motor families pass their regression suites, with source hashes and actual execution evidence recorded for each validation run. |
 
 ## Quantitative acceptance
+
+The following values describe the generic host baseline. Kit-specific current, voltage, motor and timing calibrations are selected by the [target profile](../../../hardware/hsp-targets.md) and require their own electrical-reference and hardware acceptance.
 
 - Feasible steady operating points: electrical-speed mean error no greater than
   max(5 rad/s, 5% of requested magnitude), ripple peak-to-peak no greater than
@@ -49,7 +51,7 @@ remain the host functional and numerical references.
 
 ## External boundary
 
-All inputs/outputs execute at 62.5 us. Electrical angle increases in the declared
+All inputs/outputs execute at the selected model period: 62.5 us for the generic host/S32K344 baseline and 125 us for S32K144. Electrical angle increases in the declared
 A-B-C forward direction; electrical speed equals pole pairs times mechanical speed.
 
 | Input | Type / units | Meaning |
@@ -86,7 +88,7 @@ flux constant=0.0039052261 Wb, J=1.2e-5 kg m², B=0.0005 N m s/rad.
 These are declared simulation assumptions, not measured BLDC identification.
 The phase BEMF coefficient per mechanical speed is p*flux, torque is its dot
 product with normalized trapezoid and phase currents. Host Normal/SIL uses Windows x64 generated C.
-S32K344 target generation and PIL use the [HSP integration](../../../hardware/hsp-s32k344.md).
+Target generation and PIL use the [HSP target integration](../../../hardware/hsp-targets.md).
 Physical current calibration, gate waveforms, loaded motor operation and normal-run
 WCET require separate hardware verification; configuration or PIL alone does not
 establish these results.

@@ -14,7 +14,8 @@
 | 独立对象参考 | BLDC 使用 Simscape/Simscape Electrical；PMSM 使用提供 `autolibpmsminterior/Interior PMSM` 的产品安装，执行前确认该参考块可用 |
 | Python 验证编排 | 配置项目锁定的[官方 MCP 环境](../development/agent-environment.md)，逐项检查所需产品及许可证 |
 | S32K344 目标构建 | HSP 0.1.0、RTD 7.0.1、EB tresos 30、NXP GCC 10.2、FreeRTOS 11.1.0 |
-| 实际 PIL | 目标构建环境、S32K344 控制板、PEmicro 探针及确认的 UART 配置 |
+| S32K144 目标构建 | HSP 0.1.0 的 S32K1 适配器、RTD 3.0.0 QLP06、EB tresos 29、NXP GCC 10.2、FreeRTOS 11.1.0 |
+| 实际 PIL | 所选目标构建环境、对应控制板、PEmicro 探针及确认的 UART 配置 |
 | 带电机实验 | 额外需要正确连接及标定的驱动板、电机、采样和保护；按[板级说明](../hardware/mcspte1ak344.md)逐项验证 |
 
 报告中的参考环境为 Windows、MATLAB/Simulink R2026a。
@@ -42,3 +43,5 @@ autoMBD HSP 由外部安装提供。活动模型的 `ambd_mc("setup",...)` 会�
 
 验证方法和结果判读见[验证指南](verification.md)；文档组织规则见
 [文档维护清单](../development/documentation.md)。
+
+两套目标的配置、模型矩阵与时基见 [HSP 目标选择](../hardware/hsp-targets.md)。

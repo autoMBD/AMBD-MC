@@ -1,0 +1,31 @@
+{
+  "source": "autoMBD/autombd-hsp",
+  "version": "0.1.0",
+  "commit": "a379e3cb5b61f642ea0630da008fcde40d1352b2",
+  "template": "s32k144-motor",
+  "license": "Apache-2.0",
+  "upstreamSha256": {
+    ".prefs/pref_general.xdm": "5aa2344eca620510da20cfa80ddf4d2d9d8e9439b5f2403508405c370c167826",
+    ".project": "62a574e6b2bdd53131f72702d3e8c13f7d82086e6584f7cd81b707672a4bf9a1",
+    "config/Adc.xdm": "c772aea8b67fa2c8a757b0e114a968f90cf7bf76bfbc4258195ed61e81168d18",
+    "config/BaseNXP.xdm": "7cb34c00fff84fa8d05fab63ff84cfd414081c2c33795f7599ef84d593213c0f",
+    "config/CanIf.xdm": "556c1a3ee174b288c908737330bd47d6adef0f5da6c8ad97568ec3b49329fd9e",
+    "config/Can_43_FLEXCAN.xdm": "d86c25b1e2eade3c3ac91be3c192a789a89f3dddf3bfc651afb77e0237877924",
+    "config/Dio.xdm": "be8bc5152cb13bde5da69cd91553faecc1070b2c0604950bafcd2acd13d599c5",
+    "config/EcuC.xdm": "5b5f628bb785c7b05abeb2b91d502731d522c2c7c2cd086d777b0f24faea1cf1",
+    "config/EcuM.xdm": "34bcd063cc85188f575e8a4f51af57ce0dfbb52e1e988cbd805dc53e837ffdeb",
+    "config/Gpt.xdm": "a390ac7936f4eaaef1a92ffce2b15c5ae88661791dee218141cf43ca8f3778d0",
+    "config/Icu.xdm": "a9e8f6a658394addf859ded0e74ec64ed7437c9e17bd8867bc38f2f6a2d50a0a",
+    "config/Mcl.xdm": "d2d0a3c77f41651878d7aafc5edc04df99dc203828457729b60dcce3fc28e575",
+    "config/Mcu.xdm": "f212e4edc994583b59fc20491bec26ae1d208f4f082ba1d054a94b3a177f0e59",
+    "config/Platform.xdm": "2a0ce5ea74b56633dba36a7bd6aa4557dfb20dad286a5a587ec7da70af4f59ba",
+    "config/Port.xdm": "0e23b0171569b4e7d5c5e0f4e719f6d4af6ce7e34f4a2b9036a904bd0b07bd1e",
+    "config/Pwm.xdm": "4bbfe7fa42bdf17515e250ea6123f4b70466dd91f7e3d65e65e863b162ad897d",
+    "config/Resource.xdm": "a4b1114ca624bf496a83036740072f452fce5748c6e41662b0d72b2129b9b313",
+    "config/Rm.xdm": "b5adf546b613d50bcaf7a56539689e7283388d8f343894ed159d3a9e1a86a755",
+    "config/Spi.xdm": "4e35016b7493a1fd864186bcf56b77dc7eb59a7ee6cf437889f2e8ba4554d2aa",
+    "config/SystemModel2.tdb": "9d2d1d5ca70eb45dca5aeea65764f4a86b48ce7ac9136464b4ba911398b80c8f",
+    "config/Uart.xdm": "cd23f4ec30b9e1db48eaab74b6811210226f876714cc710d9c84d584aea30523"
+  },
+  "adaptation": "MCSPTE1AK144 configuration authored in tools/hsp/configure_s32k144.py; NXP SDK implementations are external."
+}

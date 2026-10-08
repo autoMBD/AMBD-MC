@@ -44,7 +44,7 @@
 # Description: Validate Hall, sensored and sensorless operating transitions through PIL.
 # =================================================================================
 
-"""Verify operating-state transitions against accepted host recordings on S32K344."""
+"""Verify operating-state transitions against accepted host recordings on the selected HSP target."""
 from pathlib import Path
 from datetime import datetime, timezone
 import argparse
@@ -86,6 +86,7 @@ def main():
     parser.add_argument('--bldc-report',type=Path)
     parser.add_argument('--pmsm-report',type=Path)
     args=parser.parse_args()
+    profile=TARGET.select_target(json.loads(args.settings.read_text(encoding='utf-8')))
     reports={name:getattr(args,name+'_report') for name in CASES if getattr(args,name+'_report')}
     if not reports:parser.error('Provide at least one accepted full host report directory.')
     reports={family:path.resolve() for family,path in reports.items()}
@@ -105,7 +106,7 @@ def main():
     baseline=TARGET.source_hashes(list(reports))
     for relative in ('tools/validate_motor_pil.py','tests/hsp/run_operational_pil.m'):
         baseline[relative]=TARGET.digest(ROOT/relative)
-    summary=dict(Passed=False,CompleteMatrix=set(reports)==set(CASES),SourceHashes=baseline,
+    summary=dict(Passed=False,Target=profile['name'],TargetId=profile['targetId'],CompleteMatrix=set(reports)==set(CASES),SourceHashes=baseline,
                  SourceReports=source_reports,SourceArtifacts=artifacts,
                  SettingsSha256=TARGET.digest(args.settings.resolve()),
                  StartedUTC=datetime.now(timezone.utc).isoformat(),Cases=[])

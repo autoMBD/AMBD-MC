@@ -99,5 +99,7 @@
       "family": "pmsm",
       "role": "library"
     }
-  ]
+  ],
+  "defaultTarget": "s32k344",
+  "targetProfiles": "targets.json"
 }

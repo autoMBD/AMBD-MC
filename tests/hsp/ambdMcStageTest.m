@@ -53,6 +53,7 @@ classdef ambdMcStageTest < matlab.unittest.TestCase
     end
     properties (TestParameter)
         Family = struct('bldc',"bldc",'pmsm',"pmsm")
+        Target = struct('k344',"s32k344",'k144',"s32k144")
     end
     methods (TestMethodSetup)
         function isolate(testCase)
@@ -99,7 +100,9 @@ classdef ambdMcStageTest < matlab.unittest.TestCase
                 'ambd:LoadedModel');
             testCase.verifyEqual(get_param(model,'FileName'),target);
         end
-        function stagesIsolatedUnarmedCopies(testCase,Family)
+        function stagesIsolatedUnarmedCopies(testCase,Family,Target)
+            fid=fopen(testCase.Settings,'w');
+            fprintf(fid,'%s',jsonencode(struct('target',Target)));fclose(fid);
             manifest=jsondecode(fileread(fullfile(testCase.Root,'mc-models','hsp','models.json')));
             entries=manifest.models(strcmp({manifest.models.family},Family));
             assertModelsNotLoaded(testCase,entries);
@@ -113,14 +116,22 @@ classdef ambdMcStageTest < matlab.unittest.TestCase
             testCase.verifyEqual(info.HspVersion,"0.1.0");
             testCase.verifySubstring(info.Stage,fullfile(testCase.Root,'.agent-env','t'));
             testCase.verifyTrue(isfile(fullfile(info.Stage,'stage.json')));
-            testCase.verifyTrue(isfolder(fullfile(info.Stage,'configuration','S32K344')));
+            testCase.verifyTrue(isfolder(fullfile(info.Stage,'configuration',upper(char(Target)))));
             testCase.verifyEqual(sourceBytes(testCase.Root,entries,Family),sourceBefore);
             testCase.verifySubstring(details.Dictionary,string(info.Stage));
-            testCase.verifyEqual(details.ControlParameter.Value,ambd.kit_parameters(Family));
+            testCase.verifyEqual(details.ControlParameter.Value,ambd.kit_parameters(Family,Target));
             section=getSection(details.DictionaryConnection,'Design Data');
             armed=getValue(getEntry(section,'AmbdOutputsArmed'));
             testCase.verifyFalse(armed.Value);
-            verifyModels(testCase,entries,info.Stage,Family);
+            testCase.verifyEqual(info.Target,Target);
+            cfg=autombd.hsp.config.read(entries(1).name);
+            profile=ambd.target_profile(Target);
+            testCase.verifyEqual(cfg.targetId,profile.targetId);
+            testCase.verifyEqual(cfg.environment.pil.uartInstance,profile.uartInstance);
+            testCase.verifyEqual(cfg.environment.pil.rxPin,profile.uartRx);
+            testCase.verifyEqual(cfg.environment.pil.txPin,profile.uartTx);
+            testCase.verifyTrue(any(contains(string(cfg.runtime.sources),profile.boardSource)));
+            verifyModels(testCase,entries,info.Stage,Family,Target);
         end
     end
 end
@@ -141,12 +152,12 @@ for i=1:numel(entries)
     if bdIsLoaded(entries(i).name),close_system(entries(i).name,0);end
 end
 end
-function verifyModels(testCase,entries,folder,family)
+function verifyModels(testCase,entries,folder,family,target)
 for i=1:numel(entries)
     name=entries(i).name;
     testCase.verifyEqual(get_param(name,'FileName'),fullfile(folder,[name,'.slx']));
     if ~strcmp(entries(i).role,'library')
-        testCase.verifyEqual(get_param(name,'DataDictionary'),[char(family),'_TargetData.sldd']);
+        testCase.verifyEqual(get_param(name,'DataDictionary'),[char(family),'_',char(target),'_TargetData.sldd']);
     end
 end
 end

@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:datamodel xmlns:ns0="http://www.tresos.de/_projects/DataModel2/16/root.xsd" xmlns:ns1="http://www.tresos.de/_projects/DataModel2/06/data.xsd" xmlns:ns2="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd" version="7.0">
+  <ns1:ctr type="AUTOSAR" factory="autosar">
+    <ns1:lst type="TOP-LEVEL-PACKAGES">
+      <ns1:ctr name="Dio" type="AR-PACKAGE">
+        <ns1:lst type="ELEMENTS">
+          <ns1:chc name="Dio" type="AR-ELEMENT" value="MODULE-CONFIGURATION">
+            <ns1:ctr type="MODULE-CONFIGURATION">
+              <ns2:a name="DEF" value="ASPath:/TS_T40D2M30I0R0/Dio" />
+              <ns1:var name="POST_BUILD_VARIANT_USED" type="BOOLEAN" value="false">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </ns1:var>
+              <ns1:var name="IMPLEMENTATION_CONFIG_VARIANT" type="ENUMERATION" value="VariantPreCompile">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </ns1:var>
+              <ns1:ctr name="DioConfig" type="IDENTIFIABLE">
+                <ns1:lst name="DioPort" type="MAP">
+                  <ns1:ctr name="Ambd_Port0" type="IDENTIFIABLE">
+                    <ns1:var name="DioPortId" type="INTEGER" value="0">
+                      </ns1:var>
+                    <ns1:lst name="DioChannel" type="MAP">
+                      <ns1:ctr name="Hsp_GateEnable" type="IDENTIFIABLE">
+                        <ns1:var name="DioChannelId" type="INTEGER" value="2" />
+                        <ns1:lst name="DioChannelEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Hsp_GateReset" type="IDENTIFIABLE">
+                        <ns1:var name="DioChannelId" type="INTEGER" value="3" />
+                        <ns1:lst name="DioChannelEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_HallC" type="IDENTIFIABLE">
+                        <ns1:var name="DioChannelId" type="INTEGER" value="1" />
+                        <ns1:lst name="DioChannelEcucPartitionRef" />
+                      </ns1:ctr>
+                    </ns1:lst>
+                    <ns1:lst name="DioChannelGroup" type="MAP" />
+                    <ns1:lst name="DioPortEcucPartitionRef" />
+                  </ns1:ctr>
+                  <ns1:ctr name="Ambd_Port1" type="IDENTIFIABLE">
+                    <ns1:var name="DioPortId" type="INTEGER" value="1">
+                      </ns1:var>
+                    <ns1:lst name="DioChannel" type="MAP">
+                      <ns1:ctr name="Ambd_GdCs" type="IDENTIFIABLE">
+                        <ns1:var name="DioChannelId" type="INTEGER" value="5" />
+                        <ns1:lst name="DioChannelEcucPartitionRef" />
+                      </ns1:ctr>
+                    </ns1:lst>
+                    <ns1:lst name="DioChannelGroup" type="MAP" />
+                    <ns1:lst name="DioPortEcucPartitionRef" />
+                  </ns1:ctr>
+                  <ns1:ctr name="Ambd_Port3" type="IDENTIFIABLE">
+                    <ns1:var name="DioPortId" type="INTEGER" value="3">
+                      </ns1:var>
+                    <ns1:lst name="DioChannel" type="MAP">
+                      <ns1:ctr name="Ambd_HallA" type="IDENTIFIABLE">
+                        <ns1:var name="DioChannelId" type="INTEGER" value="11" />
+                        <ns1:lst name="DioChannelEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_HallB" type="IDENTIFIABLE">
+                        <ns1:var name="DioChannelId" type="INTEGER" value="10" />
+                        <ns1:lst name="DioChannelEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="BoardLedRed" type="IDENTIFIABLE">
+                        <ns1:var name="DioChannelId" type="INTEGER" value="15" />
+                        <ns1:lst name="DioChannelEcucPartitionRef" />
+                      </ns1:ctr>
+                    </ns1:lst>
+                    <ns1:lst name="DioChannelGroup" type="MAP" />
+                    <ns1:lst name="DioPortEcucPartitionRef" />
+                  </ns1:ctr>
+                  <ns1:ctr name="Ambd_Port4" type="IDENTIFIABLE">
+                    <ns1:var name="DioPortId" type="INTEGER" value="4">
+                      </ns1:var>
+                    <ns1:lst name="DioChannel" type="MAP">
+                      <ns1:ctr name="Ambd_GdInt" type="IDENTIFIABLE">
+                        <ns1:var name="DioChannelId" type="INTEGER" value="10" />
+                        <ns1:lst name="DioChannelEcucPartitionRef" />
+                      </ns1:ctr>
+                    </ns1:lst>
+                    <ns1:lst name="DioChannelGroup" type="MAP" />
+                    <ns1:lst name="DioPortEcucPartitionRef" />
+                  </ns1:ctr>
+                </ns1:lst>
+              </ns1:ctr>
+              <ns1:ctr name="DioGeneral" type="IDENTIFIABLE">
+                <ns1:var name="DioDevErrorDetect" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="GPIODioIPDevErrorDetect" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="DioVersionInfoApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="DioReversePortBits" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="DioFlipChannelApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="DioReadZeroForUndefinedPortPins" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="DioMaskedWritePortApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="DioEnableUserModeSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="DioMultiPartitionSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:lst name="DioEcucPartitionRef" />
+              </ns1:ctr>
+              <ns1:ctr name="CommonPublishedInformation" type="IDENTIFIABLE">
+                <ns1:var name="ArReleaseMajorVersion" type="INTEGER" value="4">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ArReleaseMinorVersion" type="INTEGER" value="7">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ArReleaseRevisionVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ModuleId" type="INTEGER" value="120">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwMajorVersion" type="INTEGER" value="3">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwMinorVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwPatchVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="VendorApiInfix" type="STRING" value="">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="VendorId" type="INTEGER" value="43">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+              </ns1:ctr>
+            </ns1:ctr>
+          </ns1:chc>
+        </ns1:lst>
+      </ns1:ctr>
+    </ns1:lst>
+  </ns1:ctr>
+</ns0:datamodel>

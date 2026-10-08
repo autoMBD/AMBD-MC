@@ -49,6 +49,7 @@ import argparse
 from concurrent.futures import ThreadPoolExecutor
 from html.parser import HTMLParser
 import json
+import os
 from pathlib import Path
 import posixpath
 import re
@@ -232,14 +233,28 @@ def check_external(url, rules, repository):
             if (kind == "blob" and not target.is_file()) or (kind == "tree" and not target.is_dir()):
                 return f"FAIL repository target kind: {url}", False
             return f"OK repository target: {url}", True
+    history_link = url in (REPO_URL + "commits/main", REPO_URL + "commits/main/")
+    request_url = "https://api.github.com/repos/autoMBD/AMBD-MC/commits/main" if history_link else url
+    headers = {"User-Agent": "AMBD-MC-docs-link-check/1.0"}
+    if history_link:
+        headers["Accept"] = "application/vnd.github+json"
+        token = os.environ.get("GITHUB_TOKEN")
+        if token:
+            headers["Authorization"] = "Bearer " + token
     failure = ""
     status = None
     for _ in range(2):
         try:
-            request = Request(url, headers={"User-Agent": "AMBD-MC-docs-link-check/1.0"})
+            request = Request(request_url, headers=headers)
             with urlopen(request, timeout=20) as response:
                 status = response.status
                 if 200 <= status < 400:
+                    if history_link:
+                        payload = json.load(response)
+                        sha = payload.get("sha") if isinstance(payload, dict) else None
+                        if not isinstance(sha, str) or not re.fullmatch(r"[0-9a-f]{40}", sha):
+                            return f"FAIL GitHub commit identity: {url}", False
+                        return f"OK GitHub commit reference: {url}", True
                     return f"OK HTTP {status}: {url}", True
                 failure = f"HTTP {status}"
         except HTTPError as exc:
@@ -247,6 +262,8 @@ def check_external(url, rules, repository):
             exc.close()
         except (URLError, TimeoutError, OSError) as exc:
             status, failure = None, str(exc)
+        except ValueError:
+            status, failure = None, "Invalid GitHub commit response"
     if is_exception(url, status, rules):
         return f"EXCEPTION {failure}: {url} ({rules[url]['reason']})", True
     return f"FAIL {failure}: {url}", False

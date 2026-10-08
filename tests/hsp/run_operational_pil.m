@@ -45,7 +45,7 @@
 % =================================================================================
 
 function result = run_operational_pil(model,family,traceFile,recordingFile,outputDirectory,execute)
-%run_operational_pil - Replay a qualified operating-state window on S32K344
+%run_operational_pil - Replay a qualified operating-state window on the selected target
 %   RESULT = run_operational_pil(MODEL,FAMILY,TRACE,RECORDING,OUTPUT)
 %   captures the exact runtime state from a Normal prehistory, proves the
 %   seeded window matches the accepted recording, then compares actual
@@ -76,6 +76,15 @@ else
     stateName='McRuntime_Init';stateType='tMcRuntime';
     sensorless=p.PositionMode==uint8(0);
 end
+replayPeriod=(double(recording.Time(end))-double(recording.Time(1)))/(numel(recording.Time)-1);
+assert(isfinite(replayPeriod)&&replayPeriod>0,'ambd:RecordingTime','Invalid recording period.');
+assert(max(abs(double(recording.Time(:))-(double(recording.Time(1))+(0:numel(recording.Time)-1)'*replayPeriod)))<=6.25e-11, ...
+    'ambd:RecordingTime','Recording must have a uniform sample grid.');
+originalCfg=autombd.hsp.config.read(model);
+originalDirty=get_param(model,'Dirty');
+restore=onCleanup(@()restoreConfiguration(model,originalCfg,originalDirty));
+replayCfg=originalCfg;replayCfg.environment.execution.basePeriodSeconds=replayPeriod;
+autombd.hsp.config.write(model,replayCfg);autombd.hsp.config.apply(model);
 running=source.trace.Mode==uint8(14)&source.trace.GateOutput&source.trace.FaultBits==uint16(0);
 if sensorless
     if strcmp(family,'bldc'),running=running&source.trace.FeedbackReady;
@@ -114,7 +123,8 @@ result=struct('Passed',false,'PILExecuted',false,'Model',model,'Family',family, 
     'Scenario',source.scenario.Name,'SourceTrace',traceFile,'Sensorless',sensorless, ...
     'RequiredStates',required,'SourceFirstSample',first,'SourceLastSample',last, ...
     'SourceStartTime',double(recording.Time(first)),'SourceStopTime',double(recording.Time(last)), ...
-    'Samples',numel(rows),'Stage','normal-prehistory');
+    'Samples',numel(rows),'NativeSamplePeriod',originalCfg.environment.execution.basePeriodSeconds, ...
+    'ReplaySamplePeriod',replayPeriod,'Stage','normal-prehistory');
 writeResult(outputDirectory,result);
 try
     in=Simulink.SimulationInput(model);
@@ -132,7 +142,7 @@ try
     state=readState(warm.xFinal{1}.Values,prototype);
     in=Simulink.SimulationInput(model);
     in=in.setExternalInput(inputDataset(recording,family,rows,true));
-    in=in.setModelParameter('SimulationMode','normal','StopTime',num2str((numel(rows)-1)/16000,17), ...
+    in=in.setModelParameter('SimulationMode','normal','StopTime',num2str((numel(rows)-1)*replayPeriod,17), ...
         'SaveOutput','on','OutputSaveName','yout','SaveFormat','Dataset', ...
         'ReturnWorkspaceOutputs','on','LimitDataPoints','off','Decimation','1');
     in=in.setVariable(parameterName,parameter(p,parameterType));
@@ -225,7 +235,10 @@ end
 
 function dataset=inputDataset(recording,family,rows,relative)
 time=double(recording.Time(rows));
-if relative,time=(0:numel(rows)-1)'/16000;end
+if relative
+    period=(double(recording.Time(end))-double(recording.Time(1)))/(numel(recording.Time)-1);
+    time=(0:numel(rows)-1)'*period;
+end
 if strcmp(family,'bldc')
     names={'CurrentRaw','Hall','TerminalVoltage','Control','Fault','CommandEvent', ...
         'DrivingEvent','TimerEvent','SpeedReq','Vdc','AppliedSector','AppliedDirection','VoltageValid'};
@@ -294,4 +307,9 @@ end
 function writeText(path,text)
 fid=fopen(path,'w','n','UTF-8');assert(fid>=0,'ambd:ReportWrite','Cannot write %s.',path);
 cleanup=onCleanup(@()fclose(fid));fprintf(fid,'%s',text);
+end
+
+function restoreConfiguration(model,cfg,dirty)
+autombd.hsp.config.write(model,cfg);autombd.hsp.config.apply(model);
+set_param(model,'Dirty',dirty);
 end

@@ -34,5 +34,17 @@
       404
     ],
     "reason": "2026-10-08: verified the exact official page and title in a browser; urllib GET returns 404 for the same URL. Recheck manually when editing this reference; this exception is limited to this URL and HTTP 404."
+  },
+  "https://www.mathworks.com/matlabcentral/answers/1728440-running-simulink-on-multiple-matlab-instances-concurrently-on-machine-crashes-in-sldd-dmr-sdi-jen": {
+    "statuses": [
+      403
+    ],
+    "reason": "2026-10-08: verified the exact MathWorks Support Team page and accepted answer (updated 2026-01-08); automated CI GET receives Access Denied. Only this URL and HTTP 403 are excepted; other failures remain errors."
+  },
+  "https://www.nxp.com/document/guide/s32k144-motor-control-kit-guides%3AGS-MCSPTE1AK144": {
+    "statuses": [
+      404
+    ],
+    "reason": "2026-10-08: verified the exact official S32K144 Motor Control Kit Guides page, including jumper and motor wiring tables; browser retrieval redirects to the colon-form URL while automated CI GET returns 404. Only this URL and HTTP 404 are excepted; recheck manually when editing the reference."
   }
 }

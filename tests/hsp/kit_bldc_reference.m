@@ -44,13 +44,17 @@
 % Description: Generate physical DC-shunt replay inputs without inventing unobserved phase currents.
 % =================================================================================
 
-function [inputs,expected,truth] = kit_bldc_reference(p,plantp,n,direction)
+function [inputs,expected,truth] = kit_bldc_reference(p,plantp,n,direction,hardware)
 %kit_bldc_reference - Exercise the DC-link controller against a phase plant
 %   [INPUTS,EXPECTED,TRUTH] = kit_bldc_reference(P,PLANTP,N,DIRECTION)
 %   runs an independent switched electrical plant with synchronous unipolar
 %   PWM, two-capture commutation activation, and active-vector sampling.
 %   This is a virtual electrical reference, not a physical motor test.
 %#codegen
+if nargin<5
+    hardware=struct('adcMaximum',16383,'adcOffset',8192,'dutyTicks',10000,'samplePeriod',1/16000,'deadtimeFraction',.0096);
+end
+adcMaximum=hardware.adcMaximum;adcOffset=hardware.adcOffset;dutyTicks=hardware.dutyTicks;
 inputs=zeros(n,17);expected=zeros(n,14);truth=zeros(n,3);
 s=bldc.initial_state(p);x=[0;0;0;.1;0];
 requestCounts=zeros(3,1,'uint16');writtenCounts=requestCounts;
@@ -68,8 +72,8 @@ for row=1:n
     u=bldc.default_input(p);u.Control=uint8(row>160);u.SpeedReq=single(direction)*single(200);
     if row>40000,u.SpeedReq=single(direction)*single(300);end
     if gate,dc=current(source);else,dc=single(0);end
-    raw14=min(16382,max(1,round(8192+double(dc)*16383/50)));
-    dc=single((raw14-8192)*50/16383);
+    raw=min((adcMaximum-1),max(1,round(adcOffset+double(dc)*adcMaximum/50)));
+    dc=single((raw-adcOffset)*50/adcMaximum);
     u.CurrentRaw=uint16([min(65534,max(1,round(32768+double(dc)*1000)));32768;32768]);
     u.Hall=hall;u.TerminalVoltage=terminal;u.AppliedSector=activeSector;
     u.AppliedDirection=activeDirection;u.VoltageValid=gate;u.Vdc=vdc;
@@ -92,8 +96,8 @@ for row=1:n
     nextCounts=zeros(3,1,'uint16');nextMask=s.PhaseEnable&s.GateEnable;
     if s.GateEnable
         [high,source]=max(s.DutyCounts);low=uint16(65535)-high;
-        duty=double(high)-double(low);ticks=round(duty*10000/65535);
-        nextCounts(source)=uint16(round(ticks*65535/10000));
+        duty=double(high)-double(low);q15=round(duty*32768/65535);ticks=round(q15*dutyTicks/32768);
+        nextCounts(source)=uint16(round(ticks*65535/dutyTicks));
     end
     if ~any(nextMask)
         activeMask=false(3,1);activeSector=uint8(0);wait=uint8(0);

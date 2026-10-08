@@ -44,12 +44,16 @@
 % Description: Generate kit two-shunt PMSM replay inputs with delayed applied-voltage feedback.
 % =================================================================================
 
-function [inputs,expected,truth] = kit_pmsm_reference(p,plantp,n,direction)
+function [inputs,expected,truth] = kit_pmsm_reference(p,plantp,n,direction,hardware)
 %kit_pmsm_reference - Exercise kit sensing and buffered PWM in an average plant
 %   [INPUTS,EXPECTED,TRUTH] = kit_pmsm_reference(P,PLANTP,N,DIRECTION)
 %   runs two ADC shunts with quantization, complementary PWM deadtime and
 %   a two-capture command pipeline. Switching ripple is not represented.
 %#codegen
+if nargin<5
+    hardware=struct('adcMaximum',16383,'adcOffset',8192,'dutyTicks',10000,'samplePeriod',1/16000,'deadtimeFraction',.0096);
+end
+adcMaximum=hardware.adcMaximum;adcOffset=hardware.adcOffset;dutyTicks=hardware.dutyTicks;
 inputs=zeros(n,10);expected=zeros(n,9);truth=zeros(n,3);
 s=mc.initial_state(p);x=zeros(4,1);vdc=single(12);
 request=single([.5;.5;.5]);written=request;
@@ -57,8 +61,8 @@ requestGate=false;writtenGate=false;
 previousVoltage=single([0;0]);
 for row=1:n
     [~,current,~,omega]=mc.plant_measure(x,plantp);
-    raw14=min(16382,max(1,round(8192-double(current(1:2))*16383/62.5)));
-    measured=zeros(3,1,'single');measured(1:2)=single((8192-raw14)*62.5/16383);
+    raw=min((adcMaximum-1),max(1,round(adcOffset-double(current(1:2))*adcMaximum/62.5)));
+    measured=zeros(3,1,'single');measured(1:2)=single((adcOffset-raw)*62.5/adcMaximum);
     measured(3)=-measured(1)-measured(2);
     u=mc.default_input(p);
     u.CurrentRaw=uint16(min(65534,max(1,round(32768+double(measured)*1000))));
@@ -73,10 +77,11 @@ for row=1:n
     expected(row,:)=[double(s.Mode),double(s.FaultBits),double(counts(:))', ...
         double(s.GateEnable),double(s.OmegaControl),double(s.ObserverReady),double(s.ThetaControl)];
     truth(row,:)=[double(omega),double(u.SpeedReq),max(abs(double(current)))];
-    request=single(round(min(9000,max(1000,double(counts)*10000/65535))))/single(10000);
+    q15=round(min(58982,max(6554,double(counts)))*32768/65535);
+    request=single(round(q15*dutyTicks/32768))/single(dutyTicks);
     requestGate=s.GateEnable;
     if ~s.GateEnable,activeGate=false;writtenGate=false;end
-    applied=active-sign(measured)*single(.0096);
+    applied=active-sign(measured)*single(hardware.deadtimeFraction);
     if activeGate
         previousVoltage=vdc*single([(2*applied(1)-applied(2)-applied(3))/3;(applied(2)-applied(3))/sqrt(3)]);
     else

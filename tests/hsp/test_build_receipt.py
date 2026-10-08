@@ -98,5 +98,17 @@ class BuildReceiptTest(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             RUNNER.read_application_receipt(self.stage, 'Motor')
 
+    def test_wrong_target_receipt_is_rejected(self):
+        self.data['configuration']={'targetId':'nxp.s32k3.s32k344-custom'}
+        self.publish()
+        with self.assertRaises(RuntimeError):
+            RUNNER.read_application_receipt(self.stage,'Motor','nxp.s32k1.s32k144-custom')
+
+    def test_matching_target_receipt_is_accepted(self):
+        self.data['configuration']={'targetId':'nxp.s32k1.s32k144-custom'}
+        self.publish()
+        path,_=RUNNER.read_application_receipt(self.stage,'Motor','nxp.s32k1.s32k144-custom')
+        self.assertEqual(path,self.receipt)
+
 if __name__ == '__main__':
     unittest.main()

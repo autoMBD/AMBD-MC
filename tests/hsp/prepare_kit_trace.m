@@ -49,8 +49,8 @@ function result = prepare_kit_trace(model,family,referenceFile,outputDirectory)
 %   RESULT = prepare_kit_trace(MODEL,FAMILY,REFERENCEFILE,OUTPUTDIRECTORY)
 %   preserves all typed root inputs and verifies mode, fault, duty and gate
 %   samples against the reference before publishing a trace for PIL replay.
-reference=load(referenceFile,'p','plantp','inputs','expected','truth');
-p=reference.p;n=size(reference.inputs,1);time=(0:n-1)'/16000;
+reference=load(referenceFile,'p','plantp','hardware','inputs','expected','truth');
+p=reference.p;n=size(reference.inputs,1);period=reference.hardware.samplePeriod;time=(0:n-1)'*period;
 if ~isfolder(outputDirectory),mkdir(outputDirectory);end
 if strcmp(family,'bldc')
     names={'CurrentRaw','Hall','TerminalVoltage','Control','Fault','CommandEvent', ...
@@ -88,7 +88,7 @@ for k=1:numel(names)
     dataset=addElement(dataset,signal,names{k});
 end
 in=Simulink.SimulationInput(model);in=in.setExternalInput(dataset);
-in=in.setModelParameter('SimulationMode','normal','StopTime',num2str(time(end),17), ...
+in=in.setModelParameter('FixedStep',num2str(period,17),'SimulationMode','normal','StopTime',num2str(time(end),17), ...
     'SaveOutput','on','OutputSaveName','yout','SaveFormat','Dataset','ReturnWorkspaceOutputs','on', ...
     'LimitDataPoints','off','Decimation','1');
 in=in.setVariable([prefix,'Control_Params'],parameter(p,parameterType));

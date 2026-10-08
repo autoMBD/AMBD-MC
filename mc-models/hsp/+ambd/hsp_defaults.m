@@ -41,16 +41,20 @@
 % Author:      autoMBD <tkung.lqk@foxmail.com>
 % Date:        2026-10-07
 % Version:     0.1.0
-% Description: Create portable S32K344 settings for a saved motor component.
+% Description: Create portable settings for a selected motor hardware target.
 % =================================================================================
 
-function cfg = hsp_defaults(model)
-%hsp_defaults - Create portable S32K344 component settings
-%   CFG = hsp_defaults(MODEL) selects the shared EB project, event runtime
-%   and 16 kHz model period. Installation and connection fields stay empty.
+function cfg = hsp_defaults(model,target)
+%hsp_defaults - Create portable motor component settings
+%   CFG = hsp_defaults(MODEL) selects the S32K344 EB project and runtime.
+%
+%   CFG = hsp_defaults(MODEL,TARGET) selects "s32k144" or "s32k344".
+%   Installation paths and connection identities stay empty.
 %
 %   See also autombd.hsp.config.defaults
 
+if nargin<2,target='s32k344';end
+profile=ambd.target_profile(target);
 root = fileparts(fileparts(fileparts(fileparts(mfilename('fullpath')))));
 modelFile = get_param(model,'FileName');
 assert(~isempty(modelFile),'ambd:UnsavedModel','Save the model before configuring HSP.');
@@ -60,11 +64,14 @@ assert(relative~=string(modelDirectory),'ambd:ModelLocation','The model must be 
 depth = numel(split(relative,filesep));
 prefix = repmat(['..',filesep],1,depth);
 hspDirectory = fullfile(prefix,'mc-models','hsp');
-cfg = autombd.hsp.config.defaults('nxp.s32k3.s32k344-custom');
-cfg.environment.execution.basePeriodSeconds = 6.25e-5;
-cfg.environment.configurationTool.templateId = 's32k344-motor';
-cfg.environment.externalProjectRoot = fullfile(hspDirectory,'config','S32K344');
-cfg.environment.configurationTool.projectName = 'Hsp_S32K344_T172';
+cfg = autombd.hsp.config.defaults(profile.targetId);
+cfg.environment.execution.basePeriodSeconds = profile.samplePeriod;
+cfg.environment.configurationTool.templateId = profile.templateId;
+cfg.environment.externalProjectRoot = fullfile(hspDirectory,'config',profile.configuration);
+cfg.environment.configurationTool.projectName = profile.projectName;
+cfg.environment.pil.uartInstance=profile.uartInstance;
+cfg.environment.pil.rxPin=profile.uartRx;
+cfg.environment.pil.txPin=profile.uartTx;
 cfg.runtime.schedulerMode = 'callback-task';
 cfg.runtime.eventCallbackName = 'Hsp_ModelEvent';
 cfg.runtime.eventCaptureFunction = 'Ambd_KitCaptureModelInputs';
@@ -74,10 +81,13 @@ cfg.runtime.eventIrqPriority = 6;
 cfg.runtime.eventTimeoutTicks = 2;
 cfg.runtime.taskStackWords = 4096;
 cfg.runtime.sources = {fullfile(hspDirectory,'board','ambd_kit_core.c'), ...
-    fullfile(hspDirectory,'board','ambd_kit_board.c'),fullfile(hspDirectory,'board','ambd_kit_bridge.c')};
+    fullfile(hspDirectory,'board',profile.boardSource),fullfile(hspDirectory,'board','ambd_kit_bridge.c')};
+if strcmp(profile.name,'s32k144')
+    cfg.runtime.sources{end+1}=fullfile(hspDirectory,'board','ambd_kit_s32k144_core.c');
+end
 cfg.runtime.includeDirectories = {fullfile(hspDirectory,'board')};
 isBldc=startsWith(string(model),"BLDC");
-cfg.runtime.defines={['AMBD_MODEL=',char(model)],['AMBD_BLDC=',num2str(isBldc)]};
+cfg.runtime.defines={['AMBD_MODEL=',char(model)],['AMBD_BLDC=',num2str(isBldc)],profile.define};
 cfg.runtime.compilerFlags={'-O3','-ffp-contract=off'};
 cfg.outputDirectory = fullfile('build',model);
 end

@@ -8,12 +8,12 @@ The existing named framework modules are retained and made executable. Control f
 
 | Module | Responsibility | Direct feedthrough | Rate |
 |---|---|---|---|
-| McKernel | Initialize state, accept fast tick, derive slow tick, maintain bounded counters | Yes | 62.5 us |
+| McKernel | Initialize state, accept fast tick, derive slow tick, maintain bounded counters | Yes | selected Ts |
 | McTuning | Validate and latch tuning only while disarmed | Yes | fast |
 | McEventHub | Capture enabled command and requested electrical speed | Yes | fast |
 | McFault | ADC/bus/input validation, immediate trip, explicit-reset latch | Yes | fast, independent of driving enable |
 | McStateMachine | Reset/init/idle/ready/align/open-loop/tracking/run/stop/fault transitions | Yes | accepted fast ticks |
-| McDataFlow | Acquisition, position/speed estimation, current/speed control, voltage limiting and modulation | Yes | fast; speed PI every 16 ticks |
+| McDataFlow | Acquisition, position/speed estimation, current/speed control, voltage limiting and modulation | Yes | fast; speed PI every SpeedDivider ticks |
 | McDebug | Produce duty counts, gate enable and typed telemetry/snapshots | Yes | fast |
 | Runtime memory | Previous complete controller state | No | fast; documented zero/typed initialization |
 
@@ -23,7 +23,7 @@ McDrivingEvent accepts a fast tick; McCtrlEvent captures command/speed changes.
 McTimerEvent is a retained compatibility input, reserved in this synchronous
 host contract. Slow ticks derive exclusively from the accepted fast-tick count,
 so an independent timer indication cannot cause extra PI integrations. Model
-sample time and McControl_Params.Ts are both 62.5 us; changing that timing contract
+sample time and McControl_Params.Ts must match: 62.5 us for the host/S32K344 baseline, 125 us for S32K144. The speed divider is 16 or 8 to retain 1 ms. Changing that timing contract
 requires updating the model configuration and revalidating the entire hierarchy.
 
 ## External ports
@@ -34,7 +34,7 @@ The final two inputs are AppliedVoltageAlpha and AppliedVoltageBeta (single V), 
 
 Outputs are DutyA/B/C (uint16 timer counts), DebugPort (tMcDebug), GateEnable (boolean) and Monitor (typed telemetry). Normalized duty equals counts/PwmPeriod. A disabled gate overrides duties at the inverter boundary; disabled numerical duties are centered at 0.5, not interpreted as permission to energize a bridge.
 
-The HSP application boundary owns ADC alignment/calibration, RTD duty scaling, phase idle and gate commands, measured DC bus and event-driven step invocation. HSP 0.1.0 configures the S32K344 target. Linked McControllerLibrary subsystems share the controller across components; host harnesses reference those components for Normal/SIL/PIL.
+The HSP application boundary owns ADC alignment/calibration, RTD duty scaling, phase idle and gate commands, measured DC bus and event-driven step invocation. HSP 0.1.0 configures the explicitly selected S32K144 or S32K344 target. Linked McControllerLibrary subsystems share the controller across components; host harnesses reference those components for Normal/SIL/PIL.
 
 HSP also supplies applied-voltage feedback from the PWM values actually loaded for that acquisition interval (or an independently validated voltage measurement), including gate state and relevant inverter compensation. A rejected, limited or delayed duty command must not be reported as if it was applied. Invalid nonfinite voltage feedback latches input fault16.
 
