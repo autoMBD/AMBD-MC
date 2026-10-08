@@ -46,5 +46,29 @@
       404
     ],
     "reason": "2026-10-08: verified the exact official S32K144 Motor Control Kit Guides page, including jumper and motor wiring tables; browser retrieval redirects to the colon-form URL while automated CI GET returns 404. Only this URL and HTTP 404 are excepted; recheck manually when editing the reference."
+  },
+  "https://www.mathworks.com/help/autoblks/ref/interiorpmsm.html": {
+    "statuses": [
+      403
+    ],
+    "reason": "2026-10-09: verified the exact official MathWorks documentation page and title (Interior PMSM) through web retrieval; urllib GET returns Access Denied. Only this URL and HTTP 403 are excepted; 404, server errors and timeouts remain failures."
+  },
+  "https://www.mathworks.com/help/ecoder/ug/software-and-processor-in-the-loop-sil-and-pil-simulation.html": {
+    "statuses": [
+      403
+    ],
+    "reason": "2026-10-09: verified the exact official MathWorks documentation page and title (Test Generated Code with SIL and PIL Simulations) through web retrieval; urllib GET returns Access Denied. Only this URL and HTTP 403 are excepted; 404, server errors and timeouts remain failures."
+  },
+  "https://www.mathworks.com/help/mcb/ref/fluxobserver.html": {
+    "statuses": [
+      403
+    ],
+    "reason": "2026-10-09: verified the exact official MathWorks documentation page and title (Flux Observer) through web retrieval; urllib GET returns Access Denied. Only this URL and HTTP 403 are excepted; 404, server errors and timeouts remain failures."
+  },
+  "https://www.mathworks.com/help/simulink/slref/simulink.matlabfunctionconfiguration.html": {
+    "statuses": [
+      403
+    ],
+    "reason": "2026-10-09: verified the exact official MathWorks documentation page and title (MATLABFunctionConfiguration) through web retrieval; urllib GET returns Access Denied. Only this URL and HTTP 403 are excepted; 404, server errors and timeouts remain failures."
   }
 }

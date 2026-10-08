@@ -1,4 +1,6 @@
-# MathWorks Agent 环境
+<a id="mathworks-agent-环境"></a>
+
+# MathWorks 智能体环境
 
 本项目使用 MathWorks 官方 MATLAB MCP Server、MATLAB Agentic Toolkit 和 Simulink Agentic Toolkit。Simulink 工具通过官方 `tools/tools.json` 扩展同一个 MCP Server；项目只提供依赖管理、启动入口和验收客户端。关联 [issue #10](https://github.com/autoMBD/AMBD-MC/issues/10)。
 
@@ -30,7 +32,7 @@ Codex 会递归发现项目 skill 目录中的 `SKILL.md`；可在新 task 中�
 |---|---|---|
 | MATLAB MCP Server + MATLABMCPServerToolbox | v0.13.0 | [matlab/matlab-mcp-server](https://github.com/matlab/matlab-mcp-server) |
 | MATLAB Agentic Toolkit | MATK-2026.09.a | [matlab/matlab-agentic-toolkit](https://github.com/matlab/matlab-agentic-toolkit) |
-| Simulink Agentic Toolkit + installer | SATK-2026.09.b | [matlab/simulink-agentic-toolkit](https://github.com/matlab/simulink-agentic-toolkit) |
+| Simulink Agentic Toolkit + 安装器 | SATK-2026.09.b | [matlab/simulink-agentic-toolkit](https://github.com/matlab/simulink-agentic-toolkit) |
 
 `tools/agent/official.lock.json` 记录官方仓库、release tag、不可变 commit、下载 URL、SHA-256、文件长度、skill 分组、工具/skill 内容摘要和实测版本。Release 二进制使用 GitHub 发布资产摘要；按 commit 下载的源码 ZIP 在解析新版本时计算摘要。首次接受更新仍需审阅官方来源和变更，摘要用于后续复现与完整性验证。没有默认跟随 `main` 的依赖。
 

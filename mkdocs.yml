@@ -1,5 +1,5 @@
-site_name: AMBD-MC Docs
-site_description: AMBD-MC — autoMBD Motor Control Documentation
+site_name: AMBD-MC 电机控制文档
+site_description: autoMBD 电机控制项目的使用手册、硬件集成与设计参考
 site_author: autoMBD
 repo_name: autoMBD/AMBD-MC
 repo_url: https://github.com/autoMBD/AMBD-MC
@@ -33,8 +33,8 @@ nav:
     - BLDC 系统: specs/plant-models/bldc-host/bldc-host-system.md
     - BLDC 架构: specs/plant-models/bldc-host/bldc-host-architecture.md
 - 开发指南:
-  - Release 打包与发布: development/releasing.md
-  - Agent 环境: development/agent-environment.md
+  - 版本打包与发布: development/releasing.md
+  - 智能体环境: development/agent-environment.md
   - 文档维护: development/documentation.md
 - 项目说明:
   - 许可: project/license.md
@@ -52,6 +52,7 @@ theme:
 markdown_extensions:
 - toc:
     permalink: true
+    permalink_title: 本节固定链接
     slugify: !!python/name:markdown.extensions.toc.slugify_unicode
 - admonition
 - pymdownx.superfences
@@ -73,6 +74,9 @@ plugins:
       tutorials/tutorial-advanced.md: manual/verification.md
       examples/example.md: manual/examples.md
       tutorials/tutorial-quick.md: manual/getting-started.md
+extra:
+  generator: false
+copyright: 由 autoMBD 维护
 site_url: https://autombd.github.io/AMBD-MC/
 site_dir: .agent-env/docs/site
 edit_uri: ''

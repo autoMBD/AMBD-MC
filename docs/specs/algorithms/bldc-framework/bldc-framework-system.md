@@ -1,104 +1,83 @@
-# BLDC framework system specification
+<a id="bldc-framework-system-specification"></a>
 
-Public system requirements and interface contract.
+# BLDC 控制框架系统规格
 
-## Objective and existing baseline
+本文定义公开的系统需求与接口契约。
 
-The BLDC framework provides Hall and sensorless six-step control, typed data,
-shared algorithm library components, an independently validated host plant,
-and autoMBD HSP 0.1.0 target generation and PIL for S32K144 and S32K344. Normal and SIL
-remain the host functional and numerical references.
+<a id="objective-and-existing-baseline"></a>
 
-## Requirements
+## 目标与现有基线
 
-| ID | Requirement and observable completion evidence |
+BLDC 框架提供霍尔及无感六步控制、具有确定类型的数据、共享算法库组件、经过独立验证的主机被控对象，以及基于 autoMBD HSP 0.1.0 的 S32K144/S32K344 目标代码生成和 PIL。Normal 与 SIL 保留为主机功能与数值参考。
+
+<a id="requirements"></a>
+
+## 需求
+
+| 编号 | 需求及可观察的完成证据 |
 |---|---|
-| B1 | A repository-relative `ambd_mc("setup","bldc")` initializes types, persistent dictionary and calibrations in a fresh session, repeatedly without destructive reset; Markdown and generated types agree. |
-| B2 | `BLDCFramework` preserves McKernel, McTuning, McEventHub, McFault, McStateMachine, McDataFlow and McDebug responsibilities; BldcControllerLibrary shares the algorithm and application wrappers own native API calls. |
-| B3 | Explicit single-precision controller state at the selected fast rate (16 kHz host/S32K344, 8 kHz S32K144); integer divide-by-16 or divide-by-8 speed loop at 1 kHz; fault/reset priority and disabled outputs deterministic even without a driving tick. |
-| B4 | Hall six-step uses measured Hall edges for sector/direction/speed, including invalid codes, illegal transitions and timeout diagnostics. Sensorless control uses sampled terminal voltages, currents and the actual prior commutation state, without rotor speed/angle or internal BEMF truth. |
-| B5 | Alignment, forced-current startup, qualified zero crossing, 30-degree delayed commutation, closed-loop run, controlled stop, reversal/restart, protection, explicit safe reset and declared low-speed behavior are exercised. Loss of qualified feedback cannot silently sustain uncontrolled drive. |
-| B6 | Anti-windup speed PI and current PI regulate positive motoring current in the selected direction; bounded current reference and bipolar modulation; complementary active legs and one floating leg. Every run checks no simultaneous physical high/low gate command, current envelope, finite outputs and safe fault disable. |
-| B7 | Independent phase-domain trapezoidal motor/inverter validation includes RL and coast analytic oracles, torque/power consistency, Kirchhoff current conservation, commutation continuity, diode/float terminal behavior, integration-step convergence and a MathWorks native physical comparison. |
-| B8 | Hall and sensorless host top models run Normal and actual ERT C SIL. Record exact input replay, source/harness hashes, compiler and executed EXE evidence. Both loops pass physical criteria independently. |
-| B9 | Full scenario matrix covers signed speed, load/bus disturbance, stop/restart, reversal, startup/transition stop, current saturation/recovery, invalid Hall/stall, external/bus/overcurrent faults, sensorless acquisition/loss and parameter variation. Negative tests prove the acceptance checks reject invalid traces. |
-| B10 | Fresh-session scripts reproduce results below `.agent-env`; both motor families pass their regression suites, with source hashes and actual execution evidence recorded for each validation run. |
+| B1 | 相对于仓库的入口 `ambd_mc("setup","bldc")` 在新会话中初始化类型、持久化字典及标定，可重复调用且不进行破坏性复位；Markdown 与生成类型一致。 |
+| B2 | `BLDCFramework` 保留 McKernel、McTuning、McEventHub、McFault、McStateMachine、McDataFlow、McDebug 的职责；BldcControllerLibrary 共享算法，应用封装负责原生 API 调用。 |
+| B3 | 单精度控制器状态显式存储，以选定快速速率运行（主机/S32K344 为 16 kHz，S32K144 为 8 kHz）；速度环采用整数 16 或 8 分频，保持 1 kHz；即使没有驱动节拍，故障/复位优先级及禁用输出仍确定。 |
+| B4 | 霍尔六步控制根据测量边沿获取扇区/方向/速度，包含无效编码、非法跳变和超时诊断。无感控制使用采样端电压、电流及实际上一换相状态，不使用转子速度/角度或内部反电动势真值。 |
+| B5 | 覆盖对齐、强制电流启动、有效过零检测、延迟 30° 换相、闭环运行、受控停止、反转/重启、保护、显式安全复位及声明的低速行为。失去有效反馈时不能静默维持失控驱动。 |
+| B6 | 具有抗积分饱和的速度 PI 和电流 PI 在选定方向调节正向驱动电流幅值；电流参考有界，采用双极性调制、两个互补有源桥臂和一个悬浮桥臂。每次运行检查物理高/低侧门极命令不同时导通、电流包络、有限输出及故障安全禁用。 |
+| B7 | 独立相域梯形波电机/逆变器验证包括 RL 与滑行解析参考、转矩/功率一致性、基尔霍夫电流守恒、换相连续性、二极管/悬浮端行为、积分步长收敛性及 MathWorks 原生物理比较。 |
+| B8 | 霍尔与无感主机顶层模型运行 Normal 和实际 ERT C SIL。记录精确输入回放、源码/测试框架哈希、编译器和已执行 EXE 的证据。两种闭环须各自通过物理准则。 |
+| B9 | 完整场景矩阵覆盖正反向速度、负载/母线扰动、停止/重启、反转、启动/过渡期间停止、电流饱和/恢复、无效霍尔/堵转、外部/母线/过流故障、无感捕获/丢失及参数变化。负向测试证明验收检查会拒绝无效轨迹。 |
+| B10 | 新会话脚本在 `.agent-env/` 下复现结果；两类电机均通过各自回归套件，每次验证记录源码哈希和实际执行证据。 |
 
-## Quantitative acceptance
+<a id="quantitative-acceptance"></a>
 
-The following values describe the generic host baseline. Kit-specific current, voltage, motor and timing calibrations are selected by the [target profile](../../../hardware/hsp-targets.md) and require their own electrical-reference and hardware acceptance.
+## 定量验收要求
 
-- Feasible steady operating points: electrical-speed mean error no greater than
-  max(5 rad/s, 5% of requested magnitude), ripple peak-to-peak no greater than
-  15% of request or 10 rad/s; directional overshoot at most 20% after acquisition.
-  Startup alignment is evaluated separately from commanded steady-speed windows.
-- Current reference at most 6 A; measured phase-current envelope below 9.9 A in
-  ordinary scenarios, and 10 A trip faults disable by the next fast sample.
-  Fault injection may intentionally exceed the envelope only in its declared window.
-- Voltage bounds 8–16 V, nominal 12 V; invalid/nonfinite measured inputs fault.
-  Invalid Hall codes 0/7 and nonadjacent sector changes fault in Hall mode.
-- Stops/reversals must reach the declared idle/coast criterion within 1.5 s;
-  no opposite drive while prior-direction speed remains above the stop threshold.
-  A low sensorless request is declared forced-commutation operation; it is never
-  reported as observed closed-loop regulation. A lost ZC sequence while closed-loop
-  drives safely to fault/disable, with an explicit timeout and no auto-restart.
-- Replay: status, fault, sector, masks, timing, integer diagnostics and PWM counts
-  exact; floating outputs abs 1e-5 + rel 1e-5. Record strict bitwise equality also.
-  No post-result tolerance relaxation without a documented physical rationale.
-- Independent closed-loop Normal/SIL drift limits: 1 electrical rad/s speed,
-  0.1 A phase current and 1e-3 modulation; faults/masks/gate exact. These budgets
-  are smaller than the physical performance allowance and do not replace it.
+以下数值描述通用主机基线。套件专用的电流、电压、电机及时序标定由[目标配置](../../../hardware/hsp-targets.md)选择，需单独完成电气参考和硬件验收。
 
-## External boundary
+- 可行稳态工作点：电角速度平均误差不大于 max(5 rad/s, 请求幅值的 5%)，纹波峰峰值不大于请求幅值的 15% 或 10 rad/s；捕获后沿请求方向的超调不超过 20%。启动对齐与请求稳态速度窗口分开评估。
+- 电流参考不超过 6 A；常规场景中测量相电流包络低于 9.9 A，10 A 跳闸故障最迟在下一个快速采样时禁用驱动。故障注入仅可在声明的窗口内有意超出包络。
+- 电压范围为 8–16 V，标称 12 V；测量输入无效或非有限时触发故障。霍尔模式下，编码 0/7 及非相邻扇区跳变触发故障。
+- 停止/反转必须在 1.5 s 内达到声明的空闲/滑行准则；原方向速度仍高于停止阈值时不得反向驱动。低速无感请求明确为强制换相，不得报告为基于观测反馈的闭环调节。闭环过零序列丢失时，在明确的超时后安全进入故障/禁用，不自动重启。
+- 回放：状态、故障、扇区、掩码、时序、整数诊断和 PWM 计数必须完全一致；浮点输出采用绝对误差 1e-5 加相对误差 1e-5。同时记录严格逐位相等结果。若无文档化的物理依据，不得在看到结果后放宽容差。
+- 独立闭环 Normal/SIL 漂移限值：电角速度 1 rad/s、相电流 0.1 A、调制度 1e-3；故障/掩码/门极信号完全一致。这些误差预算小于物理性能容许范围，不能替代物理验收。
 
-All inputs/outputs execute at the selected model period: 62.5 us for the generic host/S32K344 baseline and 125 us for S32K144. Electrical angle increases in the declared
-A-B-C forward direction; electrical speed equals pole pairs times mechanical speed.
+<a id="external-boundary"></a>
 
-| Input | Type / units | Meaning |
+## 外部边界
+
+所有输入/输出按选定模型周期执行：通用主机/S32K344 基线为 62.5 us，S32K144 为 125 us。电角度沿声明的 A-B-C 正方向增加；电角速度等于极对数乘机械角速度。
+
+| 输入 | 类型 / 单位 | 含义 |
 |---|---|---|
-| CurrentRaw | uint16[3], ADC counts | Phase currents into motor; offset 32768, 1000 count/A |
-| Hall | uint8 | Encoded Hall signals, LUT specified in architecture; ignored in sensorless mode |
-| TerminalVoltage | single[3], V | Sampled terminal voltages relative to DC negative, aligned with current |
-| Control | uint8 | 0 safe reset, 1 run, 2 controlled stop |
-| Fault | boolean | External protection request |
-| CommandEvent, DrivingEvent, TimerEvent | boolean each | Synchronous command latch, fast tick and timing event |
-| SpeedReq | single, electrical rad/s | Signed request, clamp to ±250 |
-| Vdc | single, V | DC bus measurement for the sampled interval |
-| AppliedSector | uint8 | Sector active during the measured interval, 0 if disabled |
-| AppliedDirection | int8 | Source/sink orientation during the measured interval, ±1 |
-| VoltageValid | boolean | Whether terminal voltage is a usable aligned acquisition |
+| CurrentRaw | uint16[3]，ADC 计数 | 流入电机的相电流；偏移 32768，1000 count/A |
+| Hall | uint8 | 霍尔编码，查表关系见架构；无感模式忽略 |
+| TerminalVoltage | single[3]，V | 相对直流负端的采样端电压，与电流对齐 |
+| Control | uint8 | 0 安全复位，1 运行，2 受控停止 |
+| Fault | boolean | 外部保护请求 |
+| CommandEvent, DrivingEvent, TimerEvent | 均为 boolean | 同步命令锁存、快速节拍和定时事件 |
+| SpeedReq | single，电角速度 rad/s | 带符号请求，限幅至 ±250 |
+| Vdc | single，V | 采样区间对应的直流母线测量 |
+| AppliedSector | uint8 | 测量区间内实际生效的扇区；禁用时为 0 |
+| AppliedDirection | int8 | 测量区间内的源/汇方向，±1 |
+| VoltageValid | boolean | 端电压是否为有效且对齐的采样 |
 
-| Output | Type | Meaning |
+| 输出 | 类型 | 含义 |
 |---|---|---|
-| DutyA, DutyB, DutyC | uint16 each | High-side timer counts, period 65535 |
-| PhaseEnable | boolean[3] | Enabled leg uses complementary high/low PWM; false means both switches off |
-| GateEnable | boolean | Global enable; false overrides all phases |
-| Debug | typed bus | Versioned fixed-size diagnostics |
-| Monitor | typed bus | State, faults, feedback, requests, PI/commutation/timing diagnostics |
+| DutyA, DutyB, DutyC | 均为 uint16 | 高侧定时器计数，周期 65535 |
+| PhaseEnable | boolean[3] | 使能桥臂使用互补高/低侧 PWM；false 表示两个开关均关闭 |
+| GateEnable | boolean | 全局使能；false 覆盖所有相 |
+| Debug | 具有确定类型的总线 | 具有版本的固定尺寸诊断 |
+| Monitor | 具有确定类型的总线 | 状态、故障、反馈、请求及 PI/换相/时序诊断 |
 
-Controller defaults use Hall mode (`PositionMode=0`); sensorless mode is 1.
-Mode choice and startup/gain calibrations are latched only while disarmed.
-Plant parameters are separate from controller calibrations for mismatch testing.
+控制器默认使用霍尔模式（`PositionMode=0`），无感模式为 1。模式选择及启动/增益标定仅在未使能时锁存。被控对象参数与控制器标定分离，以便开展参数失配测试。
 
-## Operating domain and exclusions
+<a id="operating-domain-and-exclusions"></a>
 
-Virtual motor parameters come from this repository's PMSM baseline for controlled
-comparison: phase R=0.56 ohm, nonsalient phase L=0.4 mH, pole pairs=2,
-flux constant=0.0039052261 Wb, J=1.2e-5 kg m², B=0.0005 N m s/rad.
-These are declared simulation assumptions, not measured BLDC identification.
-The phase BEMF coefficient per mechanical speed is p*flux, torque is its dot
-product with normalized trapezoid and phase currents. Host Normal/SIL uses Windows x64 generated C.
-Target generation and PIL use the [HSP target integration](../../../hardware/hsp-targets.md).
-Physical current calibration, gate waveforms, loaded motor operation and normal-run
-WCET require separate hardware verification; configuration or PIL alone does not
-establish these results.
+## 工作范围与排除项
 
-## References
+虚拟电机参数来自本仓库 PMSM 基线，用于受控比较：相电阻 R=0.56 ohm、无凸极相电感 L=0.4 mH、极对数=2、磁链常数=0.0039052261 Wb、J=1.2e-5 kg m²、B=0.0005 N m s/rad。这些是声明的仿真假设，不是 BLDC 实测辨识结果。相反电动势系数相对于机械角速度为 p*flux；转矩为该系数乘归一化梯形波与相电流的点积。主机 Normal/SIL 使用 Windows x64 生成 C 代码；目标生成与 PIL 使用 [HSP 目标集成](../../../hardware/hsp-targets.md)。物理电流标定、门极波形、带载电机运行及正常运行最坏执行时间（WCET）需单独开展硬件验证，配置完成或 PIL 通过均不能证明这些结果。
 
-MathWorks documents terminal-voltage ZC detection, alignment/open-loop acquisition,
-demagnetization blanking and 30-degree commutation delay in
-[Sensorless Six-Step Commutation](https://www.mathworks.com/help/mcb/ref/sensorlesssixstepcommutation.html).
-The controller here is independently authored, not a copied example. The
-[BLDC physical block](https://www.mathworks.com/help/sps/ref/bldc.html) supplies an
-independent oracle for three-phase trapezoidal flux dynamics. Local R2026a API and
-parameter behavior must be inspected before building that reference harness.
+<a id="references"></a>
+
+## 参考资料
+
+MathWorks 的[无感六步换相文档](https://www.mathworks.com/help/mcb/ref/sensorlesssixstepcommutation.html)说明端电压过零检测、对齐/开环捕获、退磁消隐及 30° 换相延迟。本项目控制器独立编写，不是示例副本。[BLDC 物理模块](https://www.mathworks.com/help/sps/ref/bldc.html)提供三相梯形磁链动力学的独立参考。构建参考测试框架前，须检查本机 R2026a API 与参数行为。

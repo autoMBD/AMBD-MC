@@ -1,147 +1,74 @@
-# BLDC framework architecture
+<a id="bldc-framework-architecture"></a>
 
-Public interface contract implementing B1–B10 in the system specification.
+# BLDC 控制框架架构
 
-## Composition and execution order
+本文定义实现系统规格 B1–B10 的公开接口契约。
 
-Use package `+bldc`, unique `tBldc*` buses and `BldcData.sldd`. No `+mc` or PMSM
-dictionary modification is required. `BLDCFramework` stores one explicit runtime
-bus in Unit Delay and orders McTuning → McKernel → McEventHub → McFault →
-McStateMachine → McDataFlow → McDebug. Every component accepts `(u,s,p)` and
-returns next state; monitor/output generation has no hidden state. Disarmed
-calibration latching precedes acquisition so ADC conversion, feedback, protection
-and regulation all use one coherent calibration set in each frame. McKernel
-advances the divide-by-16 scheduler; TimerEvent permits the due slow update.
+<a id="composition-and-execution-order"></a>
 
-`BLDC_Ctrl_MBD` and `BLDC_Ctrl_CodeModel` are shared HSP target components for S32K144 and S32K344. Hall and
-sensorless wrapper/top pairs in `platform/pil` reference the same core with
-separate SimulationInput parameter overrides. The plant resides outside the SIL
-controller. Its truth outputs never enter the sensorless or Hall speed regulator.
-Hall signals are the only plant-position-derived sensor input, permitted only
-in Hall mode. An ignored replay wrapper drives the same controller with captured
-ADC, Hall, terminal voltage, bus, command and applied-interval metadata.
+## 组成与执行顺序
 
-## Phase, Hall and commutation convention
+使用包 `+bldc`、独立命名的 `tBldc*` 总线和 `BldcData.sldd`，无需修改 `+mc` 或 PMSM 字典。`BLDCFramework` 在 Unit Delay 中存储一个显式运行时总线，并按 McTuning → McKernel → McEventHub → McFault → McStateMachine → McDataFlow → McDebug 顺序执行。每个组件接收 `(u,s,p)` 并返回下一状态；监视/输出生成无隐藏状态。未使能时的标定锁存在采集之前执行，确保每帧 ADC 转换、反馈、保护和调节使用同一组标定。McKernel 推进 16 分频调度器，TimerEvent 允许到期的慢速更新。
 
-`theta_e=p*theta_m`. Define periodic f(theta): linear -1→+1 on [-30°,30°],
-+1 on [30°,150°], linear +1→-1 on [150°,210°], -1 on [210°,330°].
-The motor's phase shapes are f(theta), f(theta−120°), f(theta+120°).
-Sector is `floor(mod(theta_e−pi/6,2*pi)/(pi/3))+1`.
+`BLDC_Ctrl_MBD` 与 `BLDC_Ctrl_CodeModel` 是 S32K144 和 S32K344 共享的 HSP 目标组件。`platform/pil` 中的霍尔和无感封装/顶层模型引用相同核心，分别通过 SimulationInput 覆盖参数。被控对象位于 SIL 控制器之外，其真值输出不得进入无感或霍尔速度调节器。霍尔信号是唯一由被控对象位置派生的传感器输入，且仅允许在霍尔模式使用。保存在忽略目录中的回放封装使用记录的 ADC、霍尔、端电压、母线、命令及实际施加区间元数据驱动同一控制器。
 
-| Sector | Hall code | Positive source | Positive sink | Floating phase | Expected BEMF crossing slope |
+<a id="phase-hall-and-commutation-convention"></a>
+
+## 相位、霍尔与换相约定
+
+`theta_e=p*theta_m`。周期函数 f(theta) 定义为：[-30°,30°] 内从 -1 线性升至 +1，[30°,150°] 内为 +1，[150°,210°] 内从 +1 线性降至 -1，[210°,330°] 内为 -1。三相波形分别为 f(theta)、f(theta−120°)、f(theta+120°)。扇区为 `floor(mod(theta_e−pi/6,2*pi)/(pi/3))+1`。
+
+| 扇区 | 霍尔编码 | 正向源相 | 正向汇相 | 悬浮相 | 预期反电动势过零斜率 |
 |---:|---:|---|---|---|---|
-| 1 | 5 | A | B | C | falling |
-| 2 | 4 | A | C | B | rising |
-| 3 | 6 | B | C | A | falling |
-| 4 | 2 | B | A | C | rising |
-| 5 | 3 | C | A | B | falling |
-| 6 | 1 | C | B | A | rising |
+| 1 | 5 | A | B | C | 下降 |
+| 2 | 4 | A | C | B | 上升 |
+| 3 | 6 | B | C | A | 下降 |
+| 4 | 2 | B | A | C | 上升 |
+| 5 | 3 | C | A | B | 下降 |
+| 6 | 1 | C | B | A | 上升 |
 
-Negative motoring torque swaps source/sink for the same rotor sector; negative
-rotation visits sectors in reverse order. Raw Hall code is never a sector index.
-At negative speed the BEMF sign and motion reverse together, so the measured
-crossing-time slope in this table is unchanged. Alignment uses A+ B−, whose
-stable equilibrium is theta_e=150°; forced positive/negative startup begins in
-sector 3/2 respectively with the selected source/sink orientation.
+负向驱动转矩在同一转子扇区内交换源/汇相，负向旋转按反序经过扇区。原始霍尔编码不能直接作为扇区索引。负转速下，反电动势符号与运动方向同时反转，因此表中测量过零的时间斜率保持不变。对齐使用 A+ B−，稳定平衡位置为 theta_e=150°；正向/负向强制启动分别从扇区 3/2 开始，采用选定的源/汇方向。
 
-## Actuator and sample-time contract
+<a id="actuator-and-sample-time-contract"></a>
 
-Use bipolar complementary PWM of the two active legs. Modulation m in [0,1]
-requests source pole Vdc*(1+m)/2 and sink pole Vdc*(1−m)/2; the other leg is
-high impedance. Quantize the source high-side duty to q counts, set sink to
-65535−q exactly. Each enabled leg's low-side PWM is its complement; deadtime
-is an adapter responsibility, not simultaneous high/low switch conduction.
-An inactive leg has PhaseEnable=false and both switches off. Global disable
-overrides all outputs. This explicitly differs from conventional high-side-only
-six-step PWM; HSP must preserve the documented modulation interpretation.
+## 执行器与采样时间契约
 
-Output commands are delayed one fast tick before the plant. At sample k the
-controller receives current and terminal voltages from the actual preceding
-actuation interval, plus AppliedSector/AppliedDirection. ZC detection uses that
-recorded sector, never the newly requested one. Logs include initial state at
-t=0 and exactly one sample per Ts. Replay reuses these actual inputs with no
-reconstruction from its own evolving output.
+两个有源桥臂使用双极性互补 PWM。调制度 m 在 [0,1] 内，请求源桥臂电位 Vdc*(1+m)/2、汇桥臂电位 Vdc*(1−m)/2，另一桥臂为高阻。源相高侧占空比量化为 q 个计数，汇相严格设为 65535−q。各使能桥臂的低侧 PWM 与其高侧互补；死区由适配器负责，不意味着上下开关同时导通。非活动桥臂的 PhaseEnable=false，两个开关均关闭。全局禁用覆盖全部输出。此方式与传统仅高侧 PWM 的六步调制不同，HSP 必须保留本文的调制度语义。
 
-## Feedback and PI control
+输出命令延迟一个快速节拍后进入被控对象。在采样 k，控制器收到实际上一执行区间的电流、端电压以及 AppliedSector/AppliedDirection。过零检测使用记录的实际扇区，不使用新请求扇区。日志包含 t=0 的初始状态，此后每 Ts 恰好一个样本。回放复用这些实际输入，不根据自身不断变化的输出重新构造输入。
 
-Hall feedback timestamps adjacent transitions and estimates signed electrical
-speed as (pi/3)/elapsed time; filtered estimate decays/invalidates when no edge
-arrives. Illegal code/transition faults are mode-specific. Startup, stalled motor
-and running-edge timeout have separate guards; a static valid Hall at rest is
-not immediately faulty.
+<a id="feedback-and-pi-control"></a>
 
-Sensorless feedback subtracts half Vdc from the floating terminal voltage.
-After demagnetization blanking and a near-zero floating current guard, require
-the expected signed crossing with hysteresis. Reject implausible intervals and
-duplicate crossings in one sector. Estimate the 60-degree period from valid
-successive events; schedule the next sector after half that interval (30°).
-At the target forced speed, briefly disable all gates, wait for measured current
-decay, then acquire two fresh terminal-voltage snapshots. Their max/min/middle
-ratios recover trapezoidal rotor phase without R/L/Ke or motor truth. Signed
-phase change validates direction and seeds speed, sector and a provisional
-commutation deadline. Reject negligible or rail-clamped voltage spans and frozen
-or wrong-direction samples. This bounded acquisition interval is state 9.
+## 反馈与 PI 控制
 
-The snapshot does not increment ZcCount or set FeedbackReady. In state 11, the
-first real armed floating-phase crossing establishes the timestamp; the second
-provides a complete 60-degree interval. Six qualified real crossings are required
-before closed-loop readiness. Use the provisional period only until measured
-periods exist. Invalid acquisition or lost crossings have explicit timeouts.
+霍尔反馈记录相邻跳变的时间戳，以 (pi/3)/经过时间估算带符号电角速度；没有边沿时，滤波估计衰减或失效。非法编码/跳变故障按模式处理。启动、堵转和运行边沿超时具有独立保护条件；静止时保持有效的霍尔编码不会立即触发故障。
 
+无感反馈从悬浮端电压中减去 Vdc/2。退磁消隐结束且悬浮相电流接近零后，要求出现具有预期方向并满足滞环的过零。拒绝不合理的间隔及同一扇区内的重复过零。由连续有效事件估算 60° 周期，再延迟该周期的一半（30°）调度下一扇区。达到目标强制转速后，短暂关闭全部门极，等待测量电流衰减，再采集两次新的端电压快照。根据最大/最小/中间电压的比例恢复梯形波转子相位，无需 R/L/Ke 或电机真值。带符号相位变化用于确认方向，并预置速度、扇区和临时换相截止时间。拒绝过小或被电源轨钳位的电压跨度，以及冻结或方向错误的样本。这段有界捕获区间对应状态 9。
 
-The speed PI produces a nonnegative current magnitude in the selected direction,
-with request slew limiting and conditional integration at the 6 A limit.
-Hall edge information becomes sparse at low speed. Below the calibrated
-HallGainSpeed (80 electrical rad/s), scale proportional gain by request/80
-and integral gain by its square, with minimum scale 0.2. At 20 electrical rad/s
-this lowers the nominal speed natural frequency from 8 Hz to about 2 Hz,
-compatible with roughly 19 Hall edges per second. Sensorless gains are unchanged.
-The current PI measures current into the selected source phase, regulates it
-to the slew-limited reference, and produces m in [0,1]. Both integrators reset
-when disabled/faulted and preload across startup/control transfer to prevent a
-command step. A current reference of zero while spinning is regulated with its
-required BEMF-balancing voltage; it is not interpreted as unconditional shorting.
+快照不会增加 ZcCount，也不会设置 FeedbackReady。在状态 11 中，第一个实际已使能检测的悬浮相过零建立时间戳，第二个提供完整的 60° 间隔。闭环就绪前必须经过六次有效的真实过零。临时周期仅在尚无测量周期时使用。捕获无效及过零丢失均有明确超时。
 
-## Lifecycle and priority
+速度 PI 在选定方向产生非负电流幅值，对请求施加变化率限制，并在 6 A 限值处采用条件积分。霍尔边沿信息在低速时稀疏：低于标定的 HallGainSpeed（电角速度 80 rad/s）时，比例增益按请求幅值/80 缩放，积分增益按该比例的平方缩放，最小比例为 0.2。电角速度 20 rad/s 时，标称速度自然频率由 8 Hz 降至约 2 Hz，与每秒约 19 个霍尔边沿相匹配；无感增益不变。电流 PI 测量流入选定源相的电流，调节到具有变化率限制的参考，并输出 [0,1] 内的 m。两个积分器均在禁用/故障时复位，并在启动/控制切换时预置，避免命令阶跃。旋转期间零电流参考仍需用抵消反电动势所需的电压调节，不能解释为无条件短接。
 
-Retain numerical meaning of the PMSM framework's 0–15 lifecycle codes. Reset 0,
-init 1, idle 2, fault 3, ready 4, ready-to-align 5, align 6, align-to-open 7,
-forced startup 8, acquire bridge 9, fallback bridge 10, tracking 11, ready-to-run
-12, feedback-loss bridge 13, run 14, stopping 15. All bridge states have defined
-entry/exit behavior. Hall mode can enter run after alignment; sensorless proceeds
-through startup/acquisition/tracking. Unsupported low speed remains explicitly
-forced startup. On reversal, ramp current/request down and reach the stop guard
-before selecting opposite direction and aligning again. After current demand
-reaches zero and measured current decays, coast with all gates off for a
-calibrated 0.25 s before idle. This avoids treating missing low-speed sensorless
-edges as proof of standstill; the interval is justified by the declared virtual
-J/B and verified against plant truth in acceptance. Stop commands preempt
-every startup/bridge state. Persistent fault plus reset keeps the gate off.
+<a id="lifecycle-and-priority"></a>
 
-Fault bits: external 1, overcurrent 2, undervoltage 4, overvoltage 8, invalid input
-16, ADC rail 32, startup timeout 64, stop timeout 128, invalid state 256,
-numeric failure 512, Hall invalid/sequence 1024, Hall stall 2048, ZC loss 4096.
-Fault latch clears only on command 0 after the triggering condition is safe.
+## 生命周期与优先级
 
-## Initialization and model APIs
+保留 PMSM 框架 0–15 生命周期编码的数值含义：复位 0、初始化 1、空闲 2、故障 3、就绪 4、就绪到对齐 5、对齐 6、对齐到开环 7、强制启动 8、捕获过渡 9、回退过渡 10、跟踪 11、运行就绪过渡 12、反馈丢失过渡 13、运行 14、停止中 15。所有过渡状态都有明确的进入/退出行为。霍尔模式可在对齐后进入运行，无感模式须经过启动/捕获/跟踪。不支持的低速明确保持强制启动。反转时先按斜坡降低电流/请求，满足停止保护条件后再选择反方向并重新对齐。电流需求降至零且测量电流衰减后，全部门极关闭并滑行标定的 0.25 s，再进入空闲。这避免把低速无感边沿缺失误当作静止证据；该时间基于声明的虚拟 J/B，并在验收中对照被控对象真值验证。停止命令抢占全部启动/过渡状态。故障持续存在时，即使收到复位也保持门极关闭。
 
-`ambd_mc("setup","bldc")` resolves paths, verifies saved types and calibrations, and directs
-generated files below `.agent-env/bldc`. Explicit `SyncDictionary=true` updates
-owned types/defaults transactionally while preserving unrelated dictionary data.
-Normal startup preserves existing calibration. Runtime state is rebuilt from
-typed defaults each run. Dirty or foreign dictionary mutation is refused.
+故障位：外部故障 1、过流 2、欠压 4、过压 8、输入无效 16、ADC 到轨 32、启动超时 64、停止超时 128、非法状态 256、数值故障 512、霍尔无效/序列错误 1024、霍尔堵转 2048、过零丢失 4096。只有触发条件恢复安全且命令为 0 时才能清除故障锁存。
 
-ERT configuration must match throughout the model-reference hierarchy.
-Verification methods and result interpretation are described in the
-[verification guide](../../../manual/verification.md).
+<a id="initialization-and-model-apis"></a>
 
-## Numerical and plant boundaries
+## 初始化与模型 API
 
-Controller values are single, time counters integer and all arrays fixed-size.
-Selected math may evaluate in double then cast if causally justified by replay;
-no output coarsening or reset introduced merely to hide differences. Separate
-plant parameters permit R/L/flux/inertia/load perturbation without retuning the
-controller. Physical-domain details and independent validation belong to the
-BLDC host plant specification. Interface changes must remain consistent on both sides.
+`ambd_mc("setup","bldc")` 解析路径、校验已保存类型与标定，并将生成文件放入 `.agent-env/bldc` 下。显式 `SyncDictionary=true` 以事务方式更新自有类型/默认值，同时保留不相关的字典数据。普通启动保留现有标定，每次运行均从具有确定类型的默认值重建运行时状态。拒绝修改含未保存更改的字典或非本项目所有的字典。
 
-Controller ports and runtime memory inherit the top-level fixed step. The source/host baseline uses 62.5 us; the S32K144 stage selects 125 us and matching parameter Ts, speed divider and blanking ticks. See [target profiles](../../../hardware/hsp-targets.md).
+整个模型引用层级的 ERT 配置必须一致。验证方法与结果解释见[验证指南](../../../manual/verification.md)。
+
+<a id="numerical-and-plant-boundaries"></a>
+
+## 数值与被控对象边界
+
+控制器数值使用 single，时间计数器使用整数，所有数组尺寸固定。在回放证据能说明因果依据时，部分数学计算可采用 double 后再转换；不得仅为掩盖差异而降低输出精度或引入复位。独立被控对象参数允许在不重新调节控制器的情况下扰动 R/L/磁链/惯量/负载。物理域细节及独立验证由 BLDC 主机被控对象规格定义，接口变化须保持双方一致。
+
+控制器端口和运行时存储继承顶层固定步长。源模型/主机基线为 62.5 us；S32K144 工作副本选择 125 us，并配套设置参数 Ts、速度分频和消隐节拍。参见[目标配置](../../../hardware/hsp-targets.md)。
