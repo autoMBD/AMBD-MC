@@ -6,6 +6,10 @@
 
 ## 选择工作流
 
+[发布附件](https://github.com/autoMBD/AMBD-MC/releases)提供模型、源码、字典、示例、公开文档和许可材料，
+不捆绑下表中的外部产品。下载/解压使用见[快速开始](getting-started.md)，
+维护者打包和发布见[Release 指南](../development/releasing.md)。
+
 | 工作流 | 前提与范围 |
 | --- | --- |
 | 文档浏览／构建 | 浏览器；本地构建使用 Python 和锁定的文档依赖，不需要 MATLAB |
@@ -24,6 +28,7 @@ Agent 环境的最低版本要求不等于电机模型已在该最低版本验�
 
 autoMBD HSP 由外部安装提供。活动模型的 `ambd_mc("setup",...)` 会核对已启用的
 0.1.0 版本；缺少它时先完成 HSP 安装与初始化，不应绕过检查打开目标模型。
+本仓库及 Release 不提供 HSP 安装包；获取兼容版本请联系[项目维护者](https://github.com/autoMBD)。
 芯片工具、本机路径、串口与探针设置见 [HSP 指南](../hardware/hsp-s32k344.md)。
 
 ## 学习与使用路径

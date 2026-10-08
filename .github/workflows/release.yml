@@ -1,0 +1,117 @@
+name: Release package
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Existing version tag (must match release.json)
+        required: true
+        type: string
+      mode:
+        description: Keep a draft or publish after runtime review
+        type: choice
+        options: [draft, prerelease, release]
+        default: draft
+      runtime_reviewed:
+        description: Required runtime scenarios were reviewed; limitations are stated in release notes
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.event.inputs.ref || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    outputs:
+      commit: ${{ steps.source.outputs.commit }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.inputs.ref || github.ref }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Resolve immutable source
+        id: source
+        shell: bash
+        run: echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Test packaging and publication boundaries
+        run: python -m unittest discover -s tests/release -v
+      - name: Check license headers and saved model annotations
+        run: python tools/test_check_spdx.py --models
+      - name: Test existing header policy
+        run: python -m unittest discover -s tests/headers -v
+      - name: Install documentation dependencies
+        run: python -m pip install -r tools/requirements-docs.txt
+      - name: Test documentation boundaries
+        run: python -m unittest discover -s tests/docs -v
+      - name: Build documentation
+        run: python -m mkdocs build --strict
+      - name: Inspect documentation links and publication boundary
+        run: python tools/docs/check_site.py .agent-env/docs/site
+      - name: Preflight release
+        run: python tools/release/package.py --ref HEAD --check
+      - name: Build package
+        run: python tools/release/package.py --ref HEAD --output .agent-env/releases/package
+      - name: Verify complete output
+        run: python tools/release/package.py --ref HEAD --verify .agent-env/releases/package
+      - name: Upload only checked distribution assets
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v6
+        with:
+          name: release-package
+          path: |
+            .agent-env/releases/package/AMBD-MC-*.zip
+            .agent-env/releases/package/SHA256SUMS
+            .agent-env/releases/package/release-metadata.json
+            .agent-env/releases/package/RELEASE_NOTES.md
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    needs: check
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.check.outputs.commit }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v6
+        with:
+          name: release-package
+          path: .agent-env/releases/package
+      - name: Create draft, check GitHub downloads, optionally publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_REF: ${{ github.event.inputs.ref || github.ref_name }}
+          RELEASE_MODE: ${{ github.event.inputs.mode || 'draft' }}
+          RUNTIME_REVIEWED: ${{ github.event.inputs.runtime_reviewed || 'false' }}
+        run: |
+          args=()
+          if [ "$RUNTIME_REVIEWED" = true ]; then args+=(--runtime-reviewed); fi
+          python tools/release/publish.py --ref "$RELEASE_REF" --assets .agent-env/releases/package --mode "$RELEASE_MODE" "${args[@]}"

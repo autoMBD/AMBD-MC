@@ -5,6 +5,7 @@
 
 | 日期 | 变化 | 依据 |
 | --- | --- | --- |
+| 2026-10-08 | 增加逐文件许可清单、可复现发布包、GitHub Draft 发布及下载校验流程；候选配置不代表已正式发布 | [Issue #27](https://github.com/autoMBD/AMBD-MC/issues/27)、[发布指南](../development/releasing.md) |
 | 2026-10-07 | 活动模型迁移至 autoMBD HSP S32K344；增加 MCSPTE1AK344 采样与受门控输出；历史截图留在归档目录 | [HSP 迁移](https://github.com/autoMBD/AMBD-MC/commit/c709951)、[板级集成](https://github.com/autoMBD/AMBD-MC/commit/cba0757)、[截图归档](https://github.com/autoMBD/AMBD-MC/commit/6afefcb) |
 | 2026-10-07 | 项目自有源文件许可头与模型注释统一 | [提交记录](https://github.com/autoMBD/AMBD-MC/commit/f711723) |
 | 2026-10-06 | 完成 BLDC Hall／实测端电压无感框架、独立对象及 SIL 验证流程 | [实现](https://github.com/autoMBD/AMBD-MC/commit/c9139b1) |

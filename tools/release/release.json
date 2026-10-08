@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "version": "0.2.0-rc.1",
+  "notes": "tools/release/notes.md",
+  "dependencies": [
+    {"name": "MATLAB / Simulink", "version": "R2026a (reference)", "purpose": "Host Normal simulation", "bundled": false, "source": "https://www.mathworks.com/products/simulink.html"},
+    {"name": "autoMBD HSP", "version": "0.1.0", "purpose": "Model initialization and hardware integration", "bundled": false, "source": "https://github.com/autoMBD"},
+    {"name": "MATLAB Coder / Simulink Coder / Embedded Coder", "version": "R2026a (reference)", "purpose": "SIL and target code generation with a supported C compiler", "bundled": false, "source": "https://www.mathworks.com/products/embedded-coder.html"},
+    {"name": "NXP RTD / EB tresos / NXP GCC / FreeRTOS", "version": "S32K344: 7.0.1 / 30 / 10.2 / 11.1.0; S32K144: 3.0.0 QLP06 / 29 / 10.2 / 11.1.0", "purpose": "Target builds; board/probe/UART additionally required for PIL", "bundled": false, "source": "https://www.nxp.com/"},
+    {"name": "Python / Git", "version": "Python 3.11+ / Git 2.30+", "purpose": "Maintainer packaging; GitHub CLI additionally required only for publishing", "bundled": false, "source": "https://www.python.org/downloads/"}
+  ]
+}
