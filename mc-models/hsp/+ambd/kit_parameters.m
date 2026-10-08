@@ -44,34 +44,43 @@
 % Description: Create separate initial calibrations for the official MCSPTE1AK344 motor.
 % =================================================================================
 
-function p = kit_parameters(family)
-%kit_parameters - Return initial MCSPTE1AK344 motor calibrations
+function p = kit_parameters(family,target)
+%kit_parameters - Return initial kit motor calibrations
 %   P = kit_parameters(FAMILY) returns settings for the supplied Sunrise
 %   motor and the official BLDC or PMSM jumper arrangement. Parameters
 %   are initial engineering calibrations; physical tuning is separate.
 %
-%   See also ambd_mc, bldc.defaults, mc.defaults
+%   P = kit_parameters(FAMILY,TARGET) selects the explicit kit profile.
+%   Both profiles initially select the documented Sunrise motor.
+%
+%   See also ambd_mc, target_profile, bldc.defaults, mc.defaults
+if nargin<2,target='s32k344';end
+profile=ambd.target_profile(target);motor=profile.motor;
 family=string(family);
 assert(isscalar(family)&&ismember(family,["bldc","pmsm"]),'ambd:Family','Select bldc or pmsm.');
 if family=="bldc",p=bldc.defaults();else,p=mc.defaults();end
-p.Rs=single(.192);p.PolePairs=uint8(2);p.Inertia=single(1.2e-5);
+p.Rs=single(motor.resistance);p.PolePairs=uint8(motor.polePairs);p.Inertia=single(motor.inertia);
+p.Ts=single(profile.samplePeriod);
+p.SpeedDivider=uint16(round(.001/profile.samplePeriod));
 p.Friction=single(0); % No measured friction value is supplied by the kit.
 p.NominalVdc=single(12);p.VdcMin=single(9);p.VdcMax=single(18);
 p.SpeedLimit=single(5000*2*pi*2/60);
 wc=single(2*pi*500);ws=single(2*pi*8);
 if family=="bldc"
-    p.Ls=single((96e-6+107e-6)/2);
-    p.Ke=single(2*.005872); % MCAT Emax=ke*electrical_speed; this field uses mechanical speed.
+    p.Ls=single((motor.ld+motor.lq)/2);
+    p.Ke=single(2*motor.flux); % MCAT Emax=ke*electrical_speed; this field uses mechanical speed.
     p.CurrentSenseMode=uint8(1);p.MinModulation=single(.1);p.MaxModulation=single(.9);
     p.ActuationDelayTicks=uint16(2);
     p.CurrentLimit=single(3);p.TripCurrent=single(5);p.AlignCurrent=single(3);p.OpenCurrent=single(1);
     p.KpCurrent=single(2)*p.Ls*wc;p.KiCurrent=single(2)*p.Rs*wc;
     kt=single(2)*p.Ke;
     p.OpenSpeed=single(200);p.LowSpeedThreshold=single(800*2*pi*2/60);p.ZcMinSpeed=single(150);
-    p.ZcMinTicks=uint32(8);
+    p.ZcMinTicks=uint32(round(.0005/profile.samplePeriod));
+    p.ZcBlankTicks=uint16(max(1,round(.00025/profile.samplePeriod)));
+    p.ZcMaxTicks=uint32(round(.5/profile.samplePeriod));
     p.OpenAccel=single(150);p.PositionMode=uint8(0);
 else
-    p.Ld=single(96e-6);p.Lq=single(107e-6);p.Flux=single(.005872);
+    p.Ld=single(motor.ld);p.Lq=single(motor.lq);p.Flux=single(motor.flux);
     p.CurrentLimit=single(6);p.TripCurrent=single(8);p.VoltageMargin=single(.8);
     p.KpD=p.Ld*wc;p.KpQ=p.Lq*wc;p.KiD=p.Rs*wc;p.KiQ=p.Rs*wc;
     kt=single(1.5)*single(p.PolePairs)*p.Flux;p.PositionMode=uint8(0);

@@ -1,0 +1,830 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:datamodel xmlns:ns0="http://www.tresos.de/_projects/DataModel2/16/root.xsd" xmlns:ns1="http://www.tresos.de/_projects/DataModel2/06/data.xsd" xmlns:ns2="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd" version="7.0">
+  <ns1:ctr type="AUTOSAR" factory="autosar">
+    <ns1:lst type="TOP-LEVEL-PACKAGES">
+      <ns1:ctr name="Adc" type="AR-PACKAGE">
+        <ns1:lst type="ELEMENTS">
+          <ns1:chc name="Adc" type="AR-ELEMENT" value="MODULE-CONFIGURATION">
+            <ns1:ctr type="MODULE-CONFIGURATION">
+              <ns2:a name="DEF" value="ASPath:/TS_T40D2M30I0R0/Adc" />
+              <ns1:var name="POST_BUILD_VARIANT_USED" type="BOOLEAN" value="false">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </ns1:var>
+              <ns1:var name="IMPLEMENTATION_CONFIG_VARIANT" type="ENUMERATION" value="VariantPostBuild">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </ns1:var>
+              <ns1:ctr name="AdcConfigSet" type="IDENTIFIABLE">
+                <ns1:lst name="AdcHwUnit" type="MAP">
+                  <ns1:ctr name="AdcHwUnit_0" type="IDENTIFIABLE">
+                    <ns1:var name="AdcHwUnitId" type="ENUMERATION" value="ADC0" />
+                    <ns1:var name="AdcLogicalUnitId" type="INTEGER" value="0" />
+                    <ns1:var name="AdcTransferType" type="ENUMERATION" value="ADC_INTERRUPT" />
+                    <ns1:ref name="AdcDmaChannelId" type="REFERENCE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:ref>
+                    <ns1:ref name="AdcCountingDmaChannelId" type="REFERENCE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:ref>
+                    <ns1:var name="AdcClockSource" type="ENUMERATION" value="ADC_ALTCLK1">
+                      <ns2:a name="ENABLE" value="false" />
+                    </ns1:var>
+                    <ns1:var name="AdcPrescale" type="INTEGER" value="1">
+                      <ns2:a name="ENABLE" value="false" />
+                    </ns1:var>
+                    <ns1:var name="AdcAltPrescale" type="INTEGER" value="2">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="AdcCalibrationPrescale" type="INTEGER" value="8" />
+                    <ns1:var name="AdcHwUnitUsrOffset" type="INTEGER" value="0">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="AdcHwUnitUsrGain" type="INTEGER" value="4">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="AdcHwUnitResolution" type="ENUMERATION" value="RESOLUTION_12" />
+                    <ns1:ctr name="AdcNormalConvTimings" type="IDENTIFIABLE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns1:var name="AdcHardwareAverageEnable" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="AdcHardwareAverageSelect" type="ENUMERATION" value="SAMPLES_4">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="AdcSampleTimeDuration" type="INTEGER" value="12">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                    </ns1:ctr>
+                    <ns1:ctr name="AdcAlternateConvTimings" type="IDENTIFIABLE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns1:var name="AdcHardwareAverageEnableAlternate" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="AdcHardwareAverageSelectAlternate" type="ENUMERATION" value="SAMPLES_4">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="AdcSampleTimeDurationAlternate" type="INTEGER" value="12">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                    </ns1:ctr>
+                    <ns1:ctr name="PdbHwUnit" type="IDENTIFIABLE">
+                      <ns1:var name="AdcPdbPrescalerDividerSelect" type="INTEGER" value="0">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="AdcPdbMultiplicationFactorSelect" type="INTEGER" value="0">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="AdcPdbCounterPeriod" type="INTEGER" value="65535">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="AdcPdbErrorNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="AdcPdbInterruptDelayPeriod" type="INTEGER" value="0">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="AdcPdbInterruptDelayNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="PdbInterChnBackToBackEnable" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                    </ns1:ctr>
+                    <ns1:lst name="AdcChannel" type="MAP">
+                      <ns1:ctr name="Adc0_VREFH" type="IDENTIFIABLE">
+                        <ns1:var name="AdcLogicalChannelId" type="INTEGER" value="0">
+                          </ns1:var>
+                        <ns1:var name="AdcChannelName" type="ENUMERATION" value="VREFH_ADCH29">
+                          </ns1:var>
+                        <ns1:var name="AdcChannelId" type="INTEGER" value="29">
+                          </ns1:var>
+                        <ns1:var name="AdcChannelConvTime" type="INTEGER" value="0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelLimitCheck" type="BOOLEAN" value="false">
+                          <ns2:a name="ENABLE" value="false" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelHighLimit" type="INTEGER" value="255">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelLowLimit" type="INTEGER" value="0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelRangeSelect" type="ENUMERATION" value="ADC_RANGE_ALWAYS">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelRefVoltsrcHigh" type="ENUMERATION" value="UPPER_REF_VOLT_0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelRefVoltsrcLow" type="ENUMERATION" value="LOWER_REF_VOLT_0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelResolution" type="INTEGER" value="12">
+                          <ns2:a name="ENABLE" value="false" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelSampTime" type="INTEGER" value="22">
+                          <ns2:a name="ENABLE" value="false" />
+                        </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="Adc0_BANDGAP" type="IDENTIFIABLE">
+                        <ns1:var name="AdcLogicalChannelId" type="INTEGER" value="1">
+                          </ns1:var>
+                        <ns1:var name="AdcChannelName" type="ENUMERATION" value="BANDGAP_ADCH27">
+                          </ns1:var>
+                        <ns1:var name="AdcChannelId" type="INTEGER" value="27">
+                          </ns1:var>
+                        <ns1:var name="AdcChannelConvTime" type="INTEGER" value="0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelLimitCheck" type="BOOLEAN" value="false">
+                          <ns2:a name="ENABLE" value="false" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelHighLimit" type="INTEGER" value="255">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelLowLimit" type="INTEGER" value="0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelRangeSelect" type="ENUMERATION" value="ADC_RANGE_ALWAYS">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelRefVoltsrcHigh" type="ENUMERATION" value="UPPER_REF_VOLT_0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelRefVoltsrcLow" type="ENUMERATION" value="LOWER_REF_VOLT_0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelResolution" type="INTEGER" value="12">
+                          <ns2:a name="ENABLE" value="false" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelSampTime" type="INTEGER" value="22">
+                          <ns2:a name="ENABLE" value="false" />
+                        </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="Adc0_VREFL" type="IDENTIFIABLE">
+                        <ns1:var name="AdcLogicalChannelId" type="INTEGER" value="2">
+                          </ns1:var>
+                        <ns1:var name="AdcChannelName" type="ENUMERATION" value="VREFL_ADCH30">
+                          </ns1:var>
+                        <ns1:var name="AdcChannelId" type="INTEGER" value="30">
+                          </ns1:var>
+                        <ns1:var name="AdcChannelConvTime" type="INTEGER" value="0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelLimitCheck" type="BOOLEAN" value="false">
+                          <ns2:a name="ENABLE" value="false" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelHighLimit" type="INTEGER" value="255">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelLowLimit" type="INTEGER" value="0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelRangeSelect" type="ENUMERATION" value="ADC_RANGE_ALWAYS">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelRefVoltsrcHigh" type="ENUMERATION" value="UPPER_REF_VOLT_0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelRefVoltsrcLow" type="ENUMERATION" value="LOWER_REF_VOLT_0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelResolution" type="INTEGER" value="12">
+                          <ns2:a name="ENABLE" value="false" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelSampTime" type="INTEGER" value="22">
+                          <ns2:a name="ENABLE" value="false" />
+                        </ns1:var>
+                      </ns1:ctr>
+                    </ns1:lst>
+                    <ns1:lst name="AdcGroup" type="MAP">
+                      <ns1:ctr name="Ambd_AdcGroup0" type="IDENTIFIABLE">
+                        <ns1:var name="AdcGroupAccessMode" type="ENUMERATION" value="ADC_ACCESS_MODE_SINGLE">
+                          </ns1:var>
+                        <ns1:var name="AdcGroupConversionMode" type="ENUMERATION" value="ADC_CONV_MODE_ONESHOT">
+                          </ns1:var>
+                        <ns1:var name="AdcGroupConversionType" type="ENUMERATION" value="ADC_CONV_TYPE_NORMAL">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcGroupId" type="INTEGER" value="0">
+                          </ns1:var>
+                        <ns1:var name="AdcGroupPriority" type="INTEGER" value="0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcGroupReplacement" type="ENUMERATION" value="ADC_GROUP_REPL_ABORT_RESTART">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcGroupTriggSrc" type="ENUMERATION" value="ADC_TRIGG_SRC_SW">
+                          </ns1:var>
+                        <ns1:ref name="AdcGroupHwTriggerSource" type="REFERENCE" value="ASPath:/Adc/Adc/AdcConfigSet/AdcHwTrigger_0">
+                          </ns1:ref>
+                        <ns1:var name="AdcHwTrigSignal" type="ENUMERATION" value="ADC_HW_TRIG_RISING_EDGE">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcHwTrigTimer" type="INTEGER" value="0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <ns2:a name="ENABLE" value="true" />
+                        </ns1:var>
+                        <ns1:var name="AdcExtraNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcDmaErrorNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcStreamingBufferMode" type="ENUMERATION" value="ADC_STREAM_BUFFER_LINEAR">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcEnableOptimizeDmaStreamingGroups" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcEnableHalfInterrupt" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcStreamingNumSamples" type="INTEGER" value="1">
+                          </ns1:var>
+                        <ns1:var name="AdcStreamResultGroup" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcEnableChDisableChGroup" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcWithoutInterrupts" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcWithoutDma" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcExtDMAChanEnable" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcGroupInBacktoBackMode" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcGroupUsesChannelDelays" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcDelayNextPdb" type="INTEGER" value="0">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcPdbPeriodContinuousMode" type="INTEGER" value="1000">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:lst name="AdcChannelDelay" />
+                        <ns1:lst name="AdcGroupDefinition">
+                          <ns1:ref type="REFERENCE" value="ASPath:/Adc/Adc/AdcConfigSet/AdcHwUnit_0/Adc0_VREFH" />
+                          <ns1:ref type="REFERENCE" value="ASPath:/Adc/Adc/AdcConfigSet/AdcHwUnit_0/Adc0_BANDGAP" />
+                          <ns1:ref type="REFERENCE" value="ASPath:/Adc/Adc/AdcConfigSet/AdcHwUnit_0/Adc0_VREFL" />
+                        </ns1:lst>
+                        <ns1:lst name="AdcGroupEcucPartitionRef" />
+                        <ns1:ctr name="AdcGroupConversionConfiguration" type="IDENTIFIABLE">
+                          <ns1:var name="AdcGroupHardwareAverageEnable" type="BOOLEAN" value="false">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="AdcGroupHardwareAverageSelect" type="ENUMERATION" value="SAMPLES_4">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="AdcGroupSampleTimeDuration" type="INTEGER" value="2">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                        </ns1:ctr>
+                        <ns1:ctr name="AdcAlternateGroupConvTimings" type="IDENTIFIABLE">
+                          <ns1:var name="AdcGroupAltHardwareAverageEnable" type="BOOLEAN" value="false">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="AdcGroupAltHardwareAverageSelect" type="ENUMERATION" value="SAMPLES_4">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="AdcGroupAltSampleTimeDuration" type="INTEGER" value="2">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                        </ns1:ctr>
+                      </ns1:ctr>
+                    </ns1:lst>
+                    <ns1:lst name="AdcHwUnitEcucPartitionRef" />
+                  </ns1:ctr>
+                  <ns1:ctr name="AdcHwUnit_1" type="IDENTIFIABLE">
+                    <ns1:var name="AdcHwUnitId" type="ENUMERATION" value="ADC1" />
+                    <ns1:var name="AdcLogicalUnitId" type="INTEGER" value="1" />
+                    <ns1:var name="AdcTransferType" type="ENUMERATION" value="ADC_INTERRUPT" />
+                    <ns1:ref name="AdcDmaChannelId" type="REFERENCE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:ref>
+                    <ns1:ref name="AdcCountingDmaChannelId" type="REFERENCE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:ref>
+                    <ns1:var name="AdcClockSource" type="ENUMERATION" value="ADC_ALTCLK1">
+                      <ns2:a name="ENABLE" value="false" />
+                    </ns1:var>
+                    <ns1:var name="AdcPrescale" type="INTEGER" value="1">
+                      <ns2:a name="ENABLE" value="false" />
+                    </ns1:var>
+                    <ns1:var name="AdcAltPrescale" type="INTEGER" value="2">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="AdcCalibrationPrescale" type="INTEGER" value="8" />
+                    <ns1:var name="AdcHwUnitUsrOffset" type="INTEGER" value="0">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="AdcHwUnitUsrGain" type="INTEGER" value="4">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="AdcHwUnitResolution" type="ENUMERATION" value="RESOLUTION_12" />
+                    <ns1:ctr name="AdcNormalConvTimings" type="IDENTIFIABLE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns1:var name="AdcHardwareAverageEnable" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="AdcHardwareAverageSelect" type="ENUMERATION" value="SAMPLES_4">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="AdcSampleTimeDuration" type="INTEGER" value="12">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                    </ns1:ctr>
+                    <ns1:ctr name="AdcAlternateConvTimings" type="IDENTIFIABLE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns1:var name="AdcHardwareAverageEnableAlternate" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="AdcHardwareAverageSelectAlternate" type="ENUMERATION" value="SAMPLES_4">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="AdcSampleTimeDurationAlternate" type="INTEGER" value="12">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                    </ns1:ctr>
+                    <ns1:ctr name="PdbHwUnit" type="IDENTIFIABLE">
+                      <ns1:var name="AdcPdbPrescalerDividerSelect" type="INTEGER" value="0">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="AdcPdbMultiplicationFactorSelect" type="INTEGER" value="0">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="AdcPdbCounterPeriod" type="INTEGER" value="65535">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="AdcPdbErrorNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="AdcPdbInterruptDelayPeriod" type="INTEGER" value="0">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="AdcPdbInterruptDelayNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="PdbInterChnBackToBackEnable" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                    </ns1:ctr>
+                    <ns1:lst name="AdcChannel" type="MAP">
+                      <ns1:ctr name="Adc1_VREFH" type="IDENTIFIABLE">
+                        <ns1:var name="AdcLogicalChannelId" type="INTEGER" value="0">
+                          </ns1:var>
+                        <ns1:var name="AdcChannelName" type="ENUMERATION" value="VREFH_ADCH29">
+                          </ns1:var>
+                        <ns1:var name="AdcChannelId" type="INTEGER" value="29">
+                          </ns1:var>
+                        <ns1:var name="AdcChannelConvTime" type="INTEGER" value="0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelLimitCheck" type="BOOLEAN" value="false">
+                          <ns2:a name="ENABLE" value="false" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelHighLimit" type="INTEGER" value="255">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelLowLimit" type="INTEGER" value="0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelRangeSelect" type="ENUMERATION" value="ADC_RANGE_ALWAYS">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelRefVoltsrcHigh" type="ENUMERATION" value="UPPER_REF_VOLT_0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelRefVoltsrcLow" type="ENUMERATION" value="LOWER_REF_VOLT_0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelResolution" type="INTEGER" value="12">
+                          <ns2:a name="ENABLE" value="false" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelSampTime" type="INTEGER" value="22">
+                          <ns2:a name="ENABLE" value="false" />
+                        </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="Adc1_BANDGAP" type="IDENTIFIABLE">
+                        <ns1:var name="AdcLogicalChannelId" type="INTEGER" value="1">
+                          </ns1:var>
+                        <ns1:var name="AdcChannelName" type="ENUMERATION" value="BANDGAP_ADCH27">
+                          </ns1:var>
+                        <ns1:var name="AdcChannelId" type="INTEGER" value="27">
+                          </ns1:var>
+                        <ns1:var name="AdcChannelConvTime" type="INTEGER" value="0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelLimitCheck" type="BOOLEAN" value="false">
+                          <ns2:a name="ENABLE" value="false" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelHighLimit" type="INTEGER" value="255">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelLowLimit" type="INTEGER" value="0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelRangeSelect" type="ENUMERATION" value="ADC_RANGE_ALWAYS">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelRefVoltsrcHigh" type="ENUMERATION" value="UPPER_REF_VOLT_0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelRefVoltsrcLow" type="ENUMERATION" value="LOWER_REF_VOLT_0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelResolution" type="INTEGER" value="12">
+                          <ns2:a name="ENABLE" value="false" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelSampTime" type="INTEGER" value="22">
+                          <ns2:a name="ENABLE" value="false" />
+                        </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="Adc1_VREFL" type="IDENTIFIABLE">
+                        <ns1:var name="AdcLogicalChannelId" type="INTEGER" value="2">
+                          </ns1:var>
+                        <ns1:var name="AdcChannelName" type="ENUMERATION" value="VREFL_ADCH30">
+                          </ns1:var>
+                        <ns1:var name="AdcChannelId" type="INTEGER" value="30">
+                          </ns1:var>
+                        <ns1:var name="AdcChannelConvTime" type="INTEGER" value="0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelLimitCheck" type="BOOLEAN" value="false">
+                          <ns2:a name="ENABLE" value="false" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelHighLimit" type="INTEGER" value="255">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelLowLimit" type="INTEGER" value="0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelRangeSelect" type="ENUMERATION" value="ADC_RANGE_ALWAYS">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelRefVoltsrcHigh" type="ENUMERATION" value="UPPER_REF_VOLT_0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelRefVoltsrcLow" type="ENUMERATION" value="LOWER_REF_VOLT_0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelResolution" type="INTEGER" value="12">
+                          <ns2:a name="ENABLE" value="false" />
+                        </ns1:var>
+                        <ns1:var name="AdcChannelSampTime" type="INTEGER" value="22">
+                          <ns2:a name="ENABLE" value="false" />
+                        </ns1:var>
+                      </ns1:ctr>
+                    </ns1:lst>
+                    <ns1:lst name="AdcGroup" type="MAP">
+                      <ns1:ctr name="Ambd_AdcGroup1" type="IDENTIFIABLE">
+                        <ns1:var name="AdcGroupAccessMode" type="ENUMERATION" value="ADC_ACCESS_MODE_SINGLE">
+                          </ns1:var>
+                        <ns1:var name="AdcGroupConversionMode" type="ENUMERATION" value="ADC_CONV_MODE_ONESHOT">
+                          </ns1:var>
+                        <ns1:var name="AdcGroupConversionType" type="ENUMERATION" value="ADC_CONV_TYPE_NORMAL">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcGroupId" type="INTEGER" value="1">
+                          </ns1:var>
+                        <ns1:var name="AdcGroupPriority" type="INTEGER" value="0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcGroupReplacement" type="ENUMERATION" value="ADC_GROUP_REPL_ABORT_RESTART">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcGroupTriggSrc" type="ENUMERATION" value="ADC_TRIGG_SRC_SW">
+                          </ns1:var>
+                        <ns1:ref name="AdcGroupHwTriggerSource" type="REFERENCE" value="ASPath:/Adc/Adc/AdcConfigSet/AdcHwTrigger_0">
+                          </ns1:ref>
+                        <ns1:var name="AdcHwTrigSignal" type="ENUMERATION" value="ADC_HW_TRIG_RISING_EDGE">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcHwTrigTimer" type="INTEGER" value="0">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <ns2:a name="ENABLE" value="true" />
+                        </ns1:var>
+                        <ns1:var name="AdcExtraNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcDmaErrorNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcStreamingBufferMode" type="ENUMERATION" value="ADC_STREAM_BUFFER_LINEAR">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcEnableOptimizeDmaStreamingGroups" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcEnableHalfInterrupt" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcStreamingNumSamples" type="INTEGER" value="1">
+                          </ns1:var>
+                        <ns1:var name="AdcStreamResultGroup" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcEnableChDisableChGroup" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcWithoutInterrupts" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcWithoutDma" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcExtDMAChanEnable" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcGroupInBacktoBackMode" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcGroupUsesChannelDelays" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcDelayNextPdb" type="INTEGER" value="0">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="AdcPdbPeriodContinuousMode" type="INTEGER" value="1000">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:lst name="AdcChannelDelay" />
+                        <ns1:lst name="AdcGroupDefinition">
+                          <ns1:ref type="REFERENCE" value="ASPath:/Adc/Adc/AdcConfigSet/AdcHwUnit_1/Adc1_VREFH" />
+                          <ns1:ref type="REFERENCE" value="ASPath:/Adc/Adc/AdcConfigSet/AdcHwUnit_1/Adc1_BANDGAP" />
+                          <ns1:ref type="REFERENCE" value="ASPath:/Adc/Adc/AdcConfigSet/AdcHwUnit_1/Adc1_VREFL" />
+                        </ns1:lst>
+                        <ns1:lst name="AdcGroupEcucPartitionRef" />
+                        <ns1:ctr name="AdcGroupConversionConfiguration" type="IDENTIFIABLE">
+                          <ns1:var name="AdcGroupHardwareAverageEnable" type="BOOLEAN" value="false">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="AdcGroupHardwareAverageSelect" type="ENUMERATION" value="SAMPLES_4">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="AdcGroupSampleTimeDuration" type="INTEGER" value="2">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                        </ns1:ctr>
+                        <ns1:ctr name="AdcAlternateGroupConvTimings" type="IDENTIFIABLE">
+                          <ns1:var name="AdcGroupAltHardwareAverageEnable" type="BOOLEAN" value="false">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="AdcGroupAltHardwareAverageSelect" type="ENUMERATION" value="SAMPLES_4">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                          <ns1:var name="AdcGroupAltSampleTimeDuration" type="INTEGER" value="2">
+                            <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                          </ns1:var>
+                        </ns1:ctr>
+                      </ns1:ctr>
+                    </ns1:lst>
+                    <ns1:lst name="AdcHwUnitEcucPartitionRef" />
+                  </ns1:ctr>
+                </ns1:lst>
+                <ns1:lst name="AdcHwTrigger" type="MAP">
+                  <ns1:ctr name="AdcHwTrigger_0" type="IDENTIFIABLE">
+                    <ns1:var name="AdcHwTrigSrc" type="ENUMERATION" value="TRIGGER_IN0" />
+                  </ns1:ctr>
+                </ns1:lst>
+              </ns1:ctr>
+              <ns1:ctr name="AdcGeneral" type="IDENTIFIABLE">
+                <ns1:var name="AdcDeInitApi" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcDevErrorDetect" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcEnableLimitCheck" type="BOOLEAN" value="false" />
+                <ns1:var name="AdcEnableQueuing" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcPriorityQueueMaxDepth" type="INTEGER" value="1">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcEnableStartStopGroupApi" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcGrpNotifCapability" type="BOOLEAN" value="true" />
+                <ns1:var name="AdcHwTriggerApi" type="BOOLEAN" value="true" />
+                <ns1:var name="AdcPriorityImplementation" type="ENUMERATION" value="ADC_PRIORITY_NONE">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcReadGroupApi" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcResultAlignment" type="ENUMERATION" value="ADC_ALIGN_RIGHT">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcVersionInfoApi" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:lst name="AdcEcucPartitionRef" />
+                <ns1:ref name="AdcKernelEcucPartitionRef" type="REFERENCE">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:ref>
+                <ns1:var name="AdcLowPowerStatesSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcPowerStateAsynchTransitionMode" type="BOOLEAN" value="false">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:lst name="AdcPowerStateConfig" type="MAP" />
+              </ns1:ctr>
+              <ns1:lst name="AdcHwConfiguration" type="MAP">
+                <ns1:ctr name="AdcHwConfiguration_0" type="IDENTIFIABLE">
+                  <ns1:var name="AdcHwConfiguredId" type="ENUMERATION" value="ADC0" />
+                  <ns1:var name="AdcNormalInterruptEnable" type="BOOLEAN" value="true" />
+                  <ns1:var name="DmaTransferEnable" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="AdcHwConfiguration_1" type="IDENTIFIABLE">
+                  <ns1:var name="AdcHwConfiguredId" type="ENUMERATION" value="ADC1" />
+                  <ns1:var name="AdcNormalInterruptEnable" type="BOOLEAN" value="true" />
+                  <ns1:var name="DmaTransferEnable" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+              </ns1:lst>
+              <ns1:ctr name="AdcPublishedInformation" type="IDENTIFIABLE">
+                <ns1:var name="AdcChannelValueSigned" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcGroupFirstChannelFixed" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcMaxChannelResolution" type="INTEGER" value="12">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+              </ns1:ctr>
+              <ns1:ctr name="CommonPublishedInformation" type="IDENTIFIABLE">
+                <ns1:var name="ArReleaseMajorVersion" type="INTEGER" value="4">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ArReleaseMinorVersion" type="INTEGER" value="7">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ArReleaseRevisionVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ModuleId" type="INTEGER" value="123">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwMajorVersion" type="INTEGER" value="3">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwMinorVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwPatchVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="VendorApiInfix" type="STRING" value="">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="VendorId" type="INTEGER" value="43">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+              </ns1:ctr>
+              <ns1:ctr name="AutosarExt" type="IDENTIFIABLE">
+                <ns1:var name="AdcTimeoutMethod" type="ENUMERATION" value="OSIF_COUNTER_DUMMY">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcTimeoutVal" type="INTEGER" value="100000">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcIpDevErrorDetect" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PdbIpDevErrorDetect" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcMultiPartitionSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcEnableGroupDependentChannelNames" type="BOOLEAN" value="true" />
+                <ns1:var name="AdcMaxPartitions" type="INTEGER" value="1">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcBypassAbortChainCheck" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcConvTimeOnce" type="BOOLEAN" value="false" />
+                <ns1:var name="AdcOptimizeOneShotHwTriggerConversions" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcOptimizeDmaStreamingGroups" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcContinuousWithoutInterrupt" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcEnableChDisableChApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcEnableInitialNotification" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcEnableDmaTransferMode" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcEnableDmaErrorNotification" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcEnableUserModeSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcEnableSimSupplyMonitor" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcEnablePdbInterChannelBackToBackSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcEnablePdbInterruptDelay" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcEnableSetChannel" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcEnableDualClockMode" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcEnableCalibration" type="BOOLEAN" value="true" />
+                <ns1:var name="AdcEnableAsyncCalibration" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcEnableReadRawDataApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcEnableGroupStreamingResultReorder" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="AdcIpOptimizeGetConvData" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+              </ns1:ctr>
+            </ns1:ctr>
+          </ns1:chc>
+        </ns1:lst>
+      </ns1:ctr>
+    </ns1:lst>
+  </ns1:ctr>
+</ns0:datamodel>

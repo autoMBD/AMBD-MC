@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:datamodel xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd" xmlns:ns0="http://www.tresos.de/_projects/DataModel2/16/root.xsd" xmlns:ns2="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd" version="7.0">
+  <d:ctr type="AUTOSAR" factory="autosar">
+    <d:lst type="TOP-LEVEL-PACKAGES">
+      <d:ctr name="EcuM" type="AR-PACKAGE">
+        <d:lst type="ELEMENTS">
+          <d:chc name="EcuM" type="AR-ELEMENT" value="MODULE-CONFIGURATION">
+            <d:ctr type="MODULE-CONFIGURATION">
+              <ns2:a name="DEF" value="ASPath:/TS_T40D2M30I0R0/EcuM" />
+              <d:var name="IMPLEMENTATION_CONFIG_VARIANT" type="ENUMERATION" value="VariantPostBuild">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </d:var>
+              <d:ctr name="EcuMConfiguration" type="IDENTIFIABLE">
+                <d:ctr name="EcuMCommonConfiguration" type="IDENTIFIABLE">
+                  <d:var name="EcuMConfigConsistencyHash" type="INTEGER" value="0" />
+                  <d:ref name="EcuMDefaultAppMode" type="REFERENCE">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </d:ref>
+                  <d:lst name="EcuMOSResource">
+                    <d:ref type="REFERENCE" />
+                  </d:lst>
+                  <d:ctr name="EcuMDefaultShutdownTarget" type="IDENTIFIABLE">
+                    <d:var name="EcuMDefaultState" type="ENUMERATION" value="EcuMStateOff" />
+                    <d:ref name="EcuMDefaultResetModeRef" type="REFERENCE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:ref>
+                    <d:ref name="EcuMDefaultSleepModeRef" type="REFERENCE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:ref>
+                  </d:ctr>
+                  <d:ctr name="EcuMDriverInitListOne" type="IDENTIFIABLE">
+                    <ns2:a name="ENABLE" value="false" />
+                    <d:lst name="EcuMDriverInitItem" type="MAP" />
+                  </d:ctr>
+                  <d:ctr name="EcuMDriverInitListZero" type="IDENTIFIABLE">
+                    <ns2:a name="ENABLE" value="false" />
+                    <d:lst name="EcuMDriverInitItem" type="MAP" />
+                  </d:ctr>
+                  <d:ctr name="EcuMDriverRestartList" type="IDENTIFIABLE">
+                    <ns2:a name="ENABLE" value="false" />
+                    <d:lst name="EcuMDriverInitItem" type="MAP" />
+                  </d:ctr>
+                  <d:lst name="EcuMSleepMode" type="MAP">
+                    <d:ctr name="EcuMSleepMode_0" type="IDENTIFIABLE">
+                      <d:var name="EcuMSleepModeId" type="INTEGER" value="0">
+                        </d:var>
+                      <d:var name="EcuMSleepModeSuspend" type="BOOLEAN" value="false">
+                        </d:var>
+                      <d:ref name="EcuMSleepModeMcuModeRef" type="REFERENCE" value="ASPath:/Mcu/Mcu/McuModuleConfiguration/McuModeSettingConf_0">
+                        </d:ref>
+                      <d:lst name="EcuMWakeupSourceMask">
+                        <d:ref type="REFERENCE" value="ASPath:/EcuM/EcuM/EcuMConfiguration/EcuMCommonConfiguration/EcuMWakeupSource_0" />
+                      </d:lst>
+                    </d:ctr>
+                  </d:lst>
+                  <d:lst name="EcuMWakeupSource" type="MAP">
+                    <d:ctr name="EcuMWakeupSource_0" type="IDENTIFIABLE">
+                      <d:var name="EcuMCheckWakeupTimeout" type="FLOAT" value="0.0">
+                        <ns2:a name="ENABLE" value="false" />
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="EcuMValidationTimeout" type="FLOAT">
+                        <ns2:a name="ENABLE" value="false" />
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="EcuMWakeupSourceId" type="INTEGER" value="0">
+                        </d:var>
+                      <d:var name="EcuMWakeupSourcePolling" type="BOOLEAN" value="false">
+                        </d:var>
+                      <d:ref name="EcuMComMChannelRef" type="REFERENCE">
+                        <ns2:a name="ENABLE" value="false" />
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:ref>
+                      <d:lst name="EcuMResetReasonRef" />
+                    </d:ctr>
+                  </d:lst>
+                </d:ctr>
+                <d:ctr name="EcuMFixedConfiguration" type="IDENTIFIABLE">
+                  <ns2:a name="ENABLE" value="false" />
+                  <d:var name="EcuMNvramReadallTimeout" type="FLOAT">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </d:var>
+                  <d:var name="EcuMNvramWriteallTimeout" type="FLOAT">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </d:var>
+                  <d:var name="EcuMRunMinimumDuration" type="FLOAT">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </d:var>
+                  <d:lst name="EcuMComMCommunicationAllowedList" />
+                  <d:ref name="EcuMNormalMcuModeRef" type="REFERENCE">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </d:ref>
+                  <d:ctr name="EcuMDriverInitListThree" type="IDENTIFIABLE">
+                    <ns2:a name="ENABLE" value="false" />
+                    <d:lst name="EcuMDriverInitItem" type="MAP" />
+                  </d:ctr>
+                  <d:ctr name="EcuMDriverInitListTwo" type="IDENTIFIABLE">
+                    <ns2:a name="ENABLE" value="false" />
+                    <d:lst name="EcuMDriverInitItem" type="MAP" />
+                  </d:ctr>
+                  <d:lst name="EcuMFixedUserConfig" type="MAP" />
+                  <d:lst name="EcuMTTII" type="MAP" />
+                </d:ctr>
+                <d:ctr name="EcuMFlexConfiguration" type="IDENTIFIABLE">
+                  <ns2:a name="ENABLE" value="false" />
+                  <d:lst name="EcuMPartitionRef" />
+                  <d:ref name="EcuMNormalMcuModeRef" type="REFERENCE">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </d:ref>
+                  <d:lst name="EcuMAlarmClock" type="MAP" />
+                  <d:lst name="EcuMFlexUserConfig" type="MAP" />
+                  <d:ctr name="EcuMGoDownAllowedUsers" type="IDENTIFIABLE">
+                    <ns2:a name="ENABLE" value="false" />
+                    <d:lst name="EcuMGoDownAllowedUserRef" />
+                  </d:ctr>
+                  <d:lst name="EcuMResetMode" type="MAP" />
+                  <d:ctr name="EcuMSetClockAllowedUsers" type="IDENTIFIABLE">
+                    <ns2:a name="ENABLE" value="false" />
+                    <d:lst name="EcuMSetClockAllowedUserRef" />
+                  </d:ctr>
+                  <d:lst name="EcuMShutdownCause" type="MAP" />
+                </d:ctr>
+              </d:ctr>
+              <d:ctr name="EcuMFixedGeneral" type="IDENTIFIABLE">
+                <ns2:a name="ENABLE" value="false" />
+                <d:var name="EcuMIncludeComM" type="BOOLEAN">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="EcuMTTIIEnabled" type="BOOLEAN">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:ref name="EcuMTTIIWakeupSourceRef" type="REFERENCE">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:ref>
+              </d:ctr>
+              <d:ctr name="EcuMFlexGeneral" type="IDENTIFIABLE">
+                <ns2:a name="ENABLE" value="false" />
+                <d:var name="EcuMAlarmClockPresent" type="BOOLEAN">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="EcuMModeHandling" type="BOOLEAN">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="EcuMResetLoopDetection" type="BOOLEAN">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="EcuMSetProgrammableInterrupts" type="BOOLEAN">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:ref name="EcuMAlarmWakeupSource" type="REFERENCE">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:ref>
+              </d:ctr>
+              <d:ctr name="EcuMGeneral" type="IDENTIFIABLE">
+                <d:var name="EcuMDevErrorDetect" type="BOOLEAN" value="false" />
+                <d:var name="EcuMIncludeDet" type="BOOLEAN" value="false" />
+                <d:var name="EcuMMainFunctionPeriod" type="FLOAT" value="0.01" />
+                <d:var name="EcuMVersionInfoApi" type="BOOLEAN" value="false" />
+              </d:ctr>
+              <d:ctr name="CommonPublishedInformation" type="IDENTIFIABLE">
+                <d:var name="ArReleaseMajorVersion" type="INTEGER" value="4">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="ArReleaseMinorVersion" type="INTEGER" value="7">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="ArReleaseRevisionVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="ModuleId" type="INTEGER" value="10">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="SwMajorVersion" type="INTEGER" value="3">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="SwMinorVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="SwPatchVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="VendorApiInfix" type="STRING" value="">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="VendorId" type="INTEGER" value="43">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+              </d:ctr>
+            </d:ctr>
+          </d:chc>
+        </d:lst>
+      </d:ctr>
+    </d:lst>
+  </d:ctr>
+</ns0:datamodel>

@@ -14,6 +14,8 @@ nav:
   - 验证与复现: manual/verification.md
   - 常见问题: manual/faq.md
 - 硬件集成:
+  - 目标选择与模型矩阵: hardware/hsp-targets.md
+  - MCSPTE1AK144: hardware/mcspte1ak144.md
   - S32K344 HSP: hardware/hsp-s32k344.md
   - MCSPTE1AK344: hardware/mcspte1ak344.md
 - 设计参考:

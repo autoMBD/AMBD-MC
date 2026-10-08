@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:datamodel xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd" xmlns:ns0="http://www.tresos.de/_projects/DataModel2/16/root.xsd" xmlns:ns2="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd" version="7.0">
+  <d:ctr type="AUTOSAR" factory="autosar">
+    <d:lst type="TOP-LEVEL-PACKAGES">
+      <d:ctr name="BaseNXP" type="AR-PACKAGE">
+        <d:lst type="ELEMENTS">
+          <d:chc name="BaseNXP" type="AR-ELEMENT" value="MODULE-CONFIGURATION">
+            <d:ctr type="MODULE-CONFIGURATION">
+              <ns2:a name="DEF" value="ASPath:/TS_T40D2M30I0R0/BaseNXP" />
+              <d:var name="IMPLEMENTATION_CONFIG_VARIANT" type="ENUMERATION" value="VariantPreCompile">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </d:var>
+              <d:ctr name="OsIfGeneral" type="IDENTIFIABLE">
+                <d:var name="OsIfMulticoreSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="OsIfEnableUserModeSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="OsIfDevErrorDetect" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="OsIfUseSystemTimer" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="OsIfUseCustomTimer" type="BOOLEAN" value="true">
+                  </d:var>
+                <d:var name="OsIfUseGetUserId" type="ENUMERATION" value="GET_CORE_ID">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="OsIfInstanceId" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="OsIfGetPhysicalCoreIdEnable" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="OsIfPhysicalCoreId" type="ENUMERATION" value="AUTOMATE">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="OsIfSoftwareSemaphoredEnable" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:chc name="OsIfOperatingSystemType" type="IDENTIFIABLE" value="OsIfFreeRtosType">
+                  <d:ctr name="OsIfAutosarOsType" type="IDENTIFIABLE" />
+                  <d:ctr name="OsIfFreeRtosType" type="IDENTIFIABLE" />
+                  <d:ctr name="OsIfZephyrOsType" type="IDENTIFIABLE" />
+                  <d:ctr name="OsIfBaremetalType" type="IDENTIFIABLE" />
+                </d:chc>
+                <d:lst name="OsIfEcucPartitionRef" />
+                <d:lst name="OsIfCounterConfig" type="MAP" />
+              </d:ctr>
+              <d:ctr name="CommonPublishedInformation" type="IDENTIFIABLE">
+                <d:var name="ModuleId" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="VendorId" type="INTEGER" value="43">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="VendorApiInfix" type="STRING" value="">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="ArReleaseMajorVersion" type="INTEGER" value="4">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="ArReleaseMinorVersion" type="INTEGER" value="7">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="ArReleaseRevisionVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="SwMajorVersion" type="INTEGER" value="3">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="SwMinorVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="SwPatchVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+              </d:ctr>
+            </d:ctr>
+          </d:chc>
+        </d:lst>
+      </d:ctr>
+    </d:lst>
+  </d:ctr>
+</ns0:datamodel>

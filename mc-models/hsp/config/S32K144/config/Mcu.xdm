@@ -1,0 +1,1650 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:datamodel xmlns:ns0="http://www.tresos.de/_projects/DataModel2/16/root.xsd" xmlns:ns1="http://www.tresos.de/_projects/DataModel2/06/data.xsd" xmlns:ns2="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd" version="7.0">
+  <ns1:ctr type="AUTOSAR" factory="autosar">
+    <ns1:lst type="TOP-LEVEL-PACKAGES">
+      <ns1:ctr name="Mcu" type="AR-PACKAGE">
+        <ns1:lst type="ELEMENTS">
+          <ns1:chc name="Mcu" type="AR-ELEMENT" value="MODULE-CONFIGURATION">
+            <ns1:ctr type="MODULE-CONFIGURATION">
+              <ns2:a name="DEF" value="ASPath:/TS_T40D2M30I0R0/Mcu" />
+              <ns2:a name="IMPORTER_INFO" value="@PRE" />
+              <ns1:var name="POST_BUILD_VARIANT_USED" type="BOOLEAN" value="false">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </ns1:var>
+              <ns1:var name="IMPLEMENTATION_CONFIG_VARIANT" type="ENUMERATION" value="VariantPostBuild">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </ns1:var>
+              <ns1:ctr name="McuGeneralConfiguration" type="IDENTIFIABLE">
+                <ns1:var name="McuDevErrorDetect" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuPowerNotifications" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuVersionInfoApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuGetRamStateApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuInitClock" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuNoPll" type="BOOLEAN" value="false">
+                  </ns1:var>
+                <ns1:var name="McuEnterLowPowerMode" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuTimeout" type="INTEGER" value="50000">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuEnableUserModeSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuMultiPartitionSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:ref name="McuInitEcucPartitionRef" type="REFERENCE">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:ref>
+                <ns1:var name="McuPerformResetApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuCalloutBeforePerformReset" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuVeryLowPowerStopAbortNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuPerformResetCallout" type="FUNCTION-NAME" value="NULL_PTR">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuPmcAeNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuCmuNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuCmuErrorIsrUsed" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuErrorIsrNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuDisableRcmInit" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuDisablePmcInit" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuDisableSmcInit" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuTimeoutMethod" type="ENUMERATION" value="OSIF_COUNTER_DUMMY">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuRegisterValuesOptimization" type="ENUMERATION" value="DISABLED">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:lst name="McuEcucPartitionRef" />
+              </ns1:ctr>
+              <ns1:ctr name="McuDebugConfiguration" type="IDENTIFIABLE">
+                <ns1:var name="McuDisableDemReportErrorStatus" type="BOOLEAN" value="true">
+                  </ns1:var>
+                <ns1:var name="McuGetMidrStructureApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuDisableCmuApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuEnablePeripheralCMU" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuSRAMRetentionConfigApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuGetClockFrequencyApi" type="BOOLEAN" value="true">
+                  </ns1:var>
+                <ns1:var name="McuGetPowerModeStatetApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuPmcAeConfigApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuAecResetConfigApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+              </ns1:ctr>
+              <ns1:ctr name="McuPublishedInformation" type="IDENTIFIABLE">
+                <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                <ns2:a name="READONLY" value="true" />
+                <ns1:lst name="McuResetReasonConf" type="MAP">
+                  <ns1:ctr name="MCU_STOP_ACKNOWLEDGE_ERROR_RESET" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                    <ns2:a name="READONLY" value="true" />
+                    <ns1:var name="McuResetReason" type="INTEGER" value="0">
+                      <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                      <ns2:a name="READONLY" value="true" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="MCU_MDM_AP_SYSTEM_RESET" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                    <ns2:a name="READONLY" value="true" />
+                    <ns1:var name="McuResetReason" type="INTEGER" value="1">
+                      <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                      <ns2:a name="READONLY" value="true" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="MCU_SW_RESET" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                    <ns2:a name="READONLY" value="true" />
+                    <ns1:var name="McuResetReason" type="INTEGER" value="2">
+                      <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                      <ns2:a name="READONLY" value="true" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="MCU_CORE_LOCKUP_RESET" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                    <ns2:a name="READONLY" value="true" />
+                    <ns1:var name="McuResetReason" type="INTEGER" value="3">
+                      <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                      <ns2:a name="READONLY" value="true" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="MCU_JTAG_RESET" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                    <ns2:a name="READONLY" value="true" />
+                    <ns1:var name="McuResetReason" type="INTEGER" value="4">
+                      <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                      <ns2:a name="READONLY" value="true" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="MCU_POWER_ON_RESET" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                    <ns2:a name="READONLY" value="true" />
+                    <ns1:var name="McuResetReason" type="INTEGER" value="5">
+                      <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                      <ns2:a name="READONLY" value="true" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="MCU_EXTERNAL_PIN_RESET" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                    <ns2:a name="READONLY" value="true" />
+                    <ns1:var name="McuResetReason" type="INTEGER" value="6">
+                      <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                      <ns2:a name="READONLY" value="true" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="MCU_WATCHDOG_RESET" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                    <ns2:a name="READONLY" value="true" />
+                    <ns1:var name="McuResetReason" type="INTEGER" value="7">
+                      <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                      <ns2:a name="READONLY" value="true" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="MCU_CMU_LOSS_OF_CLOCK_RESET" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                    <ns2:a name="READONLY" value="true" />
+                    <ns1:var name="McuResetReason" type="INTEGER" value="8">
+                      <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                      <ns2:a name="READONLY" value="true" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="MCU_LOSS_OF_LOCK_RESET" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                    <ns2:a name="READONLY" value="true" />
+                    <ns1:var name="McuResetReason" type="INTEGER" value="9">
+                      <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                      <ns2:a name="READONLY" value="true" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="MCU_LOSS_OF_CLOCK_RESET" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                    <ns2:a name="READONLY" value="true" />
+                    <ns1:var name="McuResetReason" type="INTEGER" value="10">
+                      <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                      <ns2:a name="READONLY" value="true" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="MCU_LOW_OR_HIGH_VOLTAGE_DETECT_RESET" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                    <ns2:a name="READONLY" value="true" />
+                    <ns1:var name="McuResetReason" type="INTEGER" value="11">
+                      <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                      <ns2:a name="READONLY" value="true" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="MCU_NO_RESET_REASON" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                    <ns2:a name="READONLY" value="true" />
+                    <ns1:var name="McuResetReason" type="INTEGER" value="12">
+                      <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                      <ns2:a name="READONLY" value="true" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="MCU_MULTIPLE_RESET_REASON" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                    <ns2:a name="READONLY" value="true" />
+                    <ns1:var name="McuResetReason" type="INTEGER" value="13">
+                      <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                      <ns2:a name="READONLY" value="true" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="MCU_RESET_UNDEFINED" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                    <ns2:a name="READONLY" value="true" />
+                    <ns1:var name="McuResetReason" type="INTEGER" value="14">
+                      <ns2:a name="IMPORTER_INFO" value="@PRE" />
+                      <ns2:a name="READONLY" value="true" />
+                    </ns1:var>
+                  </ns1:ctr>
+                </ns1:lst>
+              </ns1:ctr>
+              <ns1:ctr name="CommonPublishedInformation" type="IDENTIFIABLE">
+                <ns1:var name="ArReleaseMajorVersion" type="INTEGER" value="4">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ArReleaseMinorVersion" type="INTEGER" value="7">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ArReleaseRevisionVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ModuleId" type="INTEGER" value="101">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwMajorVersion" type="INTEGER" value="3">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwMinorVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwPatchVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="VendorApiInfix" type="STRING" value="">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="VendorId" type="INTEGER" value="43">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+              </ns1:ctr>
+              <ns1:ctr name="McuModuleConfiguration" type="IDENTIFIABLE">
+                <ns1:var name="McuNumberOfMcuModes" type="INTEGER" value="1">
+                  <ns2:a name="IMPORTER_INFO">
+                    <ns2:v>@DEF</ns2:v>
+                    <ns2:v>@CALC</ns2:v>
+                  </ns2:a>
+                </ns1:var>
+                <ns1:var name="McuRamSectors" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO">
+                    <ns2:v>@DEF</ns2:v>
+                    <ns2:v>@CALC</ns2:v>
+                  </ns2:a>
+                </ns1:var>
+                <ns1:var name="McuResetSetting" type="INTEGER" value="1">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuRTC_CLKINFrequencyHz" type="FLOAT" value="32768.0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuTCLK0_REF_CLKFrequencyHz" type="FLOAT" value="32000.0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuTCLK1_REF_CLKFrequencyHz" type="FLOAT" value="32000.0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuTCLK2_REF_CLKFrequencyHz" type="FLOAT" value="32000.0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="McuClockSrcFailureNotification" type="ENUMERATION" value="DISABLED">
+                  <ns2:a name="IMPORTER_INFO">
+                    <ns2:v>@DEF</ns2:v>
+                    <ns2:v>@CALC</ns2:v>
+                  </ns2:a>
+                </ns1:var>
+                <ns1:ctr name="McuAllowedModes" type="IDENTIFIABLE">
+                  <ns1:var name="McuAllowHighSpeedRunMode" type="BOOLEAN" value="false">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:var name="McuAllowVeryLowPowerModes" type="BOOLEAN" value="false">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                </ns1:ctr>
+                <ns1:lst name="McuClockSettingConfig" type="MAP">
+                  <ns1:ctr name="McuClockSettingConfig_0" type="IDENTIFIABLE">
+                    <ns1:var name="McuClockSettingId" type="INTEGER" value="0">
+                      <ns2:a name="IMPORTER_INFO">
+                        <ns2:v>@DEF</ns2:v>
+                        <ns2:v>@CALC</ns2:v>
+                      </ns2:a>
+                    </ns1:var>
+                    <ns1:ref name="McuClockEcucPartitionRef" type="REFERENCE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:ref>
+                    <ns1:var name="McuSysClockUnderMcuControl" type="BOOLEAN" value="true">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuScgClkOutSelect" type="ENUMERATION" value="SLOW_CLK">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:ctr name="McuRunClockConfig" type="IDENTIFIABLE">
+                      <ns1:var name="McuPreDivSystemClockFrequency" type="FLOAT" value="160000000">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuCoreClockFrequency" type="FLOAT" value="80000000">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSystemClockFrequency" type="FLOAT" value="80000000">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuBusClockFrequency" type="FLOAT" value="40000000">
+                        </ns1:var>
+                      <ns1:var name="McuFlashClockFrequency" type="FLOAT" value="20000000">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSystemClockSwitch" type="ENUMERATION" value="SPLL_CLK">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuCoreClockDivider" type="INTEGER" value="2">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuBusClockDivider" type="INTEGER" value="2">
+                        </ns1:var>
+                      <ns1:var name="McuSlowClockDivider" type="INTEGER" value="4">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuScgClkOutFrequency" type="FLOAT" value="20000000">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                    </ns1:ctr>
+                    <ns1:ctr name="McuVlprClockConfig" type="IDENTIFIABLE">
+                      <ns1:var name="McuPreDivSystemClockFrequency" type="FLOAT" value="8000000.0">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuCoreClockFrequency" type="FLOAT" value="1000000.0">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSystemClockFrequency" type="FLOAT" value="1000000.0">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuBusClockFrequency" type="FLOAT" value="1000000.0">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuFlashClockFrequency" type="FLOAT" value="250000.0">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSystemClockSwitch" type="ENUMERATION" value="SIRC_CLK">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuCoreClockDivider" type="INTEGER" value="8">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuBusClockDivider" type="INTEGER" value="1">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSlowClockDivider" type="INTEGER" value="4">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuScgClkOutFrequency" type="FLOAT" value="250000.0">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                    </ns1:ctr>
+                    <ns1:ctr name="McuHsrunClockConfig" type="IDENTIFIABLE">
+                      <ns1:var name="McuPreDivSystemClockFrequency" type="FLOAT" value="4.8E7">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuCoreClockFrequency" type="FLOAT" value="4.8E7">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSystemClockFrequency" type="FLOAT" value="4.8E7">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuBusClockFrequency" type="FLOAT" value="4.8E7">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuFlashClockFrequency" type="FLOAT" value="2.4E7">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSystemClockSwitch" type="ENUMERATION" value="FIRC_CLK">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuCoreClockDivider" type="INTEGER" value="1">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuBusClockDivider" type="INTEGER" value="1">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSlowClockDivider" type="INTEGER" value="2">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuScgClkOutFrequency" type="FLOAT" value="2.4E7">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                    </ns1:ctr>
+                    <ns1:ctr name="McuSystemOSCClockConfig" type="IDENTIFIABLE">
+                      <ns1:var name="McuSOSCUnderMcuControl" type="BOOLEAN" value="true">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSOSCFrequency" type="FLOAT" value="8000000.0">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSOSCDiv2Frequency" type="FLOAT" value="8000000.0">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSOSCDiv1Frequency" type="FLOAT" value="8000000.0">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSOSCEnable" type="BOOLEAN" value="true">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSOSCClockMonitorResetEnable" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSOSCClockMonitorEnable" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSOSCDiv2" type="INTEGER" value="1">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSOSCDiv1" type="INTEGER" value="1">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSOSCRangeSelect" type="ENUMERATION" value="HIGH_FREQ_RANGE">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSOSCHighGainOscillatorSelect" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSOSCExternalReferenceSelect" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                    </ns1:ctr>
+                    <ns1:ctr name="McuSIRCClockConfig" type="IDENTIFIABLE">
+                      <ns1:var name="McuSIRCUnderMcuControl" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSIRCFrequency" type="FLOAT" value="8000000.0">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSIRCDiv2Frequency" type="FLOAT" value="4000000.0">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSIRCDiv1Frequency" type="FLOAT" value="8000000.0">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSIRCEnable" type="BOOLEAN" value="true">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSIRCLowPowerEnable" type="BOOLEAN" value="true">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSIRCStopEnable" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSIRCDiv2" type="INTEGER" value="2">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSIRCDiv1" type="INTEGER" value="1">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSIRCRangeSelect" type="ENUMERATION" value="HIGH_RANGE_CLOCK">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                    </ns1:ctr>
+                    <ns1:ctr name="McuFIRCClockConfig" type="IDENTIFIABLE">
+                      <ns1:var name="McuFIRCUnderMcuControl" type="BOOLEAN" value="true">
+                        </ns1:var>
+                      <ns1:var name="McuFIRCFrequency" type="FLOAT" value="4.8E7">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuFIRCDiv2Frequency" type="FLOAT" value="2.4E7">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuFIRCDiv1Frequency" type="FLOAT" value="4.8E7">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuFIRCEnable" type="BOOLEAN" value="true">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuFIRCRegulatorEnable" type="BOOLEAN" value="true">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuFIRCDiv2" type="INTEGER" value="2">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuFIRCDiv1" type="INTEGER" value="1">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuFIRCRangeSelect" type="ENUMERATION" value="TRIMMED_TO_48MHZ">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                    </ns1:ctr>
+                    <ns1:ctr name="McuSystemPll" type="IDENTIFIABLE">
+                      <ns1:var name="McuSystemPllUnderMcuControl" type="BOOLEAN" value="true">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSPLLFrequency" type="FLOAT" value="160000000">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSPLLDiv2Frequency" type="FLOAT" value="40000000">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSPLLDiv1Frequency" type="FLOAT" value="80000000">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSPLLEnable" type="BOOLEAN" value="true">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSPLLClockMonitorResetEnable" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSPLLClockMonitorEnable" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSPLLDiv2" type="INTEGER" value="4">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSPLLDiv1" type="INTEGER" value="2">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSPLLInputClkPreDivider" type="INTEGER" value="1">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuSPLLReferenceFrequency" type="FLOAT" value="8000000.0">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSPLLInputFrequency" type="FLOAT" value="8000000.0">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSPLLMultiplier" type="INTEGER" value="40">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="McuSPLLSelectSourceClock" type="ENUMERATION" value="SOSC_CLK">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                    </ns1:ctr>
+                    <ns1:ctr name="McuSIMClockConfig" type="IDENTIFIABLE">
+                      <ns1:var name="McuSIMUnderMcuControl" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuEIMClockGatingEnable" type="BOOLEAN" value="true">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuERMClockGatingEnable" type="BOOLEAN" value="true">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuDMAClockGatingEnable" type="BOOLEAN" value="true">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuMPUClockGatingEnable" type="BOOLEAN" value="true">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuMSCMClockGatingEnable" type="BOOLEAN" value="true">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="McuGPIOClockGatingEnable" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:ctr name="McuSimChipConfiguration" type="IDENTIFIABLE">
+                        <ns1:var name="McuDebugTraceDividerEnable" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuTRACECLKDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuTRACECLKFraction" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuTRACECLKSelect" type="ENUMERATION" value="CORE_CLK">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuCLKOUTEnable" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuCLKOUTDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuCLKOUTSelect" type="ENUMERATION" value="SCG_CLKOUT_CLK">
+                          <ns2:a name="IMPORTER_INFO">
+                            <ns2:v>@DEF</ns2:v>
+                            <ns2:v>@CALC</ns2:v>
+                          </ns2:a>
+                        </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuSimLpoConfiguration" type="IDENTIFIABLE">
+                        <ns1:var name="McuRTCClkSelect" type="ENUMERATION" value="SOSCDIV1_CLK">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuLPOClkSelect" type="ENUMERATION" value="LPO_128K_CLK">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuLPO_32KClockEnable" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuLPO_1KClockEnable" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuSimFtmConfiguration" type="IDENTIFIABLE">
+                        <ns1:var name="McuFTM3ExternalClockPinSelect" type="ENUMERATION" value="TCLK0_PIN">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuFTM2ExternalClockPinSelect" type="ENUMERATION" value="TCLK0_PIN">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuFTM1ExternalClockPinSelect" type="ENUMERATION" value="TCLK0_PIN">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuFTM0ExternalClockPinSelect" type="ENUMERATION" value="TCLK0_PIN">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuFTM7ExternalClockPinSelect" type="ENUMERATION" value="TCLK0_PIN">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuFTM6ExternalClockPinSelect" type="ENUMERATION" value="TCLK0_PIN">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuFTM5ExternalClockPinSelect" type="ENUMERATION" value="TCLK0_PIN">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuFTM4ExternalClockPinSelect" type="ENUMERATION" value="TCLK0_PIN">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                      </ns1:ctr>
+                    </ns1:ctr>
+                    <ns1:ctr name="McuClkMonitor" type="IDENTIFIABLE">
+                      <ns1:ctr name="McuClkMonitor_0" type="IDENTIFIABLE">
+                        <ns1:var name="McuClockMonitorUnderMcuControl" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuClkMonitorEn" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuCmuName" type="ENUMERATION" value="CMU_FC_0_FIRC_MON1_CLK">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuClockMonitorDeviation" type="ENUMERATION" value="Maximum_5_percentage_deviation">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuClockMonitorLatency" type="ENUMERATION" value="Low_Latency_1us">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuAsyncFHHInterruptEn" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuAsyncFLLInterruptEn" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuClkMonitor_1" type="IDENTIFIABLE">
+                        <ns1:var name="McuClockMonitorUnderMcuControl" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuClkMonitorEn" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuCmuName" type="ENUMERATION" value="CMU_FC_1_FIRC_MON2_CLK">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuClockMonitorDeviation" type="ENUMERATION" value="Maximum_5_percentage_deviation">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuClockMonitorLatency" type="ENUMERATION" value="Low_Latency_1us">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuSyncFHHInterruptEn" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuSyncFLLInterruptEn" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                      </ns1:ctr>
+                    </ns1:ctr>
+                    <ns1:lst name="McuPeripheralClockConfig" type="MAP">
+                      <ns1:ctr name="McuPeripheralClockConfig_0" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="FTFC">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_1" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="DMAMUX0">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_2" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="FLEXCAN0">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_3" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="FLEXCAN1">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_4" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="FTM3">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="SPLL">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="80000000">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_5" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="ADC1">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="FIRC">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="24000000">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_6" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="FLEXCAN2">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_7" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="LPSPI0">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="FIRC">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="2.4E7">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_8" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="LPSPI1">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_9" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="LPSPI2">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_10" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="PDB1">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_11" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="CRC0">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_12" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="PDB0">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_13" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="LPIT0">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="FIRC">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="2.4E7">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_14" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="FTM0">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="FIRC">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="4.8E7">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_15" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="FTM1">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="FIRC">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="4.8E7">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_16" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="FTM2">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_17" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="ADC0">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="FIRC">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="2.4E7">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_18" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="RTC0">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_19" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="LPTMR0">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_20" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="PORTA">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_21" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="PORTB">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_22" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="PORTC">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_23" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="PORTD">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_24" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="PORTE">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_25" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="FlexIO">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_26" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="EWM0">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_27" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="LPI2C0">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_28" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="LPUART0">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_29" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="LPUART1">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="true">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="FIRC">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="2.4E7">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_30" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="LPUART2">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                      <ns1:ctr name="McuPeripheralClockConfig_31" type="IDENTIFIABLE">
+                        <ns1:var name="McuPeripheralClockUnderMcuControl" type="BOOLEAN" value="true">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPerName" type="ENUMERATION" value="CMP0">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockEnable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockSelect" type="ENUMERATION" value="CLOCK_IS_OFF">
+                          </ns1:var>
+                        <ns1:var name="McuPeripheralClockDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralFractionalDivider" type="INTEGER" value="1">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="McuPeripheralClockFrequency" type="FLOAT" value="0.0">
+                          </ns1:var>
+                      </ns1:ctr>
+                    </ns1:lst>
+                    <ns1:lst name="McuClockReferencePoint" type="MAP">
+                      <ns1:ctr name="Hsp_CoreClock" type="IDENTIFIABLE">
+                        <ns1:var name="McuClockReferencePointFrequency" type="FLOAT" value="80000000" />
+                        <ns1:var name="McuClockFrequencySelect" type="ENUMERATION" value="RUN_SYS_CLK" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Hsp_UartClock" type="IDENTIFIABLE">
+                        <ns1:var name="McuClockReferencePointFrequency" type="FLOAT" value="2.4E7" />
+                        <ns1:var name="McuClockFrequencySelect" type="ENUMERATION" value="LPUART1_CLK" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Hsp_CanClock" type="IDENTIFIABLE">
+                        <ns1:var name="McuClockReferencePointFrequency" type="FLOAT" value="80000000" />
+                        <ns1:var name="McuClockFrequencySelect" type="ENUMERATION" value="RUN_SYS_CLK" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Hsp_FtmClock" type="IDENTIFIABLE">
+                        <ns1:var name="McuClockReferencePointFrequency" type="FLOAT" value="80000000" />
+                        <ns1:var name="McuClockFrequencySelect" type="ENUMERATION" value="FTM3_CLK" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Hsp_SpiClock" type="IDENTIFIABLE">
+                        <ns1:var name="McuClockReferencePointFrequency" type="FLOAT" value="2.4E7" />
+                        <ns1:var name="McuClockFrequencySelect" type="ENUMERATION" value="LPSPI0_CLK" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Hsp_TimerClock" type="IDENTIFIABLE">
+                        <ns1:var name="McuClockReferencePointFrequency" type="FLOAT" value="2.4E7" />
+                        <ns1:var name="McuClockFrequencySelect" type="ENUMERATION" value="LPIT0_CLK" />
+                      </ns1:ctr>
+                    </ns1:lst>
+                  </ns1:ctr>
+                </ns1:lst>
+                <ns1:ctr name="McuDemEventParameterRefs" type="IDENTIFIABLE">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns1:ref name="MCU_E_TIMEOUT_FAILURE" type="REFERENCE">
+                    <ns2:a name="ENABLE" value="false" />
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:ref>
+                  <ns1:ref name="MCU_E_CLOCK_FAILURE" type="REFERENCE">
+                    <ns2:a name="ENABLE" value="false" />
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:ref>
+                  <ns1:ref name="MCU_E_SWITCHMODE_FAILURE" type="REFERENCE">
+                    <ns2:a name="ENABLE" value="false" />
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:ref>
+                </ns1:ctr>
+                <ns1:lst name="McuModeSettingConf" type="MAP">
+                  <ns1:ctr name="McuModeSettingConf_0" type="IDENTIFIABLE">
+                    <ns1:var name="McuMode" type="INTEGER" value="0">
+                      <ns2:a name="IMPORTER_INFO">
+                        <ns2:v>@DEF</ns2:v>
+                        <ns2:v>@CALC</ns2:v>
+                      </ns2:a>
+                    </ns1:var>
+                    <ns1:var name="McuPowerMode" type="ENUMERATION" value="RUN">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuEnableSleepOnExit" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:ref name="McuPowerEcucPartitionRef" type="REFERENCE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:ref>
+                  </ns1:ctr>
+                </ns1:lst>
+                <ns1:lst name="McuRamSectorSettingConf" type="MAP" />
+                <ns1:ctr name="McuInterruptEvents" type="IDENTIFIABLE">
+                  <ns1:var name="McuVoltageErrorEvent" type="BOOLEAN" value="false">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:var name="McuAlternateResetEvent" type="BOOLEAN" value="false">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                </ns1:ctr>
+                <ns1:ctr name="McuResetConfig" type="IDENTIFIABLE">
+                  <ns1:var name="McuResetPinFilterBusClockSelect" type="INTEGER" value="0">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:var name="McuResetPinFilterInStopMode" type="ENUMERATION" value="ALL_FILTERING_DISABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:var name="McuResetPinFilterInRunAndWait" type="ENUMERATION" value="ALL_FILTERING_DISABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:ctr name="McuSystemInterruptEnable" type="IDENTIFIABLE">
+                    <ns1:var name="McuResetDelayTime" type="ENUMERATION" value="DELAY_10_LPO_CYCLES">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuStopAcknowledgeErrorInterrupt" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuMDMAPSystemResetInterrupt" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuSoftwareInterrupt" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuCoreLockupInterrupt" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuJTAGResetInterrupt" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuGlobalInterrupt" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuExternalResetPinInterrupt" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuWatchdogInterrupt" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuCMULossOfClockResetInterrupt" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuLossOfLockInterrupt" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuLossOfClockInterrupt" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="McuResetGeneratorConfiguration" type="IDENTIFIABLE">
+                    <ns1:var name="McuRegsOtpReset" type="BOOLEAN" value="true">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuCanPhyReset" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuLinPhyHpReset" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuLinPhyLpReset" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuGduReset" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuHviReset" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuDpgaReset" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuTempsensorReset" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuCxpiReset" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                  </ns1:ctr>
+                </ns1:ctr>
+                <ns1:ctr name="McuPowerControl" type="IDENTIFIABLE">
+                  <ns1:ctr name="McuPMC_Config" type="IDENTIFIABLE">
+                    <ns1:var name="McuLowVoltageDetectInterruptEnable" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuLowVoltageDetectResetEnable" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuLowVoltageWarningInterruptEnable" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuLPODisable" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuLPOTRIMSelect" type="ENUMERATION" value="NO_CHANGED">
+                      <ns2:a name="IMPORTER_INFO">
+                        <ns2:v>@DEF</ns2:v>
+                        <ns2:v>@CALC</ns2:v>
+                      </ns2:a>
+                    </ns1:var>
+                    <ns1:var name="McuClockBiasDisable" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuLowPowerBiasEnable" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="McuPMC_AE_Config" type="IDENTIFIABLE">
+                    <ns1:var name="McuLowVoltageDetectInterruptsOnVLSEnable" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuLowVoltageDetectInterruptsOnVDDCEnable" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuHighVoltageDetectInterruptOnVDDEnable" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuHighVoltageDetectInterruptOnVDDINTAndVDD15Enable" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuLinphySupplyEnable" type="BOOLEAN" value="true">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuVDDCEnable" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuLvdVlsSelect" type="ENUMERATION" value="LVD_6_5V">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuLinphySupplySelect" type="ENUMERATION" value="VSUP_PIN">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="McuVddVoltageLevelSelect" type="ENUMERATION" value="VDD_3_3V">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                  </ns1:ctr>
+                </ns1:ctr>
+              </ns1:ctr>
+            </ns1:ctr>
+          </ns1:chc>
+        </ns1:lst>
+      </ns1:ctr>
+    </ns1:lst>
+  </ns1:ctr>
+</ns0:datamodel>

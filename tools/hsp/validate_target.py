@@ -44,7 +44,7 @@
 # Description: Build HSP firmware and verify target PIL with source and ELF fingerprints.
 # =================================================================================
 
-"""Build all selected HSP components and run actual S32K344 PIL replays."""
+"""Build all selected HSP components and run actual selected-target PIL replays."""
 from pathlib import Path
 from datetime import datetime, timezone
 import argparse
@@ -64,9 +64,11 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def read_application_receipt(stage, model):
+def read_application_receipt(stage, model, target_id=None):
     path = stage / 'build' / model / 'application/hsp-build-result.json'
     receipt = json.loads(path.read_text(encoding='utf-8'))
+    if target_id is not None and receipt.get('configuration', {}).get('targetId') != target_id:
+        raise RuntimeError('Native build target does not match selection: ' + model)
     artifact = receipt.get('target', {})
     elf = Path(artifact.get('elf', ''))
     if (receipt.get('status') != 'passed' or receipt.get('stage') != 'target-compiled'
@@ -88,6 +90,20 @@ def source_hashes(families):
     return {p.relative_to(ROOT).as_posix(): digest(p) for p in sorted(set(paths))}
 
 
+def select_target(settings):
+    """Resolve evidence identity from the same explicit selection as staging."""
+    profiles=json.loads((ROOT/'mc-models/hsp/targets.json').read_text(encoding='utf-8'))
+    env=settings.get('environment',settings)
+    name=settings.get('target',env.get('target','s32k344'))
+    if not isinstance(name,str) or name not in profiles:
+        raise ValueError('Unsupported target; choose s32k144 or s32k344.')
+    profile=profiles[name]
+    device=env.get('device',{}).get('partNumber',profile['configuration'])
+    if device.lower()!=profile['configuration'].lower():
+        raise ValueError('Local device settings do not match selected target.')
+    return profile
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--settings', type=Path, required=True, help='Ignored local tool/connection JSON.')
@@ -95,6 +111,7 @@ def main():
     parser.add_argument('--model', action='append', help='Restrict the matrix for diagnosis.')
     args = parser.parse_args()
     settings = args.settings.resolve()
+    profile = select_target(json.loads(settings.read_text(encoding='utf-8')))
     families = args.family or ['bldc', 'pmsm']
     manifest = json.loads((ROOT / 'mc-models/hsp/models.json').read_text(encoding='utf-8'))
     selected = [m for m in manifest['models'] if m['family'] in families
@@ -105,7 +122,7 @@ def main():
     folder = ROOT / '.agent-env/hsp/validation' / uuid.uuid4().hex[:8]
     folder.mkdir(parents=True)
     baseline = source_hashes(families)
-    summary = dict(Passed=False, CompleteMatrix=not args.family and not args.model,
+    summary = dict(Passed=False, Target=profile['name'], TargetId=profile['targetId'], CompleteMatrix=not args.family and not args.model,
                    StartedUTC=datetime.now(timezone.utc).isoformat(),
                    SourceHashes=baseline, SettingsSha256=digest(settings), Models=[])
     transcript = []
@@ -157,10 +174,10 @@ def main():
                              f"buildText=evalc('try;slbuild(''{name}'');catch exception;buildFailure=exception;end');"
                              f"fid=fopen({quote(log)},'w','n','UTF-8');fprintf(fid,'%s',buildText);fclose(fid);"
                              f"if ~isempty(buildFailure),rethrow(buildFailure);end;disp('{marker}');", marker)
-                    receipt_path, receipt = read_application_receipt(stage, name)
+                    receipt_path, receipt = read_application_receipt(stage, name, profile['targetId'])
                     artifact = receipt['target']
                     elf = Path(artifact['elf'])
-                    record['Build'] = dict(Passed=True, Receipt=str(receipt_path), Elf=str(elf), SHA256=digest(elf))
+                    record['Build'] = dict(Passed=True, TargetId=receipt['configuration']['targetId'], Receipt=str(receipt_path), Elf=str(elf), SHA256=digest(elf))
                     save()
                     marker = 'TARGET_PIL_PASS_' + name
                     evaluate(client, f"result=ambd.validate_pil({quote(name)},{quote(family)},"

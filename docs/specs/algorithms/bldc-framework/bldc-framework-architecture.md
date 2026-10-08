@@ -13,7 +13,7 @@ calibration latching precedes acquisition so ADC conversion, feedback, protectio
 and regulation all use one coherent calibration set in each frame. McKernel
 advances the divide-by-16 scheduler; TimerEvent permits the due slow update.
 
-`BLDC_Ctrl_MBD` and `BLDC_Ctrl_CodeModel` are S32K344 HSP target components. Hall and
+`BLDC_Ctrl_MBD` and `BLDC_Ctrl_CodeModel` are shared HSP target components for S32K144 and S32K344. Hall and
 sensorless wrapper/top pairs in `platform/pil` reference the same core with
 separate SimulationInput parameter overrides. The plant resides outside the SIL
 controller. Its truth outputs never enter the sensorless or Hall speed regulator.
@@ -143,3 +143,5 @@ no output coarsening or reset introduced merely to hide differences. Separate
 plant parameters permit R/L/flux/inertia/load perturbation without retuning the
 controller. Physical-domain details and independent validation belong to the
 BLDC host plant specification. Interface changes must remain consistent on both sides.
+
+Controller ports and runtime memory inherit the top-level fixed step. The source/host baseline uses 62.5 us; the S32K144 stage selects 125 us and matching parameter Ts, speed divider and blanking ticks. See [target profiles](../../../hardware/hsp-targets.md).

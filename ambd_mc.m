@@ -66,7 +66,8 @@ function info = ambd_mc(command,varargin)
 %   INFO = ambd_mc("stage",FAMILY,localSettingsFile) prepares "bldc" or
 %   "pmsm" working copies below .agent-env/t, applying local JSON settings
 %   only to those copies. It returns Root, Family, HspVersion, Stage,
-%   Models and Bldc or Pmsm. Dirty source models/dictionaries are rejected.
+%   Models, Target and Bldc or Pmsm. Dirty source state is rejected.
+%   The JSON target field selects "s32k144" or "s32k344" (default).
 %
 %   ambd_mc("help") or ambd_mc displays this help without initializing.
 %

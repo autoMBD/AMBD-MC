@@ -45,7 +45,7 @@
 % =================================================================================
 
 function info = ambd_mc_stage(root,family,localSettingsFile)
-%ambd_mc_stage - Prepare isolated model copies for S32K344 builds and PIL
+%ambd_mc_stage - Prepare isolated model copies for target builds and PIL
 %   INFO = ambd_mc_stage(ROOT,FAMILY,LOCALSETTINGSFILE) copies the selected model
 %   family and EB project below .agent-env. Local tool paths and target
 %   connection settings are applied only to these working copies.
@@ -75,7 +75,18 @@ for index=1:numel(entries)
     end
 end
 settings=jsondecode(fileread(localSettingsFile));
-if isfield(settings,'environment'),settings=settings.environment;end
+if isfield(settings,'environment')
+    wrapper=settings;settings=settings.environment;
+    if isfield(wrapper,'target'),settings.target=wrapper.target;end
+end
+target='s32k344';
+if isfield(settings,'target'),target=settings.target;end
+addpath(fullfile(root,'mc-models','hsp'));
+profile=ambd.target_profile(target);
+if isfield(settings,'device') && isfield(settings.device,'partNumber')
+    assert(strcmpi(settings.device.partNumber,profile.configuration), ...
+        'ambd:TargetMismatch','Local device settings do not match the selected target.');
+end
 identifier=char(java.util.UUID.randomUUID);
 familyName=char(family);
 % Stateflow and PIL add deep generated paths on Windows.
@@ -87,20 +98,20 @@ for index=1:numel(entries)
     if bdIsLoaded(name),close_system(name,0);end
     copyfile(fullfile(root,entries(index).path),fullfile(folder,[name,'.slx']));
 end
-targetDictionary=[char(family),'_TargetData.sldd'];
+targetDictionary=[char(family),'_',profile.name,'_TargetData.sldd'];
 copyfile(fullfile(root,'mc-models',family,'commom',dictionary),fullfile(folder,targetDictionary));
-configuration=fullfile(folder,'configuration','S32K344');
+configuration=fullfile(folder,'configuration',profile.configuration);
 mkdir(fileparts(configuration));
-copyfile(fullfile(root,'mc-models','hsp','config','S32K344'),configuration);
+copyfile(fullfile(root,'mc-models','hsp','config',profile.configuration),configuration);
 options=struct('Dictionary',string(fullfile(folder,targetDictionary)), ...
     'OutputDirectory',"",'SyncDictionary',false);
 info=ambd_mc_setup(root,family,options);
 if family=="bldc"
     details=info.Bldc;prefix='Bldc';
-    parameters=ambd.kit_parameters(family);runtime=bldc.initial_state(parameters);
+    parameters=ambd.kit_parameters(family,profile.name);runtime=bldc.initial_state(parameters);
 else
     details=info.Pmsm;prefix='Mc';
-    parameters=ambd.kit_parameters(family);runtime=mc.initial_state(parameters);
+    parameters=ambd.kit_parameters(family,profile.name);runtime=mc.initial_state(parameters);
 end
 section=getSection(details.DictionaryConnection,'Design Data');
 control=getEntry(section,[prefix,'Control_Params']);value=getValue(control);value.Value=parameters;setValue(control,value);
@@ -111,6 +122,7 @@ arming=getEntry(section,'AmbdOutputsArmed');value=getValue(arming);value.Value=f
 saveChanges(details.DictionaryConnection);
 if family=="bldc",info.Bldc=details;else,info.Pmsm=details;end
 info.Stage=folder;
+info.Target=string(profile.name);
 info.Models=entries;
 addpath(folder,'-begin');
 for index=1:numel(entries)
@@ -127,8 +139,11 @@ for index=1:numel(entries)
         set_param(name,'DataDictionary',targetDictionary);
     end
     if ismember(entries(index).role,{'component','application'})
-        cfg=ambd.hsp_defaults(name);
+        cfg=ambd.hsp_defaults(name,profile.name);
         [cfg,~]=autombd.hsp.config.importExternalProject(cfg,configuration);
+        cfg.environment.pil.uartInstance=profile.uartInstance;
+        cfg.environment.pil.rxPin=profile.uartRx;
+        cfg.environment.pil.txPin=profile.uartTx;
         fields={'sdk','toolchain','freertos','python','pil','deployment'};
         for fieldIndex=1:numel(fields)
             field=fields{fieldIndex};
@@ -142,7 +157,10 @@ for index=1:numel(entries)
             end
         end
         board=fullfile(root,'mc-models','hsp','board');
-        cfg.runtime.sources={fullfile(board,'ambd_kit_core.c'),fullfile(board,'ambd_kit_board.c'),fullfile(board,'ambd_kit_bridge.c')};
+        cfg.runtime.sources={fullfile(board,'ambd_kit_core.c'),fullfile(board,profile.boardSource),fullfile(board,'ambd_kit_bridge.c')};
+        if strcmp(profile.name,'s32k144')
+            cfg.runtime.sources{end+1}=fullfile(board,'ambd_kit_s32k144_core.c');
+        end
         cfg.runtime.includeDirectories={board};
         if isfield(settings,'boardDiagnostics') && isequal(settings.boardDiagnostics,true)
             cfg.runtime.defines{end+1}='AMBD_CONTROL_BOARD_DIAGNOSTICS=1';
@@ -161,6 +179,7 @@ fid=fopen(fullfile(folder,'stage.json'),'w','n','UTF-8');
 assert(fid>=0,'ambd:StageReport','Cannot save the stage report.');
 cleanup=onCleanup(@()fclose(fid));
 fprintf(fid,'%s',jsonencode(struct('Family',family,'Models',entries, ...
+    'Target',profile.name,'TargetId',profile.targetId, ...
     'HspVersion',manifest.hspVersion,'MATLAB',version),PrettyPrint=true));
 fprintf('HSP working copies: %s\n',folder);
 end

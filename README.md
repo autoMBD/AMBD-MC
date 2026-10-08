@@ -1,6 +1,6 @@
 # AMBD-MC / autoMBD Motor Control
 
-**使用 MATLAB/Simulink 学习与开发电机控制，从主机仿真走向 NXP S32K344 集成。**
+**使用 MATLAB/Simulink 学习与开发电机控制，从主机仿真走向 NXP S32K144 / S32K344 集成。**
 AMBD-MC（autoMBD Motor Control）是 autoMBD 的基于模型设计（Model-Based Design，MBD）
 电机控制项目，面向希望学习、验证和改进电机控制算法、类型化接口及嵌入式代码生成的开发者。
 
@@ -16,7 +16,7 @@ AMBD-MC（autoMBD Motor Control）是 autoMBD 的基于模型设计（Model-Base
 | PMSM | 永磁同步电机矢量控制（FOC），包含有感与无感场景 | [PMSM 手册](docs/manual/pmsm.md) |
 | BLDC | 无刷直流电机 Hall／无感六步控制 | [BLDC 手册](docs/manual/bldc.md) |
 | 主机验证 | 独立电机对象、Normal 仿真、软件在环（SIL）及同输入重放 | [验证流程](docs/manual/verification.md) |
-| 嵌入式集成 | 基于 autoMBD HSP 0.1.0 的 S32K344 代码生成与处理器在环（PIL）流程 | [HSP 指南](docs/hardware/hsp-s32k344.md) |
+| 嵌入式集成 | 基于 autoMBD HSP 0.1.0 的 S32K144 / S32K344 代码生成与处理器在环（PIL）流程 | [目标选择](docs/hardware/hsp-targets.md) |
 
 控制算法、电机对象与硬件适配各有独立职责，详见[框架与数据流](docs/specs/architecture.md)。
 主机仿真、SIL 和 PIL 分别验证不同层面的行为；实际带电机运行仍需完成
@@ -31,7 +31,7 @@ AMBD-MC（autoMBD Motor Control）是 autoMBD 的基于模型设计（Model-Base
 | 阅读或贡献文档 | 浏览器；本地构建使用 Python 3.11+ 和[版本锁定的文档依赖](docs/development/documentation.md) |
 | 运行首个主机 Normal 场景 | MATLAB/Simulink，以及已安装并启用的 **autoMBD HSP 0.1.0**；无需连接目标板 |
 | 运行 SIL | 主机环境，以及 MATLAB Coder、Simulink Coder、Embedded Coder 和受支持的主机 C 编译器 |
-| 构建 S32K344 目标代码或运行 PIL | [目标工具链与本机配置](docs/hardware/hsp-s32k344.md)；实际 PIL 还需要控制板、PEmicro 探针和 UART 连接 |
+| 构建 S32K144 / S32K344 目标代码或运行 PIL | [目标工具链与本机配置](docs/hardware/hsp-targets.md)；实际 PIL 还需要控制板、PEmicro 探针和 UART 连接 |
 
 完整工作流及独立对象参考所需的额外产品见[环境要求](docs/manual/index.md)。
 HSP 由外部安装提供，初始化时会检查版本；请在运行 `setup` 前完成安装与启用，
@@ -83,7 +83,7 @@ disp(result.TraceFile);
 | [`ambd_mc.m`](ambd_mc.m) | 统一 MATLAB 入口：初始化、帮助和目标独立工作副本 |
 | [`mc-models/pmsm/`](mc-models/pmsm/) | PMSM 模型、算法、参数和主机场景 |
 | [`mc-models/bldc/`](mc-models/bldc/) | BLDC 模型、算法、参数和主机场景 |
-| [`mc-models/hsp/`](mc-models/hsp/) | 共享 S32K344 集成与活动模型清单 |
+| [`mc-models/hsp/`](mc-models/hsp/) | 双目标集成、板级适配与活动模型清单 |
 | [`docs/`](docs/) | 使用手册、硬件指南、设计规格和项目规则 |
 | [`tools/`](tools/) 与 [`tests/`](tests/) | 生成器、验证工具和自动化测试 |
 
@@ -112,7 +112,7 @@ NOTICE
 
 This project follows the MIT License, except for the following files:
 
-- `mc-models/hsp/config/S32K344/` retain autoMBD HSP Apache-2.0 licenses and provenance. NXP RTD implementations remain external.
+- `mc-models/hsp/config/S32K344/` and `mc-models/hsp/config/S32K144/` retain autoMBD HSP Apache-2.0 licenses and provenance. NXP RTD implementations remain external.
 
 - **All files under the `legacy` directory do not follow the MIT License**
 - **All files under the `legacy` directory are owned by the autoMBD author <email: tkung.lqk@foxmail.com>**
@@ -123,7 +123,7 @@ This project follows the MIT License, except for the following files:
 
 本项目遵循MIT许可，但以下文件除外：
 
-- `mc-models/hsp/config/S32K344/` 保留 autoMBD HSP 的 Apache-2.0 许可与来源记录；NXP RTD 驱动实现由外部安装提供。
+- `mc-models/hsp/config/S32K344/`、`mc-models/hsp/config/S32K144/` 保留 autoMBD HSP 的 Apache-2.0 许可与来源记录；NXP RTD 驱动实现由外部安装提供。
 
 - **`legacy`目录下所有文件不遵循MIT许可**
 - **`legacy`目录下所有文件所有权利归autoMBD作者<邮箱tkung.lqk@foxmail.com>所有**

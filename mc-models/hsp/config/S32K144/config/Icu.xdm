@@ -1,0 +1,279 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:datamodel xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd" xmlns:ns0="http://www.tresos.de/_projects/DataModel2/16/root.xsd" xmlns:ns2="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd" version="7.0">
+  <d:ctr type="AUTOSAR" factory="autosar">
+    <d:lst type="TOP-LEVEL-PACKAGES">
+      <d:ctr name="Icu" type="AR-PACKAGE">
+        <d:lst type="ELEMENTS">
+          <d:chc name="Icu" type="AR-ELEMENT" value="MODULE-CONFIGURATION">
+            <d:ctr type="MODULE-CONFIGURATION">
+              <ns2:a name="DEF" value="ASPath:/TS_T40D2M30I0R0/Icu" />
+              <d:var name="POST_BUILD_VARIANT_USED" type="BOOLEAN" value="false">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </d:var>
+              <d:var name="IMPLEMENTATION_CONFIG_VARIANT" type="ENUMERATION" value="VariantPostBuild">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </d:var>
+              <d:ctr name="IcuConfigSet" type="IDENTIFIABLE">
+                <d:var name="IcuMaxChannel" type="INTEGER" value="2">
+                  <ns2:a name="IMPORTER_INFO">
+                    <ns2:v>@CALC</ns2:v>
+                    <ns2:v>@DEF</ns2:v>
+                  </ns2:a>
+                </d:var>
+                <d:lst name="IcuChannel" type="MAP">
+                  <d:ctr name="IcuChannel_0" type="IDENTIFIABLE">
+                    <d:var name="IcuChannelId" type="INTEGER" value="0">
+                      </d:var>
+                    <d:lst name="IcuChannelEcucPartitionRef" />
+                    <d:ref name="IcuChannelRef" type="REFERENCE" value="ASPath:/Icu/Icu/IcuConfigSet/IcuFtm_0/IcuFtmChannels_0">
+                      </d:ref>
+                    <d:var name="IcuDMAChannelEnable" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:ref name="IcuDMAChannelRef" type="REFERENCE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:ref>
+                    <d:var name="IcuDefaultStartEdge" type="ENUMERATION" value="ICU_RISING_EDGE">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="IcuMeasurementMode" type="ENUMERATION" value="ICU_MODE_SIGNAL_EDGE_DETECT">
+                      </d:var>
+                    <d:var name="IcuOverflowNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="IcuWakeupCapability" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:ctr name="IcuSignalEdgeDetection" type="IDENTIFIABLE">
+                      <d:var name="IcuSignalNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                        <ns2:a name="ENABLE" value="false" />
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <ns2:a name="ENABLE" value="true" />
+                    </d:ctr>
+                    <d:ctr name="IcuSignalMeasurement" type="IDENTIFIABLE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <d:var name="IcuSignalMeasurementProperty" type="ENUMERATION" value="ICU_DUTY_CYCLE">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                    </d:ctr>
+                    <d:ctr name="IcuTimestampMeasurement" type="IDENTIFIABLE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <d:var name="IcuTimestampMeasurementProperty" type="ENUMERATION" value="ICU_LINEAR_BUFFER">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="IcuTimestampNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                        <ns2:a name="ENABLE" value="false" />
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                    </d:ctr>
+                    <d:ctr name="IcuWakeup" type="IDENTIFIABLE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <d:ref name="IcuChannelWakeupInfo" type="REFERENCE">
+                        <ns2:a name="ENABLE" value="false" />
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:ref>
+                    </d:ctr>
+                  </d:ctr>
+                  <d:ctr name="IcuChannel_1" type="IDENTIFIABLE">
+                    <d:var name="IcuChannelId" type="INTEGER" value="1">
+                      </d:var>
+                    <d:lst name="IcuChannelEcucPartitionRef" />
+                    <d:ref name="IcuChannelRef" type="REFERENCE" value="ASPath:/Icu/Icu/IcuConfigSet/IcuPort_0/IcuPortChannels_0">
+                      </d:ref>
+                    <d:var name="IcuDMAChannelEnable" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:ref name="IcuDMAChannelRef" type="REFERENCE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:ref>
+                    <d:var name="IcuDefaultStartEdge" type="ENUMERATION" value="ICU_RISING_EDGE">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="IcuMeasurementMode" type="ENUMERATION" value="ICU_MODE_SIGNAL_EDGE_DETECT">
+                      </d:var>
+                    <d:var name="IcuOverflowNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="IcuWakeupCapability" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:ctr name="IcuSignalEdgeDetection" type="IDENTIFIABLE">
+                      <d:var name="IcuSignalNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                        <ns2:a name="ENABLE" value="false" />
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <ns2:a name="ENABLE" value="true" />
+                    </d:ctr>
+                    <d:ctr name="IcuSignalMeasurement" type="IDENTIFIABLE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <d:var name="IcuSignalMeasurementProperty" type="ENUMERATION" value="ICU_DUTY_CYCLE">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                    </d:ctr>
+                    <d:ctr name="IcuTimestampMeasurement" type="IDENTIFIABLE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <d:var name="IcuTimestampMeasurementProperty" type="ENUMERATION" value="ICU_LINEAR_BUFFER">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="IcuTimestampNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                        <ns2:a name="ENABLE" value="false" />
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                    </d:ctr>
+                    <d:ctr name="IcuWakeup" type="IDENTIFIABLE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <d:ref name="IcuChannelWakeupInfo" type="REFERENCE">
+                        <ns2:a name="ENABLE" value="false" />
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:ref>
+                    </d:ctr>
+                  </d:ctr>
+                </d:lst>
+                <d:lst name="IcuFtm" type="MAP">
+                  <d:ctr name="IcuFtm_0" type="IDENTIFIABLE">
+                    <d:var name="IcuFtmModule" type="INTEGER" value="1" />
+                    <d:var name="IcuFtmClockSource" type="ENUMERATION" value="SYSTEM_CLOCK">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="IcuFtmPrescaler" type="INTEGER" value="1">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="IcuFtmPrescalerAlternate" type="INTEGER" value="128">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="IcuFtmDebugMode" type="ENUMERATION" value="MODE_0">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="IcuFtmModValue" type="INTEGER" value="0">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:lst name="IcuFtmChannels" type="MAP">
+                      <d:ctr name="IcuFtmChannels_0" type="IDENTIFIABLE">
+                        <d:var name="IcuFtmChannel" type="INTEGER" value="1">
+                          </d:var>
+                        <d:var name="IcuFtmFilter" type="INTEGER" value="0">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </d:var>
+                      </d:ctr>
+                    </d:lst>
+                  </d:ctr>
+                </d:lst>
+                <d:lst name="IcuLpit" type="MAP" />
+                <d:lst name="IcuLptmr" type="MAP" />
+                <d:lst name="IcuPort" type="MAP">
+                  <d:ctr name="IcuPort_0" type="IDENTIFIABLE">
+                    <d:var name="IcuPortModule" type="INTEGER" value="3" />
+                    <d:lst name="IcuPortChannels" type="MAP">
+                      <d:ctr name="IcuPortChannels_0" type="IDENTIFIABLE">
+                        <d:var name="IcuPortChannel" type="INTEGER" value="14">
+                          </d:var>
+                      </d:ctr>
+                    </d:lst>
+                  </d:ctr>
+                </d:lst>
+                <d:lst name="IcuLpCmp" type="MAP" />
+                <d:lst name="IcuHwInterruptConfigList" type="MAP">
+                  <d:ctr name="Hsp_Irq0" type="IDENTIFIABLE">
+                    <d:var name="IcuIsrHwId" type="ENUMERATION" value="FTM_1_CH_1" />
+                  </d:ctr>
+                  <d:ctr name="Hsp_Irq1" type="IDENTIFIABLE">
+                    <d:var name="IcuIsrHwId" type="ENUMERATION" value="PORT_3" />
+                  </d:ctr>
+                </d:lst>
+              </d:ctr>
+              <d:ctr name="IcuGeneral" type="IDENTIFIABLE">
+                <d:var name="IcuDevErrorDetect" type="BOOLEAN" value="false" />
+                <d:var name="IcuReportWakeupSource" type="BOOLEAN" value="false" />
+                <d:var name="IcuEnableUserModeSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="IcuMultiPartitionSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:lst name="IcuEcucPartitionRef" />
+                <d:ref name="IcuKernelEcucPartitionRef" type="REFERENCE">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:ref>
+              </d:ctr>
+              <d:ctr name="IcuAutosarExt" type="IDENTIFIABLE">
+                <d:var name="IcuEnableDualClockMode" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="IcuOverflowNotificationApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="IcuGetInputLevelApi" type="BOOLEAN" value="true" />
+                <d:var name="IcuLptmrStandbyWakeupSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="IcuGetCaptureRegisterValueApi" type="BOOLEAN" value="true" />
+              </d:ctr>
+              <d:ctr name="IcuOptionalApis" type="IDENTIFIABLE">
+                <d:var name="IcuDeInitApi" type="BOOLEAN" value="true">
+                  </d:var>
+                <d:var name="IcuDisableWakeupApi" type="BOOLEAN" value="false" />
+                <d:var name="IcuEdgeCountApi" type="BOOLEAN" value="true">
+                  </d:var>
+                <d:var name="IcuEnableWakeupApi" type="BOOLEAN" value="false" />
+                <d:var name="IcuGetDutyCycleValuesApi" type="BOOLEAN" value="true">
+                  </d:var>
+                <d:var name="IcuGetInputStateApi" type="BOOLEAN" value="true">
+                  </d:var>
+                <d:var name="IcuGetTimeElapsedApi" type="BOOLEAN" value="true">
+                  </d:var>
+                <d:var name="IcuGetVersionInfoApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="IcuSetModeApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="IcuSignalMeasurementApi" type="BOOLEAN" value="true">
+                  </d:var>
+                <d:var name="IcuTimestampApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="IcuWakeupFunctionalityApi" type="BOOLEAN" value="false" />
+                <d:var name="IcuEdgeDetectApi" type="BOOLEAN" value="true">
+                  </d:var>
+              </d:ctr>
+              <d:ctr name="CommonPublishedInformation" type="IDENTIFIABLE">
+                <d:var name="ArReleaseMajorVersion" type="INTEGER" value="4">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="ArReleaseMinorVersion" type="INTEGER" value="7">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="ArReleaseRevisionVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="ModuleId" type="INTEGER" value="122">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="SwMajorVersion" type="INTEGER" value="3">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="SwMinorVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="SwPatchVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="VendorApiInfix" type="STRING" value="">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="VendorId" type="INTEGER" value="43">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+              </d:ctr>
+            </d:ctr>
+          </d:chc>
+        </d:lst>
+      </d:ctr>
+    </d:lst>
+  </d:ctr>
+</ns0:datamodel>

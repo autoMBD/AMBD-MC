@@ -47,6 +47,7 @@
 """Validate kit-specific electrical references, full Normal traces and optional PIL windows."""
 from pathlib import Path
 import argparse
+import hashlib
 import importlib.util
 import json
 import sys
@@ -72,22 +73,61 @@ def hashes():
     return values
 
 
+def snapshot_download_evidence(result, destination, target):
+    """Preserve a case's verified download before the next PIL rebuild."""
+    receipt_path=Path(result['DownloadReceipt'])
+    receipt_bytes=receipt_path.read_bytes()
+    receipt=json.loads(receipt_bytes)
+    if (receipt.get('status')!='command-completed'
+            or receipt.get('executionRequested') is not True
+            or receipt.get('target')!=target
+            or receipt.get('elfVerification',{}).get('status')!='passed'
+            or receipt.get('elfSha256')!=result['ElfSha256']):
+        raise RuntimeError('Download receipt does not match the completed case.')
+    elf_path=Path(receipt['elf'])
+    elf_bytes=elf_path.read_bytes()
+    image_bytes=(receipt_path.parent/'download-image.srec').read_bytes()
+    elf_hash=hashlib.sha256(elf_bytes).hexdigest()
+    image_hash=hashlib.sha256(image_bytes).hexdigest()
+    if elf_hash!=result['ElfSha256'] or image_hash!=receipt.get('imageSha256'):
+        raise RuntimeError('Downloaded ELF or programming image changed before snapshot.')
+    folder=Path(destination)/'download-evidence'
+    folder.mkdir(parents=True)
+    evidence={'Target':target,'OriginalReceipt':str(receipt_path),'OriginalElf':str(elf_path)}
+    for label,name,payload in [('Receipt','download-result.json',receipt_bytes),
+                               ('Elf','firmware.elf',elf_bytes),
+                               ('Image','download-image.srec',image_bytes)]:
+        path=folder/name
+        with path.open('xb') as output:output.write(payload)
+        evidence[label]=str(path.resolve())
+        evidence[label+'Sha256']=hashlib.sha256(payload).hexdigest()
+    manifest=folder/'manifest.json'
+    manifest.write_text(json.dumps(evidence,indent=2),encoding='utf-8')
+    evidence['Manifest']=str(manifest.resolve())
+    evidence['ManifestSha256']=TARGET.digest(manifest)
+    return evidence
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--reference-report',type=Path,help='A complete reference summary to replay on target.')
     parser.add_argument('--settings',type=Path,help='Local HSP settings required for target replay.')
+    parser.add_argument('--target',choices=('s32k144','s32k344'),help='Kit profile for the electrical reference.')
     args=parser.parse_args()
+    settings=json.loads(args.settings.read_text(encoding='utf-8')) if args.settings else {'target':args.target or 's32k344'}
+    profile=TARGET.select_target(settings)
+    if args.target and args.target!=profile['name']:parser.error('--target and settings do not match.')
     if args.reference_report and not args.settings:parser.error('PIL requires --settings.')
     folder=ROOT/'.agent-env/kit-validation'/uuid.uuid4().hex[:8];folder.mkdir(parents=True)
     baseline=hashes();settings_hash=TARGET.digest(args.settings) if args.settings else None
     summary={'Passed':False,'Mode':'PIL' if args.reference_report else 'reference',
-             'SourceHashes':baseline,'Cases':[]}
-    artifact_hashes={}
+             'Target':profile['name'],'TargetId':profile['targetId'],'SourceHashes':baseline,'Cases':[]}
+    artifact_hashes={};download_hashes={}
     def save():
         (folder/'summary.json').write_text(json.dumps(summary,indent=2),encoding='utf-8')
     def unchanged():
         if hashes()!=baseline:raise RuntimeError('Sources changed during kit verification.')
-        for name,value in artifact_hashes.items():
+        for name,value in {**artifact_hashes,**download_hashes}.items():
             if TARGET.digest(ROOT/name)!=value:raise RuntimeError('Reference artifact changed: '+name)
         if args.settings and TARGET.digest(args.settings)!=settings_hash:raise RuntimeError('Local settings changed.')
     print('Kit report: '+str(folder),flush=True);save()
@@ -97,6 +137,7 @@ def main():
             reference_path=args.reference_report.resolve()
             artifact_hashes[reference_path.relative_to(ROOT).as_posix()]=TARGET.digest(reference_path)
             accepted=json.loads(reference_path.read_text())
+            if accepted.get('Target','s32k344')!=profile['name']:raise RuntimeError('Kit reference target does not match settings.')
             if accepted.get('Passed') is not True or accepted.get('Mode')!='reference':raise RuntimeError('Complete passed kit reference required.')
             for name,value in accepted['SourceHashes'].items():
                 if TARGET.digest(ROOT/name)!=value:raise RuntimeError('Stale reference source: '+name)
@@ -123,24 +164,31 @@ def main():
                                  f"{quote(ROOT/case['Recording'])},{quote(destination)});assert(result.Passed);"
                                  f"loaded=load({quote(destination/'operational-traces.mat')},'result');assert(isequaln(loaded.result,result));disp('KIT_PIL_PASS');",'KIT_PIL_PASS')
                         unchanged();result=json.loads((destination/'result.json').read_text());result['Name']=case['Name']
+                        evidence=snapshot_download_evidence(result,destination,profile['configuration'])
+                        result['DownloadEvidence']=evidence
+                        for label in ('Receipt','Elf','Image','Manifest'):
+                            name=Path(evidence[label]).relative_to(ROOT).as_posix()
+                            download_hashes[name]=evidence[label+'Sha256']
+                        summary['DownloadArtifacts']=download_hashes
                         summary['Cases'].append(result);save()
                     evaluate(f"for entry=stage.Models(:)',if bdIsLoaded(entry.name),close_system(entry.name,0);end;end;clear stage;disp('KIT_STAGE_CLOSED');",'KIT_STAGE_CLOSED')
                 else:
                     reference_function='kit_'+family+'_reference'
                     mex_name=reference_function+'_mex'
                     evaluate(f"info=ambd_mc('setup','{family}');open_system({quote(ROOT/'mc-models'/family/'platform/codegen'/(model+'.slx'))});"
-                             f"addpath({quote(folder)},'-begin');p=ambd.kit_parameters({quote(family)});plantp=p;plantp.Friction=single(1e-5);"
+                             f"hardware=struct('adcMaximum',{2**profile['adcBits']-1},'adcOffset',{2**(profile['adcBits']-1)},'dutyTicks',{profile['pwmDutyTicks']},'samplePeriod',{profile['samplePeriod']},'deadtimeFraction',{600e-9/profile['samplePeriod']});"
+                             f"addpath({quote(folder)},'-begin');p=ambd.kit_parameters({quote(family)},{quote(profile['name'])});plantp=p;plantp.Friction=single(1e-5);"
                              +( "plantp.PlantSubsteps=uint16(4);" if family=='bldc' else '')+
                              f"cfg=coder.config('mex');cfg.GenerateReport=false;codegen('-config',cfg,{quote(reference_function)},"
-                             f"'-args',{{p,plantp,coder.Constant(64001),int8(1)}},'-d',{quote(folder/(family+'-mex'))},'-o',{quote(folder/mex_name)});disp('KIT_MEX_READY');",'KIT_MEX_READY')
+                             f"'-args',{{p,plantp,coder.Constant(64001),int8(1),hardware}},'-d',{quote(folder/(family+'-mex'))},'-o',{quote(folder/mex_name)});disp('KIT_MEX_READY');",'KIT_MEX_READY')
                     positions=[0,1] if family=='bldc' else [0]
                     for position in positions:
                         for direction in [1,-1]:
                             unchanged();name=f'{family}_mode{position}_dir{direction}';destination=folder/name;destination.mkdir()
                             reference=destination/'reference.mat'
-                            evaluate(f"p=ambd.kit_parameters({quote(family)});p.PositionMode=uint8({position});"
-                                     f"[inputs,expected,truth]={mex_name}(p,plantp,64001,int8({direction}));"
-                                     f"save({quote(reference)},'p','plantp','inputs','expected','truth','-v7.3');"
+                            evaluate(f"p=ambd.kit_parameters({quote(family)},{quote(profile['name'])});p.PositionMode=uint8({position});"
+                                     f"[inputs,expected,truth]={mex_name}(p,plantp,64001,int8({direction}),hardware);"
+                                     f"save({quote(reference)},'p','plantp','hardware','inputs','expected','truth','-v7.3');"
                                      f"result=prepare_kit_trace({quote(model)},{quote(family)},{quote(reference)},{quote(destination)});"
                                      "assert(result.Passed);disp('KIT_REFERENCE_PASS');",'KIT_REFERENCE_PASS')
                             unchanged();result=json.loads((destination/'result.json').read_text());result['Name']=name

@@ -54,7 +54,10 @@ BLDC 的 `--normal-only --collect-failures` 用于收集 Normal 物理场景问�
 
 ## 目标构建与板级验证
 
-目标构建和实际 PIL 的命令统一在 [S32K344 HSP 指南](../hardware/hsp-s32k344.md)维护。
+目标选择与实际 PIL 的入口见 [HSP 目标指南](../hardware/hsp-targets.md)，
+详细公共验证流程见 [S32K344 HSP 指南](../hardware/hsp-s32k344.md)。
+S32K144 使用独立本机设置及 12 位 ADC 的套件参考；不同目标的证据不能混用。
 配置独立工作副本、外部工具链及明确的探针/UART 后再执行目标验证。
 采样标定、栅极波形、带载闭环和正常运行时序按
-[MCSPTE1AK344 板级说明](../hardware/mcspte1ak344.md)单独验证。
+[MCSPTE1AK344 板级说明](../hardware/mcspte1ak344.md)或
+[MCSPTE1AK144 板级说明](../hardware/mcspte1ak144.md)单独验证。

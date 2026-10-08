@@ -1,0 +1,47 @@
+{
+  "target": "s32k144",
+  "device": {
+    "partNumber": "S32K144",
+    "board": "S32K144EVB-Q100"
+  },
+  "sdk": {
+    "root": "",
+    "version": "3.0.0"
+  },
+  "toolchain": {
+    "id": "nxp.gcc",
+    "root": "",
+    "makeExecutable": "",
+    "version": "10.2.0 BLD1728"
+  },
+  "freertos": {
+    "root": "",
+    "version": "11.1.0"
+  },
+  "python": {
+    "executable": ""
+  },
+  "pil": {
+    "baudRate": 115200,
+    "port": "",
+    "channelId": -1,
+    "uartHandle": "",
+    "uartInstance": 1,
+    "rxPin": "PTC6",
+    "txPin": "PTC7"
+  },
+  "deployment": {
+    "executable": "",
+    "provider": "pemicro",
+    "interface": "OPENSDA",
+    "debugServerExecutable": "",
+    "gdbExecutable": "",
+    "probeSerial": "",
+    "targetConnected": false
+  },
+  "configurationTool": {
+    "executable": "",
+    "guiExecutable": "",
+    "version": "29.0.0"
+  }
+}

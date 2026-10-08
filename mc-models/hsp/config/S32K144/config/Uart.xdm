@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:datamodel xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd" xmlns:ns0="http://www.tresos.de/_projects/DataModel2/16/root.xsd" xmlns:ns2="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd" version="7.0">
+  <d:ctr type="AUTOSAR" factory="autosar">
+    <d:lst type="TOP-LEVEL-PACKAGES">
+      <d:ctr name="Uart" type="AR-PACKAGE">
+        <d:lst type="ELEMENTS">
+          <d:chc name="Uart" type="AR-ELEMENT" value="MODULE-CONFIGURATION">
+            <d:ctr type="MODULE-CONFIGURATION">
+              <ns2:a name="DEF" value="ASPath:/TS_T40D2M30I0R0/Uart" />
+              <d:var name="POST_BUILD_VARIANT_USED" type="BOOLEAN" value="false" />
+              <d:var name="IMPLEMENTATION_CONFIG_VARIANT" type="ENUMERATION" value="VariantPostBuild">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </d:var>
+              <d:ctr name="GeneralConfiguration" type="IDENTIFIABLE">
+                <d:var name="UartDevErrorDetect" type="BOOLEAN" value="false" />
+                <d:var name="DisableUartRuntimeErrorDetect" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="UartMultipartitionSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="UartEnableUserModeSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="UartTimeoutMethod" type="ENUMERATION" value="OSIF_COUNTER_CUSTOM">
+                  </d:var>
+                <d:var name="UartTimeoutDuration" type="INTEGER" value="1000">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="UartDmaEnable" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="UartVersionInfoApi" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="UartCallbackCapability" type="BOOLEAN" value="true" />
+                <d:var name="UartCallback" type="FUNCTION-NAME" value="Hsp_PilUartCallback">
+                  <ns2:a name="ENABLE" value="true" />
+                </d:var>
+                <d:lst name="UartEcucPartitionRef" />
+              </d:ctr>
+              <d:ctr name="UartGlobalConfig" type="IDENTIFIABLE">
+                <d:lst name="UartChannel" type="MAP">
+                  <d:ctr name="UartChannel_0" type="IDENTIFIABLE">
+                    <d:var name="UartHwUsing" type="ENUMERATION" value="LPUART_IP">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:var>
+                    <d:var name="UartChannelId" type="INTEGER" value="0">
+                      <ns2:a name="IMPORTER_INFO">
+                        <ns2:v>@DEF</ns2:v>
+                        <ns2:v>@CALC</ns2:v>
+                      </ns2:a>
+                    </d:var>
+                    <d:ref name="UartClockRef" type="REFERENCE" value="ASPath:/Mcu/Mcu/McuModuleConfiguration/McuClockSettingConfig_0/Hsp_UartClock" />
+                    <d:ref name="UartChannelEcucPartitionRef" type="REFERENCE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </d:ref>
+                    <d:ctr name="DetailModuleConfiguration" type="IDENTIFIABLE">
+                      <d:var name="UartHwChannel" type="ENUMERATION" value="LPUART_1" />
+                      <d:var name="DesireBaudrate" type="ENUMERATION" value="LPUART_UART_BAUDRATE_115200" />
+                      <d:var name="CustomBaudrateMantissa" type="INTEGER" value="1">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="CustomBaudrateDivisor" type="INTEGER" value="4">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="CustomBaudrateValue" type="INTEGER" value="6000000">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </d:var>
+                      <d:var name="UartInteruptDmaMethod" type="ENUMERATION" value="LPUART_UART_IP_USING_INTERRUPTS">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:ref name="UartDmaTxChannelRef" type="REFERENCE">
+                        <ns2:a name="ENABLE" value="false" />
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:ref>
+                      <d:ref name="UartDmaRxChannelRef" type="REFERENCE">
+                        <ns2:a name="ENABLE" value="false" />
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:ref>
+                      <d:var name="UartParityType" type="ENUMERATION" value="LPUART_UART_IP_PARITY_DISABLED">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="UartStopBitNumber" type="ENUMERATION" value="LPUART_UART_IP_ONE_STOP_BIT">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="UartWordLength" type="ENUMERATION" value="LPUART_UART_IP_8_BITS_PER_CHAR">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="UartInternalLoopbackEnable" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="UartTimeoutEnable" type="BOOLEAN" value="false">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                    </d:ctr>
+                    <d:ctr name="FlexioModuleConfiguration" type="IDENTIFIABLE">
+                      <d:ref name="UartHwChannelRef" type="REFERENCE">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:ref>
+                      <d:var name="FlexioUartInteruptDmaMethod" type="ENUMERATION" value="FLEXIO_UART_IP_DRIVER_TYPE_INTERRUPTS">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:ref name="FlexioDmaChannelRef" type="REFERENCE">
+                        <ns2:a name="ENABLE" value="false" />
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:ref>
+                      <d:var name="DesireBaudrate" type="ENUMERATION" value="FLEXIO_UART_BAUDRATE_9600">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="CustomTimerDecrement" type="ENUMERATION" value="FLEXIO_TIMER_DECREMENT_FXIO_CLK_SHIFT_TMR">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="CustomBaudrateDivider" type="INTEGER" value="32">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="CustomBaudrateValue" type="INTEGER" value="0">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </d:var>
+                      <d:var name="bitCount" type="ENUMERATION" value="FLEXIO_UART_IP_8_BITS_PER_CHAR">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                      <d:var name="driverDirection" type="ENUMERATION" value="FLEXIO_UART_IP_DIRECTION_TX">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </d:var>
+                    </d:ctr>
+                  </d:ctr>
+                </d:lst>
+              </d:ctr>
+              <d:ctr name="CommonPublishedInformation" type="IDENTIFIABLE">
+                <d:var name="ArReleaseMajorVersion" type="INTEGER" value="4">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="ArReleaseMinorVersion" type="INTEGER" value="7">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="ArReleaseRevisionVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="ModuleId" type="INTEGER" value="255">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="SwMajorVersion" type="INTEGER" value="3">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="SwMinorVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="SwPatchVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="VendorApiInfix" type="STRING" value="">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+                <d:var name="VendorId" type="INTEGER" value="43">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </d:var>
+              </d:ctr>
+            </d:ctr>
+          </d:chc>
+        </d:lst>
+      </d:ctr>
+    </d:lst>
+  </d:ctr>
+</ns0:datamodel>

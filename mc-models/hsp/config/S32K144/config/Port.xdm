@@ -1,0 +1,1218 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:datamodel xmlns:ns0="http://www.tresos.de/_projects/DataModel2/16/root.xsd" xmlns:ns1="http://www.tresos.de/_projects/DataModel2/06/data.xsd" xmlns:ns2="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd" version="7.0">
+  <ns1:ctr type="AUTOSAR" factory="autosar">
+    <ns1:lst type="TOP-LEVEL-PACKAGES">
+      <ns1:ctr name="Port" type="AR-PACKAGE">
+        <ns1:lst type="ELEMENTS">
+          <ns1:chc name="Port" type="AR-ELEMENT" value="MODULE-CONFIGURATION">
+            <ns1:ctr type="MODULE-CONFIGURATION">
+              <ns2:a name="DEF" value="ASPath:/TS_T40D2M30I0R0/Port" />
+              <ns2:a name="IMPORTER_INFO" value="@REC" />
+              <ns1:var name="POST_BUILD_VARIANT_USED" type="BOOLEAN" value="false">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </ns1:var>
+              <ns1:var name="IMPLEMENTATION_CONFIG_VARIANT" type="ENUMERATION" value="VariantPostBuild">
+                <ns2:a name="IMPORTER_INFO" value="@REC" />
+              </ns1:var>
+              <ns1:ctr name="PortConfigSet" type="IDENTIFIABLE">
+                <ns2:a name="IMPORTER_INFO" value="@REC" />
+                <ns1:ctr name="NotUsedPortPin" type="IDENTIFIABLE">
+                  <ns1:var name="PortPinMode" type="ENUMERATION" value="GPIO">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_IN">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                </ns1:ctr>
+                <ns1:lst name="PortContainer" type="MAP">
+                  <ns1:ctr name="PortContainer_0" type="IDENTIFIABLE">
+                    <ns1:var name="PortNumberOfPortPins" type="INTEGER" value="26">
+                      </ns1:var>
+                    <ns1:lst name="PortPin" type="MAP">
+                      <ns1:ctr name="BoardLedRed" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="1">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="111">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="GPIO">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_OUT">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_HIGH">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="PilUartRx" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="2">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="70">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="LPUART1_RX">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_IN">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_HIGH">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="PilUartTx" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="3">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="71">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="LPUART1_TX">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_OUT">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_HIGH">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_Xtal" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="4">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="38">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="XTAL">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_IN">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_Extal" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="5">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="39">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="EXTAL">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_IN">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_PhaseAHigh" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="6">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="40">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="FTM3_CH0">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_OUT">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_HIGH">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_PhaseALow" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="7">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="41">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="FTM3_CH1">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_OUT">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_PhaseBHigh" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="8">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="42">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="FTM3_CH2">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_OUT">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_HIGH">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_PhaseBLow" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="9">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="43">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="FTM3_CH3">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_OUT">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_PhaseCHigh" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="10">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="74">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="FTM3_CH4">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_OUT">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_HIGH">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_PhaseCLow" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="11">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="75">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="FTM3_CH5">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_OUT">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Hsp_GateEnable" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="12">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="2">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="GPIO">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_OUT">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Hsp_GateReset" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="13">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="3">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="GPIO">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_OUT">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_GdCs" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="14">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="37">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="GPIO">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_OUT">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_HIGH">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_GdInt" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="15">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="138">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="GPIO">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_IN">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_SpiSck" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="16">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="34">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="LPSPI0_SCK">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_OUT">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_SpiSin" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="17">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="35">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="LPSPI0_SIN">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_IN">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_SpiSout" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="18">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="36">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="LPSPI0_SOUT">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_OUT">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_HallA" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="19">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="107">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="GPIO">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_IN">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_HallB" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="20">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="106">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="GPIO">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_IN">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_HallC" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="21">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="1">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="GPIO">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_IN">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_IaVa" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="22">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="32">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="ADC0_SE4">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_IN">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_IbVb" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="23">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="33">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="ADC1_SE15">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_IN">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_Vc" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="24">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="6">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="ADC0_SE2">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_IN">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_Vdc" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="25">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="44">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="ADC1_SE7">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_IN">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                      <ns1:ctr name="Ambd_Idc" type="IDENTIFIABLE">
+                        <ns1:var name="PortPinPFE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinODE" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLK" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirectionChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinModeChangeable" type="BOOLEAN" value="false">
+                          </ns1:var>
+                        <ns1:var name="PortPinId" type="INTEGER" value="26">
+                          </ns1:var>
+                        <ns1:var name="PortPinPcr" type="INTEGER" value="100">
+                          </ns1:var>
+                        <ns1:var name="PortPinMode" type="ENUMERATION" value="ADC1_SE6">
+                          </ns1:var>
+                        <ns1:var name="PortPinDSE" type="ENUMERATION" value="Low_Drive_Strength">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPE" type="ENUMERATION" value="PullDisabled">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinPS" type="ENUMERATION" value="PullDown">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinSlewRate" type="ENUMERATION" value="FAST_SLEW_RATE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinDirection" type="ENUMERATION" value="PORT_PIN_IN">
+                          </ns1:var>
+                        <ns1:var name="PortPinInitialMode" type="ENUMERATION" value="PORT_GPIO_MODE">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="PortPinLevelValue" type="ENUMERATION" value="PORT_PIN_LEVEL_LOW">
+                          </ns1:var>
+                        <ns1:lst name="PortPinEcucPartitionRef" />
+                      </ns1:ctr>
+                    </ns1:lst>
+                  </ns1:ctr>
+                </ns1:lst>
+                <ns1:lst name="UnTouchedPortPin" type="MAP">
+                  <ns1:ctr name="PortPin_JTAG_TDI" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@REC" />
+                    <ns1:var name="PortPinPcr" type="INTEGER" value="69">
+                      <ns2:a name="IMPORTER_INFO" value="@REC" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="PortPin_JTAG_TDO" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@REC" />
+                    <ns1:var name="PortPinPcr" type="INTEGER" value="10">
+                      <ns2:a name="IMPORTER_INFO" value="@REC" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="PortPin_JTAG_TCK" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@REC" />
+                    <ns1:var name="PortPinPcr" type="INTEGER" value="68">
+                      <ns2:a name="IMPORTER_INFO" value="@REC" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="PortPin_JTAG_TMS" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@REC" />
+                    <ns1:var name="PortPinPcr" type="INTEGER" value="4">
+                      <ns2:a name="IMPORTER_INFO" value="@REC" />
+                    </ns1:var>
+                  </ns1:ctr>
+                  <ns1:ctr name="PortPin_Reset_b" type="IDENTIFIABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@REC" />
+                    <ns1:var name="PortPinPcr" type="INTEGER" value="5">
+                      <ns2:a name="IMPORTER_INFO" value="@REC" />
+                    </ns1:var>
+                  </ns1:ctr>
+                </ns1:lst>
+                <ns1:lst name="DigitalFilter" type="MAP" />
+              </ns1:ctr>
+              <ns1:ctr name="PortGeneral" type="IDENTIFIABLE">
+                <ns1:var name="PortDevErrorDetect" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PortCiPortIPDevErrorDetect" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PortSetPinDirectionApi" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PortSet2PinsDirectionApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PortSetPinModeApi" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PortVersionInfoApi" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PortSetPinModeDoesNotTouchGpioLevel" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PortSetAsUnusedPinApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PortResetPinModeApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PortEnableUserModeSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="PortMultiPartitionSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:lst name="PortEcucPartitionRef" />
+              </ns1:ctr>
+              <ns1:ctr name="CommonPublishedInformation" type="IDENTIFIABLE">
+                <ns1:var name="ArReleaseMajorVersion" type="INTEGER" value="4">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ArReleaseMinorVersion" type="INTEGER" value="7">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ArReleaseRevisionVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ModuleId" type="INTEGER" value="124">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwMajorVersion" type="INTEGER" value="3">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwMinorVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwPatchVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="VendorApiInfix" type="STRING" value="">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="VendorId" type="INTEGER" value="43">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+              </ns1:ctr>
+            </ns1:ctr>
+          </ns1:chc>
+        </ns1:lst>
+      </ns1:ctr>
+    </ns1:lst>
+  </ns1:ctr>
+</ns0:datamodel>

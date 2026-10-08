@@ -79,6 +79,19 @@ class HspModelsTest(unittest.TestCase):
                 self.assertTrue('BlockType="ModelReference"' not in xml,
                                 "Target components use linked algorithm subsystems: " + path.stem)
 
+    def test_target_blocks_inherit_the_selected_period(self):
+        import xml.etree.ElementTree as ET
+        manifest=json.loads((ROOT/'mc-models/hsp/models.json').read_text(encoding='utf-8'))
+        for entry in manifest['models']:
+            if entry['role']=='harness':continue
+            with self.subTest(model=entry['name']),zipfile.ZipFile(ROOT/entry['path']) as archive:
+                periods=[]
+                for name in archive.namelist():
+                    if name.startswith('simulink/systems/') and name.endswith('.xml'):
+                        periods.extend(p.text for p in ET.fromstring(archive.read(name)).iter('P') if p.get('Name')=='SampleTime')
+                self.assertFalse(any(p in ('6.25e-5','6.25E-5','0.0000625') for p in periods),
+                                 'A fixed 16 kHz block prevents 8 kHz target staging')
+
     def test_retired_models_and_configuration_are_outside_active_tree(self):
         for relative in (
             "mc-models/pmsm/algo/FOC_Sub_CoreAlgoithm.slx",

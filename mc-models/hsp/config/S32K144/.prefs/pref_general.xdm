@@ -1,0 +1,376 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:datamodel xmlns:ns0="http://www.tresos.de/_projects/DataModel2/16/root.xsd" xmlns:ns1="http://www.tresos.de/_projects/DataModel2/06/data.xsd" xmlns:ns2="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd" version="7.0">
+  <ns1:ctr name="General">
+    <ns2:a name="DEF" value="XPath:/PreferencesSchema/General" />
+    <ns1:var name="Version" value="29.0.0" />
+    <ns1:var name="ReleaseVersion" value="*" />
+    <ns1:var name="ModelExtenderCompatibility" value="TRUE" />
+    <ns1:lst name="ModelExtender" type="MAP">
+      <ns1:ctr name="ModelEcuConfiguration" />
+      <ns1:ctr name="SystemModel2" />
+    </ns1:lst>
+    <ns1:var name="System" value="" />
+    <ns1:var name="EcuInstance" value="" />
+    <ns1:lst name="ModuleConfigurations" type="MAP">
+      <ns1:ctr name="BaseNXP">
+        <ns1:var name="ModuleId" value="BaseNXP_TS_T40D2M30I0R0" />
+        <ns1:var name="Enabled" value="TRUE" />
+        <ns1:var name="Generate" value="TRUE" />
+        <ns1:var name="LoadExistingConfigurationFile" value="FALSE" />
+        <ns1:var name="SoftwareVersion" value="3.0.0 QLP06_D2603" />
+        <ns1:var name="ConfigurationFileURL" value="config\BaseNXP.xdm" />
+        <ns1:var name="ConfigurationFormat" value="xdm" />
+        <ns1:var name="GenerationPath">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="PreConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="RecConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+      </ns1:ctr>
+      <ns1:ctr name="Dio">
+        <ns1:var name="ModuleId" value="Dio_TS_T40D2M30I0R0" />
+        <ns1:var name="Enabled" value="TRUE" />
+        <ns1:var name="Generate" value="TRUE" />
+        <ns1:var name="LoadExistingConfigurationFile" value="FALSE" />
+        <ns1:var name="SoftwareVersion" value="3.0.0 QLP06_D2603" />
+        <ns1:var name="ConfigurationFileURL" value="config\Dio.xdm" />
+        <ns1:var name="ConfigurationFormat" value="xdm" />
+        <ns1:var name="GenerationPath">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="PreConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="RecConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+      </ns1:ctr>
+      <ns1:ctr name="EcuC">
+        <ns1:var name="ModuleId" value="EcuC_TS_T40D2M30I0R0" />
+        <ns1:var name="Enabled" value="TRUE" />
+        <ns1:var name="Generate" value="TRUE" />
+        <ns1:var name="LoadExistingConfigurationFile" value="FALSE" />
+        <ns1:var name="SoftwareVersion" value="3.0.0 QLP06_D2603" />
+        <ns1:var name="ConfigurationFileURL" value="config\EcuC.xdm" />
+        <ns1:var name="ConfigurationFormat" value="xdm" />
+        <ns1:var name="GenerationPath">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="PreConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="RecConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+      </ns1:ctr>
+      <ns1:ctr name="Mcu">
+        <ns1:var name="ModuleId" value="Mcu_TS_T40D2M30I0R0" />
+        <ns1:var name="Enabled" value="TRUE" />
+        <ns1:var name="Generate" value="TRUE" />
+        <ns1:var name="LoadExistingConfigurationFile" value="FALSE" />
+        <ns1:var name="SoftwareVersion" value="3.0.0 QLP06_D2603" />
+        <ns1:var name="ConfigurationFileURL" value="config\Mcu.xdm" />
+        <ns1:var name="ConfigurationFormat" value="xdm" />
+        <ns1:var name="GenerationPath">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="PreConfig" value="McuPreConfiguration" />
+        <ns1:var name="RecConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+      </ns1:ctr>
+      <ns1:ctr name="Platform">
+        <ns1:var name="ModuleId" value="Platform_TS_T40D2M30I0R0" />
+        <ns1:var name="Enabled" value="TRUE" />
+        <ns1:var name="Generate" value="TRUE" />
+        <ns1:var name="LoadExistingConfigurationFile" value="FALSE" />
+        <ns1:var name="SoftwareVersion" value="3.0.0 QLP06_D2603" />
+        <ns1:var name="ConfigurationFileURL" value="config\Platform.xdm" />
+        <ns1:var name="ConfigurationFormat" value="xdm" />
+        <ns1:var name="GenerationPath">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="PreConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="RecConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+      </ns1:ctr>
+      <ns1:ctr name="Port">
+        <ns1:var name="ModuleId" value="Port_TS_T40D2M30I0R0" />
+        <ns1:var name="Enabled" value="TRUE" />
+        <ns1:var name="Generate" value="TRUE" />
+        <ns1:var name="LoadExistingConfigurationFile" value="FALSE" />
+        <ns1:var name="SoftwareVersion" value="3.0.0 QLP06_D2603" />
+        <ns1:var name="ConfigurationFileURL" value="config\Port.xdm" />
+        <ns1:var name="ConfigurationFormat" value="xdm" />
+        <ns1:var name="GenerationPath">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="PreConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="RecConfig" value="PortRecConfiguration_JtagPins" />
+      </ns1:ctr>
+      <ns1:ctr name="Resource">
+        <ns1:var name="ModuleId" value="Resource_TS_T40D2M30I0R0" />
+        <ns1:var name="Enabled" value="TRUE" />
+        <ns1:var name="Generate" value="TRUE" />
+        <ns1:var name="LoadExistingConfigurationFile" value="FALSE" />
+        <ns1:var name="SoftwareVersion" value="3.0.0 QLP06_D2603" />
+        <ns1:var name="ConfigurationFileURL" value="config\Resource.xdm" />
+        <ns1:var name="ConfigurationFormat" value="xdm" />
+        <ns1:var name="GenerationPath">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="PreConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="RecConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+      </ns1:ctr>
+      <ns1:ctr name="Uart">
+        <ns1:var name="ModuleId" value="Uart_TS_T40D2M30I0R0" />
+        <ns1:var name="Enabled" value="TRUE" />
+        <ns1:var name="Generate" value="TRUE" />
+        <ns1:var name="LoadExistingConfigurationFile" value="FALSE" />
+        <ns1:var name="SoftwareVersion" value="3.0.0 QLP06_D2603" />
+        <ns1:var name="ConfigurationFileURL" value="config\Uart.xdm" />
+        <ns1:var name="ConfigurationFormat" value="xdm" />
+        <ns1:var name="GenerationPath">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="PreConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="RecConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+      </ns1:ctr>
+      <ns1:ctr name="Can_43_FLEXCAN">
+        <ns1:var name="ModuleId" value="Can_43_FLEXCAN_TS_T40D2M30I0R0" />
+        <ns1:var name="Enabled" value="false" />
+        <ns1:var name="Generate" value="false" />
+        <ns1:var name="LoadExistingConfigurationFile" value="FALSE" />
+        <ns1:var name="SoftwareVersion" value="3.0.0 QLP06_D2603" />
+        <ns1:var name="ConfigurationFileURL" value="config/Can_43_FLEXCAN.xdm" />
+        <ns1:var name="ConfigurationFormat" value="xdm" />
+        <ns1:var name="GenerationPath">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="PreConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="RecConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+      </ns1:ctr>
+      <ns1:ctr name="CanIf">
+        <ns1:var name="ModuleId" value="CanIf_TS_T40D2M30I0R0" />
+        <ns1:var name="Enabled" value="false" />
+        <ns1:var name="Generate" value="false" />
+        <ns1:var name="LoadExistingConfigurationFile" value="FALSE" />
+        <ns1:var name="SoftwareVersion" value="3.0.0 QLP06_D2603" />
+        <ns1:var name="ConfigurationFileURL" value="config/CanIf.xdm" />
+        <ns1:var name="ConfigurationFormat" value="xdm" />
+        <ns1:var name="GenerationPath">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="PreConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="RecConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+      </ns1:ctr>
+      <ns1:ctr name="EcuM">
+        <ns1:var name="ModuleId" value="EcuM_TS_T40D2M30I0R0" />
+        <ns1:var name="Enabled" value="TRUE" />
+        <ns1:var name="Generate" value="TRUE" />
+        <ns1:var name="LoadExistingConfigurationFile" value="FALSE" />
+        <ns1:var name="SoftwareVersion" value="3.0.0 QLP06_D2603" />
+        <ns1:var name="ConfigurationFileURL" value="config/EcuM.xdm" />
+        <ns1:var name="ConfigurationFormat" value="xdm" />
+        <ns1:var name="GenerationPath">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="PreConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="RecConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+      </ns1:ctr>
+      <ns1:ctr name="Adc">
+        <ns1:var name="ModuleId" value="Adc_TS_T40D2M30I0R0" />
+        <ns1:var name="Enabled" value="TRUE" />
+        <ns1:var name="Generate" value="TRUE" />
+        <ns1:var name="LoadExistingConfigurationFile" value="FALSE" />
+        <ns1:var name="SoftwareVersion" value="3.0.0 QLP06_D2603" />
+        <ns1:var name="ConfigurationFileURL" value="config/Adc.xdm" />
+        <ns1:var name="ConfigurationFormat" value="xdm" />
+        <ns1:var name="GenerationPath">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="PreConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="RecConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+      </ns1:ctr>
+      <ns1:ctr name="Pwm">
+        <ns1:var name="ModuleId" value="Pwm_TS_T40D2M30I0R0" />
+        <ns1:var name="Enabled" value="TRUE" />
+        <ns1:var name="Generate" value="TRUE" />
+        <ns1:var name="LoadExistingConfigurationFile" value="FALSE" />
+        <ns1:var name="SoftwareVersion" value="3.0.0 QLP06_D2603" />
+        <ns1:var name="ConfigurationFileURL" value="config/Pwm.xdm" />
+        <ns1:var name="ConfigurationFormat" value="xdm" />
+        <ns1:var name="GenerationPath">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="PreConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="RecConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+      </ns1:ctr>
+      <ns1:ctr name="Spi">
+        <ns1:var name="ModuleId" value="Spi_TS_T40D2M30I0R0" />
+        <ns1:var name="Enabled" value="TRUE" />
+        <ns1:var name="Generate" value="TRUE" />
+        <ns1:var name="LoadExistingConfigurationFile" value="FALSE" />
+        <ns1:var name="SoftwareVersion" value="3.0.0 QLP06_D2603" />
+        <ns1:var name="ConfigurationFileURL" value="config/Spi.xdm" />
+        <ns1:var name="ConfigurationFormat" value="xdm" />
+        <ns1:var name="GenerationPath">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="PreConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="RecConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+      </ns1:ctr>
+      <ns1:ctr name="Icu">
+        <ns1:var name="ModuleId" value="Icu_TS_T40D2M30I0R0" />
+        <ns1:var name="Enabled" value="TRUE" />
+        <ns1:var name="Generate" value="TRUE" />
+        <ns1:var name="LoadExistingConfigurationFile" value="FALSE" />
+        <ns1:var name="SoftwareVersion" value="3.0.0 QLP06_D2603" />
+        <ns1:var name="ConfigurationFileURL" value="config/Icu.xdm" />
+        <ns1:var name="ConfigurationFormat" value="xdm" />
+        <ns1:var name="GenerationPath">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="PreConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="RecConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+      </ns1:ctr>
+      <ns1:ctr name="Gpt">
+        <ns1:var name="ModuleId" value="Gpt_TS_T40D2M30I0R0" />
+        <ns1:var name="Enabled" value="TRUE" />
+        <ns1:var name="Generate" value="TRUE" />
+        <ns1:var name="LoadExistingConfigurationFile" value="FALSE" />
+        <ns1:var name="SoftwareVersion" value="3.0.0 QLP06_D2603" />
+        <ns1:var name="ConfigurationFileURL" value="config/Gpt.xdm" />
+        <ns1:var name="ConfigurationFormat" value="xdm" />
+        <ns1:var name="GenerationPath">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="PreConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="RecConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+      </ns1:ctr>
+      <ns1:ctr name="Mcl">
+        <ns1:var name="ModuleId" value="Mcl_TS_T40D2M30I0R0" />
+        <ns1:var name="Enabled" value="TRUE" />
+        <ns1:var name="Generate" value="TRUE" />
+        <ns1:var name="LoadExistingConfigurationFile" value="FALSE" />
+        <ns1:var name="SoftwareVersion" value="3.0.0 QLP06_D2603" />
+        <ns1:var name="ConfigurationFileURL" value="config/Mcl.xdm" />
+        <ns1:var name="ConfigurationFormat" value="xdm" />
+        <ns1:var name="GenerationPath">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="PreConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="RecConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+      </ns1:ctr>
+      <ns1:ctr name="Rm">
+        <ns1:var name="ModuleId" value="Rm_TS_T40D2M30I0R0" />
+        <ns1:var name="Enabled" value="TRUE" />
+        <ns1:var name="Generate" value="TRUE" />
+        <ns1:var name="LoadExistingConfigurationFile" value="FALSE" />
+        <ns1:var name="SoftwareVersion" value="3.0.0 QLP06_D2603" />
+        <ns1:var name="ConfigurationFileURL" value="config/Rm.xdm" />
+        <ns1:var name="ConfigurationFormat" value="xdm" />
+        <ns1:var name="GenerationPath">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="PreConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+        <ns1:var name="RecConfig">
+          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+        </ns1:var>
+      </ns1:ctr>
+    </ns1:lst>
+    <ns1:lst name="AutoconfigureTriggers" type="MAP" />
+    <ns1:lst name="WizardConfigurations" type="MAP" />
+  </ns1:ctr>
+  <ns1:ctr name="ImporterExporterAdditions">
+    <ns2:a name="DEF" value="XPath:/PreferencesSchema/ImporterExporterAdditions" />
+    <ns1:var name="Version_AutosarImporter" value="2">
+      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+    </ns1:var>
+    <ns1:var name="Version_SystemDescriptionImporter" value="4">
+      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+    </ns1:var>
+    <ns1:var name="Version_SystemDescriptionExporter" value="1">
+      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+    </ns1:var>
+  </ns1:ctr>
+  <ns1:ctr name="ECUCNature">
+    <ns2:a name="DEF" value="XPath:/PreferencesSchema/ECUCNature" />
+    <ns1:var name="ReleaseVersion">
+      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+    </ns1:var>
+    <ns1:var name="ECUId" value="s32k144evb" />
+    <ns1:var name="ConfigurationPath" value="config" />
+    <ns1:var name="GenerationPath" value="generate" />
+    <ns1:var name="UnixLF" value="FALSE" />
+    <ns1:var name="UnixLFConfigData" value="FALSE" />
+    <ns1:var name="DisableMinListChildCreation" value="FALSE" />
+    <ns1:var name="ProjectSpecificSettings" value="FALSE" />
+    <ns1:var name="ProjectSpecificSettingsConfigurationProject" value="FALSE" />
+    <ns1:var name="Target" value="CORTEXM" />
+    <ns1:var name="Derivate" value="S32K14X" />
+    <ns1:var name="DefaultPreConfiguration" value="McuPreConfiguration" />
+    <ns1:var name="DefaultRecConfiguration" value="PortRecConfiguration_JtagPins" />
+    <ns1:ctr name="ConfigTime">
+      <ns2:a name="ENABLE" value="true" />
+      <ns1:var name="PublishedInformation" value="FALSE" />
+      <ns1:var name="PreCompile" value="TRUE" />
+      <ns1:var name="Link" value="TRUE" />
+      <ns1:var name="PostBuild" value="TRUE" />
+    </ns1:ctr>
+  </ns1:ctr>
+</ns0:datamodel>

@@ -1,0 +1,482 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:datamodel xmlns:ns0="http://www.tresos.de/_projects/DataModel2/16/root.xsd" xmlns:ns1="http://www.tresos.de/_projects/DataModel2/06/data.xsd" xmlns:ns2="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd" version="7.0">
+  <ns1:ctr type="AUTOSAR" factory="autosar">
+    <ns1:lst type="TOP-LEVEL-PACKAGES">
+      <ns1:ctr name="Gpt" type="AR-PACKAGE">
+        <ns1:lst type="ELEMENTS">
+          <ns1:chc name="Gpt" type="AR-ELEMENT" value="MODULE-CONFIGURATION">
+            <ns1:ctr type="MODULE-CONFIGURATION">
+              <ns2:a name="DEF" value="ASPath:/TS_T40D2M30I0R0/Gpt" />
+              <ns1:var name="POST_BUILD_VARIANT_USED" type="BOOLEAN" value="false">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </ns1:var>
+              <ns1:var name="IMPLEMENTATION_CONFIG_VARIANT" type="ENUMERATION" value="VariantPostBuild">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </ns1:var>
+              <ns1:ctr name="GptChannelConfigSet" type="IDENTIFIABLE">
+                <ns1:lst name="GptChannelConfiguration" type="MAP">
+                  <ns1:ctr name="GptChannelConfiguration_0" type="IDENTIFIABLE">
+                    <ns1:var name="GptChannelId" type="INTEGER" value="0">
+                      <ns2:a name="IMPORTER_INFO">
+                        <ns2:v>@DEF</ns2:v>
+                        <ns2:v>@CALC</ns2:v>
+                      </ns2:a>
+                    </ns1:var>
+                    <ns1:lst name="GptChannelEcucPartitionRef" />
+                    <ns1:var name="GptHwIp" type="ENUMERATION" value="LPIT" />
+                    <ns1:ref name="GptModuleRef" type="REFERENCE" value="ASPath:/Gpt/Gpt/GptChannelConfigSet/GptLpit_0/GptLpitChannels_0" />
+                    <ns1:var name="GptChannelMode" type="ENUMERATION" value="GPT_CH_MODE_CONTINUOUS" />
+                    <ns1:var name="GptChannelTickFrequency" type="FLOAT" value="2.4E7" />
+                    <ns1:ref name="GptChannelClkSrcRef" type="REFERENCE" value="ASPath:/Gpt/Gpt/GptDriverConfiguration/Hsp_TimerClock" />
+                    <ns1:var name="GptChannelTickValueMax" type="INTEGER" value="4294967295">
+                      <ns2:a name="IMPORTER_INFO">
+                        <ns2:v>@DEF</ns2:v>
+                        <ns2:v>@CALC</ns2:v>
+                      </ns2:a>
+                    </ns1:var>
+                    <ns1:var name="GptEnableWakeup" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="GptNotification" type="FUNCTION-NAME" value="Ambd_KitTick">
+                      <ns2:a name="ENABLE" value="true" />
+                    </ns1:var>
+                    <ns1:ctr name="GptWakeupConfiguration" type="IDENTIFIABLE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns1:ref name="GptWakeupSourceRef" type="REFERENCE">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:ref>
+                    </ns1:ctr>
+                  </ns1:ctr>
+                </ns1:lst>
+                <ns1:lst name="GptFtm" type="MAP" />
+                <ns1:lst name="GptSRtc" type="MAP" />
+                <ns1:lst name="GptLptmr" type="MAP" />
+                <ns1:lst name="GptLpit" type="MAP">
+                  <ns1:ctr name="GptLpit_0" type="IDENTIFIABLE">
+                    <ns1:var name="GptLpitModule" type="ENUMERATION" value="LPIT_0">
+                      <ns2:a name="IMPORTER_INFO">
+                        <ns2:v>@DEF</ns2:v>
+                        <ns2:v>@CALC</ns2:v>
+                      </ns2:a>
+                    </ns1:var>
+                    <ns1:var name="LpitFreezeEnable" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="LpitDozeEnable" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:lst name="GptLpitChannels" type="MAP">
+                      <ns1:ctr name="GptLpitChannels_0" type="IDENTIFIABLE">
+                        <ns1:var name="GptLpitChannel" type="ENUMERATION" value="CH_0" />
+                        <ns1:var name="LPitExternalTrigger" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="LPitReloadOnTrigger" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="LPitStopOnInterrupt" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="LPitStartOnTrigger" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="ChainMode" type="BOOLEAN" value="false">
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                        <ns1:var name="LPitTriggerChannels" type="ENUMERATION" value="Channel_0_Trigger_Source">
+                          <ns2:a name="ENABLE" value="false" />
+                          <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                        </ns1:var>
+                      </ns1:ctr>
+                    </ns1:lst>
+                  </ns1:ctr>
+                </ns1:lst>
+              </ns1:ctr>
+              <ns1:lst name="GptHwConfiguration" type="MAP">
+                <ns1:ctr name="GptHwConfiguration_0" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="LPIT_0_CH_0" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="true" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="true" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_1" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="LPIT_0_CH_1" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_2" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="LPIT_0_CH_2" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_3" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="LPIT_0_CH_3" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_4" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_0_CH_0" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_5" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_0_CH_1" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_6" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_0_CH_2" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_7" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_0_CH_3" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_8" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_0_CH_4" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_9" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_0_CH_5" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_10" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_0_CH_6" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_11" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_0_CH_7" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_12" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_1_CH_0" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_13" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_1_CH_1" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_14" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_1_CH_2" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_15" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_1_CH_3" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_16" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_1_CH_4" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_17" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_1_CH_5" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_18" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_1_CH_6" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_19" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_1_CH_7" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_20" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_2_CH_0" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_21" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_2_CH_1" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_22" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_2_CH_2" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_23" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_2_CH_3" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_24" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_2_CH_4" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_25" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_2_CH_5" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_26" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_2_CH_6" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_27" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_2_CH_7" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_28" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_3_CH_0" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_29" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_3_CH_1" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_30" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_3_CH_2" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_31" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_3_CH_3" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_32" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_3_CH_4" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_33" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_3_CH_5" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_34" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_3_CH_6" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_35" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_3_CH_7" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_36" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="LPTMR_0_CH_0" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_37" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="SRTC_0_CH_0" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_38" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_0_PREDEF" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_39" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_1_PREDEF" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_40" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_2_PREDEF" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+                <ns1:ctr name="GptHwConfiguration_41" type="IDENTIFIABLE">
+                  <ns1:var name="GptIsrHwId" type="ENUMERATION" value="FTM_3_PREDEF" />
+                  <ns1:var name="GptIsrEnable" type="BOOLEAN" value="false" />
+                  <ns1:var name="GptChannelIsUsed" type="BOOLEAN" value="false" />
+                </ns1:ctr>
+              </ns1:lst>
+              <ns1:ctr name="GptConfigurationOfOptApiServices" type="IDENTIFIABLE">
+                <ns1:var name="GptDeinitApi" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="GptEnableDisableNotificationApi" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="GptTimeElapsedApi" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="GptTimeRemainingApi" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="GptVersionInfoApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="GptWakeupFunctionalityApi" type="BOOLEAN" value="false" />
+                <ns1:var name="GptPredefTimerFunctionalityApi" type="BOOLEAN" value="false" />
+              </ns1:ctr>
+              <ns1:ctr name="GptAutosarExt" type="IDENTIFIABLE">
+                <ns1:var name="GptEnableDualClockMode" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="GptChangeNextTimeoutValueApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="GptEnableUserModeSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ChainModeApi" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="GptStandbyWakeupSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="GptEnableTriggers" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+              </ns1:ctr>
+              <ns1:ctr name="GptDriverConfiguration" type="IDENTIFIABLE">
+                <ns1:var name="GptDevErrorDetect" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="GptPredefTimer100us32bitEnable" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="GptMultiPartitionSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="GptPredefTimer1usEnablingGrade" type="ENUMERATION" value="GPT_PREDEF_TIMER_1US_DISABLED" />
+                <ns1:var name="GptTimeoutMethod" type="ENUMERATION" value="OSIF_COUNTER_DUMMY">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="GptTimeoutDuration" type="INTEGER" value="800">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="GptReportWakeupSource" type="BOOLEAN" value="false" />
+                <ns1:lst name="GptEcucPartitionRef" />
+                <ns1:ref name="GptKernelEcucPartitionRef" type="REFERENCE">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:ref>
+                <ns1:lst name="GptClockReferencePoint" type="MAP">
+                  <ns1:ctr name="Hsp_TimerClock" type="IDENTIFIABLE">
+                    <ns1:ref name="GptClockReference" type="REFERENCE" value="ASPath:/Mcu/Mcu/McuModuleConfiguration/McuClockSettingConfig_0/Hsp_TimerClock" />
+                  </ns1:ctr>
+                </ns1:lst>
+              </ns1:ctr>
+              <ns1:ctr name="GptPredefTimerConfiguration" type="IDENTIFIABLE">
+                <ns1:ctr name="GptPredefTimer_1us_16Bit" type="IDENTIFIABLE">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns1:var name="GptHwChannel" type="ENUMERATION" value="">
+                    <ns2:a name="IMPORTER_INFO">
+                      <ns2:v>@DEF</ns2:v>
+                      <ns2:v>@CALC</ns2:v>
+                    </ns2:a>
+                  </ns1:var>
+                  <ns1:ref name="GptChannelClkSrcRef" type="REFERENCE">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:ref>
+                  <ns1:var name="GptFtmChannelClkSrc" type="ENUMERATION" value="FTM_GPT_IP_CLOCK_SOURCE_NONE">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:var name="GptChannelPrescaler" type="INTEGER" value="0">
+                    <ns2:a name="IMPORTER_INFO">
+                      <ns2:v>@DEF</ns2:v>
+                      <ns2:v>@CALC</ns2:v>
+                    </ns2:a>
+                  </ns1:var>
+                  <ns1:var name="GptFreezeEnable" type="BOOLEAN" value="true">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                </ns1:ctr>
+                <ns1:ctr name="GptPredefTimer_1us_24Bit" type="IDENTIFIABLE">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns1:var name="GptHwChannel" type="ENUMERATION" value="NOT_APPLICABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:ref name="GptChannelClkSrcRef" type="REFERENCE">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:ref>
+                  <ns1:var name="GptChannelPrescaler" type="INTEGER" value="1">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:var name="GptFreezeEnable" type="BOOLEAN" value="true">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                </ns1:ctr>
+                <ns1:ctr name="GptPredefTimer_1us_32Bit" type="IDENTIFIABLE">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns1:var name="GptHwChannel" type="ENUMERATION" value="NOT_APPLICABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:ref name="GptChannelClkSrcRef" type="REFERENCE">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:ref>
+                  <ns1:var name="GptChannelPrescaler" type="INTEGER" value="1">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:var name="GptFreezeEnable" type="BOOLEAN" value="true">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                </ns1:ctr>
+                <ns1:ctr name="GptPredefTimer_100us_32Bit" type="IDENTIFIABLE">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns1:var name="GptHwChannel" type="ENUMERATION" value="NOT_APPLICABLE">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:ref name="GptChannelClkSrcRef" type="REFERENCE">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:ref>
+                  <ns1:var name="GptChannelPrescaler" type="INTEGER" value="1">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                  <ns1:var name="GptFreezeEnable" type="BOOLEAN" value="true">
+                    <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                  </ns1:var>
+                </ns1:ctr>
+              </ns1:ctr>
+              <ns1:ctr name="CommonPublishedInformation" type="IDENTIFIABLE">
+                <ns1:var name="ArReleaseMajorVersion" type="INTEGER" value="4">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ArReleaseMinorVersion" type="INTEGER" value="7">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ArReleaseRevisionVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ModuleId" type="INTEGER" value="100">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwMajorVersion" type="INTEGER" value="3">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwMinorVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwPatchVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="VendorApiInfix" type="STRING" value="">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="VendorId" type="INTEGER" value="43">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+              </ns1:ctr>
+            </ns1:ctr>
+          </ns1:chc>
+        </ns1:lst>
+      </ns1:ctr>
+    </ns1:lst>
+  </ns1:ctr>
+</ns0:datamodel>

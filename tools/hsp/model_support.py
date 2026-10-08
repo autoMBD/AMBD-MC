@@ -79,6 +79,12 @@ class HspBuilderMixin:
         return super().check(model, self.library_scopes.get(model, scope) if scope == "root" else scope)
 
     def edit(self, model, ops, scope="root", layout="full"):
+        # Target components and the shared library inherit the selected solver
+        # period. Host plant tops retain their explicit reference clock.
+        if not model.endswith('_top'):
+            ops = [{**op, 'params': {**op['params'], 'SampleTime': '-1'}}
+                   if op.get('params', {}).get('SampleTime') == '6.25e-5' else op
+                   for op in ops]
         return super().edit(model, ops,
                             self.library_scopes.get(model, scope) if scope == "root" else scope,
                             layout)
@@ -172,7 +178,7 @@ class HspBuilderMixin:
         target_code = ("#if defined(HSP_TARGET) && !defined(HSP_PIL)\n"
                        "const uint16_t duties[3]={a,b,c};\n"
                        "Ambd_KitCommit(duties,phase,gate,armed,sector,direction);\n#endif")
-        ops = [dict(op="add_block",type="C Function",name="MCSPTE1AK344_PowerStage",ref="kit",
+        ops = [dict(op="add_block",type="C Function",name="KitPowerStage",ref="kit",
                     params=dict(CustomCodeSettingLocation="BlockSettings",CodegenUsesSimCustomCode="off",
                                 SimCustomHeaderFile="",SimCustomSourceFile="",OutputCode=output_code,
                                 CustomHeaderFile="ambd_kit_board.h",CustomSourceFile="",
@@ -265,7 +271,7 @@ class HspBuilderMixin:
             if entry["role"] == "application":
                 self.read(name)
                 obsolete=['TargetCommands','OutputsArmed','PhaseDuties','PhaseEnables','HardwareGate','LatchPhases',
-                          'EnabledPhases','MCSPTE1AK344_PowerStage','PhaseMask','AppliedCommutation',
+                          'EnabledPhases','KitPowerStage','PhaseMask','AppliedCommutation',
                           'NoSixStepSector','PositiveDirection']
                 obsolete += [prefix+phase for phase in 'ABC' for prefix in ['WritePhase','IdlePhase','DisabledPhase']]
                 labels='{'+','.join(quote(value) for value in obsolete)+'}'

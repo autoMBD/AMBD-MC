@@ -1,0 +1,364 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:datamodel xmlns:ns0="http://www.tresos.de/_projects/DataModel2/16/root.xsd" xmlns:ns1="http://www.tresos.de/_projects/DataModel2/06/data.xsd" xmlns:ns2="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd" version="7.0">
+  <ns1:ctr type="AUTOSAR" factory="autosar">
+    <ns1:lst type="TOP-LEVEL-PACKAGES">
+      <ns1:ctr name="Spi" type="AR-PACKAGE">
+        <ns1:lst type="ELEMENTS">
+          <ns1:chc name="Spi" type="AR-ELEMENT" value="MODULE-CONFIGURATION">
+            <ns1:ctr type="MODULE-CONFIGURATION">
+              <ns2:a name="DEF" value="ASPath:/TS_T40D2M30I0R0/Spi" />
+              <ns1:var name="POST_BUILD_VARIANT_USED" type="BOOLEAN" value="false">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </ns1:var>
+              <ns1:var name="IMPLEMENTATION_CONFIG_VARIANT" type="ENUMERATION" value="VariantPreCompile">
+                <ns2:a name="IMPORTER_INFO" value="@DEF" />
+              </ns1:var>
+              <ns1:ctr name="SpiDemEventParameterRefs" type="IDENTIFIABLE">
+                <ns2:a name="ENABLE" value="false" />
+                <ns1:ref name="SPI_E_HARDWARE_ERROR" type="REFERENCE">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:ref>
+              </ns1:ctr>
+              <ns1:ctr name="SpiDriver" type="IDENTIFIABLE">
+                <ns1:var name="SpiMaxChannel" type="INTEGER" value="0">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiMaxJob" type="INTEGER" value="0">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiMaxSequence" type="INTEGER" value="0">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:lst name="SpiChannel" type="MAP">
+                  <ns1:ctr name="SpiChannel_Master" type="IDENTIFIABLE">
+                    <ns1:var name="SpiChannelId" type="INTEGER" value="0" />
+                    <ns1:var name="SpiChannelType" type="ENUMERATION" value="IB" />
+                    <ns1:var name="SpiDataWidth" type="INTEGER" value="8" />
+                    <ns1:var name="SpiDefaultData" type="INTEGER" value="1">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiEbMaxLength" type="INTEGER" value="1024">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiIbNBuffers" type="INTEGER" value="1">
+                      <ns2:a name="ENABLE" value="false" />
+                    </ns1:var>
+                    <ns1:var name="SpiTransferStart" type="ENUMERATION" value="MSB" />
+                    <ns1:var name="SpiByteSwapTransfer" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiChannelHalfDuplexDirection" type="ENUMERATION" value="HALF_DUPLEX_TRANSMIT">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:ref name="SpiChannelEcucPartitionRef" type="REFERENCE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:ref>
+                  </ns1:ctr>
+                </ns1:lst>
+                <ns1:lst name="SpiExternalDevice" type="MAP">
+                  <ns1:ctr name="SpiExternalDevice_0" type="IDENTIFIABLE">
+                    <ns1:var name="SpiBaudrate" type="FLOAT" value="100000.0" />
+                    <ns1:var name="SpiUseBaudrateConfig" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:ref name="SpiBaudrateConfigRef" type="REFERENCE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:ref>
+                    <ns1:var name="SpiCalculatedBaudrate" type="FLOAT" value="1000000.0">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO">
+                        <ns2:v>@DEF</ns2:v>
+                        <ns2:v>@CALC</ns2:v>
+                      </ns2:a>
+                    </ns1:var>
+                    <ns1:var name="SpiCalculatedAlternateBaudrate" type="FLOAT" value="1000000.0">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO">
+                        <ns2:v>@DEF</ns2:v>
+                        <ns2:v>@CALC</ns2:v>
+                      </ns2:a>
+                    </ns1:var>
+                    <ns1:var name="SpiCsIdentifier" type="STRING" value="PCS0">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiCsPolarity" type="ENUMERATION" value="HIGH">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiCsSelection" type="ENUMERATION" value="CS_VIA_PERIPHERAL_ENGINE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiDataShiftEdge" type="ENUMERATION" value="TRAILING">
+                      </ns1:var>
+                    <ns1:var name="SpiEnableCs" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiHwUnit" type="ENUMERATION" value="CSIB0">
+                      <ns2:a name="IMPORTER_INFO">
+                        <ns2:v>@DEF</ns2:v>
+                        <ns2:v>@CALC</ns2:v>
+                      </ns2:a>
+                    </ns1:var>
+                    <ns1:var name="SpiShiftClockIdleLevel" type="ENUMERATION" value="LOW">
+                      </ns1:var>
+                    <ns1:var name="SpiTimeClk2Cs" type="FLOAT" value="1.0E-6">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiTimeCs2Clk" type="FLOAT" value="1.0E-6">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiTimeCs2Cs" type="FLOAT" value="1.0E-6">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiCsBehavior" type="ENUMERATION" value="CS_KEEP_ASSERTED">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiHostRequest" type="ENUMERATION" value="DISABLE">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiDeviceHalfDuplexSupport" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiTransferWidth" type="ENUMERATION" value="TRANSFER_1_BIT">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiHalfDuplexPinSelect" type="ENUMERATION" value="HALF_DUPLEX_SOUT">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:lst name="SpiDeviceEcucPartitionRef" />
+                  </ns1:ctr>
+                </ns1:lst>
+                <ns1:lst name="SpiBaudrateConfig" type="MAP">
+                  <ns1:ctr name="SpiBaudrateConfig_0" type="IDENTIFIABLE">
+                    <ns1:var name="IpType" type="ENUMERATION" value="LPSPI">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:ctr name="LpspiConfig" type="IDENTIFIABLE">
+                      <ns1:var name="SpiPrescaler" type="INTEGER" value="0">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                      <ns1:var name="SpiPrescalerValue" type="INTEGER" value="1">
+                        <ns2:a name="IMPORTER_INFO">
+                          <ns2:v>@DEF</ns2:v>
+                          <ns2:v>@CALC</ns2:v>
+                        </ns2:a>
+                      </ns1:var>
+                      <ns1:var name="SpiScaler" type="INTEGER" value="0">
+                        <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                      </ns1:var>
+                    </ns1:ctr>
+                  </ns1:ctr>
+                </ns1:lst>
+                <ns1:lst name="SpiJob" type="MAP">
+                  <ns1:ctr name="SpiJob_0" type="IDENTIFIABLE">
+                    <ns1:var name="SpiJobEndNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiJobStartNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiJobId" type="INTEGER" value="0">
+                      <ns2:a name="IMPORTER_INFO">
+                        <ns2:v>@DEF</ns2:v>
+                        <ns2:v>@CALC</ns2:v>
+                      </ns2:a>
+                    </ns1:var>
+                    <ns1:var name="SpiJobPriority" type="INTEGER" value="0">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:ref name="SpiDeviceAssignment" type="REFERENCE" value="ASPath:/Spi/Spi/SpiDriver/SpiExternalDevice_0" />
+                    <ns1:lst name="SpiChannelList" type="MAP">
+                      <ns1:ctr name="SpiChannelList_0" type="IDENTIFIABLE">
+                        <ns1:var name="SpiChannelIndex" type="INTEGER" value="0" />
+                        <ns1:ref name="SpiChannelAssignment" type="REFERENCE" value="ASPath:/Spi/Spi/SpiDriver/SpiChannel_Master" />
+                      </ns1:ctr>
+                    </ns1:lst>
+                  </ns1:ctr>
+                </ns1:lst>
+                <ns1:lst name="SpiSequence" type="MAP">
+                  <ns1:ctr name="SpiSequence_Master" type="IDENTIFIABLE">
+                    <ns1:var name="SpiInterruptibleSequence" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiSeqEndNotification" type="FUNCTION-NAME" value="NULL_PTR">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiSequenceId" type="INTEGER" value="0">
+                      <ns2:a name="IMPORTER_INFO">
+                        <ns2:v>@DEF</ns2:v>
+                        <ns2:v>@CALC</ns2:v>
+                      </ns2:a>
+                    </ns1:var>
+                    <ns1:var name="SpiEnableDmaFastTransfer" type="BOOLEAN" value="false">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:lst name="SpiJobAssignment">
+                      <ns1:ref type="REFERENCE" value="ASPath:/Spi/Spi/SpiDriver/SpiJob_0" />
+                    </ns1:lst>
+                  </ns1:ctr>
+                </ns1:lst>
+              </ns1:ctr>
+              <ns1:ctr name="SpiGeneral" type="IDENTIFIABLE">
+                <ns1:var name="SpiMultipartitionSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiCancelApi" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiChannelBuffersAllowed" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiDevErrorDetect" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiHwStatusApi" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiInterruptibleSeqAllowed" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiLevelDelivered" type="INTEGER" value="2">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiMainFunctionPeriod" type="FLOAT" value="0.01">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiSupportConcurrentSyncTransmit" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiVersionInfoApi" type="BOOLEAN" value="true">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiGlobalDmaEnable" type="BOOLEAN" value="false" />
+                <ns1:var name="SpiTimeoutMethod" type="ENUMERATION" value="OSIF_COUNTER_DUMMY">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiTransmitTimeout" type="INTEGER" value="10000">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:lst name="SpiEcucPartitionRef" />
+                <ns1:ref name="SpiKernelEcucPartitionRef" type="REFERENCE">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:ref>
+                <ns1:lst name="SpiPhyUnit" type="MAP">
+                  <ns1:ctr name="SpiPhyUnit_0" type="IDENTIFIABLE">
+                    <ns1:var name="SpiPhyUnitMapping" type="ENUMERATION" value="LPSPI_0" />
+                    <ns1:var name="SpiPhyUnitMode" type="ENUMERATION" value="SPI_MASTER">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiSamplePoint" type="INTEGER" value="0">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:var name="SpiPinConfiguration" type="INTEGER" value="0">
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:ref name="SpiPhyUnitClockRef" type="REFERENCE" value="ASPath:/Mcu/Mcu/McuModuleConfiguration/McuClockSettingConfig_0/Hsp_SpiClock" />
+                    <ns1:ref name="SpiPhyUnitAlternateClockRef" type="REFERENCE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:ref>
+                    <ns1:var name="SpiPhyUnitAsyncUseDma" type="BOOLEAN" value="false" />
+                    <ns1:ref name="SpiPhyTxDmaChannel" type="REFERENCE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:ref>
+                    <ns1:ref name="SpiPhyRxDmaChannel" type="REFERENCE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:ref>
+                    <ns1:var name="SpiMaxDmaFastTransfer" type="INTEGER" value="1">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:var>
+                    <ns1:ref name="SpiFlexioTxAndClkChannelsConfig" type="REFERENCE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:ref>
+                    <ns1:ref name="SpiFlexioRxAndCsChannelsConfig" type="REFERENCE">
+                      <ns2:a name="ENABLE" value="false" />
+                      <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                    </ns1:ref>
+                  </ns1:ctr>
+                </ns1:lst>
+              </ns1:ctr>
+              <ns1:ctr name="SpiPublishedInformation" type="IDENTIFIABLE">
+                <ns1:var name="SpiMaxHwUnit" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+              </ns1:ctr>
+              <ns1:ctr name="CommonPublishedInformation" type="IDENTIFIABLE">
+                <ns1:var name="ArReleaseMajorVersion" type="INTEGER" value="4">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ArReleaseMinorVersion" type="INTEGER" value="7">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ArReleaseRevisionVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="ModuleId" type="INTEGER" value="83">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwMajorVersion" type="INTEGER" value="3">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwMinorVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SwPatchVersion" type="INTEGER" value="0">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="VendorApiInfix" type="STRING" value="">
+                  <ns2:a name="ENABLE" value="false" />
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="VendorId" type="INTEGER" value="43">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+              </ns1:ctr>
+              <ns1:ctr name="SpiAutosarExt" type="IDENTIFIABLE">
+                <ns1:var name="SpiEnableUserModeSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiEnableDmaFastTransferSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiHalfDuplexModeSupport" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiAllowBigSizeCollections" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiEnableHWUnitAsyncMode" type="BOOLEAN" value="true" />
+                <ns1:var name="SpiJobStartNotificationEnable" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiDisableDemReportErrorStatus" type="BOOLEAN" value="true" />
+                <ns1:var name="SpiUseLegacyEBLength" type="BOOLEAN" value="false">
+                  <ns2:a name="IMPORTER_INFO" value="@DEF" />
+                </ns1:var>
+                <ns1:var name="SpiFlexioEnable" type="BOOLEAN" value="false" />
+              </ns1:ctr>
+            </ns1:ctr>
+          </ns1:chc>
+        </ns1:lst>
+      </ns1:ctr>
+    </ns1:lst>
+  </ns1:ctr>
+</ns0:datamodel>
