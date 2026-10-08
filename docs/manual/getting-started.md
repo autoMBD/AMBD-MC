@@ -6,6 +6,25 @@ autoMBD HSP 0.1.0。参考环境为 Windows + MATLAB R2026a；Python 不能替�
 
 ## 获取项目
 
+从 [GitHub Releases](https://github.com/autoMBD/AMBD-MC/releases) 选择版本，下载
+`AMBD-MC-<version>.zip` 和 `SHA256SUMS`。带 Pre-release 标记的版本用于试用；
+优先选择独立发布附件。历史版本可能只有未经当前发布流程检查的默认源码归档。
+
+在 PowerShell 中校验（把版本替换为实际下载的版本）：
+
+```powershell
+Get-FileHash AMBD-MC-0.2.0-rc.1.zip -Algorithm SHA256
+Get-Content SHA256SUMS
+```
+
+确认 ZIP 的哈希与 `SHA256SUMS` 同名条目相同后，解压到可写的新目录，
+进入包含 `ambd_mc.m` 的包根目录。可阅读包内 `RELEASE_NOTES.md`、
+`THIRD_PARTY_NOTICES.md` 和 `docs/`；先按依赖矩阵安装 MATLAB/HSP 等外部产品。
+普通初始化和主机场景不需要 Git，运行结果写入解压目录的 `.agent-env/`。
+不要把新版本覆盖解压到正在使用的旧目录。
+
+如需开发或使用依赖 Git 的维护工具，则克隆仓库，并按需检出对应版本 tag：
+
 ```powershell
 git clone https://github.com/autoMBD/AMBD-MC.git
 cd AMBD-MC

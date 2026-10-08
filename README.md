@@ -5,6 +5,7 @@ AMBD-MC（autoMBD Motor Control）是 autoMBD 的基于模型设计（Model-Base
 电机控制项目，面向希望学习、验证和改进电机控制算法、类型化接口及嵌入式代码生成的开发者。
 
 [在线文档](https://autombd.github.io/AMBD-MC/) ·
+[版本下载](https://github.com/autoMBD/AMBD-MC/releases) ·
 [快速开始](docs/manual/getting-started.md) ·
 [参与贡献](.github/CONTRIBUTING.md) ·
 [问题反馈](https://github.com/autoMBD/AMBD-MC/issues)
@@ -38,6 +39,12 @@ HSP 由外部安装提供，初始化时会检查版本；请在运行 `setup` �
 克隆本仓库不会自动安装 HSP。
 
 ## 运行第一个主机场景
+
+也可从 [GitHub Releases](https://github.com/autoMBD/AMBD-MC/releases) 下载带
+`SHA256SUMS` 的 `AMBD-MC-<version>.zip` 发布附件，校验后解压并进入包根目录。
+预发布版会标注 Pre-release；没有独立附件的历史发布不代表已通过当前打包检查。
+包内提供模型、源码、使用文档和许可材料，MATLAB/HSP/目标工具链需要另行安装。
+下载与校验方法见[快速开始](docs/manual/getting-started.md)，维护者见[发布指南](docs/development/releasing.md)。
 
 在终端中克隆仓库：
 

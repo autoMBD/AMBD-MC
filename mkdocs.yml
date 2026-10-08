@@ -33,6 +33,7 @@ nav:
     - BLDC 系统: specs/plant-models/bldc-host/bldc-host-system.md
     - BLDC 架构: specs/plant-models/bldc-host/bldc-host-architecture.md
 - 开发指南:
+  - Release 打包与发布: development/releasing.md
   - Agent 环境: development/agent-environment.md
   - 文档维护: development/documentation.md
 - 项目说明:
