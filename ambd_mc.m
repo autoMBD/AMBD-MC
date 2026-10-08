@@ -102,6 +102,8 @@ if ~isTextScalar(family) || ~ismember(string(family),allowed)
 end
 family=string(family);
 root=fileparts(mfilename('fullpath'));
+% Resolve shared workflows through their namespace, not unqualified helpers.
+addpath(fullfile(root,'mc-models'));
 if command=="stage"
     if numel(varargin)<2
         error('ambd:MissingArgument','Stage requires a local settings JSON file.');
@@ -112,7 +114,7 @@ if command=="stage"
     if ~isTextScalar(settings) || strlength(string(settings))==0
         error('ambd:SettingsFile','Specify a nonempty local settings JSON path.');
     end
-    info=ambd_mc_stage(root,family,settings);
+    info=ambd_workflows.stage(root,family,settings);
     return
 end
 options=parseSetupOptions(varargin(2:end));
@@ -120,7 +122,7 @@ if family=="all" && options.Dictionary~=""
     error('ambd:SharedDictionary', ...
         'Use separate setup calls to select each family dictionary.');
 end
-info=ambd_mc_setup(root,family,options);
+info=ambd_workflows.setup(root,family,options);
 if family=="bldc",info=info.Bldc;end
 if family=="pmsm",info=info.Pmsm;end
 end

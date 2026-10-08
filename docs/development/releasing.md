@@ -11,7 +11,7 @@
 
 | 交付物 | 内容 |
 | --- | --- |
-| `AMBD-MC-<version>.zip` | `ambd_mc.m`、`private/`、活动模型与字典、参数与场景、两种 HSP 目标配置、自有板级源码、工具、测试源码及公开 Markdown 文档 |
+| `AMBD-MC-<version>.zip` | `ambd_mc.m`、`mc-models/+ambd_workflows/`、活动模型与字典、参数与场景、两种 HSP 目标配置、自有板级源码、工具、测试源码及公开 Markdown 文档 |
 | `RELEASE_NOTES.md` | 变化、迁移方法、依赖、已知限制、对应源提交和固定版本下载链接；包内也有一份 |
 | `release-metadata.json` | 版本、拟发布 tag、源提交及其 UTC 日期、依赖和包内交付文件的 SHA256；元数据自身不递归列入清单 |
 | `SHA256SUMS` | 上述三个附件的 SHA256，用于核对下载内容完整性 |

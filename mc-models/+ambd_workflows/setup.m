@@ -37,15 +37,15 @@
 % 何权利主张、损害赔偿或其他责任承担责任。
 % =================================================================================
 % Project:     autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>
-% File:        ambd_mc_setup.m
+% File:        setup.m
 % Author:      autoMBD <tkung.lqk@foxmail.com>
 % Date:        2026-10-08
 % Version:     0.1.0
 % Description: Initialize the motor model suite with autoMBD HSP 0.1.0.
 % =================================================================================
 
-function info = ambd_mc_setup(root,family,options)
-%ambd_mc_setup - Share HSP initialization and retain family dictionary owners
+function info = setup(root,family,options)
+%SETUP - Share HSP initialization and retain family dictionary owners
 
 assert(~isempty(which('autombd.hsp.initialize')), ...
     'ambd:MissingHsp','Install autoMBD HSP 0.1.0 before opening motor models.');

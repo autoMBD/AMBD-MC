@@ -37,16 +37,16 @@
 % 何权利主张、损害赔偿或其他责任承担责任。
 % =================================================================================
 % Project:     autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>
-% File:        ambd_mc_stage.m
+% File:        stage.m
 % Author:      autoMBD <tkung.lqk@foxmail.com>
 % Date:        2026-10-08
 % Version:     0.1.0
 % Description: Stage portable source models for isolated target builds and PIL.
 % =================================================================================
 
-function info = ambd_mc_stage(root,family,localSettingsFile)
-%ambd_mc_stage - Prepare isolated model copies for target builds and PIL
-%   INFO = ambd_mc_stage(ROOT,FAMILY,LOCALSETTINGSFILE) copies the selected model
+function info = stage(root,family,localSettingsFile)
+%STAGE - Prepare isolated model copies for target builds and PIL
+%   INFO = ambd_workflows.stage(ROOT,FAMILY,LOCALSETTINGSFILE) copies the selected model
 %   family and EB project below .agent-env. Local tool paths and target
 %   connection settings are applied only to these working copies.
 %
@@ -106,7 +106,7 @@ mkdir(fileparts(configuration));
 copyfile(fullfile(root,'mc-models','hsp','config',profile.configuration),configuration);
 options=struct('Dictionary',string(fullfile(folder,targetDictionary)), ...
     'OutputDirectory',string(folder),'SyncDictionary',false);
-info=ambd_mc_setup(root,family,options);
+info=ambd_workflows.setup(root,family,options);
 if family=="bldc"
     details=info.Bldc;prefix='Bldc';
     parameters=ambd.kit_parameters(family,profile.name);runtime=bldc.initial_state(parameters);

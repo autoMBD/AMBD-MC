@@ -60,6 +60,9 @@
 /docs/specs/plant-models/pmsm-host -export-ignore
 /docs/specs/plant-models/pmsm-host/pmsm-host-system-architecture.md -export-ignore
 /mc-models -export-ignore
+/mc-models/+ambd_workflows -export-ignore
+/mc-models/+ambd_workflows/setup.m -export-ignore
+/mc-models/+ambd_workflows/stage.m -export-ignore
 /mc-models/bldc -export-ignore
 /mc-models/bldc/README.md -export-ignore
 /mc-models/bldc/algo -export-ignore
@@ -235,9 +238,6 @@
 /mc-models/pmsm/platform/pil/mc_run_host_case.m -export-ignore
 /mc-models/pmsm/platform/pil/mc_run_replay.m -export-ignore
 /mkdocs.yml -export-ignore
-/private -export-ignore
-/private/ambd_mc_setup.m -export-ignore
-/private/ambd_mc_stage.m -export-ignore
 /tests -export-ignore
 /tests/agent -export-ignore
 /tests/agent/test_artifacts.py -export-ignore
@@ -299,6 +299,7 @@
 /tests/hsp/test_s32k144_config.py -export-ignore
 /tests/hsp/test_s32k144_core.py -export-ignore
 /tests/hsp/test_target_selection.py -export-ignore
+/tests/hsp/test_workflow_sources.py -export-ignore
 /tests/pmsm -export-ignore
 /tests/pmsm/helpers -export-ignore
 /tests/pmsm/helpers/compare_plant_reference.m -export-ignore

@@ -61,10 +61,12 @@ classdef ambdMcTest < matlab.unittest.TestCase
     end
     methods (Test)
         function helpWithoutDependencies(testCase)
+            originalPath=path;
             output=evalc('ambd_mc');
             testCase.verifySubstring(output,'setup');
             testCase.verifySubstring(output,'stage');
             testCase.verifyEqual(evalc('ambd_mc("help")'),output);
+            testCase.verifyEqual(path,originalPath);
         end
         function missingArgument(testCase,Invalid)
             testCase.verifyError(@()ambd_mc(Invalid{:}),'ambd:MissingArgument');
