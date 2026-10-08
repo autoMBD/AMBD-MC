@@ -57,11 +57,12 @@ end
 info=mc_initialize(OutputDirectory=buildDirectory);
 artifactRoot=fullfile(info.RepositoryRoot,'.agent-env');
 if outputDirectory==""
-    outputDirectory=fullfile(artifactRoot,'pmsm','acceptance',modelName,scenarioName,executionMode);
+    outputDirectory=fullfile(ambd_instance_root(info.RepositoryRoot),'pmsm','acceptance',modelName,scenarioName,executionMode);
 end
 outputDirectory=string(java.io.File(char(outputDirectory)).getCanonicalPath());
 assert(startsWith(lower(outputDirectory),lower(artifactRoot+filesep)), ...
     'mc:OutputOutsideArtifactRoot','Validation artifacts must be below .agent-env.');
+ambd_claim_directory(info.RepositoryRoot,outputDirectory);
 if ~isfolder(outputDirectory),mkdir(outputDirectory);end
 scenario=mc_host_scenario(scenarioName);
 load_system(modelName);

@@ -205,8 +205,9 @@ classdef test_mc_initialize < matlab.unittest.TestCase
         end
 
         function rejectsArtifactsOutsideAgentEnvironment(testCase)
+            root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
             testCase.verifyError(@() mc_initialize( ...
-                OutputDirectory=tempdir, Dictionary=testCase.DictionaryFile, ...
+                OutputDirectory=root, Dictionary=testCase.DictionaryFile, ...
                 SyncDictionary=true), 'mc:OutputOutsideArtifactRoot');
         end
 

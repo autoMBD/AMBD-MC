@@ -53,6 +53,8 @@ root=fileparts(fileparts(fileparts(fileparts(fileparts(mfilename('fullpath')))))
 outputDirectory=string(java.io.File(char(outputDirectory)).getCanonicalPath());
 assert(startsWith(lower(outputDirectory),lower(string(fullfile(root,'.agent-env'))+filesep)), ...
     'bldc:OutputOutsideArtifactRoot','Comparison output must be below .agent-env.');
+addpath(fullfile(root,'tools'));
+ambd_claim_directory(root,outputDirectory);
 if ~isfolder(outputDirectory),mkdir(outputDirectory);end
 result=struct('Passed',false,'Status',"RUNNING");writeResult(outputDirectory,result);
 try

@@ -47,6 +47,25 @@
 """Contain only the server process and descendants started by this client."""
 import os
 import signal
+import subprocess
+
+
+def run_owned(command, **kwargs):
+    """Forward stdio and contain only this launch's descendants, including on cancellation."""
+    process = subprocess.Popen(command, start_new_session=os.name != 'nt',
+                               creationflags=(subprocess.CREATE_NO_WINDOW | 0x4) if os.name == 'nt' else 0,
+                               **kwargs)
+    tree = None
+    try:
+        tree = OwnedTree(process)
+        tree.resume()
+        return process.wait()
+    finally:
+        if tree is not None:
+            tree.close()
+        if process.poll() is None:
+            process.kill()
+        process.wait(timeout=3)
 
 
 class OwnedTree:

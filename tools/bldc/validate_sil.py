@@ -159,7 +159,7 @@ def main():
         save_report(folder, summary, transcript)
 
     def evaluate(client, code, marker):
-        response = client.call('evaluate_matlab_code', {'code': code, 'project_path': str(ROOT)})
+        response = client.call('evaluate_matlab_code', {'code': code, 'project_path': client.project_path})
         transcript.append(dict(Code=code, Response=response))
         save()
         output = '\n'.join(part.get('text', '') for part in response.get('content', []))

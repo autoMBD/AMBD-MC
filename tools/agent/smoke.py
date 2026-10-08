@@ -132,7 +132,7 @@ def run(repo: Path, candidate: dict, *, timeout=600):
                 report['checks'].append({'tool': name, 'status': 'PASS', 'output': text})
                 return text
 
-            call('evaluate_matlab_code', {'project_path': str(repo),
+            call('evaluate_matlab_code', {'project_path': client.project_path,
                  'code': 'addpath(' + mq(folder) + '); ambd_smoke(' + mq(folder) + ', ' + mq(model_name) + ');'},
                  'AMBD_COMPUTE_AND_SIMULATION_PASS')
             result = json.loads((folder / 'matlab-result.json').read_text(encoding='utf-8'))
@@ -142,11 +142,12 @@ def run(repo: Path, candidate: dict, *, timeout=600):
                     raise RuntimeError(f'{key} is shadowed by a different environment: {result[key]}')
             report['matlab'] = result
             report['skill_eligibility'] = capabilities.skills(bundle / 'skills', result, names)
-            shared_command, shared_env = runtime(candidate, session='existing')
+            shared_command, shared_env = runtime(candidate, session='existing',
+                                                attach_instance=env['AMBD_MATLAB_INSTANCE'])
             with Client(shared_command, cwd=repo, env=shared_env, timeout=timeout) as shared:
                 shared.initialize()
                 call('evaluate_matlab_code', {'code': "assert(feature('getpid')==" + str(result['pid']) +
-                     ", 'Shared MATLAB PID differs'); assert(strcmp(strrep(pwd,filesep,'/')," + mq(repo) +
+                     ", 'Shared MATLAB PID differs'); assert(strcmp(strrep(pwd,filesep,'/')," + mq(client.project_path) +
                      "), 'MATLAB working directory differs'); disp('AMBD_SHARED_SESSION_PASS');"},
                      'AMBD_SHARED_SESSION_PASS', connection=shared)
                 report['checks'][-1]['session'] = 'existing'

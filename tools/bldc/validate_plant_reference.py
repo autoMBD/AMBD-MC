@@ -207,7 +207,7 @@ def execute_native(attempt):
 
     def call(client, name, **arguments):
         if name == "evaluate_matlab_code":
-            arguments.setdefault("project_path", str(ROOT))
+            arguments.setdefault("project_path", client.project_path)
         result = client.call(name, arguments)
         transcript.append(dict(name=name, arguments=arguments, result=result))
         (ARTIFACTS / 'reproduction-transcript.json').write_text(

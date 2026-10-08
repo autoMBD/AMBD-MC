@@ -134,7 +134,7 @@ def main():
             temporary.replace(folder / name)
 
     def evaluate(client, code, marker):
-        result = client.call('evaluate_matlab_code', {'code': code, 'project_path': str(ROOT)})
+        result = client.call('evaluate_matlab_code', {'code': code, 'project_path': client.project_path})
         transcript.append(dict(Code=code, Result=result))
         save()
         text = '\n'.join(p.get('text', '') for p in result.get('content', []))

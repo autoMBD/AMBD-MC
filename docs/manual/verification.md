@@ -26,6 +26,30 @@ PMSM 对象参考使用 MathWorks Interior PMSM；BLDC 使用独立 Simscape BLD
 BLDC 的 `--normal-only --collect-failures` 用于收集 Normal 物理场景问题，
 也不构成完整 SIL 验收。
 
+## 多实例隔离回归
+
+使用已通过 Bootstrap/Sync 的锁定环境，在仓库根目录执行：
+
+```powershell
+python tools/agent/concurrent_smoke.py --instances 2 --cycles 2
+python tools/agent/concurrent_smoke.py --instances 3 --cycles 2
+```
+
+`--instances` 可设为任意大于等于 2 的整数，`--cycles` 控制重复创建／回收次数；
+`--timeout` 为单次 MCP 请求上限（默认 1800 秒）。每个周期同时保留 N 个真实 MATLAB，
+校验不同 PID、实际 `tempdir`、工作目录和初始化后的生成目录。每个实例运行
+完整 `tests/hsp`、两家族 `setup`、S32K144/S32K344 暂存测试，以及 BLDC `hall_steps`
+和 PMSM `sensored_steps` 的 Normal 闭环；验证源文件与不可变 bundle 保持原样。
+还验证显式输出目录排他锁、existing 同 PID 附着／断开、失败退出、执行中超时取消，
+以及其余实例和运行前已有 MATLAB 进程的存活。进程回收后产物保留。
+
+摘要和原始输出保存在 `.agent-env/reports/concurrent-<运行 ID>/`；
+实例数据保存在各自的 `.agent-env/i/<实例 ID>/`。成功要求所有测试 Passed，
+且没有 Failed/Incomplete。资源不足、许可证、目录冲突、传输和工作负载错误分别记录；
+失败不会以保存重试、覆盖字典或禁用一致性检查来消除。
+这只是并发隔离验收，不替代完整电机控制场景矩阵、目标代码生成或 PIL。
+硬件访问在此入口中为 SKIP，探针和串口仍必须独占。
+
 ## 结果分层
 
 | 层次 | 检查对象 | 不能替代 |

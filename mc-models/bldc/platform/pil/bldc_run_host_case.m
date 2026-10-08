@@ -56,12 +56,14 @@ assert(isscalar(executionMode) && any(executionMode==["Normal","SIL"]), ...
     'bldc:ExecutionMode','Execution mode must be Normal or SIL.');
 root=fileparts(fileparts(fileparts(fileparts(fileparts(mfilename('fullpath'))))));
 artifactRoot=string(fullfile(root,'.agent-env'));
+addpath(fullfile(root,'tools'));
 if string(outputDirectory)==""
-    outputDirectory=fullfile(artifactRoot,'bldc','acceptance',scenarioName,executionMode);
+    outputDirectory=fullfile(ambd_instance_root(root),'bldc','acceptance',scenarioName,executionMode);
 end
 outputDirectory=string(java.io.File(char(outputDirectory)).getCanonicalPath());
 assert(startsWith(lower(outputDirectory),lower(artifactRoot+filesep)), ...
     'bldc:OutputOutsideArtifactRoot','Reports must be below .agent-env.');
+ambd_claim_directory(root,outputDirectory);
 if ~isfolder(outputDirectory),mkdir(outputDirectory);end
 result=struct('Scenario',scenarioName,'RequestedMode',executionMode,'Passed',false,'Status',"RUNNING");
 writeResult(outputDirectory,result);

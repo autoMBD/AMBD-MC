@@ -81,15 +81,19 @@ class SmokeReportingTests(unittest.TestCase):
                         'detect_matlab_toolboxes', 'model_overview', 'model_read', 'model_query_params', 'model_scan', 'model_read_diagnostics']
             test_case = self
             class FakeClient:
-                def __init__(self, *args, **kwargs): pass
+                def __init__(self, *args, **kwargs):
+                    instance = kwargs.get('env', {}).get('AMBD_MATLAB_INSTANCE')
+                    self.project_path = str(Path(instance) / 'work') if instance else str(repo)
+                    if instance:
+                        Path(instance, 'matlab.json').write_text('{"pid":42}')
                 def __enter__(self): return self
                 def __exit__(self, *args): pass
                 def initialize(self): return {'serverInfo': {}}
                 def request(self, *args): return {'tools': [{'name': n} for n in required]}
                 def call(self, name, arguments):
                     if require_project_path and 'ambd_smoke(' in arguments.get('code', ''):
-                        test_case.assertEqual(arguments.get('project_path'), str(repo),
-                                              'Select the checkout even when the bundle lives elsewhere.')
+                        test_case.assertEqual(arguments.get('project_path'), self.project_path,
+                                              'Keep MATLAB in the instance working directory.')
                     folder = next((repo / '.agent-env/reports').iterdir())
                     (folder / 'matlab-result.json').write_text(json.dumps({'pid': 42, 'satkInitialize': str(bundle / 'satk'), 'shareMATLABSession': str(bundle / 'share')}))
                     text = 'AMBD_COMPUTE_AND_SIMULATION_PASS AMBD_TESTS_PASS AMBD_MODEL_CLOSED AMBD_SHARED_SESSION_PASS Gain 0.2 '
