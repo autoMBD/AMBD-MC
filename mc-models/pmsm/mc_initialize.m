@@ -63,8 +63,10 @@ end
 pmsmRoot = string(fileparts(mfilename('fullpath')));
 repoRoot = string(fileparts(fileparts(pmsmRoot)));
 artifactRoot = canonicalPath(fullfile(repoRoot, '.agent-env'));
+addpath(fullfile(repoRoot,'tools'));
+instanceRoot = ambd_instance_root(repoRoot);
 if options.OutputDirectory == ""
-    options.OutputDirectory = fullfile(artifactRoot, 'pmsm');
+    options.OutputDirectory = fullfile(instanceRoot, 'pmsm');
 end
 outputDirectory = canonicalPath(options.OutputDirectory);
 if ~startsWith(lower(outputDirectory), lower(artifactRoot + filesep))
@@ -76,10 +78,18 @@ if options.Dictionary == ""
 end
 dictionaryFile = canonicalPath(options.Dictionary);
 ownedDictionary = canonicalPath(fullfile(pmsmRoot, 'commom', 'McData.sldd'));
+if options.SyncDictionary && ~isempty(getenv('AMBD_MATLAB_INSTANCE')) && strcmpi(dictionaryFile,ownedDictionary)
+    error('ambd:SharedSourceWrite', ...
+        'Managed instances cannot synchronize source dictionaries. Select a private Dictionary copy.');
+end
+ambd_claim_directory(repoRoot,outputDirectory);
 if options.SyncDictionary && ~strcmpi(dictionaryFile, ownedDictionary) && ...
         ~startsWith(lower(dictionaryFile), lower(artifactRoot + filesep))
     error('mc:DictionaryOutsideOwnedDirectories', ...
         'Synchronization requires McData.sldd or a dictionary below .agent-env.');
+end
+if options.SyncDictionary && ~strcmpi(dictionaryFile,ownedDictionary)
+    ambd_claim_directory(repoRoot,fileparts(dictionaryFile));
 end
 sourceDirectories = [pmsmRoot; fullfile(pmsmRoot, 'algo'); ...
     fullfile(pmsmRoot, 'commom'); fullfile(pmsmRoot, 'data'); ...

@@ -73,9 +73,35 @@ pwsh -NoProfile -File tools/agent/agent-env.ps1 Bootstrap -Offline -Cache 'D:/ag
 
 缓存按 SHA-256 命名，离线安装仍校验长度与哈希；缺失或损坏会明确报错，不下载替代版本。损坏缓存不会被静默覆盖，可移走报告中对应文件后在线重试。下载失败不会留下被当作成功资产的文件。官方源码、二进制、报告和运行输出都留在 `.agent-env/`，不提交到 Git。
 
-默认 `-Session new` 使用独立、无桌面的 MATLAB，会运行 bundle 的 `startup/startup.m`，注册官方工具并将模型缓存/代码输出设置到 `.agent-env/`。不会修改个人 startup 文件。`Smoke` 始终使用独立会话，服务退出后由官方 MCP 回收该会话。
+默认 `-Session new` 在启动 MATLAB **之前**分配 `.agent-env/i/<实例 ID>/`，仅在子进程环境中设置独立的 `TEMP`、`TMP`、`TMPDIR`。每次原子创建新目录，支持任意 N 个实例；数量仅受机器资源和许可证限制。目录结构如下：
 
-需要连接已打开的 MATLAB 时，可 Sync 时传 `-Session existing`，随后在目标 MATLAB 手动 `run('<Doctor 显示的 active.bundle>/startup/startup.m')`，再重启 Codex。该脚本调用官方 `shareMATLABSession`；不会替你退出现有会话。官方 existing 模式与 `matlab-root`、`initial-working-folder`、`matlab-display-mode` 互斥，入口会自动省略这三个参数；连接的是最近执行共享命令的会话。`auto` 由官方 MCP 自行选择现有或新会话，现有会话仍需先初始化正确的 bundle。多项目并用时建议 `new`，避免连接到加载了其他版本 toolkit 的现有会话。
+| 路径 | 所有权与用途 |
+|---|---|
+| `tmp/` | 当前 MATLAB 的实际 `tempdir`、SLDD/SDI 临时文件 |
+| `work/` | MATLAB 初始工作目录，承接相对路径生成物 |
+| `cache/`、`codegen/` | 初始 Simulink 生成配置 |
+| `bldc/`、`pmsm/` | `setup` 之后的 cache、codegen、类型脚本及默认主机报告 |
+| `t/<阶段 ID>/` | `stage` 的模型、可写字典、EB 工程、类型、cache/codegen |
+| `appdata/` | 当前实例的官方 MCP 共享会话登记 |
+| `startup/`、`owner.json`、`matlab.json` | 本次启动入口、仓库所有权和实际 MATLAB PID |
+
+启动脚本加载锁定的官方工具，不修改个人 startup、系统环境变量或个人 MCP 配置。初始化期间临时隔离官方共享登记，随后恢复进程的 `APPDATA`，保留用户的工具箱、首选项和许可证路径。仓库通过 MATLAB path 提供；不要把托管 MATLAB 的当前目录切回共享源码目录。项目 Python 验证入口使用 `client.project_path` 保持私有工作目录；传入任务文件时使用绝对路径或 `fileparts(which('ambd_mc'))` 定位仓库。
+
+`setup` 默认只读源字典并保留标定，托管实例拒绝对源字典执行 `SyncDictionary=true`。需要写入时，先 `stage` 或指定 `.agent-env/` 中的独立字典副本。显式 `OutputDirectory` 仍支持原有 `.agent-env/` 内路径，但会获取进程级排他文件锁；其他进程必须使用不同目录。同步字典也会占用其父目录，不能让多个进程在同一目录写不同字典。另一个实例的整个目录树始终禁止写入。不要手动清除持有目录锁的函数状态；任务切换使用新实例。
+
+| 模式 | 项目入口行为 |
+|---|---|
+| `new` | 创建完整隔离的新 MATLAB，启动者拥有其子进程树 |
+| `auto` | 同样创建新 MATLAB；项目不使用官方“优先附着现有会话”的自动选择 |
+| `existing` | 只附着用户明确共享的现有 MATLAB；不设置 TEMP、不切换 cwd/cache/codegen，也不拥有该 MATLAB |
+
+`existing` 的多个 MCP 连接仍是**同一 MATLAB 实例**，必须串行使用。它无法补做进程启动前的 TEMP 隔离，不能用来构成并发验收。需要连接已打开的 MATLAB 时，在 Sync 时传 `-Session existing`，随后在目标 MATLAB 手动 `run('<Doctor 显示的 active.bundle>/startup/startup.m')`，再重启 Codex。当前入口仅初始化官方工具及共享连接，不调整已有运行配置。升级旧环境先运行锁定的 `Sync`：项目启动脚本带独立修订号，新 bundle 与旧 bundle 并存，旧文件不被重写。不要继续调用旧 bundle 的启动脚本。
+
+官方 existing 模式与 `matlab-root`、`initial-working-folder`、`matlab-display-mode` 互斥，入口省略这三个参数。默认连接用户最近共享的会话；自动测试通过 `runtime(..., session='existing', attach_instance=实例目录)` 定向连接本次拥有的实例登记，并校验 PID。新实例的登记不会覆盖用户会话的共享入口。
+
+正常退出、失败、请求超时后关闭客户端，以及启动者取消时，只回收本次启动的进程树；已有用户 MATLAB 不属于该树。目录与报告**保留**用于诊断，不自动删除、不复用、不扫描清理其他实例。再次启动会分配新 ID；需要回收磁盘时先确认该实例和使用它的客户端均已退出，再核对绝对路径并手动删除对应实例目录。跨仓库任务必须启动新实例，不能把正在运行的实例重新绑定到另一个仓库。交互式 MATLAB 的直接初始化会分配进程内稳定的生成目录，但不会改动其 TEMP；它不等同于完整 `new` 隔离。
+
+硬件探针、UART 和控制板仍是独占资源，目录隔离不允许同一设备被并发下载或使用。无硬件并发回归见[验证指南](../manual/verification.md#多实例隔离回归)。
 
 ## 验收与诊断
 
@@ -88,7 +114,7 @@ python tools/test_check_spdx.py
 
 Doctor 只检查 Python、MATLAB 路径、WINDIR、锁文件、bundle 完整性、配置和 skills 归属。Smoke 通过真正的 MCP 协议验证：
 
-1. MCP 初始化、完整工具清单，以及计算/模型检查所需工具存在。额外连接同一测试 MATLAB 的 existing 会话，核对 PID 与仓库工作目录，再断开共享客户端并确认原会话可继续使用。
+1. MCP 初始化、完整工具清单，以及计算/模型检查所需工具存在。定向额外连接同一测试 MATLAB 的 existing 会话，核对 PID 与实例工作目录，再断开共享客户端并确认原会话可继续使用。
 2. MATLAB 运算，官方工具路径属于锁定 bundle，静态分析及 3 项 MATLAB 单元测试。
 3. 创建临时 Constant(2) → Triple 子系统（Gain=3）→ Output 模型，实际仿真结果为 6；通过官方工具读取模型结构、求解器参数和仿真诊断。有 Simulink Test 时，按照官方 `testing-simulink-models` skill 执行 Gherkin 行为测试，分别验证 draft 和完整编译模式。
 4. 使用官方 `model_scan` 搜索仓库保存模型中的 PWM 项，并直接解析保存 XML 中的根级结构与块数，确认检查没有写回模型或执行回调。
@@ -102,7 +128,7 @@ Doctor 只检查 Python、MATLAB 路径、WINDIR、锁文件、bundle 完整性�
 |---|---|
 | 无法找到 MATLAB | 提供安装根目录，不含 `bin`；检查 Python 和 PowerShell 版本 |
 | MATLAB 最小命令出现 `File system inconsistency` | 在正常终端执行同一最小命令，区分执行沙箱与 MATLAB 安装问题；本机普通执行已通过，受限执行失败，不应据此重装 MATLAB |
-| MCP 初始化失败 | 查看 `.agent-env/logs/`，确认 MATLAB root、日志目录可写；保留 WINDIR / SystemRoot / TEMP / TMP |
+| MCP 初始化失败 | 查看 `.agent-env/logs/`，确认 MATLAB root、日志目录可写；保留 WINDIR / SystemRoot；检查实例 tmp 目录与 owner.json |
 | 工具存在但报 Undefined function | 执行对应 bundle 的 startup，检查 `which('satk_initialize')` 与 `which('shareMATLABSession')` 是否指向同一环境 |
 | Simulink / 可选 toolbox 报许可错误 | 根据报告核对已安装产品和可用许可证；autoMBD HSP 需通过 MATLAB Add-Ons 安装，并通过 `ambd_mc("setup",...)` 初始化 |
 | skills 链接创建失败 | 脚本自动复制完整官方 skills，不要求开启 Windows Developer Mode；更新前检查本地改动，防止覆盖 |

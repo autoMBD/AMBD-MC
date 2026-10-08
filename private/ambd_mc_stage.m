@@ -90,7 +90,8 @@ end
 identifier=char(java.util.UUID.randomUUID);
 familyName=char(family);
 % Stateflow and PIL add deep generated paths on Windows.
-folder=fullfile(root,'.agent-env','t',[familyName(1),identifier(1:8)]);
+addpath(fullfile(root,'tools'));
+folder=char(fullfile(ambd_instance_root(root),'t',[familyName(1),identifier(1:8)]));
 assert(~isfolder(folder),'ambd:StageExists','A new stage is required.');
 mkdir(folder);
 for index=1:numel(entries)
@@ -104,7 +105,7 @@ configuration=fullfile(folder,'configuration',profile.configuration);
 mkdir(fileparts(configuration));
 copyfile(fullfile(root,'mc-models','hsp','config',profile.configuration),configuration);
 options=struct('Dictionary',string(fullfile(folder,targetDictionary)), ...
-    'OutputDirectory',"",'SyncDictionary',false);
+    'OutputDirectory',string(folder),'SyncDictionary',false);
 info=ambd_mc_setup(root,family,options);
 if family=="bldc"
     details=info.Bldc;prefix='Bldc';

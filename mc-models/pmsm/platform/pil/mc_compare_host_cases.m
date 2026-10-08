@@ -61,6 +61,8 @@ artifactRoot=string(java.io.File(fullfile(repo,'.agent-env')).getCanonicalPath()
 outputDirectory=string(java.io.File(char(outputDirectory)).getCanonicalPath());
 assert(startsWith(lower(outputDirectory),lower(artifactRoot+filesep)), ...
     'mc:OutputOutsideArtifactRoot','Comparison artifacts must be below .agent-env.');
+addpath(fullfile(repo,'tools'));
+ambd_claim_directory(repo,outputDirectory);
 if ~isfolder(outputDirectory),mkdir(outputDirectory);end
 a=load(normalFile,'trace','scenario','assessment');
 b=load(silFile,'trace','scenario','assessment');

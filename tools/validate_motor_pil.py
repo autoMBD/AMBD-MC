@@ -116,7 +116,7 @@ def main():
             pending=folder/(name+'.tmp');pending.write_text(json.dumps(value,indent=2,ensure_ascii=False),encoding='utf-8')
             pending.replace(folder/name)
     def evaluate(client,code,marker):
-        reply=client.call('evaluate_matlab_code',dict(project_path=str(ROOT),code=code))
+        reply=client.call('evaluate_matlab_code',dict(project_path=client.project_path,code=code))
         transcript.append(dict(Code=code,Result=reply));save()
         text='\n'.join(item.get('text','') for item in reply.get('content',[]))
         if reply.get('isError') or marker not in text.splitlines():raise RuntimeError(text or str(reply))

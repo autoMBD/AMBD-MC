@@ -79,7 +79,9 @@ def prepare(repo: Path, lock: dict, cache: Path, offline=False) -> Path:
     validate_lock(lock)
     parent = repo / '.agent-env/environments'
     parent.mkdir(parents=True, exist_ok=True)
-    destination = parent / lock_id(lock)
+    # Project startup changed independently of the pinned upstream artifacts.
+    # A revisioned bundle migrates old installations without editing their files.
+    destination = parent / (lock_id(lock) + '-startup2')
     if destination.exists():
         verify_bundle(destination)
         return destination
@@ -131,9 +133,8 @@ def prepare(repo: Path, lock: dict, cache: Path, offline=False) -> Path:
             'addpath(' + matlab_quote(destination / 'mcp-toolbox/fsroot') + ');',
             'addpath(' + matlab_quote(destination / 'simulink') + ');',
             'satk_initialize(MCPServerPath=' + matlab_quote(destination / 'bin/matlab-mcp-server.exe') + ');',
-            'Simulink.fileGenControl(\'set\', \'CacheFolder\', ' + matlab_quote(repo / '.agent-env/matlab-cache') +
-            ', \'CodeGenFolder\', ' + matlab_quote(repo / '.agent-env/matlab-codegen') + ', \'createDir\', true);',
-            'cd(' + matlab_quote(repo) + ');', ''])
+            '% Existing sessions retain their working folder and file generation configuration.',
+            ''])
         (stage / 'startup/startup.m').write_text(startup, encoding='utf-8')
         atomic_json(stage / 'lock.json', lock)
         atomic_json(stage / 'inventory.json', inventories)
@@ -149,19 +150,70 @@ def prepare(repo: Path, lock: dict, cache: Path, offline=False) -> Path:
     return destination
 
 
-def runtime(candidate: dict, *, session=None):
+def runtime(candidate: dict, *, session=None, attach_instance=None):
     bundle = Path(candidate['bundle'])
-    mode = session or candidate.get('session', 'new')
+    requested = session or candidate.get('session', 'new')
+    if requested not in ('new', 'existing', 'auto'):
+        raise ValueError('Session must be new, existing or auto')
+    # Official auto may attach to a user session. Project auto is deliberately
+    # deterministic: only explicit existing requests may attach to a session.
+    mode = 'existing' if requested == 'existing' else 'new'
+    repo = bundle.parent.parent.parent
+    env = os.environ.copy()
+    if attach_instance is not None:
+        if mode != 'existing':
+            raise ValueError('An attachment requires explicit existing mode')
+        target = Path(attach_instance).resolve()
+        owner = json.loads((target / 'owner.json').read_text(encoding='utf-8'))
+        if not target.is_relative_to((repo / '.agent-env/i').resolve()) or Path(owner['repo']).resolve() != repo.resolve():
+            raise ValueError('Attachment does not belong to this repository')
+        if not (target / 'matlab.json').is_file():
+            raise ValueError('Attachment has no initialized MATLAB instance')
+        env['APPDATA'] = str(target / 'appdata')
+    log_folder = bundle.parent.parent / 'logs' / uuid.uuid4().hex[:12]
+    if mode == 'new':
+        parent = repo / '.agent-env/i'
+        parent.mkdir(parents=True, exist_ok=True)
+        instance = Path(tempfile.mkdtemp(prefix='', dir=parent))
+        for child in ('tmp', 'work', 'cache', 'codegen', 'startup', 'appdata'):
+            (instance / child).mkdir()
+        atomic_json(instance / 'owner.json', {
+            'instance': instance.name, 'repo': str(repo.resolve()),
+            'launcher_pid': os.getpid(), 'requested_mode': requested,
+            'lifecycle': 'retained; never automatically delete instance artifacts'})
+        for key in ('TEMP', 'TMP', 'TMPDIR'):
+            env[key] = str(instance / 'tmp')
+        env['AMBD_MATLAB_INSTANCE'] = str(instance)
+        startup = '\n'.join([
+            '% SPDX-License-Identifier: MIT',
+            '% Per-instance entry point; immutable official bundles are not edited.',
+            'addpath(' + matlab_quote(repo / 'tools/agent/matlab') + ');',
+            'ambd_agent_startup(' + ', '.join(map(matlab_quote, (repo, instance, bundle))) + ');', ''])
+        (instance / 'startup/startup.m').write_text(startup, encoding='utf-8')
+        env['MATLABPATH'] = str(instance / 'startup') + (os.pathsep + env['MATLABPATH'] if env.get('MATLABPATH') else '')
+    # Windows AF_UNIX has a 108-byte path limit, including the server basename.
+    # Use an existing directory's short spelling when worktree paths are deep.
+    if len(str(log_folder / '.matlab-mcp-server-4294967295').encode('utf-8')) >= 108:
+        log_folder.mkdir(parents=True, exist_ok=True)
+        if os.name == 'nt':
+            import ctypes
+            from ctypes import wintypes
+            api = ctypes.WinDLL('kernel32', use_last_error=True).GetShortPathNameW
+            api.argtypes = [wintypes.LPCWSTR, wintypes.LPWSTR, wintypes.DWORD]
+            api.restype = wintypes.DWORD
+            buffer = ctypes.create_unicode_buffer(32768)
+            if api(str(log_folder), buffer, len(buffer)):
+                log_folder = Path(buffer.value)
+        if len(str(log_folder / '.matlab-mcp-server-4294967295').encode('utf-8')) >= 108:
+            raise ValueError('MCP socket path is too long. Use a shorter checkout path (or enable Windows short names).')
     command = [str(bundle / 'bin/matlab-mcp-server.exe'),
                '--matlab-session-mode=' + mode, '--disable-telemetry=true',
                '--extension-file=' + str(bundle / 'simulink/tools/tools.json'),
                # The official server creates an AF_UNIX socket under this folder.
                # Keep per-launch isolation without exhausting its 108-byte path limit.
-               '--log-folder=' + str(bundle.parent.parent / 'logs' / uuid.uuid4().hex[:12]),
+               '--log-folder=' + str(log_folder),
                '--log-level=warn']
     if mode != 'existing':
         command += ['--matlab-root=' + candidate['matlab_root'], '--matlab-display-mode=nodesktop',
-                    '--initial-working-folder=' + str(bundle.parent.parent.parent)]
-    env = os.environ.copy()
-    env['MATLABPATH'] = str(bundle / 'startup') + (os.pathsep + env['MATLABPATH'] if env.get('MATLABPATH') else '')
+                    '--initial-working-folder=' + str(instance / 'work')]
     return command, env

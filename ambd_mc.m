@@ -54,7 +54,8 @@ function info = ambd_mc(command,varargin)
 %
 %   INFO = ambd_mc("setup",FAMILY,SyncDictionary=TF) explicitly rebuilds
 %   owned types and default calibrations when TF is true (default false).
-%   Dirty dictionaries are rejected during synchronization.
+%   Dirty dictionaries are rejected during synchronization. Managed MCP
+%   instances require a private copy and cannot synchronize source data.
 %
 %   INFO = ambd_mc("setup",FAMILY,Dictionary=FILE) selects a dictionary
 %   for one family. A nonempty Dictionary is not supported for "all".
@@ -64,7 +65,7 @@ function info = ambd_mc(command,varargin)
 %   subdirectories. Name-value pairs also accept 'Name',VALUE syntax.
 %
 %   INFO = ambd_mc("stage",FAMILY,localSettingsFile) prepares "bldc" or
-%   "pmsm" working copies below .agent-env/t, applying local JSON settings
+%   "pmsm" working copies below the instance directory, applying JSON settings
 %   only to those copies. It returns Root, Family, HspVersion, Stage,
 %   Models, Target and Bldc or Pmsm. Dirty source state is rejected.
 %   The JSON target field selects "s32k144" or "s32k344" (default).

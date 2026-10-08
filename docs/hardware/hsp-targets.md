@@ -33,12 +33,13 @@ NXP GCC 10.2 和 FreeRTOS 11.1.0。S32K144 HSP 安装需包含 `s32k144-custom`
 
 ```matlab
 info = ambd_mc("setup","all");
-stage = ambd_mc("stage","bldc",fullfile(pwd,'.agent-env','hsp','s32k144.json'));
+repo = fileparts(which('ambd_mc'));
+stage = ambd_mc("stage","bldc",fullfile(repo,'.agent-env','hsp','s32k144.json'));
 slbuild('BLDC_Ctrl_MBD');
 ```
 
 `setup` 初始化共用算法、字典和 HSP；`stage` 才选择目标。每次暂存创建新的
-`.agent-env/t/` 子目录，复制对应 EB 工程和源模型，使用包含目标名称的字典，
+`.agent-env/i/<实例 ID>/t/` 子目录，复制对应 EB 工程和源模型，使用包含目标名称的字典，
 返回 `stage.Target`。源模型保持默认 S32K344 的便携设置，不写入机器路径。共享控制器的端口与
 状态延迟继承顶层离散步长，由所选目标设为 62.5 µs 或 125 µs。
 切换目标前关闭上一工作副本的同名模型，保留需要的标定；脏模型、脏字典和
@@ -69,19 +70,12 @@ PMSM 编码器位置接口，不声明有感原生实机支持。
 ## 统一验证入口
 
 同一控制板的验证入口应顺序执行，探针和 UART 只能由一个进程占用。
-在启动验证的 PowerShell 中分配独立临时目录，可避免与已打开的 MATLAB
-会话共享 Simulink 临时缓存；变量仅影响当前 PowerShell 及其新建子进程：
+项目 MCP 的 `new`/`auto` 入口自动隔离 TEMP/TMP、工作目录和后续初始化生成物，无需逐次手动设置临时环境变量。`stage` 的类型脚本、EB 工作区和 cache/codegen 全部位于当前实例的暂存目录。`setup` 默认只读源字典；托管实例需要同步类型或修改标定时，使用自己的工作副本，不能同步源字典或其他实例的目录。
 
-```powershell
-$matlabTemp = Join-Path $PWD ('.agent-env/tmp/' + [guid]::NewGuid().ToString('N'))
-New-Item -ItemType Directory -Path $matlabTemp | Out-Null
-$env:TEMP = $matlabTemp
-$env:TMP = $matlabTemp
-```
-
-需要并行运行独立主机验证时，各 MATLAB 实例还必须有独立的生成/缓存目录。
-共享临时缓存可能触发字典“已在磁盘改变”等一致性错误，详见
-[MathWorks 多实例说明](https://www.mathworks.com/matlabcentral/answers/1728440-running-simulink-on-multiple-matlab-instances-concurrently-on-machine-crashes-in-sldd-dmr-sdi-jen)。
+多实例目录所有权、`existing` 的边界和退出保留策略见
+[会话隔离说明](../development/agent-environment.md#离线与会话)。
+[并发回归](../manual/verification.md#多实例隔离回归)只运行 HSP 初始化及主机仿真，
+不并发访问探针、UART 或控制板。
 
 ```powershell
 python -m unittest discover -s tests/hsp -v

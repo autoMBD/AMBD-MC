@@ -62,6 +62,7 @@ import artifacts
 import configuration
 import environment
 import smoke
+from process_tree import run_owned
 
 
 def matlab_root(value):
@@ -183,8 +184,7 @@ def main(argv=None):
         environment.verify_bundle(Path(state['active']['bundle']))
         command, env = environment.runtime(state['active'])
         # Transparent stdio launcher; MATLAB and Simulink tools come from the official executable.
-        return subprocess.call(command, env=env, cwd=repo, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr,
-                               creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0)
+        return run_owned(command, env=env, cwd=repo, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr)
     if args.action == 'Doctor':
         result = doctor(repo, args)
         print(json.dumps(result, ensure_ascii=False, indent=2))

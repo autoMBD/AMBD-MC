@@ -30,7 +30,9 @@ cd AMBD-MC
 
 - `SyncDictionary=false`：默认只验证类型，保留标定；显式 `true` 同步类型并重置框架默认标定，拒绝未保存的字典修改。必须传逻辑标量。
 - `Dictionary=""`：默认选择该家族源字典。可为单个家族指定其他字典；同步写入仍受源字典／`.agent-env/` 边界约束。`all` 不接受非空 `Dictionary`，分别初始化各家族以指定不同字典。
-- `OutputDirectory=""`：默认写入 `.agent-env/pmsm/` 或 `.agent-env/bldc/`。显式目录必须在 `.agent-env/` 内；`all` 在指定目录下按 `bldc/` 和 `pmsm/` 分开保存生成物。
+- `OutputDirectory=""`：默认写入 `.agent-env/i/<实例 ID>/pmsm/` 或同实例的 `bldc/`。显式目录必须在 `.agent-env/` 内，托管实例对其持有排他锁；`all` 在指定目录下按 `bldc/` 和 `pmsm/` 分开保存生成物。
+
+托管 MCP 实例禁止同步源字典或写入其他实例目录；使用 `stage` 或独立 `Dictionary` 副本进行修改。交互式 MATLAB 的源字典同步仍需自行保证独占。模式与生命周期见[会话隔离说明](../development/agent-environment.md#离线与会话)。托管 MATLAB 的当前目录是实例 `work/`，以 `fileparts(which('ambd_mc'))` 定位仓库，避免依赖 `pwd`。
 
 命令和家族使用表中的小写全名，选项使用完整名称。未知命令、非法家族、
 缺失参数或非法选项会给出 `ambd:*` 错误。`stage` 只接受家族和本机 JSON

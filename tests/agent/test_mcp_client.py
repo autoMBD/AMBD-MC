@@ -46,6 +46,7 @@
 
 import importlib
 import os
+import subprocess
 from pathlib import Path
 import sys
 import time
@@ -85,10 +86,28 @@ class MCPClientTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'tool failed'):
                 client.request('bad', {})
 
+    def test_managed_client_exposes_private_working_folder(self):
+        with tempfile.TemporaryDirectory() as folder:
+            env = {**os.environ, 'AMBD_MATLAB_INSTANCE': folder}
+            with mcp_client.Client([sys.executable, '-u', '-c', SERVER], env=env) as client:
+                self.assertEqual(client.project_path, str(Path(folder) / 'work'))
+
     def test_timeout_is_bounded(self):
         with mcp_client.Client([sys.executable, '-u', '-c', SERVER], timeout=0.1) as client:
             with self.assertRaises(TimeoutError):
                 client.request('hang', {})
+
+    def test_owned_launcher_terminates_descendants_when_server_exits(self):
+        from process_tree import run_owned
+        with tempfile.TemporaryDirectory() as folder:
+            marker = Path(folder) / 'orphan'
+            descendant = 'import time;from pathlib import Path;time.sleep(2);Path(' + repr(str(marker)) + ').touch()'
+            server = 'import subprocess,sys;subprocess.Popen([sys.executable,"-c",' + repr(descendant) + '])'
+            self.assertEqual(run_owned([sys.executable, '-c', server],
+                                       stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                                       stderr=subprocess.DEVNULL), 0)
+            time.sleep(2.2)
+            self.assertFalse(marker.exists(), 'Exited server left a writable descendant running')
 
     def test_cleanup_does_not_wait_for_inherited_descendant_pipes(self):
         server = SERVER.replace('import sys,json,time', 'import sys,json,time,subprocess\nsubprocess.Popen([sys.executable,"-c","import time;time.sleep(20)"])')

@@ -27,6 +27,10 @@ info = ambd_mc("setup","bldc",SyncDictionary=true);
 同步只更新 BLDC 拥有的条目，保留无关字典数据；未保存、带引用或不属于
 允许目录的字典会被拒绝。保留 `info`，以维持字典连接生命周期。
 
+上述源字典同步用于独占的交互式 MATLAB。托管 MCP 实例默认只读源码，
+同步时必须显式选择当前实例或独占输出目录中的字典副本；详见
+[快速开始](getting-started.md)及[会话隔离](../development/agent-environment.md#离线与会话)。
+
 ## 模型和数据
 
 | 文件/数据 | 用途 |

@@ -62,7 +62,8 @@ classdef ambdMcSetupTest < matlab.unittest.TestCase
             addpath(testCase.Root);
             cfg=Simulink.fileGenControl('getConfig');
             testCase.addTeardown(@()Simulink.fileGenControl('setConfig','config',cfg));
-            base=fullfile(testCase.Root,'.agent-env','tests','entrypoint');
+            addpath(fullfile(testCase.Root,'tools'));
+            base=fullfile(ambd_instance_root(testCase.Root),'tests','entrypoint');
             if ~isfolder(base),mkdir(base);end
             testCase.Folder=tempname(base);mkdir(testCase.Folder);
             testCase.Dictionary=fullfile(testCase.Folder,'EntryTest.sldd');

@@ -149,7 +149,7 @@ def main():
         with Client(command,cwd=ROOT,env=env,timeout=1800) as client:
             client.initialize()
             def evaluate(code,marker):
-                response=client.call('evaluate_matlab_code',dict(project_path=str(ROOT),code=code))
+                response=client.call('evaluate_matlab_code',dict(project_path=client.project_path,code=code))
                 output='\n'.join(block.get('text','') for block in response.get('content',[]))
                 if response.get('isError') or marker not in output.splitlines():raise RuntimeError(output)
                 print(marker,flush=True)

@@ -64,8 +64,10 @@ end
 bldcRoot=string(fileparts(mfilename('fullpath')));
 repoRoot=string(fileparts(fileparts(bldcRoot)));
 artifactRoot=canonicalPath(fullfile(repoRoot,'.agent-env'));
+addpath(fullfile(repoRoot,'tools'));
+instanceRoot=ambd_instance_root(repoRoot);
 outputDirectory=string(options.OutputDirectory);
-if outputDirectory=="",outputDirectory=fullfile(artifactRoot,'bldc');end
+if outputDirectory=="",outputDirectory=fullfile(instanceRoot,'bldc');end
 outputDirectory=canonicalPath(outputDirectory);
 if ~startsWith(lower(outputDirectory),lower(artifactRoot+filesep))
     error('bldc:OutputOutsideArtifactRoot','OutputDirectory must be below .agent-env.');
@@ -74,10 +76,18 @@ ownedDictionary=canonicalPath(fullfile(bldcRoot,'commom','BldcData.sldd'));
 dictionaryFile=string(options.Dictionary);
 if dictionaryFile=="",dictionaryFile=ownedDictionary;end
 dictionaryFile=canonicalPath(dictionaryFile);
+if options.SyncDictionary && ~isempty(getenv('AMBD_MATLAB_INSTANCE')) && strcmpi(dictionaryFile,ownedDictionary)
+    error('ambd:SharedSourceWrite', ...
+        'Managed instances cannot synchronize source dictionaries. Select a private Dictionary copy.');
+end
+ambd_claim_directory(repoRoot,outputDirectory);
 if options.SyncDictionary && ~strcmpi(dictionaryFile,ownedDictionary) && ...
         ~startsWith(lower(dictionaryFile),lower(artifactRoot+filesep))
     error('bldc:DictionaryOutsideOwnedDirectories', ...
         'Sync requires BldcData.sldd or a dictionary below .agent-env.');
+end
+if options.SyncDictionary && ~strcmpi(dictionaryFile,ownedDictionary)
+    ambd_claim_directory(repoRoot,fileparts(dictionaryFile));
 end
 sourceDirectories=[bldcRoot;fullfile(bldcRoot,'algo'); ...
     fullfile(bldcRoot,'commom');fullfile(bldcRoot,'data'); ...

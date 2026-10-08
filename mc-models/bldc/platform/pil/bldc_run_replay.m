@@ -55,6 +55,8 @@ artifactRoot=string(fullfile(root,'.agent-env'));
 outputDirectory=string(java.io.File(char(outputDirectory)).getCanonicalPath());
 assert(startsWith(lower(outputDirectory),lower(artifactRoot+filesep)), ...
     'bldc:OutputOutsideArtifactRoot','Replay artifacts must be below .agent-env.');
+addpath(fullfile(root,'tools'));
+ambd_claim_directory(root,outputDirectory);
 if ~isfolder(outputDirectory),mkdir(outputDirectory);end
 result=struct('Passed',false,'Status',"RUNNING",'SourceTrace',string(sourceFile));
 writeResult(outputDirectory,result);

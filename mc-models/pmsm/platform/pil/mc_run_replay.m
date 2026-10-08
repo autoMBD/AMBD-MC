@@ -70,11 +70,12 @@ assert(isfield(source,'trace') && isfield(source,'scenario'), ...
 recorded=source.trace;
 scenario=source.scenario;
 if outputDirectory==""
-    outputDirectory=fullfile(artifactRoot,'pmsm','replay',scenario.Name);
+    outputDirectory=fullfile(ambd_instance_root(info.RepositoryRoot),'pmsm','replay',scenario.Name);
 end
 outputDirectory=string(java.io.File(char(outputDirectory)).getCanonicalPath());
 assert(startsWith(lower(outputDirectory),lower(artifactRoot+filesep)), ...
     'mc:OutputOutsideArtifactRoot','Replay artifacts must be below .agent-env.');
+ambd_claim_directory(info.RepositoryRoot,outputDirectory);
 if ~isfolder(outputDirectory),mkdir(outputDirectory);end
 
 modelName='FOC_SIL_Replay';

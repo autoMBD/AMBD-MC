@@ -18,6 +18,10 @@ S32K344 PIL。[目标配置、代码生成与 PIL](../hardware/hsp-s32k344.md)
 `info = ambd_mc("setup","pmsm",SyncDictionary=true)`。同步重建本框架拥有的类型和默认
 参数，拒绝有未保存修改的字典。正常启动不重置已有标定。
 
+上述源字典同步用于独占的交互式 MATLAB。托管 MCP 实例默认只读源码，
+同步时必须显式选择当前实例或独占输出目录中的字典副本；详见
+[快速开始](getting-started.md)及[会话隔离](../development/agent-environment.md#离线与会话)。
+
 | 数据 | 用途 |
 |---|---|
 | `McControl_Params` | 当前控制器标定 |

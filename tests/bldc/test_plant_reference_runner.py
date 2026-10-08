@@ -92,7 +92,7 @@ class PlantReferenceRunnerTest(unittest.TestCase):
 
         class FakeClient:
             def __init__(self, *args, **kwargs):
-                pass
+                self.project_path = str(owner.root / '.agent-env/i/test/work')
 
             def __enter__(self):
                 return self
@@ -104,6 +104,8 @@ class PlantReferenceRunnerTest(unittest.TestCase):
                 pass
 
             def call(self, name, arguments):
+                if name == 'evaluate_matlab_code':
+                    owner.assertEqual(arguments.get('project_path'), self.project_path)
                 owner.calls.append(name)
                 output = 'status: ok'
                 code = arguments.get('code', '')

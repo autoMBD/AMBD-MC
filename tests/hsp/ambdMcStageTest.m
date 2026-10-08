@@ -62,7 +62,8 @@ classdef ambdMcStageTest < matlab.unittest.TestCase
             addpath(testCase.Root);
             cfg=Simulink.fileGenControl('getConfig');
             testCase.addTeardown(@()Simulink.fileGenControl('setConfig','config',cfg));
-            base=fullfile(testCase.Root,'.agent-env','tests','stage');
+            addpath(fullfile(testCase.Root,'tools'));
+            base=fullfile(ambd_instance_root(testCase.Root),'tests','stage');
             if ~isfolder(base),mkdir(base);end
             testCase.Folder=tempname(base);mkdir(testCase.Folder);
             testCase.Settings=fullfile(testCase.Folder,'local.json');
@@ -114,7 +115,13 @@ classdef ambdMcStageTest < matlab.unittest.TestCase
             testCase.addTeardown(@()releaseStage(connection,entries));
             testCase.verifyEqual(info.Family,Family);
             testCase.verifyEqual(info.HspVersion,"0.1.0");
-            testCase.verifySubstring(info.Stage,fullfile(testCase.Root,'.agent-env','t'));
+            testCase.verifySubstring(info.Stage,fullfile(ambd_instance_root(testCase.Root),'t'));
+            testCase.verifySubstring(details.GeneratedTypeFile,string(info.Stage));
+            testCase.verifySubstring(details.CacheDirectory,string(info.Stage));
+            testCase.verifySubstring(details.CodegenDirectory,string(info.Stage));
+            actualConfig=Simulink.fileGenControl('getConfig');
+            testCase.verifyEqual(string(actualConfig.CacheFolder),details.CacheDirectory);
+            testCase.verifyEqual(string(actualConfig.CodeGenFolder),details.CodegenDirectory);
             testCase.verifyTrue(isfile(fullfile(info.Stage,'stage.json')));
             testCase.verifyTrue(isfolder(fullfile(info.Stage,'configuration',upper(char(Target)))));
             testCase.verifyEqual(sourceBytes(testCase.Root,entries,Family),sourceBefore);

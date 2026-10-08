@@ -50,6 +50,7 @@ from __future__ import annotations
 from collections import deque
 import json
 import os
+from pathlib import Path
 import queue
 import subprocess
 import threading
@@ -65,6 +66,8 @@ class Client:
         self.messages = queue.Queue()
         self.diagnostics = deque(maxlen=20)
         child_env = (env if env is not None else os.environ).copy()
+        instance = child_env.get('AMBD_MATLAB_INSTANCE')
+        self.project_path = str(Path(instance) / 'work') if instance else str(cwd or Path.cwd())
         child_env['PYTHONIOENCODING'] = 'utf-8'  # MCP stdio is UTF-8, including Python launchers on Windows.
         self.process = subprocess.Popen(
             command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
