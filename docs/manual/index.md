@@ -4,6 +4,11 @@
 首次使用从[快速开始](getting-started.md)进入，随后按电机类型阅读
 [PMSM](pmsm.md) 或 [BLDC](bldc.md)。
 
+根目录 `ambd_mc.m` 是统一入口；共享初始化和隔离工作副本流程位于
+`mc-models/+ambd_workflows/`。`+` 表示 MATLAB 包目录，入口通过包限定名称调用，
+避免与当前目录或其他工具箱中的普通同名函数混淆。用户只需将仓库根目录加入路径，
+无需手动添加辅助目录；`ambd_mc("help")` 不执行路径初始化或加载模型。
+
 ## 选择工作流
 
 [发布附件](https://github.com/autoMBD/AMBD-MC/releases)提供模型、源码、字典、示例、公开文档和许可材料，

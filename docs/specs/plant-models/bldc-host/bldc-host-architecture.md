@@ -1,36 +1,15 @@
-# BLDC host plant architecture
+<a id="bldc-host-plant-architecture"></a>
 
-The motor uses three equal RL windings with an isolated star neutral:
-L di/dt = v - vn - R i - e, sum(i)=0. The periodic phase shape is linear
--1 to +1 over -30 to 30 electrical degrees, +1 through 150, linear to -1
-through 210, then -1 through 330. Other phases are shifted -120 and +120.
-BEMF is Ke omega_m f and torque is Ke dot(f,i), so electrical conversion
-power equals torque times mechanical speed. Mechanical dynamics are
-J domega/dt = torque - load - B omega; dtheta_e/dt = polePairs omega.
+# BLDC 主机被控对象架构
 
-Enabled poles reconstruct bus*counts/period. Disabled poles are genuinely
-floating at zero current, lower-diode clamped at positive current and
-upper-diode clamped at negative current. The neutral is solved from the
-conducting subset; zero-current poles join it only when their candidate
-floating voltage exceeds the rails. With no conducting winding the neutral
-is centered in the feasible floating interval. Excess BEMF span initiates
-rectification through the extreme phase pair.
+电机由三个相同的 RL 绕组组成，采用中性点悬浮的星形连接：
+`L di/dt = v - vn - R i - e`，`sum(i)=0`。
+周期性相波形在 -30 至 30 电角度内从 -1 线性升至 +1，保持 +1 至 150°，随后线性降至 210° 时的 -1，再保持 -1 至 330°。另外两相分别偏移 -120° 和 +120°。反电动势为 `Ke omega_m f`，转矩为 `Ke dot(f,i)`，因此电磁转换功率等于转矩乘机械角速度。机械动力学为 `J domega/dt = torque - load - B omega`，`dtheta_e/dt = polePairs omega`。
 
-When all phases carry zero current and all switches are off, ideal topology
-does not uniquely determine ground-referenced common mode. The midpoint
-choice makes reporting deterministic and does not change winding voltage or
-current dynamics. A native bridge with finite off-state leakage fixes a
-different common mode; the open-circuit oracle therefore compares winding
-voltages relative to neutral. During normal two-leg conduction the active
-poles fix neutral, and the floating terminal crossing is directly comparable.
+使能的桥臂重建 `bus*counts/period`。禁用桥臂在电流为零时真正悬浮，正电流时由下侧二极管钳位，负电流时由上侧二极管钳位。中性点电位由导通支路集合求解；零电流桥臂仅在候选悬浮电压超出电源轨时加入导通集合。没有绕组导通时，中性点取可行悬浮区间的中点。反电动势跨度过大时，最高/最低电压的相对开始整流。
 
-Each substep freezes BEMF and integrates each RL branch exponentially.
-An inactive diode reaching zero current ends that segment exactly; topology
-is then resolved again. This preserves current continuity and avoids applying
-a conducting diode past its zero-current event. Torque uses interval-average
-current; mechanical friction is integrated exponentially. Sensors share the
-same topology solution and quantize only at the boundary.
+当所有相电流为零且所有开关关闭时，理想拓扑不能唯一确定相对地的共模电压。选取中点使报告结果确定，且不改变绕组电压或电流动力学。具有有限关断漏电流的原生桥会确定不同的共模电压，因此开路参考比较的是相对中性点的绕组电压。正常两桥臂导通时，有源桥臂确定中性点，悬浮端过零可以直接比较。
 
-Hall sector = floor(mod(theta_e-pi/6,2pi)/(pi/3))+1, with codes
-[5 4 6 2 3 1]. VoltageValid belongs to the external acquisition interface;
-the plant does not use hidden rotor information to qualify samples.
+每个子步冻结反电动势，对各 RL 支路采用指数积分。不再受驱动的二极管支路电流降至零时，精确结束该积分段，再重新求解拓扑。这样保持电流连续，并避免越过零电流事件后仍按二极管导通计算。转矩使用区间平均电流，机械摩擦采用指数积分。传感器共享同一拓扑解，仅在边界进行量化。
+
+霍尔扇区为 `floor(mod(theta_e-pi/6,2pi)/(pi/3))+1`，对应编码 `[5 4 6 2 3 1]`。VoltageValid 属于外部采集接口；被控对象不使用隐藏的转子信息判断采样是否有效。

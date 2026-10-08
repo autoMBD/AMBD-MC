@@ -71,6 +71,21 @@ classdef ambdMcSetupTest < matlab.unittest.TestCase
         end
     end
     methods (Test)
+        function currentFolderHelpersCannotShadowSetup(testCase,Family)
+            writelines(["function varargout=ambd_mc_setup(varargin)"; ...
+                "error('fixture:Shadowed','Unqualified helper was called');"; ...
+                "end"],fullfile(testCase.Folder,'ambd_mc_setup.m'));
+            writelines(["function varargout=setup(varargin)"; ...
+                "error('fixture:Shadowed','Unqualified helper was called');"; ...
+                "end"],fullfile(testCase.Folder,'setup.m'));
+            testCase.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture( ...
+                testCase.Folder));
+            info=ambd_mc('setup',Family);
+            connection=info.DictionaryConnection;
+            testCase.addTeardown(@()close(connection));
+            testCase.verifyEqual(info.RepositoryRoot,string(testCase.Root));
+            testCase.verifyFalse(info.DictionaryChanged);
+        end
         function singleFamilyRetainsReturnAndPaths(testCase,Family)
             info=ambd_mc('setup',Family);
             connection=info.DictionaryConnection;

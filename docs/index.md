@@ -1,8 +1,9 @@
 # AMBD-MC 电机控制
 
-AMBD-MC（autoMBD Motor Control）使用 MATLAB/Simulink 开发电机控制框架，包含
-PMSM 矢量控制（FOC）和 BLDC Hall／无感六步控制。项目提供类型化接口、
-独立主机电机对象、Normal/SIL 验证及基于 autoMBD HSP 0.1.0 的 S32K144 / S32K344 集成。
+AMBD-MC（autoMBD Motor Control）使用 MATLAB/Simulink 和基于模型的设计（MBD）开发电机控制框架，包含
+永磁同步电机（PMSM）的磁场定向控制（FOC，矢量控制）和无刷直流电机（BLDC）的霍尔／无感六步控制。
+项目提供类型化接口、独立主机电机对象、普通仿真（Normal）与软件在环（SIL）验证，
+以及基于 autoMBD HSP 0.1.0 的 S32K144 / S32K344 集成和处理器在环（PIL）验证。
 
 ## 从这里开始
 

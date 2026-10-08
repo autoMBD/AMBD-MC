@@ -1,11 +1,13 @@
-# PMSM Host Plant: System and Architecture
+<a id="pmsm-host-plant-system-and-architecture"></a>
 
-Updated 2026-10-06. Purpose: repeatable software control and generated-C verification, not power-electronics/hardware qualification.
+# PMSM 主机被控对象：系统与架构
 
-The host plant is independent of controller state and runs double-precision dq electrical dynamics plus mechanical speed/electrical angle. Its four states are id, iq, mechanical rad/s and electrical rad. Inputs are normalized duty, independent gate-enable, measured DC voltage and signed external load torque; outputs are phase-current ADC counts and optional encoder angle, with speed/current/angle truth on separate logging channels. Sensorless control cannot receive truth through its observer interface.
+更新日期：2026-10-06。用途是可重复的软件控制及生成 C 代码验证，不用于功率电子或硬件资格鉴定。
 
-Use the Rs/Ld/Lq/flux/pole-pair/J/B values from `mc.defaults`, documented in the controller system specification. No hardware identification claim is made. The average inverter applies Vdc*(duty-mean(duty)); gate-off approximates winding decay and mechanical coast. Body diodes, deadtime, switching ripple, thermal behavior and DC-link regeneration are outside this software-validation plant. An active external load can back-drive a gate-disabled motor; stop tests specify whether load is removed or retained.
+主机被控对象独立于控制器状态，采用双精度 dq 电气动力学以及机械速度/电角度动力学。四个状态分别为 id、iq、机械角速度（rad/s）和电角度（rad）。输入为归一化占空比、独立门极使能、测量直流电压和带符号的外部负载转矩；输出为相电流 ADC 计数和可选的编码器角度，速度/电流/角度真值通过独立通道记录。无感控制不得通过观测器接口接收真值。
 
-Dynamics follow the MathWorks Interior PMSM dq/mechanical equations: https://www.mathworks.com/help/autoblks/ref/interiorpmsm.html . RK4 with four substeps per controller interval integrates the physical states. An explicit Unit Delay in the harness means each interval uses the previous command. The observer uses that same reconstructed applied voltage. Physical states use double; sensor adapters quantize to uint16 at 1000counts/A and offset32768; controller values use single.
+采用 `mc.defaults` 中的 Rs/Ld/Lq/磁链/极对数/J/B，具体数值见控制器系统规格；这些参数不代表硬件辨识结果。平均值逆变器施加 Vdc*(duty-mean(duty))；门极关闭时近似绕组电流衰减与机械滑行。本软件验证对象不覆盖体二极管、死区、开关纹波、热行为及直流母线再生。主动外部负载可反拖门极已禁用的电机，因此停止测试须明确是否移除负载。
 
-Normal and SIL use exactly the same plant and scenarios. This isolates differences in generated controller code. Separate analytic plant checks and comparison with the official PMSM plant are required to avoid treating two identical wrong loops as validation.
+动力学遵循 [MathWorks Interior PMSM 的 dq/机械方程](https://www.mathworks.com/help/autoblks/ref/interiorpmsm.html)。物理状态采用 RK4 积分，每个控制器周期划分为四个子步。测试框架中的显式 Unit Delay 使每个区间使用上一周期命令，观测器使用同一重建的实际施加电压。物理状态使用 double；传感器适配器以 1000 counts/A、偏移 32768 量化为 uint16；控制器数值使用 single。
+
+Normal 与 SIL 使用完全相同的被控对象和场景，以隔离生成控制器代码产生的差异。此外仍需进行独立解析检查，并与官方 PMSM 被控对象比较，不能把两个同样错误的闭环相互一致当作验证通过。

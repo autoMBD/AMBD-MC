@@ -1,31 +1,40 @@
-# PMSM Framework System Specification
+<a id="pmsm-framework-system-specification"></a>
 
-Public system requirements and interface contract.
+# PMSM 控制框架系统规格
 
+本文定义公开的系统需求与接口契约。
 
-## Objectives and acceptance
+<a id="objectives-and-acceptance"></a>
 
-- R1: A clean MATLAB session can initialize the current framework by one repository-relative entry point. Markdown remains the type source; the generated script and McData.sldd agree; parameters and enums resolve without manual workspace manipulation.
-- R2: Preserve the MotorFramework decomposition: McKernel, McEventHub, McStateMachine, McDataFlow, McFault, McTuning and McDebug. The shared McControllerLibrary supplies the executable algorithm to HSP components.
-- R3: Deterministic fast control at the selected target period (62.5 us host/S32K344; 125 us S32K144), 1 ms speed regulation. Explicit initialization and reset; no hidden dependence on previous runs. Command/fault inputs have defined priorities. Fault disable occurs within one fast sample, stays latched until an explicit safe reset, and does not auto-restart.
-- R4: Run alignment, open-loop start, observer tracking, closed-loop run, controlled stop, and fault/recovery. Sensored control supplies an independently testable baseline; sensorless mode must operate from measured current and applied voltage, without plant truth feedback. Unsupported operating-point requests must result in a declared fallback or fault.
-- R5: Implement ADC conversion, amplitude-invariant Clarke/Park/inverse Park, d/q PI regulation with voltage-vector saturation and anti-windup, speed PI with current limiting and anti-windup, centered SVPWM, observer and handover. Disabled inverter commands must be deterministic; gate enable is separate from numerical duty.
-- R6: Nominal host scenarios at 12 V: positive and negative speed commands in the feasible range, start/stop/restart, load disturbances, current saturation and recovery, bus voltage limits, injected fault and reset. Steady speed error <=5% (or 5 rad/s electrical near zero), overshoot <=20% at feasible unsaturated points, finite states and bounded duty [0,1], current within configured trip envelope. Numeric tolerances are engineering acceptance targets for the virtual plant, not physical motor measurements.
-- R7: Both platform/pil top models execute a closed-loop Normal baseline and actual software-in-the-loop generated C on the host. Compare the same controller and inputs; verify mode is SIL and evidence of host compilation/executable exists. Integer status, fault, timing and gate outputs match exactly in open-loop replay; single outputs satisfy absolute 1e-4 plus relative 1e-4. Continuous duty has a tighter absolute 1e-6 bound. PWM counts may differ by at most one count only when both outputs exactly requantize from their own single duty and every mismatch straddles the same half-count boundary. Preserve and report strict bitwise comparison separately. Closed-loop traces must meet physical acceptance independently, with separate drift tolerances justified by quantization.
-- R8: autoMBD HSP 0.1.0 owns explicitly selected S32K144/S32K344 target configuration, RTD API binding and PIL. Host harnesses remain Normal/SIL references. Source models contain portable settings; local tools, isolated build copies and generated artifacts remain below .agent-env.
+## 目标与验收要求
 
-## Interface baseline
+- R1：在干净的 MATLAB 会话中，通过一个相对于仓库的入口初始化当前框架。Markdown 始终是类型定义的权威来源；生成脚本与 McData.sldd 一致，参数和枚举无需手工操作工作区即可解析。
+- R2：保留 MotorFramework 的模块划分：McKernel、McEventHub、McStateMachine、McDataFlow、McFault、McTuning 和 McDebug。共享的 McControllerLibrary 为 HSP 组件提供可执行算法。
+- R3：以选定目标的周期执行确定性的快速控制（主机/S32K344 为 62.5 us，S32K144 为 125 us），速度调节周期为 1 ms。显式初始化和复位，不隐式依赖上次运行状态。命令与故障输入具有明确优先级。故障在一个快速采样周期内禁用驱动，并保持锁存，直到显式安全复位；不得自动重启。
+- R4：覆盖对齐、开环启动、观测器跟踪、闭环运行、受控停止及故障/恢复。有感控制提供可独立测试的基线；无感模式必须使用测量电流与实际施加电压，不得反馈被控对象真值。对于不支持的工作点请求，必须进入明确的回退模式或故障状态。
+- R5：实现 ADC 转换、等幅值 Clarke/Park/反 Park 变换、带电压矢量限幅和抗积分饱和的 d/q 电流 PI、带电流限幅和抗积分饱和的速度 PI、居中空间矢量脉宽调制（SVPWM）、观测器及控制权切换。逆变器禁用时的命令必须确定；门极使能与数值占空比独立。
+- R6：12 V 下的标称主机场景包括可行范围内的正反向速度请求、启动/停止/重启、负载扰动、电流饱和及恢复、母线电压边界、故障注入与复位。稳态速度误差不超过 5%（接近零速时采用电角速度 5 rad/s），可行且未饱和工作点的超调不超过 20%；状态值有限，占空比在 [0,1] 内，电流不超过配置的跳闸包络。数值容差是虚拟被控对象的工程验收目标，不是实物电机测量结果。
+- R7：两个 platform/pil 顶层模型均执行闭环 Normal 基线和实际在主机上运行生成 C 代码的软件在环（SIL）。比较相同控制器与输入，确认运行模式为 SIL，并保留主机编译及可执行文件的证据。开环回放中的整数状态、故障、时序和门极输出必须完全一致；single 输出满足绝对误差 1e-4 加相对误差 1e-4，连续占空比采用更严格的绝对误差 1e-6。仅当双方 PWM 计数均能由各自的 single 占空比精确重新量化，且每处差异均跨越同一个半计数边界时，才允许最多一个计数的差异。严格逐位比较结果须单独保留并报告。闭环轨迹必须各自满足物理验收要求，其漂移容差单独定义，并由量化行为说明依据。
+- R8：autoMBD HSP 0.1.0 负责显式选定的 S32K144/S32K344 目标配置、RTD API 绑定与处理器在环（PIL）。主机测试框架保留为 Normal/SIL 参考。源模型使用可移植设置；本机工具、隔离构建副本和生成产物位于 `.agent-env/` 下。
 
-Retain the framework's logical boundary: phase current acquisition, McControl, fault/command/driving/timer indications, tuning, three duties and diagnostics. The boundary includes requested electrical speed, DC bus measurement and optional electrical rotor position inputs. Use rad and electrical rad/s inside control; pole pairs convert mechanical plant values only at the adapter. Current ADC is offset binary uint16; physical signals and controller state are single. Commands, state codes and faults use defined integer/enum types. Raw PWM counts and normalized duties have explicit scaling, never implicit casts.
+<a id="interface-baseline"></a>
 
-Scheduling is synchronous and deterministic on the host. An HSP sampling event calls the same controller step. Slow-rate execution uses an integer fast-tick divider; no wall-clock timing or continuous controller state. Feedback uses the previous applied voltage for the estimator and a unit delay at the inverter/plant boundary.
+## 接口基线
 
-AppliedVoltageAlpha/Beta are explicit single-precision voltage feedback ports. The adapter reconstructs them from actual delayed PWM counts and gate state with the interval's DC bus, aligned to current acquisition. Own unquantized command voltage is not a substitute for this input. Nonfinite applied-voltage feedback is an input fault.
+保留框架的逻辑边界：相电流采集、McControl、故障/命令/驱动/定时事件、调参、三相占空比及诊断。边界包含请求电角速度、直流母线测量以及可选的转子电角度输入。控制内部使用 rad 和电角速度 rad/s；仅在适配器处通过极对数换算被控对象的机械量。电流 ADC 使用偏移二进制 uint16，物理信号和控制器状态使用 single。命令、状态码和故障采用定义的整数/枚举类型。原始 PWM 计数与归一化占空比之间必须显式缩放，不能依赖隐式类型转换。
 
-## Operating domain
+主机调度同步且确定。HSP 采样事件调用同一个控制器单步函数。慢速执行使用整数快速节拍分频，不依赖墙上时钟或连续控制器状态。估算器使用前一周期的实际施加电压，逆变器与被控对象边界设置单位延迟。
 
-Use the motor constants declared in mc.defaults as initial virtual-plant parameters: Rs=0.56 ohm, Ld=375 uH, Lq=435 uH, flux=0.0039052261 Wb, pole pairs=2, J=1.2e-5 kg m^2, B=0.0005 N m s/rad. These are inherited simulation parameters, not reidentified hardware values. Calibrations and tested speed/load bounds are versioned and reported.
+AppliedVoltageAlpha/Beta 是显式的单精度电压反馈端口。适配器根据实际延迟后的 PWM 计数、门极状态和对应区间的直流母线电压重建反馈，并与电流采样对齐。控制器自身未量化的电压命令不能替代此输入。实际施加电压反馈出现非有限值时触发输入故障。
 
-## References
+<a id="operating-domain"></a>
 
-MathWorks Interior PMSM documentation provides dq equations, mechanical dynamics, amplitude-invariant transforms and pole-pair conventions: https://www.mathworks.com/help/autoblks/ref/interiorpmsm.html . HSP 0.1.0 provides target configuration, native API blocks and ordinary Model block SIL/PIL. Shared controller libraries keep the algorithm independent of peripheral initialization.
+## 工作范围
+
+使用 mc.defaults 中声明的电机常数作为虚拟被控对象的初始参数：Rs=0.56 ohm、Ld=375 uH、Lq=435 uH、磁链=0.0039052261 Wb、极对数=2、J=1.2e-5 kg m^2、B=0.0005 N m s/rad。这些是沿用的仿真参数，不是重新辨识的硬件参数。标定值及已测试的速度/负载范围须记录版本并报告。
+
+<a id="references"></a>
+
+## 参考资料
+
+[MathWorks Interior PMSM 文档](https://www.mathworks.com/help/autoblks/ref/interiorpmsm.html)提供 dq 方程、机械动力学、等幅值变换及极对数约定。HSP 0.1.0 提供目标配置、原生 API 模块及普通 Model 模块的 SIL/PIL。共享控制器库使算法独立于外设初始化。

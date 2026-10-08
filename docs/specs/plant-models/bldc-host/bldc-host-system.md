@@ -1,23 +1,11 @@
-# BLDC host plant system specification
+<a id="bldc-host-plant-system-specification"></a>
 
-The original five-state phase-domain plant supports PC Normal/SIL control
-validation. It is a virtual motor, not an identified hardware model.
+# BLDC 主机被控对象系统规格
 
-Commands u are three uint16 high-side counts, three Boolean phase enables and
-a Boolean gate enable. Disturbances w are bus voltage (V) and resisting shaft
-load (N m). Measurements y are uint16 current ADC counts, uint8 Hall code and
-single terminal voltages. Truth z is single current, electrical angle and
-electrical speed; truth must never enter either controller speed regulator.
+自主实现的五状态相域被控对象支持 PC 上的 Normal/SIL 控制验证。它是虚拟电机，不是经过辨识的硬件模型。
 
-The interface ticks at 62.5 us. The plant state is double [ia ib ic theta_e
-omega_m]'. Initial phase currents must sum to zero. Physical parameters are
-phase resistance 0.56 ohm, phase inductance 0.4 mH, phase peak BEMF coefficient
-0.0078104522 V/(rad/s mechanical), two pole pairs, inertia 1.2e-5 kg m² and
-viscous friction 0.0005 N m s/rad. Nominal bus is 12 V; intended bus range is
-8–16 V. The plant supports signed motion, regeneration, commutation and all-off
-diode decay without discontinuously clearing winding current.
+命令 u 包含三个 uint16 高侧计数、三个布尔相使能及一个布尔门极使能。扰动 w 为母线电压（V）和阻碍转轴运动的负载转矩（N m）。测量 y 为 uint16 电流 ADC 计数、uint8 霍尔编码和 single 端电压。真值 z 为 single 电流、电角度和电角速度；真值不得进入任何一种控制器的速度调节器。
 
-Evidence is analytic RL/coast dynamics, electromagnetic power conservation,
-current conservation, time-step convergence and independent MathWorks Simscape
-BLDC/inverter comparisons. Dead time, switching losses, thermal saturation and
-hardware ADC aperture effects are outside this average inverter's fidelity.
+接口周期为 62.5 us。被控对象状态为 double `[ia ib ic theta_e omega_m]'`，初始三相电流之和必须为零。物理参数为相电阻 0.56 ohm、相电感 0.4 mH、相峰值反电动势系数 0.0078104522 V/(机械 rad/s)、极对数 2、转动惯量 1.2e-5 kg m²、黏性摩擦系数 0.0005 N m s/rad。标称母线电压为 12 V，预期范围为 8–16 V。被控对象支持正反向运动、再生、换相以及全部关断后的二极管续流衰减，不会将绕组电流不连续地清零。
+
+验证依据包括 RL/滑行解析动力学、电磁功率守恒、电流守恒、时间步长收敛性，以及独立的 MathWorks Simscape BLDC/逆变器比较。死区、开关损耗、热饱和及硬件 ADC 孔径效应超出该平均值逆变器的保真范围。

@@ -82,7 +82,7 @@ def read_application_receipt(stage, model, target_id=None):
 
 
 def source_hashes(families):
-    paths = [ROOT / "ambd_mc.m", *sorted((ROOT / "private").glob("ambd_mc_*.m"))]
+    paths = [ROOT / "ambd_mc.m", *sorted((ROOT / "mc-models/+ambd_workflows").glob("*.m"))]
     for directory in [ROOT / "mc-models/hsp", ROOT / "tools/hsp"] + [ROOT / "mc-models" / f for f in families]:
         paths.extend(p for p in directory.rglob('*') if p.is_file()
                      and p.suffix.lower() in ('.m', '.slx', '.sldd', '.py', '.json', '.c', '.h', '.xdm', '.tdb')

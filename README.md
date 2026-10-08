@@ -88,6 +88,7 @@ disp(result.TraceFile);
 | 路径 | 用途 |
 | --- | --- |
 | [`ambd_mc.m`](ambd_mc.m) | 统一 MATLAB 入口：初始化、帮助和目标独立工作副本 |
+| [`mc-models/+ambd_workflows/`](mc-models/+ambd_workflows/) | 共享初始化与隔离工作副本流程，由统一入口自动解析 |
 | [`mc-models/pmsm/`](mc-models/pmsm/) | PMSM 模型、算法、参数和主机场景 |
 | [`mc-models/bldc/`](mc-models/bldc/) | BLDC 模型、算法、参数和主机场景 |
 | [`mc-models/hsp/`](mc-models/hsp/) | 双目标集成、板级适配与活动模型清单 |

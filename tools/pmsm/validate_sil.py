@@ -85,7 +85,7 @@ def quote(value):
 def source_hashes():
     paths = [ROOT / 'ambd_mc.m', ROOT / 'docs/McStruct.md',
              ROOT / 'tools/generate_data_type_from_md.m']
-    paths.extend(sorted((ROOT / 'private').glob('ambd_mc_*.m')))
+    paths.extend(sorted((ROOT / 'mc-models/+ambd_workflows').glob('*.m')))
     for folder in ('mc-models/pmsm', 'tests/pmsm', 'tools/pmsm'):
         paths.extend(p for p in (ROOT / folder).rglob('*')
                      if p.suffix in ('.m', '.slx', '.sldd', '.py'))
