@@ -70,6 +70,9 @@ PR 与 main 使用锁定依赖，执行仓库文件边界、严格构建、生�
 
 站内链接使用相对路径，源码链接指向 GitHub；源码链接按当前检出检查，
 以支持 PR 中尚未进入 main 的文件。内部工件不做下载链接。
+本仓库的 `main` 提交历史链接通过 GitHub 提交 API 校验有效提交标识，避免
+网页抓取限流；CI 使用只读 `GITHUB_TOKEN`，仅向该 API 请求发送凭据，
+普通外链不携带该凭据。本地未设置令牌时使用公开 API。
 厂商 HTTP 访问例外必须在
 [精确外链例外配置](https://github.com/autoMBD/AMBD-MC/blob/main/tools/docs/link-exceptions.json)
 注明 URL、状态码及人工核对原因；其他状态或网络错误仍失败。

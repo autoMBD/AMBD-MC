@@ -47,10 +47,13 @@
 """Regression fixtures for the public documentation artifact."""
 import importlib.util
 import json
+import io
+import os
 from pathlib import Path
 import tempfile
 import subprocess
 import unittest
+from unittest.mock import patch
 
 SCRIPT = Path(__file__).resolve().parents[2] / "tools/docs/check_site.py"
 if SCRIPT.exists():
@@ -223,6 +226,45 @@ class RepositoryPolicyTests(unittest.TestCase):
     def test_new_loose_root_page_is_rejected(self):
         self.track("docs/new-topic.md")
         self.assertTrue(checker.check_tracked_documents(self.root))
+
+
+class GitHubHistoryTests(unittest.TestCase):
+    @staticmethod
+    def response(payload):
+        def open_response(*args, **kwargs):
+            response = io.BytesIO(json.dumps(payload).encode('utf-8'))
+            response.status = 200
+            return response
+        return open_response
+
+    def test_history_link_uses_commit_api_and_scoped_authentication(self):
+        with patch.dict(os.environ, {'GITHUB_TOKEN': 'fixture-token'}), \
+                patch.object(checker, 'urlopen', side_effect=self.response({'sha': 'a' * 40})) as opened:
+            _, passed = checker.check_external(checker.REPO_URL + 'commits/main/', {}, Path.cwd())
+        self.assertTrue(passed)
+        request = opened.call_args.args[0]
+        self.assertEqual(request.full_url, 'https://api.github.com/repos/autoMBD/AMBD-MC/commits/main')
+        self.assertEqual(request.get_header('Authorization'), 'Bearer fixture-token')
+
+    def test_success_status_without_commit_identity_is_rejected(self):
+        with patch.object(checker, 'urlopen', side_effect=self.response({'message': 'not a commit'})):
+            _, passed = checker.check_external(checker.REPO_URL + 'commits/main/', {}, Path.cwd())
+        self.assertFalse(passed)
+
+    def test_token_is_not_sent_to_other_links(self):
+        with patch.dict(os.environ, {'GITHUB_TOKEN': 'fixture-token'}), \
+                patch.object(checker, 'urlopen', side_effect=self.response({})) as opened:
+            _, passed = checker.check_external('https://outside.test/page', {}, Path.cwd())
+        self.assertTrue(passed)
+        self.assertIsNone(opened.call_args.args[0].get_header('Authorization'))
+
+    def test_missing_commit_is_rejected(self):
+        from urllib.error import HTTPError
+        with patch.object(checker, 'urlopen', side_effect=lambda *args, **kwargs:
+                          (_ for _ in ()).throw(HTTPError(args[0].full_url, 404, 'missing', {}, None))):
+            message, passed = checker.check_external(checker.REPO_URL + 'commits/main/', {}, Path.cwd())
+        self.assertFalse(passed)
+        self.assertIn('HTTP 404', message)
 
 
 class HttpTests(unittest.TestCase):
