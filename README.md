@@ -1,5 +1,10 @@
 # AMBD-MC / autoMBD Motor Control
 
+[![基础 CI（不含 MATLAB）](https://github.com/autoMBD/AMBD-MC/actions/workflows/github_workflows_ci.yml/badge.svg?branch=main&event=push)](https://github.com/autoMBD/AMBD-MC/actions/workflows/github_workflows_ci.yml?query=branch%3Amain+event%3Apush)
+[![文档构建与部署](https://github.com/autoMBD/AMBD-MC/actions/workflows/github_workflows_deploy-docs.yml/badge.svg?branch=main&event=push)](https://github.com/autoMBD/AMBD-MC/actions/workflows/github_workflows_deploy-docs.yml?query=branch%3Amain+event%3Apush)
+[![最新版本（含预发布）](https://img.shields.io/github/v/release/autoMBD/AMBD-MC?include_prereleases&sort=date&style=flat)](https://github.com/autoMBD/AMBD-MC/releases)
+[![许可：MIT（含例外）](https://img.shields.io/badge/license-MIT%20with%20exceptions-blue?style=flat)](docs/project/license.md)
+
 **使用 MATLAB/Simulink 学习与开发电机控制，从主机仿真走向 NXP S32K144 / S32K344 集成。**
 AMBD-MC（autoMBD Motor Control）是 autoMBD 的基于模型设计（Model-Based Design，MBD）
 电机控制项目，面向希望学习、验证和改进电机控制算法、类型化接口及嵌入式代码生成的开发者。
@@ -9,6 +14,9 @@ AMBD-MC（autoMBD Motor Control）是 autoMBD 的基于模型设计（Model-Base
 [快速开始](docs/manual/getting-started.md) ·
 [参与贡献](.github/CONTRIBUTING.md) ·
 [问题反馈](https://github.com/autoMBD/AMBD-MC/issues)
+
+CI 徽章仅表示基础检查，模型仿真、SIL/PIL 和硬件验证范围见[验证流程](docs/manual/verification.md)。
+版本徽章包含预发布版，使用前请查看对应发布说明。
 
 ## 项目提供什么
 
