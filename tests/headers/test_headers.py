@@ -148,10 +148,9 @@ class HeaderTests(unittest.TestCase):
             subprocess.run(['git','-C',folder,'add','owned.py','legacy','.agent-env'],check=True)
             self.assertEqual([Path(p).relative_to(root).as_posix() for p in headers.find_files(root)], ['owned.py'])
 
-    def test_vendor_and_generated_exclusions_have_reasons(self):
+    def test_legacy_and_generated_exclusions_have_reasons(self):
         for name in [
-            'legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/Sources/GD3000/aml/common_aml.h',
-            'legacy/s32k144/mc-models/pmsm/config/FOC_Ctrl_MBD_Integration/include/freemaster_cfg.h',
+            'legacy/restricted.h',
             'mc-models/pmsm/data/mc_data_types.m',
             'mc-models/bldc/data/bldc_data_types.m',
         ]:
