@@ -48,6 +48,7 @@ classdef test_mc_layers < matlab.unittest.TestCase
     %test_mc_layers - Verify physical core and motor lifecycle contracts
     properties (TestParameter)
         PositionMode = {uint8(0),uint8(1)}
+        InvalidCalibration = {"samples","offset","spread","timeout","clock"}
     end
     methods (TestClassSetup)
         function sourcePath(testCase)
@@ -162,6 +163,21 @@ classdef test_mc_layers < matlab.unittest.TestCase
             testCase.verifyTrue(s.Calibrated);
             testCase.verifyEqual(s.FaultBits,uint16(0));
         end
+        function completionAfterTheDeadlineIsRejected(testCase)
+            p=mc.defaults();p.CalibrationSamples=uint16(2);
+            p.CalibrationTimeout=single(1.5)*p.Ts;u=mc.default_input(p);
+            s=test_mc_layers.advance(u,mc.initial_state(p),p,5);
+            testCase.verifyFalse(s.Calibrated);
+            testCase.verifyNotEqual(bitand(s.FaultBits,uint16(1024)),uint16(0));
+        end
+        function invalidCalibrationCannotGrantRunPermission(testCase,InvalidCalibration)
+            p=test_mc_layers.invalidCalibration(InvalidCalibration);
+            u=mc.default_input(p);u.Control=uint8(1);u.SpeedReq=single(100);
+            s=test_mc_layers.advance(u,mc.initial_state(p),p,70);
+            testCase.verifyFalse(s.Calibrated);
+            testCase.verifyNotEqual(bitand(s.FaultBits,uint16(1024)),uint16(0));
+            testCase.verifyFalse(s.Core.GateEnable);
+        end
         function stopDuringCalibrationNeverStartsTheCore(testCase)
             p=mc.defaults();p.CalibrationSamples=uint16(4);
             u=mc.default_input(p);u.Control=uint8(1);u.SpeedReq=single(100);
@@ -184,6 +200,14 @@ classdef test_mc_layers < matlab.unittest.TestCase
             testCase.verifyFalse(s.Calibrated);
             testCase.verifyNotEqual(bitand(s.FaultBits,uint16(32)),uint16(0));
             testCase.verifyFalse(s.Core.GateEnable);
+        end
+        function startupReadinessFaultClearsUnderAnActiveSafeReset(testCase)
+            p=mc.defaults();u=mc.default_input(p);u.Fault=true;
+            s=mc.step(u,mc.initial_state(p),p);
+            u.Fault=false;s=mc.step(u,s,p);
+            testCase.verifyEqual(s.FaultBits,uint16(0));
+            testCase.verifyFalse(s.Core.GateEnable);
+            testCase.verifyEqual(s.Command,uint8(0));
         end
         function faultWithoutFastTickDisablesAndLatches(testCase)
             [s,p,u]=test_mc_layers.running();
@@ -235,6 +259,16 @@ classdef test_mc_layers < matlab.unittest.TestCase
         end
     end
     methods (Static,Access=private)
+        function p=invalidCalibration(kind)
+            p=mc.defaults();
+            switch kind
+                case "samples",p.CalibrationSamples=uint16(0);
+                case "offset",p.CalibrationMaxOffset=single(NaN);
+                case "spread",p.CalibrationMaxSpread=single(Inf);
+                case "timeout",p.CalibrationTimeout=single(NaN);
+                case "clock",p.Ts=single(0);
+            end
+        end
         function s=advance(u,s,p,count)
             for index=1:count,s=mc.step(u,s,p);end
         end
