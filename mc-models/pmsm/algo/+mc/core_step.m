@@ -37,20 +37,29 @@
 % 何权利主张、损害赔偿或其他责任承担责任。
 % =================================================================================
 % Project:     autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>
-% File:        step.m
+% File:        core_step.m
 % Author:      autoMBD <tkung.lqk@foxmail.com>
 % Date:        2026-10-11
 % Version:     0.1.0
 % Description: Construct deterministic controller memory without side effects.
 % =================================================================================
 
-function s = step(u,s,p)
-%STEP - Execute motor management and the shared FOC core
-%   S = STEP(U,S,P) consumes raw ADC samples and application commands.
-%   See also motor_prepare, core_step, motor_finish
+function s = core_step(u,s,p)
+%core_step - Execute the shared FOC transition in physical units
+%   S = core_step(U,S,P) accepts amperes, volts and electrical rad/s.
+%   U.Disable immediately suppresses output, even without a fast tick.
+%   See also core_default_input, core_initial_state, step
 
 %#codegen
-[v,s]=mc.motor_prepare(u,s,p);
-core=mc.core_step(v,s.Core,p);
-s=mc.motor_finish(s,core);
+s=mc.kernel(u,s,p);
+s=mc.tuning(u,s,p);
+s=mc.event_hub(u,s,p);
+s=mc.protection(u,s,p);
+s=mc.supervisor(u,s,p);
+s=mc.dataflow(u,s,p);
+if u.Disable || s.FaultBits~=uint16(0) || s.Command==uint8(0)
+    s.GateEnable=false;
+    s.Duty=single([0.5;0.5;0.5]);
+    s.Voltage=single([0;0]);
+end
 end

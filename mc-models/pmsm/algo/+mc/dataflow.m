@@ -47,10 +47,12 @@
 function s = dataflow(u,s,p)
 %DATAFLOW Execute acquisition, estimation, FOC and modulation for one tick.
 %#codegen
-if ~s.FastTick
+% Reset/disable is asynchronous; a following run may enter ALIGN directly.
+if ~s.FastTick && ~(u.Disable || s.Mode==uint8(0) || s.FaultBits~=uint16(0))
     return
 end
-s.Current=mc.acquire(u.CurrentRaw,p);
+s.Current=u.Current;
+if ~all(isfinite(s.Current)),s.Current=single([0;0;0]);end
 ab=mc.clarke(s.Current);
 pp=p;
 pp.KpSpeed=s.Gains(1);pp.KiSpeed=s.Gains(2);
@@ -188,7 +190,7 @@ end
 
 function s=numericalFault(s,p)
 tick=s.Tick;command=s.Command;bits=s.FaultBits;
-s=mc.initial_state(p);
+s=mc.core_initial_state(p);
 s.Tick=tick;s.Command=command;s.Mode=uint8(3);s.PreviousMode=uint8(3);
 s.FaultBits=bitor(bits,uint16(512));s.ActiveFaults=uint16(512);
 end

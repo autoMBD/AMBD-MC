@@ -4,22 +4,29 @@
 
 本文定义公开的架构与接口契约。
 
-保留现有命名框架模块，并使其具备可执行逻辑。控制函数采用适用于 Embedded Coder 的自主 MATLAB 实现，由 MATLAB Function 模块调用。显式状态保存在具有确定类型的 Unit Delay 中，使复位、调度、Normal 执行和生成 C 代码共享同一个状态转移函数。未执行的 Stateflow 草图由显式且经过测试的状态转移实现替代；状态名称/编码仍遵守 McStruct 枚举契约，避免保留图上可见但不执行的重复逻辑。
+保留现有命名框架模块，并使其具备可执行逻辑。控制函数采用适用于 Embedded Coder 的自主 MATLAB 实现，由 MATLAB Function 模块调用。整机状态 `tMcRuntime` 与内嵌核心状态 `tMcCoreRuntime` 分别拥有生命周期和算法阶段，显式状态保存在具有确定类型的 Unit Delay 中，使复位、调度、Normal 执行和生成 C 代码共享同一个状态转移函数。未执行的 Stateflow 草图由显式且经过测试的状态转移实现替代；状态名称/编码仍遵守 McStruct 枚举契约，避免保留图上可见但不执行的重复逻辑。
 
 <a id="module-order-and-state"></a>
 
 ## 模块顺序与状态
 
-| 模块 | 职责 | 直接馈通 | 速率 |
-|---|---|---|---|
-| McKernel | 初始化状态、接收快速节拍、派生慢速节拍、维护有界计数器 | 是 | 选定的 Ts |
-| McTuning | 仅在未使能时校验并锁存调参 | 是 | 快速 |
-| McEventHub | 捕获已使能的命令与请求电角速度 | 是 | 快速 |
-| McFault | ADC/母线/输入校验、立即跳闸、需显式复位的故障锁存 | 是 | 快速，独立于驱动使能 |
-| McStateMachine | 复位/初始化/空闲/就绪/对齐/开环/跟踪/运行/停止/故障转移 | 是 | 已接受的快速节拍 |
-| McDataFlow | 采集、位置/速度估算、电流/速度控制、电压限幅与调制 | 是 | 快速；速度 PI 每 SpeedDivider 个节拍执行一次 |
-| McDebug | 生成占空比计数、门极使能及具有确定类型的遥测/快照 | 是 | 快速 |
-| 运行时存储 | 上一周期完整控制器状态 | 否 | 快速；按文档进行零值/类型初始化 |
+| 层级/模块 | 职责 | 速率 |
+|---|---|---|
+| 整机输入与校准 | 原始 ADC/外部输入检查、禁用期间的稳定零偏采集、用户命令锁存 | 快速；故障检查不依赖有效节拍 |
+| 整机状态机 | 复位、初始化/校准、空闲、故障、就绪、核心活动；发送控制请求 | 已接受的快速节拍 |
+| FocCore/McKernel | 核心采样计数与速度环分频 | 快速 |
+| FocCore/McTuning、McEventHub | 未使能时锁存标定、捕获请求与方向 | 快速 |
+| FocCore/McFault | 物理电流、母线与输入检查；同一步安全输出 | 独立于快周期暂停 |
+| FocCore/McStateMachine | 对齐、I/f、观测器跟踪、闭环、回退和受控停止 | 快速 |
+| FocCore/McDataFlow | 位置估算、控制环、限幅和调制，不进行 ADC 解码 | 快速；速度 PI 按整数分频 |
+| 整机状态汇总与 McDebug | 消费核心状态和故障，生成兼容状态码、PWM 计数与遥测 | 快速 |
+| 运行时存储 | 整机及内嵌核心的上周期状态；独立核心仅存核心状态 | 快速 |
+
+`mc.core_step` 接收 `tMcCoreInput` 的安培电流，`mc.step` 接收
+`tMcInput` 的原始 ADC。整机单步由 `motor_prepare → core_step →
+motor_finish` 组成；两层使用同一核心转换函数。整机不能直接推进核心的
+算法阶段，核心也不读取 ADC 校准或整机状态。立即禁用与受控停止分开，
+前者在没有快速节拍时也将门极置 false、占空比置 0.5。
 
 控制器内部唯一的反馈经过运行时存储。被控对象使用显式命令延迟和独立物理状态，不向控制器内部反馈真值。快速节拍暂停时控制积分器保持，但故障输入仍强制关闭门极。
 
@@ -28,6 +35,13 @@ McDrivingEvent 接收快速节拍，McCtrlEvent 捕获命令/速度变化。McTi
 <a id="external-ports"></a>
 
 ## 外部端口
+
+`FOC_PIL_Algth_model` 的三相电流端口为 single 安培，三相占空比
+输出为 single 的 [0,1]；另有 boolean `Disable` 立即禁用输入。该组件
+不承担 ADC 校准或整机初始化，仍包含完整有感/无感启动及运行算法。
+
+`FOC_PIL_StateMch_model`、MotorFramework 和 C 应用组件使用下面的原始
+采样/PWM 计数接口，整机层校准后将物理量交给同一核心。
 
 保留现有概念端口：Ia、Ib、Ic（uint16 偏移二进制 ADC）；McControl（0=复位/未使能，1=运行，2=受控停止）；FaultEvent；McCtrlEvent；McDrivingEvent；McTimerEvent；McTuningPort（tMcTuning）。增加 SpeedReq（single，电角速度 rad/s）、DcBusVoltage（single，V）、RotorAngle（single，电角度 rad）。RotorAngle 仅在显式选择的有感模式中参与控制；未使能采样可初始化其他情况下不用的位置历史。无感观测器函数不含角度/被控对象真值参数，测试要求无感输出不受位置输入影响。
 
@@ -55,7 +69,26 @@ McTuning 默认禁用。TuningEnable 为 true 时，仅在 RESET/IDLE 锁存完�
 
 ## 生命周期
 
-状态码保留 eSmStates：0 RESET、1 INIT、2 IDLE、3 FAULT、4 READY、5 READY_2_ALIGN、6 ALIGN、7 ALIGN_2_OPEN_IF、8 OPEN_IF、9 OPEN_IF_2_TRACKING、10 TRACKING_2_OPEN_IF、11 TRACKING、12 TRACKING_2_RUN、13 RUN_2_TRACKING、14 RUN、15 STOP。
+整机状态为 0 RESET、1 INIT/CALIBRATION、2 IDLE、3 FAULT、4 READY、
+5 CORE_ACTIVE；仅核心拥有对齐到停机的算法阶段。核心不经过整机初始化和
+校准，独立调用从禁用直接进入对齐。诊断 `Mode` 在整机活动时映射核心状态，
+其他时候映射整机状态；`CoreMode`、`ApplicationMode` 分别报告真实状态所有者。
+独立核心的 ApplicationMode=255，CalibrationDone=false/CalibrationCount=0
+表示校准不适用。
+
+零偏校准默认需要64个稳定有效样本，各相相对标称零点偏差不超过500 count，
+同次校准极差不超过20 count，超时0.25 s（按已接受的快速节拍累计）。采样中断
+超时由 HSP 以外部故障报告，TimerEvent 不产生隐式时间推进。恰好在截止节拍
+完成采样时以完成为准。ADC 到轨优先作为故障，不能被校准吸收；不稳定、
+超偏差或超时锁存 fault1024，禁止驱动。运行请求等待校准完成，不会提前使能。
+校准期间撤销运行/停止仍保持关断。
+
+正常运行不重新估计零偏；普通运行故障后的安全复位保留有效零偏，校准失败
+后的新安全复位会重新采集。持续保持复位电平不自动清除新发生的校准故障；
+从非零命令切换至复位，或在命令事件重新到达时提交复位，才构成新的请求。
+故障源仍存在时不允许清除，清除后仍需要新的有效运行命令。
+
+兼容状态码保留 eSmStates：0 RESET、1 INIT、2 IDLE、3 FAULT、4 READY、5 READY_2_ALIGN、6 ALIGN、7 ALIGN_2_OPEN_IF、8 OPEN_IF、9 OPEN_IF_2_TRACKING、10 TRACKING_2_OPEN_IF、11 TRACKING、12 TRACKING_2_RUN、13 RUN_2_TRACKING、14 RUN、15 STOP。
 
 故障优先于复位、停止、启动和普通状态推进。仅在活动故障源消失后，复位才能清除锁存；之后还需要显式运行命令。停止及方向反转先按斜坡降速，再重新对齐/启动。正反向无感启动都属于验收场景。默认范围是单个 PMSM；其他电机/传感器的可选枚举值仅为类型定义，不代表已实现对应控制算法。
 

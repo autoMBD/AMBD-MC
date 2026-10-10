@@ -39,7 +39,7 @@
 % Project:     autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>
 % File:        mc_data_types.m
 % Author:      autoMBD <tkung.lqk@foxmail.com>
-% Date:        2026-10-06
+% Date:        2026-10-11
 % Version:     0.1.0
 % Description: Layered Simulink data type definitions generated from
 %              docs/McStruct.md.
@@ -361,6 +361,10 @@ tMcControlParams = createBusType('', {
     'SpeedDivider', 'McUInt16_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
     'AdcOffset', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
     'AdcCountsPerAmp', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
+    'CalibrationSamples', 'McUInt16_T', 1, '启动零偏校准所需稳定采样数，默认64；仅整机层使用';
+    'CalibrationMaxOffset', 'McSingle_T', 1, '零偏与标称ADC零点允许的最大偏差，默认500 count';
+    'CalibrationMaxSpread', 'McSingle_T', 1, '同一次校准各通道最大极差，默认20 count';
+    'CalibrationTimeout', 'McSingle_T', 1, '校准超时，按有效快速采样节拍累计，默认0.25 s';
     'PwmPeriod', 'McUInt16_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
     'Rs', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
     'Ld', 'McSingle_T', 1, '控制标定；单位与默认值见 mc.defaults 和框架架构规格';
@@ -409,7 +413,7 @@ tMcObserver = createBusType('', {
     'Magnitude', 'ValueType: Flux_Wb_V', 1, '估计有效转子磁链幅值，Wb';
 });
 
-tMcRuntime = createBusType('', {
+tMcCoreRuntime = createBusType('', {
     'Tick', 'McUInt32_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
     'Mode', 'McUInt8_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
     'PreviousMode', 'McUInt8_T', 1, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
@@ -444,6 +448,38 @@ tMcRuntime = createBusType('', {
     'Startup', 'McSingle_T', 4, '显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md';
 });
 
+tMcRuntime = createBusType('整机状态与核心算法状态分开存储。外层不能修改核心的算法阶段；通过命令请求、核心返回状态与故障握手。', {
+    'Mode', 'McUInt8_T', 1, '整机状态：0复位、1初始化/校准、2空闲、3故障、4就绪、5核心活动';
+    'Command', 'McUInt8_T', 1, '已接受的用户命令：0复位、1运行、2受控停止';
+    'PreviousCommandEvent', 'ValueType: LogicBool_V', 1, '上拍命令帧有效电平；识别新的安全复位请求';
+    'SpeedRequest', 'ValueType: AngularSpeedRadPerSec_V', 1, '已接受且限幅的目标电角速度';
+    'FaultBits', 'McUInt16_T', 1, '整机锁存故障，含核心返回故障；1024为校准失败';
+    'ActiveFaults', 'McUInt16_T', 1, '本拍原始采样与外部输入故障';
+    'Calibrated', 'ValueType: LogicBool_V', 1, '零偏校准有效，运行资格之一';
+    'CalibrationCount', 'McUInt16_T', 1, '已累积的稳定采样数';
+    'CalibrationTicks', 'McUInt32_T', 1, '校准期间有效快速采样节拍数';
+    'CalibrationSum', 'McSingle_T', 3, '三相ADC校准累积值，count';
+    'CalibrationMin', 'McSingle_T', 3, '三相ADC校准最小值，count';
+    'CalibrationMax', 'McSingle_T', 3, '三相ADC校准最大值，count';
+    'AdcOffsets', 'McSingle_T', 3, '已应用的各通道零偏，count';
+    'Core', 'Bus: tMcCoreRuntime', 1, '唯一的FOC核心状态，由共享FocCore更新';
+});
+
+tMcCoreInput = createBusType('', {
+    'Current', 'McSingle_T', 3, '已处理的三相电流，A，无ADC编码';
+    'Control', 'McUInt8_T', 1, '0复位/撤使能、1运行、2受控停止';
+    'Fault', 'ValueType: LogicBool_V', 1, '外部故障电平，核心锁存';
+    'Disable', 'ValueType: LogicBool_V', 1, '立即禁止输出；不依赖快速节拍，不等同受控停止';
+    'CommandEvent', 'ValueType: LogicBool_V', 1, '命令帧有效';
+    'DrivingEvent', 'ValueType: LogicBool_V', 1, '电流采样节拍有效';
+    'TimerEvent', 'ValueType: LogicBool_V', 1, '保留的诊断事件，不产生额外积分';
+    'SpeedReq', 'ValueType: AngularSpeedRadPerSec_V', 1, '目标电角速度，rad/s';
+    'Vdc', 'ValueType: Voltage_V', 1, '实测直流母线电压，V';
+    'Position', 'ValueType: AngleRad_V', 1, '有感模式电角度，rad；无感模式不使用';
+    'AppliedVoltage', 'McSingle_T', 2, '与当前电流对应的实际施加alpha/beta电压，V';
+    'Tuning', 'Bus: tMcTuning', 1, '待锁存调参帧';
+});
+
 tMcInput = createBusType('', {
     'CurrentRaw', 'McUInt16_T', 3, 'offset-binary 三相电流 ADC';
     'Control', 'McUInt8_T', 1, '0复位/撤使能、1运行、2受控停机';
@@ -459,7 +495,7 @@ tMcInput = createBusType('', {
 });
 
 tMcMonitor = createBusType('', {
-    'Mode', 'McUInt8_T', 1, 'eSmStates 数值状态码';
+    'Mode', 'McUInt8_T', 1, '兼容eSmStates的诊断映射，独立核心仅使用算法相关状态码';
     'FaultBits', 'McUInt16_T', 1, '锁存故障位图';
     'Tick', 'McUInt32_T', 1, '电流环累计采样计数';
     'SpeedRequest', 'ValueType: AngularSpeedRadPerSec_V', 1, '限幅后的目标电角速度';
@@ -474,6 +510,11 @@ tMcMonitor = createBusType('', {
     'ObserverReady', 'ValueType: LogicBool_V', 1, '观测器置信度通过';
     'FluxMagnitude', 'ValueType: Flux_Wb_V', 1, '观测磁链幅值';
     'PositionMode', 'McUInt8_T', 1, '0无感、1位置传感器';
+    'CoreMode', 'McUInt8_T', 1, '核心算法状态，0/2禁用、3故障、6–15算法阶段';
+    'ApplicationMode', 'McUInt8_T', 1, '整机状态0–5；独立核心为255（不适用）';
+    'CalibrationDone', 'ValueType: LogicBool_V', 1, '整机校准完成；独立核心为false（不适用）';
+    'CalibrationCount', 'McUInt16_T', 1, '整机稳定校准采样数；独立核心为0';
+    'StopComplete', 'ValueType: LogicBool_V', 1, '核心已停止且门极关闭';
 });
 
 tDataDualU16 = createBusType('双路 uint16 数据包', {

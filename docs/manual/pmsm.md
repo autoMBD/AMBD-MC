@@ -38,7 +38,8 @@ S32K344 PIL。[目标配置、代码生成与 PIL](../hardware/hsp-s32k344.md)
 | 模型 | 职责 |
 |---|---|
 | `algo/McControllerLibrary.slx`、`MotorFramework.slx` | McKernel、McTuning、McEventHub、McFault、McStateMachine、McDataFlow、McDebug 执行链 |
-| `platform/pil/FOC_PIL_Algth_model.slx`、`FOC_PIL_StateMch_model.slx` | 共享完整控制算法的 HSP 组件 |
+| `platform/pil/FOC_PIL_Algth_model.slx` | 独立 FOC 核心：物理电流输入、归一化占空比输出 |
+| `platform/pil/FOC_PIL_StateMch_model.slx` | 整机校准/启停/故障管理，内部复用同一 FOC 核心 |
 | `platform/pil/FOC_PIL_Algth_top.slx`、`FOC_PIL_StateMch_top.slx` | 控制器、ADC/PWM 适配、独立对象和真值日志 |
 | `platform/codegen/FOC_Ctrl_CodeModel.slx`、`FOC_Ctrl_MBD.slx` | HSP C 代码入口；`FOC_Ctrl_MBD` 含 RTD PWM/DIO 输出 |
 
@@ -57,7 +58,11 @@ S32K344 PIL。[目标配置、代码生成与 PIL](../hardware/hsp-s32k344.md)
 
 状态沿用 `eSmStates` 的 0–15 编号，转换由显式 MATLAB 函数实现，在模型中
 保留独立模块。故障位：外部 1、过流 2、欠压 4、过压 8、非法输入 16、
-ADC 到轨 32、启动超时 64、停止超时 128、非法状态 256、数值故障 512。
+ADC 到轨 32、启动超时 64、停止超时 128、非法状态 256、数值故障 512、校准失败 1024。
+
+整机组件默认先采集64个稳定零偏样本，校准完成前门极保持禁用；独立核心
+使用已处理的安培电流，不执行该校准。整机和核心分别报告状态，详见
+[架构与校准契约](../specs/algorithms/pmsm-framework/pmsm-framework-architecture.md#生命周期)。
 
 ## 验证与复现
 

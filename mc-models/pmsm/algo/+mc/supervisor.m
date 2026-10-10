@@ -45,41 +45,25 @@
 % =================================================================================
 
 function s = supervisor(u,s,p)
-%SUPERVISOR Advance the McStruct lifecycle with fault-first priority.
+%SUPERVISOR - Advance only FOC startup, running and stopping phases
 %#codegen
 if s.FaultBits~=uint16(0)
     s.Mode=uint8(3);
-elseif s.Command==uint8(0)
+elseif u.Disable || s.Command==uint8(0)
     s.Mode=uint8(0);
 elseif s.FastTick
     elapsed=single(s.ModeTicks)*p.Ts;
     running=s.Command==uint8(1);
     stopping=~running || abs(s.SpeedRequest)<=single(1);
     reversed=s.SpeedRequest*s.Direction<single(-1);
-    % Stop/reversal preempts every bridge state, before any energization.
-    if (stopping || reversed) && s.Mode>=uint8(4) && s.Mode<=uint8(14)
-        if s.Mode<=uint8(5)
-            s.Mode=uint8(2);
-        else
-            s.Mode=uint8(15);
-        end
-        s.ModeTicks=uint32(0);
-        if s.Mode==uint8(2), s.GateEnable=false; end
-        return
+    if (stopping || reversed) && s.Mode>=uint8(6) && s.Mode<=uint8(14)
+        s.Mode=uint8(15);s.ModeTicks=uint32(0);return
     end
     switch s.Mode
-        case 0
-            s.Mode=uint8(1);
-        case 1
-            s.Mode=uint8(2);
-        case 2
-            if running && ~stopping, s.Mode=uint8(4); end
+        case {0,2}
+            if running && ~stopping,s.Mode=uint8(6);else,s.Mode=uint8(2);end
         case 3
-            % A latched fault can leave only via the safe reset branch above.
-        case 4
-            s.Mode=uint8(5);
-        case 5
-            s.Mode=uint8(6);
+            % Only the safe reset branch above can leave a latched fault.
         case 6
             if stopping || reversed
                 s.Mode=uint8(15);

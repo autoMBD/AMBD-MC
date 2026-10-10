@@ -37,20 +37,46 @@
 % 何权利主张、损害赔偿或其他责任承担责任。
 % =================================================================================
 % Project:     autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>
-% File:        step.m
+% File:        core_monitor.m
 % Author:      autoMBD <tkung.lqk@foxmail.com>
 % Date:        2026-10-11
 % Version:     0.1.0
 % Description: Construct deterministic controller memory without side effects.
 % =================================================================================
 
-function s = step(u,s,p)
-%STEP - Execute motor management and the shared FOC core
-%   S = STEP(U,S,P) consumes raw ADC samples and application commands.
-%   See also motor_prepare, core_step, motor_finish
-
+function [counts,debug,monitor] = core_monitor(s,p)
+%core_monitor - Expose core telemetry and explicit PWM count scaling
 %#codegen
-[v,s]=mc.motor_prepare(u,s,p);
-core=mc.core_step(v,s.Core,p);
-s=mc.motor_finish(s,core);
+counts=uint16(round(min(max(s.Duty,single(0)),single(1))*single(p.PwmPeriod)));
+debug.DebugEn=true;
+debug.DebugChannel=uint8(0);
+debug.DebugData=zeros(8,1,'uint8');
+debug.DebugData(1)=s.Mode;
+debug.DebugData(2)=uint8(bitand(s.FaultBits,uint16(255)));
+debug.DebugData(3)=uint8(bitshift(s.FaultBits,-8));
+debug.DebugData(4)=uint8(s.GateEnable);
+debug.DebugData(5)=uint8(s.ObserverReady);
+debug.DebugData(6)=uint8(bitand(s.Tick,uint32(255)));
+debug.DebugData(7)=uint8(bitand(bitshift(s.Tick,-8),uint32(255)));
+debug.DebugData(8)=p.PositionMode;
+monitor.Mode=s.Mode;
+monitor.FaultBits=s.FaultBits;
+monitor.Tick=s.Tick;
+monitor.SpeedRequest=s.SpeedRequest;
+monitor.Omega=s.OmegaControl;
+monitor.Theta=s.ThetaControl;
+monitor.Current=s.Current;
+monitor.CurrentDq=s.CurrentDq;
+monitor.ReferenceDq=s.ReferenceDq;
+monitor.Voltage=s.Voltage;
+monitor.Duty=s.Duty;
+monitor.GateEnable=s.GateEnable;
+monitor.ObserverReady=s.ObserverReady;
+monitor.FluxMagnitude=s.Observer.Magnitude;
+monitor.PositionMode=p.PositionMode;
+monitor.CoreMode=s.Mode;
+monitor.ApplicationMode=uint8(255);
+monitor.CalibrationDone=false;
+monitor.CalibrationCount=uint16(0);
+monitor.StopComplete=(s.Mode==uint8(0) || s.Mode==uint8(2)) && ~s.GateEnable;
 end
