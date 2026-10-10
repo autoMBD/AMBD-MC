@@ -7,6 +7,9 @@
 | --- | --- | --- |
 | PMSM 有感基线 | `info = ambd_mc("setup","pmsm");` | `result = mc_run_host_case('FOC_PIL_Algth_top','sensored_steps','Normal');` |
 | PMSM 无感启动 | `info = ambd_mc("setup","pmsm");` | `result = mc_run_host_case('FOC_PIL_StateMch_top','sensorless_forward','Normal');` |
+| PMSM 独立核心无感反转 | `info = ambd_mc("setup","pmsm");` | `result = mc_run_host_case('FOC_PIL_Algth_top','sensorless_reverse','Normal');` |
+| PMSM 整机零偏校准 | `info = ambd_mc("setup","pmsm");` | `result = mc_run_host_case('FOC_PIL_StateMch_top','calibration_offset','Normal');` |
+| PMSM 校准失败关断 | `info = ambd_mc("setup","pmsm");` | `result = mc_run_host_case('FOC_PIL_StateMch_top','calibration_failure','Normal');` |
 | BLDC Hall 阶跃 | `info = ambd_mc("setup","bldc");` | `result = bldc_run_host_case("hall_steps","Normal");` |
 | BLDC 无感启动 | `info = ambd_mc("setup","bldc");` | `result = bldc_run_host_case("sensorless_forward","Normal");` |
 
@@ -18,7 +21,8 @@ SIL 使用同一入口，将最后一个执行模式参数换为 `'SIL'` 或 `"S
 `result.Passed` 为真，`result.TraceFile` 给出 MAT 记录位置。
 场景检查电流、速度、有限值、状态路径与故障响应等条件；
 `load(result.TraceFile)` 可读取信号和验收结构。
-结果位于 `.agent-env/`，不随站点公开。
+结果位于 `.agent-env/`，不随站点公开。校准失败场景的 Passed 表示正确锁存故障
+并保持关断，不表示校准成功。Algth 与 StateMch 都支持有感/无感，区别是控制层级。
 
 ## 更多场景与完整验收
 

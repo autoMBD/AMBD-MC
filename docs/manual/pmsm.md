@@ -1,7 +1,7 @@
 # PMSM 控制与 S32K344 HSP
 
-控制器采用显式状态、类型化接口和独立 PMSM 平均值对象。共享
-`McControllerLibrary` 连接到各 HSP 组件，支持 Normal/SIL 对照和
+控制器采用显式状态、类型化接口和 Simulink 平均值逆变器 + PMSM 电机模块。共享
+`McControllerLibrary/FocCore` 连接到独立算法和整机管理组件，支持 Normal/SIL 对照和
 S32K344 PIL。[目标配置、代码生成与 PIL](../hardware/hsp-s32k344.md)
 基于 autoMBD HSP 0.1.0，使用独立工作副本。
 
@@ -40,7 +40,7 @@ S32K344 PIL。[目标配置、代码生成与 PIL](../hardware/hsp-s32k344.md)
 | `algo/McControllerLibrary.slx`、`MotorFramework.slx` | McKernel、McTuning、McEventHub、McFault、McStateMachine、McDataFlow、McDebug 执行链 |
 | `platform/pil/FOC_PIL_Algth_model.slx` | 独立 FOC 核心：物理电流输入、归一化占空比输出 |
 | `platform/pil/FOC_PIL_StateMch_model.slx` | 整机校准/启停/故障管理，内部复用同一 FOC 核心 |
-| `platform/pil/FOC_PIL_Algth_top.slx`、`FOC_PIL_StateMch_top.slx` | 控制器、ADC/PWM 适配、独立对象和真值日志 |
+| `platform/pil/FOC_PIL_Algth_top.slx`、`FOC_PIL_StateMch_top.slx` | 各自组件、接口适配、共享 AveragePlant 和实际输入/真值日志 |
 | `platform/codegen/FOC_Ctrl_CodeModel.slx`、`FOC_Ctrl_MBD.slx` | HSP C 代码入口；`FOC_Ctrl_MBD` 含 RTD PWM/DIO 输出 |
 
 - 快环 16 kHz（62.5 µs），速度环 1 kHz。角度为电角度 rad，速度为电角速度
@@ -62,7 +62,7 @@ ADC 到轨 32、启动超时 64、停止超时 128、非法状态 256、数值�
 
 整机组件默认先采集64个稳定零偏样本，校准完成前门极保持禁用；独立核心
 使用已处理的安培电流，不执行该校准。整机和核心分别报告状态，详见
-[架构与校准契约](../specs/algorithms/pmsm-framework/pmsm-framework-architecture.md#生命周期)。
+[架构与校准契约](../specs/algorithms/pmsm-framework/pmsm-framework-architecture.md#lifecycle)。
 
 ## 验证与复现
 
@@ -71,7 +71,11 @@ PMSM 参考对象采用 MathWorks Interior PMSM，矩阵覆盖有感与无感、
 停止/重启、负载及母线变化、故障恢复、饱和恢复和对象参数偏差。
 具体场景调用见[场景示例](examples.md)。
 
-同输入回放分别检查状态、故障、时序、gate、浮点与 PWM 量化。
+两个顶层共享可见的 `AveragePlant` 库子系统；禁用施加零相电压，属于电气制动，
+不模拟硬件高阻滑行。对象连接、控制周期和电压反馈对齐见
+[主机对象时序](../specs/algorithms/pmsm-framework/pmsm-framework-architecture.md#native-host-plant)。
+
+同输入回放直接使用实际控制器输入总线，分别检查状态、故障、时序、gate、浮点与 PWM 量化。
 数值契约见[PMSM 系统规格](../specs/algorithms/pmsm-framework/pmsm-framework-system.md)，
 数学精度与施加电压的设计约定见[架构规格](../specs/algorithms/pmsm-framework/pmsm-framework-architecture.md)。
 

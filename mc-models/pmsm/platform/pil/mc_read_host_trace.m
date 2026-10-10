@@ -44,10 +44,14 @@
 % Description: Extract full-rate host-harness outputs by contract.
 % =================================================================================
 
-function trace = mc_read_host_trace(out)
-%MC_READ_HOST_TRACE Extract full-rate host-harness outputs by contract.
+function [trace,recording] = mc_read_host_trace(out)
+%mc_read_host_trace - Extract outputs and the actual controller input bus
+%   [TRACE,RECORDING] = mc_read_host_trace(OUT) preserves the input bus
+%   delivered at the controller boundary, including its original times.
+%   See also mc_recording_dataset, mc_run_host_case
+
 dataset=out.yout;
-assert(dataset.numElements==6,'mc:OutputContract','Host harness must export six outputs.');
+assert(dataset.numElements==7,'mc:OutputContract','Host harness must export seven outputs.');
 speed=dataset.getElement(1).Values;
 trace.Time=double(speed.Time(:));
 trace.OmegaTruth=samples(speed);
@@ -60,6 +64,22 @@ end
 trace.DutyCounts=samples(dataset.getElement(4).Values);
 trace.GateOutput=logical(samples(dataset.getElement(5).Values));
 trace.ThetaTruth=samples(dataset.getElement(6).Values);
+recording=readBus(dataset.getElement(7).Values,trace.Time);
+recording.Time=trace.Time;
+end
+
+function value=readBus(bus,time)
+value=struct;
+for field=fieldnames(bus)'
+    key=field{1};signal=bus.(key);
+    if isstruct(signal)
+        value.(key)=readBus(signal,time);
+    else
+        assert(isequal(double(signal.Time(:)),time),'mc:InputSampleAlignment', ...
+            'Controller input and output sample times must match exactly.');
+        value.(key)=samples(signal);
+    end
+end
 end
 
 function data=samples(signal)
