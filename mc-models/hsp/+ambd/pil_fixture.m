@@ -68,6 +68,7 @@ if strcmp(family,'bldc')
 else
     p=mc.defaults;p.Ts=single(period);
     if contains(model,'Algth'),p.PositionMode=uint8(1);end
+    p.CalibrationSamples=uint16(8);
     u=mc.default_input(p);
     names={'Ia','Ib','Ic','McControl','FaultEvent','McCtrlEvent','McDrivingEvent', ...
         'McTimerEvent','McTuningPort','SpeedReq','DcBusVoltage','RotorAngle', ...
@@ -78,6 +79,12 @@ else
     controlName='McControl';faultName='FaultEvent';
     parameterName='McControl_Params';parameterType='tMcControlParams';
     stateName='McRuntime_Init';stateType='tMcRuntime';state=mc.initial_state(p);
+    if contains(model,'Algth')
+        current=mc.core_default_input(p);
+        values(1:3)={current.Current(1),current.Current(2),current.Current(3)};
+        values{end+1}=false;names{end+1}='Disable';
+        stateName='McCoreRuntime_Init';stateType='tMcCoreRuntime';state=mc.core_initial_state(p);
+    end
 end
 inputs=Simulink.SimulationData.Dataset;
 for index=1:numel(names)
@@ -96,7 +103,13 @@ for index=1:numel(names)
             data=uint16(32768+round(250*sin(2*pi*80*time+[0,-2*pi/3,2*pi/3])));
         elseif ismember(name,{'Ia','Ib','Ic'})
             phase=find(strcmp(name,{'Ia','Ib','Ic'}))-1;
-            data=uint16(32768+round(250*sin(2*pi*80*time-phase*2*pi/3)));
+            wave=sin(2*pi*80*time-phase*2*pi/3);
+            if contains(model,'Algth')
+                data=single(.25*wave);
+            else
+                data=uint16(32768+round(250*wave));
+                data(1:16)=uint16(32768); % Stable pre-run calibration frame.
+            end
         elseif strcmp(name,'RotorAngle')
             data=single(80*time);
         end

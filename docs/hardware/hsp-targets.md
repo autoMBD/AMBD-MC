@@ -59,7 +59,8 @@ slbuild('BLDC_Ctrl_MBD');
 | `BLDC_Ctrl_CodeModel`、`FOC_Ctrl_CodeModel` | C 接口；原生构建、基础及运行状态 PIL |
 | `BLDC_Ctrl_MBD`、`FOC_Ctrl_MBD` | 原生板级应用；原厂 API 集成构建、基础 PIL、控制板诊断 |
 | `BLDC_PIL_Hall_model`、`BLDC_PIL_Sensorless_model` | BLDC 控制组件；基础和运行状态 PIL |
-| `FOC_PIL_Algth_model`、`FOC_PIL_StateMch_model` | PMSM 控制组件；基础和运行状态 PIL |
+| `FOC_PIL_Algth_model` | 独立 FOC 核心，安培输入、归一化占空比输出；基础和运行状态 PIL |
+| `FOC_PIL_StateMch_model` | 原始 ADC/PWM 接口，增加整机校准/状态管理；基础和运行状态 PIL |
 | `BLDC_PIL_Hall_top`、`BLDC_PIL_Sensorless_top` | 主机对象与 Normal/SIL 顶层 |
 | `FOC_PIL_Algth_top`、`FOC_PIL_StateMch_top` | 主机对象与 Normal/SIL 顶层 |
 

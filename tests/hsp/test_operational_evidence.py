@@ -61,9 +61,10 @@ class OperationalEvidenceTest(unittest.TestCase):
             reports={family:root/family for family in VALIDATION.CASES}
             for family,folder in reports.items():
                 paths=[folder/'summary.json']
-                for _,scenario in VALIDATION.CASES[family]:
-                    paths.append(folder/'closed-loop'/scenario/'Normal/trace.mat')
-                    if family=='pmsm':paths.append(folder/'replay'/scenario/'input-recording.mat')
+                for model,scenario in VALIDATION.CASES[family]:
+                    layer=Path(model.replace('_model','_top')) if family=='pmsm' else Path()
+                    paths.append(folder/'closed-loop'/layer/scenario/'Normal/trace.mat')
+                    if family=='pmsm':paths.append(folder/'replay'/layer/scenario/'input-recording.mat')
                 for path in paths:
                     path.parent.mkdir(parents=True,exist_ok=True)
                     path.write_bytes(b'accepted input')

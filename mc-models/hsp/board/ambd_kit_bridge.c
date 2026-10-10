@@ -68,7 +68,11 @@ void Ambd_KitPrimeModel(void)
     MODEL_INPUT.CommandEvent=1U;MODEL_INPUT.DrivingEvent=1U;MODEL_INPUT.TimerEvent=1U;
     MODEL_INPUT.AppliedDirection=1;
 #else
+#if defined(AMBD_FOC_CORE) && AMBD_FOC_CORE
+    MODEL_INPUT.Ia=0.0F;MODEL_INPUT.Ib=0.0F;MODEL_INPUT.Ic=0.0F;MODEL_INPUT.Disable=true;
+#else
     MODEL_INPUT.Ia=32768U;MODEL_INPUT.Ib=32768U;MODEL_INPUT.Ic=32768U;
+#endif
     MODEL_INPUT.DcBusVoltage=12.0F;MODEL_INPUT.FaultEvent=1U;
     MODEL_INPUT.McCtrlEvent=1U;MODEL_INPUT.McDrivingEvent=1U;MODEL_INPUT.McTimerEvent=1U;
 #endif
@@ -77,6 +81,7 @@ void Ambd_KitPrimeModel(void)
     memset(&MODEL_INPUT,0,sizeof(MODEL_INPUT));
 }
 
+#if AMBD_BLDC || !defined(AMBD_FOC_CORE) || (AMBD_FOC_CORE == 0)
 static uint16_t normalized_adc(float current)
 {
     float encoded=32768.0F+1000.0F*current;
@@ -84,6 +89,7 @@ static uint16_t normalized_adc(float current)
     if(encoded>=65535.0F)return 65535U;
     return (uint16_t)(encoded+0.5F);
 }
+#endif
 void Ambd_KitCaptureModelInputs(void)
 {
     uint8_t ready;
@@ -106,8 +112,13 @@ void Ambd_KitCaptureModelInputs(void)
     MODEL_INPUT.AppliedDirection=Ambd_Kit.sample_direction==0?1:Ambd_Kit.sample_direction;
     MODEL_INPUT.VoltageValid=Ambd_Kit.sample_valid;
 #else
+#if defined(AMBD_FOC_CORE) && AMBD_FOC_CORE
+    MODEL_INPUT.Ia=Ambd_Kit.current[0];MODEL_INPUT.Ib=Ambd_Kit.current[1];
+    MODEL_INPUT.Ic=Ambd_Kit.current[2];MODEL_INPUT.Disable=(ready==0U);
+#else
     MODEL_INPUT.Ia=normalized_adc(Ambd_Kit.current[0]);MODEL_INPUT.Ib=normalized_adc(Ambd_Kit.current[1]);
     MODEL_INPUT.Ic=normalized_adc(Ambd_Kit.current[2]);
+#endif
     MODEL_INPUT.McControl=ready!=0U?Ambd_KitControl:0U;
     MODEL_INPUT.FaultEvent=(ready==0U||Ambd_Kit.sample_valid==0U);
     MODEL_INPUT.McCtrlEvent=1U;MODEL_INPUT.McDrivingEvent=1U;MODEL_INPUT.McTimerEvent=1U;

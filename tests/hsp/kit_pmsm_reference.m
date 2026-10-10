@@ -73,14 +73,14 @@ for row=1:n
         double(u.SpeedReq),double(u.Vdc),double(u.Position),double(u.AppliedVoltage(:))'];
     active=written;activeGate=writtenGate;written=request;writtenGate=requestGate;
     s=mc.step(u,s,p);
-    [counts,~,~]=mc.monitor(s,p);
-    expected(row,:)=[double(s.Mode),double(s.FaultBits),double(counts(:))', ...
-        double(s.GateEnable),double(s.OmegaControl),double(s.ObserverReady),double(s.ThetaControl)];
+    [counts,~,status]=mc.monitor(s,p);
+    expected(row,:)=[double(status.Mode),double(status.FaultBits),double(counts(:))', ...
+        double(status.GateEnable),double(status.Omega),double(status.ObserverReady),double(status.Theta)];
     truth(row,:)=[double(omega),double(u.SpeedReq),max(abs(double(current)))];
     q15=round(min(58982,max(6554,double(counts)))*32768/65535);
     request=single(round(q15*dutyTicks/32768))/single(dutyTicks);
-    requestGate=s.GateEnable;
-    if ~s.GateEnable,activeGate=false;writtenGate=false;end
+    requestGate=s.Core.GateEnable;
+    if ~s.Core.GateEnable,activeGate=false;writtenGate=false;end
     applied=active-sign(measured)*single(hardware.deadtimeFraction);
     if activeGate
         previousVoltage=vdc*single([(2*applied(1)-applied(2)-applied(3))/3;(applied(2)-applied(3))/sqrt(3)]);
