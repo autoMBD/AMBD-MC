@@ -65,6 +65,12 @@
     ],
     "reason": "2026-10-09: verified the exact official MathWorks documentation page and title (Flux Observer) through web retrieval; urllib GET returns Access Denied. Only this URL and HTTP 403 are excepted; 404, server errors and timeouts remain failures."
   },
+  "https://www.mathworks.com/help/mcb/ref/averagevalueinverter.html": {
+    "statuses": [
+      403
+    ],
+    "reason": "2026-10-11: verified the exact official MathWorks documentation page and title (Average-Value Inverter) through web retrieval; CI GET returns Access Denied. Only this URL and HTTP 403 are excepted; 404, server errors and timeouts remain failures."
+  },
   "https://www.mathworks.com/help/simulink/slref/simulink.matlabfunctionconfiguration.html": {
     "statuses": [
       403
