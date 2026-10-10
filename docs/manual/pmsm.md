@@ -26,8 +26,8 @@ S32K344 PIL。[目标配置、代码生成与 PIL](../hardware/hsp-s32k344.md)
 |---|---|
 | `McControl_Params` | 当前控制器标定 |
 | `McPlant_Params` | 独立对象参数 |
-| `McRuntime_Init` | 控制器初态 |
-| `McInput_Default` | 类型化输入默认值 |
+| `McRuntime_Init`、`McCoreRuntime_Init` | 整机及独立核心初态 |
+| `McInput_Default`、`McCoreInput_Default` | 原始采样及物理量输入默认值 |
 | `tMcDrive_Param` | 电机参数描述结构；控制器使用 `McControl_Params` 标定 |
 
 场景通过 `Simulink.SimulationInput` 临时覆盖参数和运行模式，不保存覆盖。
@@ -37,7 +37,7 @@ S32K344 PIL。[目标配置、代码生成与 PIL](../hardware/hsp-s32k344.md)
 
 | 模型 | 职责 |
 |---|---|
-| `algo/McControllerLibrary.slx`、`MotorFramework.slx` | McKernel、McTuning、McEventHub、McFault、McStateMachine、McDataFlow、McDebug 执行链 |
+| `algo/McControllerLibrary.slx`、`MotorFramework.slx` | 共享 FocCore、独立核心封装与整机管理封装；MotorFramework 引用整机封装 |
 | `platform/pil/FOC_PIL_Algth_model.slx` | 独立 FOC 核心：物理电流输入、归一化占空比输出 |
 | `platform/pil/FOC_PIL_StateMch_model.slx` | 整机校准/启停/故障管理，内部复用同一 FOC 核心 |
 | `platform/pil/FOC_PIL_Algth_top.slx`、`FOC_PIL_StateMch_top.slx` | 各自组件、接口适配、共享 AveragePlant 和实际输入/真值日志 |
@@ -45,8 +45,8 @@ S32K344 PIL。[目标配置、代码生成与 PIL](../hardware/hsp-s32k344.md)
 
 - 快环 16 kHz（62.5 µs），速度环 1 kHz。角度为电角度 rad，速度为电角速度
   rad/s；对象日志的 `OmegaTruth` 也转换为电角速度。
-- 电流 ADC 为 `uint16`，零点 32768，默认 1000 count/A；PWM 周期 65535。
-  gate enable 与三相占空比分开输出。
+- 整机接口电流 ADC 为 `uint16`，名义零点 32768，默认 1000 count/A；PWM 周期 65535。
+  独立核心接口使用 single 安培和归一化占空比；gate enable 与三相占空比分开输出。
 - 命令 `0` 为安全复位，`1` 为运行，`2` 为受控停止。故障优先并锁存，
   故障消失后必须收到安全复位才清除。
 - 默认 `PositionMode=0`：对齐、I/f 启动、观测器资格确认、角度混合、闭环。
@@ -86,11 +86,11 @@ PMSM 参考对象采用 MathWorks Interior PMSM，矩阵覆盖有感与无感、
 HSP 应用边界负责采样、时基、命令、故障、PWM 装载和 gate 控制。
 它必须统一电/机械角度、ADC/PWM 标度、采样与电压施加延时；控制器不直接
 访问板级 API。详见 [架构规格](../specs/algorithms/pmsm-framework/pmsm-framework-architecture.md)。
-控制器末尾两个输入 `AppliedVoltageAlpha/Beta` 为与电流采样对齐的实际施加
-电压，主机从延迟的 PWM 计数、gate 和该区间母线电压重建；HSP 需提供相同
+两层控制器的 `AppliedVoltageAlpha/Beta` 输入为与电流采样对齐的实际施加
+电压；独立核心还带有 `Disable` 输入。主机从实际逆变器输出记录区间电压，HSP 需提供相同
 物理含义的反馈，不能用尚未施加的命令电压代替。
 S32K344 外部工程、Runtime 和目标 API 适配见 HSP 集成说明。
 
 平均值逆变器不模拟开关纹波、死区、二极管续流或硬件故障延迟；gate 关闭
-采用电流衰减/机械滑行近似。SIL 不能替代 MCU 时序、ADC 同步、保护电路
+采用上述零相电压制动边界。SIL 不能替代 MCU 时序、ADC 同步、保护电路
 和实机验证。
