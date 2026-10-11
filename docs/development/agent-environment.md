@@ -38,7 +38,7 @@ Codex 会递归发现项目 skill 目录中的 `SKILL.md`；可在新 task 中�
 
 优先评估了官方 `setupAgenticToolkit` 安装入口及 Offline / InstallRoot / Scope 参数。实测当前 installer 即使指定项目范围和 InstallRoot，MCP 可执行文件与 MATLAB addon 仍涉及用户级安装位置，不能提供本项目需要的独立切换和回滚。因此自动流程采用官方文档支持的手动配置方式：从校验后的发布包解压到项目版本目录，使用官方可执行文件、toolbox 的 `fsroot` 和 `satk_initialize(MCPServerPath=...)`。不修改或重写任何官方实现，也不调用全局 `savepath`。
 
-官方 installer 随 bundle 缓存，便于需要用户级安装时使用。官方直接管理的环境可用 `setupAgenticToolkit("update")` 更新，再执行 `satk_initialize` 并重启 agent；**不要用这一命令更新本项目管理的锁定环境**。具体参数以所锁版本 [官方配置文档](https://github.com/matlab/simulink-agentic-toolkit/blob/main/Configuration_and_Troubleshooting.md) 为准。
+官方 installer 随 bundle 缓存，便于需要用户级安装时使用。官方直接管理的环境可用 `setupAgenticToolkit("update")` 更新，再执行 `satk_initialize` 并重启 agent；**不要用这一命令更新本项目管理的锁定环境**。具体参数以所锁版本 [官方配置文档](https://github.com/matlab/simulink-agentic-toolkit/blob/9c591b28d998c51a87ca802d228c5c6a11a4bcd9/Configuration_and_Troubleshooting.md) 为准。
 
 ## 更新、同步和回滚
 
