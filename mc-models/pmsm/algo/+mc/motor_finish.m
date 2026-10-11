@@ -37,20 +37,27 @@
 % 何权利主张、损害赔偿或其他责任承担责任。
 % =================================================================================
 % Project:     autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>
-% File:        step.m
+% File:        motor_finish.m
 % Author:      autoMBD <tkung.lqk@foxmail.com>
 % Date:        2026-10-11
 % Version:     0.1.0
 % Description: Construct deterministic controller memory without side effects.
 % =================================================================================
 
-function s = step(u,s,p)
-%STEP - Execute motor management and the shared FOC core
-%   S = STEP(U,S,P) consumes raw ADC samples and application commands.
-%   See also motor_prepare, core_step, motor_finish
+function s = motor_finish(s,core)
+%motor_finish - Consume core status without owning its startup phases
+%   S = motor_finish(S,CORE) stores the shared core result and latches
+%   software faults in the motor supervisor in the same control step.
+%   See also motor_prepare, step
 
 %#codegen
-[v,s]=mc.motor_prepare(u,s,p);
-core=mc.core_step(v,s.Core,p);
-s=mc.motor_finish(s,core);
+s.Core=core;
+s.FaultBits=bitor(s.FaultBits,core.FaultBits);
+if s.FaultBits~=uint16(0)
+    s.Mode=uint8(3);
+    s.Core.GateEnable=false;s.Core.Duty=single([0.5;0.5;0.5]);
+    s.Core.Voltage=single([0;0]);
+elseif s.Mode==uint8(5) && core.Mode==uint8(2)
+    s.Mode=uint8(2);
+end
 end

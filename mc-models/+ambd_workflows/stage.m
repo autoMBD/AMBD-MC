@@ -119,6 +119,11 @@ control=getEntry(section,[prefix,'Control_Params']);value=getValue(control);valu
 details.ControlParameter=value;
 state=getEntry(section,[prefix,'Runtime_Init']);value=getValue(state);value.Value=runtime;setValue(state,value);
 details.RuntimeParameter=value;
+if family=="pmsm"
+    core=getEntry(section,'McCoreRuntime_Init');
+    value=getValue(core);value.Value=mc.core_initial_state(parameters);
+    setValue(core,value);details.CoreRuntimeParameter=value;
+end
 arming=getEntry(section,'AmbdOutputsArmed');value=getValue(arming);value.Value=false;setValue(arming,value);
 saveChanges(details.DictionaryConnection);
 if family=="bldc",info.Bldc=details;else,info.Pmsm=details;end

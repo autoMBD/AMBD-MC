@@ -64,9 +64,9 @@ info=mc_initialize(OutputDirectory=buildDirectory);
 artifactRoot=fullfile(info.RepositoryRoot,'.agent-env');
 traceFile=string(java.io.File(char(traceFile)).getCanonicalPath());
 assert(isfile(traceFile),'mc:MissingReplayTrace','Missing trace: %s',traceFile);
-source=load(traceFile,'trace','scenario');
-assert(isfield(source,'trace') && isfield(source,'scenario'), ...
-    'mc:ReplaySourceContract','Source must contain trace and scenario.');
+source=load(traceFile,'trace','scenario','inputRecording');
+assert(isfield(source,'trace') && isfield(source,'scenario') && isfield(source,'inputRecording'), ...
+    'mc:ReplaySourceContract','Source must contain trace, scenario and the actual inputRecording.');
 recorded=source.trace;
 scenario=source.scenario;
 if outputDirectory==""
@@ -79,6 +79,7 @@ ambd_claim_directory(info.RepositoryRoot,outputDirectory);
 if ~isfolder(outputDirectory),mkdir(outputDirectory);end
 
 modelName='FOC_SIL_Replay';
+if scenario.Layer=="core",modelName='FOC_SIL_AlgthReplay';end
 modelFile=fullfile(artifactRoot,'pmsm-models',modelName+".slx");
 assert(isfile(modelFile),'mc:MissingReplayModel', ...
     ['Replay harness is missing. From the repository root, run ', ...
@@ -89,11 +90,13 @@ assert(isscalar(references),'mc:ReferenceContract', ...
     'Replay harness must contain one controller Model block.');
 reference=references{1};
 controllerName=string(get_param(reference,'ModelName'));
-assert(controllerName=="FOC_PIL_StateMch_model", ...
+assert(controllerName==scenario.ControllerName, ...
     'mc:ReplayReferenceContract','Unexpected replay controller reference.');
 
-inputRecording=reconstructInputs(recorded,scenario);
-inputs=recordingDataset(inputRecording);
+inputRecording=source.inputRecording;
+assert(isequal(inputRecording.Time,recorded.Time),'mc:RecordingContract', ...
+    'Actual input recording must match the controller output clock.');
+inputs=mc_recording_dataset(inputRecording);
 save(fullfile(outputDirectory,'input-recording.mat'), ...
     'inputRecording','scenario','-v7.3');
 result=struct('SourceTrace',traceFile,'Scenario',scenario.Name, ...
@@ -126,6 +129,8 @@ for executionMode=["Normal","SIL"]
         busParameter(scenario.Control,'tMcControlParams'));
     in=in.setVariable('McRuntime_Init', ...
         busParameter(mc.initial_state(scenario.Control),'tMcRuntime'));
+    in=in.setVariable('McCoreRuntime_Init', ...
+        busParameter(mc.core_initial_state(scenario.Control),'tMcCoreRuntime'));
     % Consumed by sim(in) inside the command-window capture below.
     in=in.setVariable('McInput_Default', ...
         busParameter(mc.default_input(scenario.Control),'tMcInput')); %#ok<NASGU>
@@ -146,7 +151,7 @@ for executionMode=["Normal","SIL"]
         writeResult(outputDirectory,result);
         rethrow(simulationError);
     end
-    trace=readReplayTrace(out);
+    trace=readReplayTrace(out,scenario);
     save(fullfile(modeDirectory,'trace.mat'),'trace','-v7.3');
     if executionMode=="Normal"
         normalTrace=trace;
@@ -175,83 +180,16 @@ fprintf('AMBD_REPLAY %s: PASS, samples=%d, quantization-aware PWM, strictBitwise
     scenario.Name,result.Samples,result.StrictBitwisePassed);
 end
 
-function recording=reconstructInputs(trace,scenario)
-t=double(trace.Time(:));
-assert(~isempty(t) && t(1)==0 && all(isfinite(t)) && all(diff(t)>0), ...
-    'mc:ReplayTimeContract','Recording time must start at zero and increase.');
-sourceTime=double(scenario.Time(:));
-dt=1/16000;
-indices=round((t-sourceTime(1))/dt)+1;
-assert(all(indices>=1 & indices<=numel(sourceTime)), ...
-    'mc:ReplayTimeRange','Recording extends beyond the scenario input times.');
-assert(all(abs(t-sourceTime(indices))<=dt*1e-6), ...
-    'mc:ReplayTimeAlignment','Recording is not on the scenario sample grid.');
-current=trace.CurrentTruth;
-assert(isa(current,'single') && isequal(size(current),[numel(t),3]), ...
-    'mc:ReplayCurrentContract','Recorded plant currents must be single Nx3.');
-% plant_measure quantizes these same single currents through double math.
-counts=double(scenario.Plant.AdcOffset) ...
-    +double(scenario.Plant.AdcCountsPerAmp)*double(current);
-recording.Time=t;
-recording.CurrentRaw=uint16(min(max(round(counts),0),65535));
-recording.Control=uint8(scenario.Command(indices));
-recording.Fault=logical(scenario.Fault(indices));
-recording.SpeedReq=single(scenario.Speed(indices));
-recording.Vdc=single(scenario.Vdc(indices));
-recording.Position=single(trace.ThetaTruth);
-previousCounts=[repmat(uint16(32768),1,3);trace.DutyCounts(1:end-1,:)];
-previousGate=[false;logical(trace.GateOutput(1:end-1))];
-recording.AppliedVoltage=zeros(numel(t),2,'single');
-for index=1:numel(t)
-    recording.AppliedVoltage(index,:)=mc.applied_voltage( ...
-        previousCounts(index,:)',recording.Vdc(index),previousGate(index), ...
-        scenario.Plant.PwmPeriod)';
-end
-defaultInput=mc.default_input(scenario.Control);
-recording.Tuning=defaultInput.Tuning;
-end
-
-function dataset=recordingDataset(recording)
-t=recording.Time;
-event=true(size(t));
-values={recording.CurrentRaw(:,1),recording.CurrentRaw(:,2), ...
-    recording.CurrentRaw(:,3),recording.Control,recording.Fault, ...
-    event,event,event,[],recording.SpeedReq,recording.Vdc,recording.Position, ...
-    recording.AppliedVoltage(:,1),recording.AppliedVoltage(:,2)};
-names={'Ia','Ib','Ic','McControl','FaultEvent','McCtrlEvent', ...
-    'McDrivingEvent','McTimerEvent','McTuningPort','SpeedReq', ...
-    'DcBusVoltage','RotorAngle','AppliedVoltageAlpha','AppliedVoltageBeta'};
-dataset=Simulink.SimulationData.Dataset;
-for index=1:numel(values)
-    signal=Simulink.SimulationData.Signal;
-    signal.Name=names{index};
-    if index==9
-        fields=fieldnames(recording.Tuning);
-        bus=struct;
-        for field=fields'
-            name=field{1};
-            bus.(name)=zoh(repmat(recording.Tuning.(name),numel(t),1),t,name);
-        end
-        signal.Values=bus;
-    else
-        signal.Values=zoh(values{index},t,names{index});
-    end
-    dataset=addElement(dataset,signal,names{index});
-end
-end
-
-function signal=zoh(data,time,name)
-signal=timeseries(data,time,'Name',name);
-signal=setinterpmethod(signal,'zoh');
-end
-
-function trace=readReplayTrace(out)
+function trace=readReplayTrace(out,scenario)
 dataset=out.yout;
 assert(dataset.numElements==6,'mc:ReplayOutputContract', ...
     'Replay harness must export six controller outputs.');
 trace.Time=double(dataset.getElement(1).Values.Time(:));
 trace.DutyCounts=[samples(dataset.getElement(1).Values), ...
     samples(dataset.getElement(2).Values),samples(dataset.getElement(3).Values)];
+if scenario.Layer=="core"
+    trace.DutyCounts=uint16(round(trace.DutyCounts*single(scenario.Control.PwmPeriod)));
+end
 trace.GateOutput=logical(samples(dataset.getElement(5).Values));
 monitor=dataset.getElement(6).Values;
 for field=fieldnames(monitor)'

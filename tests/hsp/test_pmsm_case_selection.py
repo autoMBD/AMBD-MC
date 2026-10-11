@@ -37,47 +37,41 @@
 # 何权利主张、损害赔偿或其他责任承担责任。
 # =================================================================================
 # Project:     autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>
-# File:        test_operational_evidence.py
+# File:        test_pmsm_case_selection.py
 # Author:      autoMBD <tkung.lqk@foxmail.com>
-# Date:        2026-10-07
+# Date:        2026-09-11
 # Version:     0.1.0
-# Description: Reject changed accepted recordings during operational PIL validation.
+# Description: Saved PMSM component and plant contract tests.
 # =================================================================================
 
-from pathlib import Path
+"""Exercise layer/scenario selection without starting a MATLAB process."""
 import importlib.util
-import tempfile
+from pathlib import Path
 import unittest
 
-ROOT=Path(__file__).resolve().parents[2]
-SPEC=importlib.util.spec_from_file_location('operational_validation',ROOT/'tools/validate_motor_pil.py')
-VALIDATION=importlib.util.module_from_spec(SPEC)
+ROOT = Path(__file__).resolve().parents[2]
+SPEC = importlib.util.spec_from_file_location("pmsm_validation_selection",
+                                            ROOT / "tools/pmsm/validate_sil.py")
+VALIDATION = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(VALIDATION)
 
-class OperationalEvidenceTest(unittest.TestCase):
-    def test_all_host_inputs_are_bound_before_execution(self):
-        with tempfile.TemporaryDirectory() as temporary:
-            root=Path(temporary)
-            reports={family:root/family for family in VALIDATION.CASES}
-            for family,folder in reports.items():
-                paths=[folder/'summary.json']
-                for model,scenario in VALIDATION.CASES[family]:
-                    layer=Path(model.replace('_model','_top')) if family=='pmsm' else Path()
-                    paths.append(folder/'closed-loop'/layer/scenario/'Normal/trace.mat')
-                    if family=='pmsm':paths.append(folder/'replay'/layer/scenario/'input-recording.mat')
-                for path in paths:
-                    path.parent.mkdir(parents=True,exist_ok=True)
-                    path.write_bytes(b'accepted input')
-            expected=VALIDATION.artifact_hashes(reports)
-            self.assertEqual(len(expected),8)
-            VALIDATION.require_unchanged_artifacts(expected)
-            for filename in expected:
-                path=Path(filename)
-                with self.subTest(path=path):
-                    path.write_bytes(b'changed during PIL')
-                    with self.assertRaisesRegex(RuntimeError,'Host evidence changed'):
-                        VALIDATION.require_unchanged_artifacts(expected)
-                    path.write_bytes(b'accepted input')
 
-if __name__=='__main__':
+class PmsmCaseSelectionTest(unittest.TestCase):
+    def test_empty_layer_scenario_intersection_is_rejected(self):
+        self.assertTrue(callable(getattr(VALIDATION, "select_cases", None)),
+                        "Selection must reject empty scenario intersections before MATLAB starts.")
+        with self.assertRaisesRegex(ValueError, "no scenarios"):
+            VALIDATION.select_cases(["calibration_offset"], "FOC_PIL_Algth_top")
+
+    def test_common_scenario_selects_both_layers(self):
+        self.assertEqual(VALIDATION.select_cases(["sensorless_forward"]), [
+            ("FOC_PIL_Algth_top", "sensorless_forward"),
+            ("FOC_PIL_StateMch_top", "sensorless_forward")])
+
+    def test_core_selection_preserves_the_requested_case(self):
+        self.assertEqual(VALIDATION.select_cases(["sensored_steps"], "FOC_PIL_Algth_top"),
+                         [("FOC_PIL_Algth_top", "sensored_steps")])
+
+
+if __name__ == "__main__":
     unittest.main()

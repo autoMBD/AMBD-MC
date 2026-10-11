@@ -111,6 +111,13 @@ class HspBuilderMixin:
         super().finish(name, path, compile_model)
         self.add_notice(name, path.name, "Motor control model for autoMBD HSP.")
 
+    def add_library_subsystem(self, name, component):
+        """Add a sibling without redirecting root to the default controller."""
+        ids = super().edit(name, [dict(op="add_block", type="SubSystem",
+                                     name=component, ref=component)],
+                           scope="root", layout="incremental")
+        return ids[component]
+
     def add_notice(self, name, filename, description):
         text = (ROOT / "tools/license-header-template.txt").read_text(encoding="utf-8")
         text = text.replace("{{YEAR}}", "2026").replace("{{COPYRIGHT_HOLDER}}", "autoMBD")
@@ -132,14 +139,18 @@ class HspBuilderMixin:
             return super().wrapper(name, directory, reference, compile_model)
         path = self.fresh(name, directory)
         ports = self.interface_module()
-        ops = self.ports(ports.INPUTS, ports.OUTPUTS)
+        inputs, outputs = (ports.interface_for(name) if hasattr(ports, "interface_for")
+                           else (ports.INPUTS, ports.OUTPUTS))
+        component = (ports.library_component(name) if hasattr(ports, "library_component")
+                     else "Controller")
+        ops = self.ports(inputs, outputs)
         ops.append(dict(op="add_block", type="Controller", name="Controller", ref="Controller",
-                        ReferenceBlock=self.library_name + "/Controller"))
+                        ReferenceBlock=self.library_name + "/" + component))
         ids = self.edit(name, ops)
         connections = [dict(op="connect", target=f"{ids[item[0]]}.y1 -> {ids['Controller']}.u{i}")
-                       for i, item in enumerate(ports.INPUTS, 1)]
+                       for i, item in enumerate(inputs, 1)]
         connections += [dict(op="connect", target=f"{ids['Controller']}.y{i} -> {ids[item[0]]}.u1")
-                        for i, item in enumerate(ports.OUTPUTS, 1)]
+                        for i, item in enumerate(outputs, 1)]
         self.edit(name, connections)
         self.finish(name, path, compile_model)
         self.mapping[name] = ids
@@ -229,7 +240,7 @@ class HspBuilderMixin:
         if not ('"found":false' in gate or '"gatePass":true' in gate):
             raise RuntimeError(gate)
         self.backup()
-        self.matlab(f"cd({quote(ROOT)});addpath({quote(ROOT)});"
+        self.matlab(f"addpath({quote(ROOT)});"
                     f"info=ambd_mc('setup','{self.family}');"
                     f"Simulink.fileGenControl('set','CacheFolder',{quote(self.artifacts / 'cache')},"
                     f"'CodeGenFolder',{quote(self.artifacts / 'codegen')},'createDir',true);")
@@ -257,7 +268,7 @@ class HspBuilderMixin:
 
     def configure_existing(self):
         """Update target configuration after inspecting the saved family models."""
-        self.matlab(f"cd({quote(ROOT)});addpath({quote(ROOT)});"
+        self.matlab(f"addpath({quote(ROOT)});"
                     f"info=ambd_mc('setup','{self.family}');")
         manifest = json.loads((ROOT / "mc-models/hsp/models.json").read_text(encoding="utf-8"))
         for entry in manifest["models"]:

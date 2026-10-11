@@ -88,6 +88,9 @@ end
 cfg.runtime.includeDirectories = {fullfile(hspDirectory,'board')};
 isBldc=startsWith(string(model),"BLDC");
 cfg.runtime.defines={['AMBD_MODEL=',char(model)],['AMBD_BLDC=',num2str(isBldc)],profile.define};
+if ~isBldc
+    cfg.runtime.defines{end+1}=['AMBD_FOC_CORE=',num2str(contains(string(model),"Algth"))];
+end
 cfg.runtime.compilerFlags={'-O3','-ffp-contract=off'};
 cfg.outputDirectory = fullfile('build',model);
 end

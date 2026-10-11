@@ -37,20 +37,35 @@
 % 何权利主张、损害赔偿或其他责任承担责任。
 % =================================================================================
 % Project:     autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>
-% File:        step.m
+% File:        core_default_input.m
 % Author:      autoMBD <tkung.lqk@foxmail.com>
 % Date:        2026-10-11
 % Version:     0.1.0
 % Description: Construct deterministic controller memory without side effects.
 % =================================================================================
 
-function s = step(u,s,p)
-%STEP - Execute motor management and the shared FOC core
-%   S = STEP(U,S,P) consumes raw ADC samples and application commands.
-%   See also motor_prepare, core_step, motor_finish
-
+function u = core_default_input(p)
+%core_default_input - Construct a physical-unit FOC input frame
 %#codegen
-[v,s]=mc.motor_prepare(u,s,p);
-core=mc.core_step(v,s.Core,p);
-s=mc.motor_finish(s,core);
+u.Current=single([0;0;0]);
+u.Control=uint8(0);
+u.Fault=false;
+u.Disable=false;
+u.CommandEvent=true;
+u.DrivingEvent=true;
+u.TimerEvent=true;
+u.SpeedReq=single(0);
+u.Vdc=p.NominalVdc;
+u.Position=single(0);
+u.AppliedVoltage=single([0;0]);
+u.Tuning.SpdKp=uint16(p.KpSpeed*single(1000));
+u.Tuning.SpdKi=uint16(p.KiSpeed*single(1000));
+u.Tuning.IdKp=uint16(p.KpD*single(1000));
+u.Tuning.IdKi=uint16(p.KiD);
+u.Tuning.IqKp=uint16(p.KpQ*single(1000));
+u.Tuning.IqKi=uint16(p.KiQ);
+u.Tuning.AlignCurrent=uint16(p.AlignCurrent*single(1000));
+u.Tuning.AlignTime=uint16(p.AlignTime*single(1000));
+u.Tuning.OpenLoopAccel=uint16(p.OpenLoopAccel);
+u.Tuning.TrackingGain=uint16(p.ObserverBandwidth);
 end

@@ -24,6 +24,24 @@ slbuild('FOC_Ctrl_MBD');
 Apache-2.0 模板，项目配置脚本为 `tools/hsp/configure_s32k144.py`；原厂驱动实现、
 编译器、EB 插件、生成 C 和 ELF 都不随仓库分发。
 
+## PMSM 模型层级与周期
+
+K1 与 K3 使用同一份 `McControllerLibrary` 和 PMSM 活动模型；选择
+`s32k144` 会把工作副本绑定到 K1 配置，不另复制一套控制算法。
+`FOC_PIL_Algth_model` 独立运行 FOC 核心，使用安培电流和归一化占空比；
+`FOC_PIL_StateMch_model`、`MotorFramework` 和 C 应用入口执行整机校准与状态管理，
+内部调用同一个核心。
+
+K1 的快环为 125 µs，速度环分频为 8，保持 1 ms 周期。暂存分别设置
+`McCoreRuntime_Init` 和包含核心状态的 `McRuntime_Init`；基础 PIL 夹具也使用
+目标周期和对应分频。主机 16 kHz 记录的运行窗口回放仍按原录波周期执行，
+不能作为 K1 原生 8 kHz 实时性验收。
+
+板级 12 bit ADC 经驱动换算为安培；独立核心直接接收该物理量，整机接口则由
+桥接层重新编码为零点 32768、1000 count/A 的 `uint16` 采样值。不要把板级
+12 bit 原始计数直接送入整机模型。完整分层与校准规则见
+[PMSM 架构](../specs/algorithms/pmsm-framework/pmsm-framework-architecture.md)。
+
 ## 下载与调试
 
 先在本机 JSON 中核对 `deployment.probeSerial`、`deployment.interface` 和

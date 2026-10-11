@@ -37,20 +37,46 @@
 % 何权利主张、损害赔偿或其他责任承担责任。
 % =================================================================================
 % Project:     autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>
-% File:        step.m
+% File:        core_initial_state.m
 % Author:      autoMBD <tkung.lqk@foxmail.com>
-% Date:        2026-10-11
+% Date:        2026-10-06
 % Version:     0.1.0
 % Description: Construct deterministic controller memory without side effects.
 % =================================================================================
 
-function s = step(u,s,p)
-%STEP - Execute motor management and the shared FOC core
-%   S = STEP(U,S,P) consumes raw ADC samples and application commands.
-%   See also motor_prepare, core_step, motor_finish
-
+function s = core_initial_state(p)
+%core_initial_state - Construct deterministic FOC core memory
 %#codegen
-[v,s]=mc.motor_prepare(u,s,p);
-core=mc.core_step(v,s.Core,p);
-s=mc.motor_finish(s,core);
+s.Tick=uint32(0);
+s.Mode=uint8(0);
+s.PreviousMode=uint8(0);
+s.ModeTicks=uint32(0);
+s.FaultBits=uint16(0);
+s.ActiveFaults=uint16(0);
+s.FastTick=false;
+s.SlowTick=false;
+s.Command=uint8(0);
+s.Direction=single(1);
+s.SpeedRequest=single(0);
+s.SpeedRamp=single(0);
+s.ThetaOpen=single(0);
+s.OmegaOpen=single(0);
+s.ThetaControl=single(0);
+s.OmegaControl=single(0);
+s.ReferenceDq=single([0;0]);
+s.CurrentIntegral=single([0;0]);
+s.SpeedIntegral=single(0);
+s.Current=single([0;0;0]);
+s.CurrentDq=single([0;0]);
+s.Voltage=single([0;0]);
+s.Duty=single([0.5;0.5;0.5]);
+s.GateEnable=false;
+s.StopOpenLoop=false;
+s.ObserverReady=false;
+s.ObserverGoodTicks=uint32(0);
+s.Observer=mc.observer_initial(p,single(0),single([0;0]));
+s.PositionPrev=single(0);
+s.PositionSpeed=single(0);
+s.Gains=single([p.KpSpeed;p.KiSpeed;p.KpD;p.KiD;p.KpQ;p.KiQ]);
+s.Startup=single([p.AlignCurrent;p.AlignTime;p.OpenLoopAccel;p.ObserverBandwidth]);
 end
