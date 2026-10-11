@@ -57,6 +57,7 @@ cfg=autombd.hsp.config.read(model);period=cfg.environment.execution.basePeriodSe
 time=(0:128)'*period;
 if strcmp(family,'bldc')
     p=bldc.defaults;p.Ts=single(period);
+    p.SpeedDivider=uint16(round(.001/period));
     if contains(model,'Sensorless'),p.PositionMode=uint8(1);end
     u=bldc.default_input(p);
     names={'CurrentRaw','Hall','TerminalVoltage','Control','Fault','CommandEvent', ...
@@ -67,6 +68,7 @@ if strcmp(family,'bldc')
     stateName='BldcRuntime_Init';stateType='tBldcRuntime';state=bldc.initial_state(p);
 else
     p=mc.defaults;p.Ts=single(period);
+    p.SpeedDivider=uint16(round(.001/period));
     if contains(model,'Algth'),p.PositionMode=uint8(1);end
     p.CalibrationSamples=uint16(8);
     u=mc.default_input(p);

@@ -139,6 +139,7 @@ classdef ambdMcStageTest < matlab.unittest.TestCase
             testCase.verifyEqual(cfg.environment.pil.txPin,profile.uartTx);
             testCase.verifyTrue(any(contains(string(cfg.runtime.sources),profile.boardSource)));
             verifyModels(testCase,entries,info.Stage,Family,Target);
+            verifyControllerTiming(testCase,entries,profile,Family,details);
         end
     end
 end
@@ -176,6 +177,47 @@ for i=1:numel(files)
     fid=fopen(fullfile(root,files{i}),'rb');
     cleanup=onCleanup(@()fclose(fid));
     data{i}=fread(fid,Inf,'*uint8');clear cleanup
+end
+end
+
+function verifyControllerTiming(testCase,entries,profile,family,details)
+if family=="bldc"
+    parameterName='BldcControl_Params';
+else
+    parameterName='McControl_Params';
+    expected=mc.core_initial_state(details.ControlParameter.Value);
+    testCase.verifyEqual(details.CoreRuntimeParameter.Value,expected);
+    testCase.verifyEqual(details.RuntimeParameter.Value.Core,expected);
+end
+expectedDivider=uint16(round(.001/profile.samplePeriod));
+testCase.verifyEqual(details.ControlParameter.Value.SpeedDivider,expectedDivider);
+for index=1:numel(entries)
+    if ~ismember(entries(index).role,{'component','application'}),continue;end
+    model=entries(index).name;
+    cfg=autombd.hsp.config.read(model);
+    testCase.verifyEqual(cfg.targetId,profile.targetId);
+    testCase.verifyEqual(cfg.environment.execution.basePeriodSeconds,profile.samplePeriod);
+    testCase.verifyEqual(str2double(get_param(model,'FixedStep')),profile.samplePeriod);
+    [input,~]=ambd.pil_fixture(model,char(family));
+    variable=input.Variables(strcmp({input.Variables.Name},parameterName));
+    testCase.verifyEqual(variable.Value.Value.Ts,single(profile.samplePeriod));
+    testCase.verifyEqual(variable.Value.Value.SpeedDivider,expectedDivider);
+    signal=input.ExternalInput{1};
+    testCase.verifyEqual(signal.Time,(0:128)'*profile.samplePeriod);
+    if family=="pmsm"
+        core=contains(model,'Algth');
+        testCase.verifyTrue(ismember(['AMBD_FOC_CORE=',num2str(core)],cfg.runtime.defines));
+        current=find_system(model,'SearchDepth',1,'BlockType','Inport','Name','Ia');
+        duty=find_system(model,'SearchDepth',1,'BlockType','Outport','Name','DutyA');
+        if core
+            testCase.verifyEqual(get_param(current{1},'OutDataTypeStr'),'single');
+            testCase.verifyEqual(get_param(duty{1},'OutDataTypeStr'),'single');
+            testCase.verifyTrue(ismember('McCoreRuntime_Init',{input.Variables.Name}));
+        else
+            testCase.verifyEqual(get_param(current{1},'OutDataTypeStr'),'uint16');
+            testCase.verifyTrue(ismember('McRuntime_Init',{input.Variables.Name}));
+        end
+    end
 end
 end
 
