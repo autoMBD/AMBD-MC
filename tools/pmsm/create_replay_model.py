@@ -59,41 +59,37 @@ from build_models import ARTIFACTS, ROOT, Builder, quote
 
 
 def create_replay(call, force=False):
-    path=ARTIFACTS/'FOC_SIL_Replay.slx'
-    if path.exists() and not force:
-        print(f'Replay harness already exists: {path}')
-        return
     builder=Builder(call)
     builder.seq=500
     gate=builder.matlab('disp(jsonencode(library.settingsLookup()));')
     if not ('"found":false' in gate or '"gatePass":true' in gate):
         raise RuntimeError(gate)
-    result=builder.matlab(
-        f'addpath({quote(ROOT)});'
-        f'info=ambd_mc("setup","pmsm",OutputDirectory={quote(ARTIFACTS/"replay-build")});'
-        "assert(~bdIsLoaded('FOC_SIL_Replay'),'mc:ReplayAlreadyLoaded',"
-        "'Refusing to replace an unsaved loaded replay harness.');"
-        "open_system('FOC_PIL_StateMch_top');disp('REPLAY SETUP PASS');")
-    if 'REPLAY SETUP PASS' not in result:
-        raise RuntimeError(result)
-    builder.read('FOC_PIL_StateMch_top')
-    # A new model has factory settings, while the saved controller uses ERT
-    # host settings. Compile only after copying the compatible configuration.
-    builder.wrapper('FOC_SIL_Replay',ARTIFACTS,'FOC_PIL_StateMch_model',compile_model=False)
-    # Harness configuration copies the compatible saved host configuration.
-    # This neither configures nor saves any production model.
-    result=builder.matlab(
-        "replayConfig=copy(getActiveConfigSet('FOC_PIL_StateMch_top'));"
-        "replayConfig.Name='HostReplayConfiguration';"
-        "attachConfigSet('FOC_SIL_Replay',replayConfig,true);"
-        "setActiveConfigSet('FOC_SIL_Replay',replayConfig.Name);"
-        "set_param('FOC_SIL_Replay','SimulationCommand','update');"
-        f"save_system('FOC_SIL_Replay',{quote(path)});"
-        "disp('REPLAY BUILD PASS');")
-    if 'REPLAY BUILD PASS' not in result:
-        raise RuntimeError(result)
-    builder.read('FOC_SIL_Replay')
-    builder.check('FOC_SIL_Replay')
+    builder.matlab(f'addpath({quote(ROOT)});info=ambd_mc("setup","pmsm");')
+    for name,reference in [('FOC_SIL_Replay','FOC_PIL_StateMch_model'),
+                           ('FOC_SIL_AlgthReplay','FOC_PIL_Algth_model')]:
+        path=ARTIFACTS/(name+'.slx')
+        if path.exists() and not force:
+            continue
+        top=reference.replace('_model','_top')
+        builder.matlab(f"assert(~bdIsLoaded('{name}'),'mc:ReplayAlreadyLoaded',"
+                       "'Refusing to replace a loaded replay harness.');"
+                       f"open_system('{top}');")
+        builder.read(top)
+        builder.wrapper(name,ARTIFACTS,reference,compile_model=False)
+        result=builder.matlab(
+            f"replayConfig=copy(getActiveConfigSet('{top}'));"
+            "replayConfig.Name='HostReplayConfiguration';"
+            f"attachConfigSet('{name}',replayConfig,true);"
+            f"setActiveConfigSet('{name}',replayConfig.Name);"
+            "disp('REPLAY CONFIG COPIED');")
+        builder.edit(name,[dict(op='configure',target='config:'+name,
+                               params=dict(Solver='FixedStepDiscrete',FixedStep='6.25e-5'))])
+        result=builder.matlab(
+            f"set_param('{name}','SimulationCommand','update');"
+            f"save_system('{name}',{quote(path)});disp('REPLAY BUILD PASS');")
+        if 'REPLAY BUILD PASS' not in result:
+            raise RuntimeError(result)
+        builder.read(name);builder.check(name)
 
 
 if __name__=='__main__':

@@ -193,6 +193,10 @@
 /mc-models/pmsm/algo/+mc/acquire.m -export-ignore
 /mc-models/pmsm/algo/+mc/applied_voltage.m -export-ignore
 /mc-models/pmsm/algo/+mc/clarke.m -export-ignore
+/mc-models/pmsm/algo/+mc/core_default_input.m -export-ignore
+/mc-models/pmsm/algo/+mc/core_initial_state.m -export-ignore
+/mc-models/pmsm/algo/+mc/core_monitor.m -export-ignore
+/mc-models/pmsm/algo/+mc/core_step.m -export-ignore
 /mc-models/pmsm/algo/+mc/current_control.m -export-ignore
 /mc-models/pmsm/algo/+mc/dataflow.m -export-ignore
 /mc-models/pmsm/algo/+mc/default_input.m -export-ignore
@@ -202,6 +206,8 @@
 /mc-models/pmsm/algo/+mc/invpark.m -export-ignore
 /mc-models/pmsm/algo/+mc/kernel.m -export-ignore
 /mc-models/pmsm/algo/+mc/monitor.m -export-ignore
+/mc-models/pmsm/algo/+mc/motor_finish.m -export-ignore
+/mc-models/pmsm/algo/+mc/motor_prepare.m -export-ignore
 /mc-models/pmsm/algo/+mc/observer_initial.m -export-ignore
 /mc-models/pmsm/algo/+mc/observer_step.m -export-ignore
 /mc-models/pmsm/algo/+mc/park.m -export-ignore
@@ -235,6 +241,7 @@
 /mc-models/pmsm/platform/pil/mc_compare_replay.m -export-ignore
 /mc-models/pmsm/platform/pil/mc_host_scenario.m -export-ignore
 /mc-models/pmsm/platform/pil/mc_read_host_trace.m -export-ignore
+/mc-models/pmsm/platform/pil/mc_recording_dataset.m -export-ignore
 /mc-models/pmsm/platform/pil/mc_run_host_case.m -export-ignore
 /mc-models/pmsm/platform/pil/mc_run_replay.m -export-ignore
 /mkdocs.yml -export-ignore
@@ -292,10 +299,13 @@
 /tests/hsp/s32k144_driver_test.h -export-ignore
 /tests/hsp/test_board_core.py -export-ignore
 /tests/hsp/test_build_receipt.py -export-ignore
+/tests/hsp/test_foc_bridge.py -export-ignore
 /tests/hsp/test_hsp_models.py -export-ignore
 /tests/hsp/test_kit_evidence.py -export-ignore
 /tests/hsp/test_mcspte1ak344_config.py -export-ignore
 /tests/hsp/test_operational_evidence.py -export-ignore
+/tests/hsp/test_pmsm_case_selection.py -export-ignore
+/tests/hsp/test_pmsm_layers.py -export-ignore
 /tests/hsp/test_s32k144_config.py -export-ignore
 /tests/hsp/test_s32k144_core.py -export-ignore
 /tests/hsp/test_target_selection.py -export-ignore
@@ -303,10 +313,14 @@
 /tests/pmsm -export-ignore
 /tests/pmsm/helpers -export-ignore
 /tests/pmsm/helpers/compare_plant_reference.m -export-ignore
+/tests/pmsm/models -export-ignore
+/tests/pmsm/models/test_mc_models.m -export-ignore
 /tests/pmsm/test_mc_acceptance.m -export-ignore
 /tests/pmsm/test_mc_algorithms.m -export-ignore
 /tests/pmsm/test_mc_initialize.m -export-ignore
+/tests/pmsm/test_mc_layers.m -export-ignore
 /tests/pmsm/test_mc_plant.m -export-ignore
+/tests/pmsm/test_mc_recording.m -export-ignore
 /tests/pmsm/test_mc_runtime.m -export-ignore
 /tests/release -export-ignore
 /tests/release/test_package.py -export-ignore
@@ -356,6 +370,7 @@
 /tools/pmsm -export-ignore
 /tools/pmsm/build_models.py -export-ignore
 /tools/pmsm/create_replay_model.py -export-ignore
+/tools/pmsm/layer_models.py -export-ignore
 /tools/pmsm/validate_plant_reference.py -export-ignore
 /tools/pmsm/validate_sil.py -export-ignore
 /tools/release -export-ignore

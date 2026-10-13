@@ -68,9 +68,10 @@ def artifact_hashes(reports):
     paths=[]
     for family,folder in reports.items():
         paths.append(folder/'summary.json')
-        for _,scenario in CASES[family]:
-            paths.append(folder/'closed-loop'/scenario/'Normal/trace.mat')
-            if family=='pmsm':paths.append(folder/'replay'/scenario/'input-recording.mat')
+        for model,scenario in CASES[family]:
+            layer=Path(model.replace('_model','_top')) if family=='pmsm' else Path()
+            paths.append(folder/'closed-loop'/layer/scenario/'Normal/trace.mat')
+            if family=='pmsm':paths.append(folder/'replay'/layer/scenario/'input-recording.mat')
     return {str(path):TARGET.digest(path) for path in paths}
 
 
@@ -134,8 +135,9 @@ def main():
                          f"stageInfo=ambd_mc('stage',{TARGET.quote(family)},{TARGET.quote(args.settings.resolve())});"
                          "disp('OPERATIONAL_STAGE_READY');",'OPERATIONAL_STAGE_READY')
                 for model,scenario in CASES[family]:
-                    trace=host_folder/'closed-loop'/scenario/'Normal/trace.mat'
-                    recording=host_folder/'replay'/scenario/'input-recording.mat' if family=='pmsm' else None
+                    layer=Path(model.replace('_model','_top')) if family=='pmsm' else Path()
+                    trace=host_folder/'closed-loop'/layer/scenario/'Normal/trace.mat'
+                    recording=host_folder/'replay'/layer/scenario/'input-recording.mat' if family=='pmsm' else None
                     case_folder=folder/model
                     marker='OPERATIONAL_PIL_PASS_'+model
                     require_unchanged_artifacts(artifacts)

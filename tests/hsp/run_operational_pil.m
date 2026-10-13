@@ -74,6 +74,12 @@ else
     recording=data.inputRecording;prototype=mc.initial_state(p);
     parameterName='McControl_Params';parameterType='tMcControlParams';
     stateName='McRuntime_Init';stateType='tMcRuntime';
+    if contains(model,'Algth')
+        assert(isfield(recording,'Current'),'ambd:RecordingIdentity','Core PIL requires physical-current recording.');
+        prototype=mc.core_initial_state(p);stateName='McCoreRuntime_Init';stateType='tMcCoreRuntime';
+    else
+        assert(isfield(recording,'CurrentRaw'),'ambd:RecordingIdentity','Motor PIL requires raw-current recording.');
+    end
     sensorless=p.PositionMode==uint8(0);
 end
 replayPeriod=(double(recording.Time(end))-double(recording.Time(1)))/(numel(recording.Time)-1);
@@ -147,7 +153,7 @@ try
         'ReturnWorkspaceOutputs','on','LimitDataPoints','off','Decimation','1');
     in=in.setVariable(parameterName,parameter(p,parameterType));
     in=in.setVariable(stateName,parameter(state,stateType));
-    normal=sim(in);normalTrace=readTrace(normal,family);
+    normal=sim(in);normalTrace=readTrace(normal,family,p.PwmPeriod);
     recorded=windowTrace(source.trace,rows);
     result.MaximumTimeGridError=max(abs((recorded.Time-recorded.Time(1))-normalTrace.Time));
     assert(result.MaximumTimeGridError<=6.25e-11,'ambd:RecordingTime','Window sample grids differ.');
@@ -171,7 +177,7 @@ try
     if ~isempty(failure),rethrow(failure);end
     result.ExecutionMode=target.SimulationMetadata.ModelInfo.SimulationMode;
     result.PILExecuted=strcmpi(result.ExecutionMode,'processor-in-the-loop (pil)');
-    actual=readTrace(target,family);
+    actual=readTrace(target,family,p.PwmPeriod);
     if strcmp(family,'bldc')
         result.Comparison=bldc_compare_outputs(normalTrace,actual);
     else
@@ -244,14 +250,11 @@ if strcmp(family,'bldc')
         'DrivingEvent','TimerEvent','SpeedReq','Vdc','AppliedSector','AppliedDirection','VoltageValid'};
     values=cellfun(@(name)recording.(name)(rows,:),names,'UniformOutput',false);
 else
-    names={'Ia','Ib','Ic','McControl','FaultEvent','McCtrlEvent','McDrivingEvent', ...
-        'McTimerEvent','McTuningPort','SpeedReq','DcBusVoltage','RotorAngle', ...
-        'AppliedVoltageAlpha','AppliedVoltageBeta'};
-    event=true(numel(rows),1);
-    values={recording.CurrentRaw(rows,1),recording.CurrentRaw(rows,2),recording.CurrentRaw(rows,3), ...
-        recording.Control(rows,:),recording.Fault(rows,:),event,event,event,recording.Tuning, ...
-        recording.SpeedReq(rows,:),recording.Vdc(rows,:),recording.Position(rows,:), ...
-        recording.AppliedVoltage(rows,1),recording.AppliedVoltage(rows,2)};
+    selected=sliceRecording(recording,rows);
+    selected.Time=time;
+    dataset=mc_recording_dataset(selected);
+    return
+
 end
 dataset=Simulink.SimulationData.Dataset;
 for index=1:numel(names)
@@ -270,11 +273,23 @@ for index=1:numel(names)
 end
 end
 
-function trace=readTrace(out,family)
+function selected=sliceRecording(recording,rows)
+selected=struct;
+for field=fieldnames(recording)'
+    name=field{1};value=recording.(name);
+    if isstruct(value),selected.(name)=sliceRecording(value,rows);
+    else,selected.(name)=value(rows,:);end
+end
+end
+
+function trace=readTrace(out,family,pwmPeriod)
 if strcmp(family,'bldc'),trace=bldc_read_trace(out,"replay");return;end
 data=out.yout;assert(numElements(data)==6,'ambd:OutputContract','Expected six PMSM outputs.');
 trace.Time=double(data{1}.Values.Time(:));
 trace.DutyCounts=[samples(data{1}.Values),samples(data{2}.Values),samples(data{3}.Values)];
+if isa(trace.DutyCounts,'single')
+    trace.DutyCounts=uint16(round(trace.DutyCounts*single(pwmPeriod)));
+end
 trace.GateOutput=logical(samples(data{5}.Values));
 monitor=data{6}.Values;debug=data{4}.Values;
 for field=fieldnames(monitor)',name=field{1};trace.(name)=samples(monitor.(name));end

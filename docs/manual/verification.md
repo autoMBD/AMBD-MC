@@ -20,7 +20,17 @@ BLDC 的 `validate_sil.py` 会先核对本地原生对象参考证据，包括�
 
 PMSM 对象参考使用 MathWorks Interior PMSM；BLDC 使用独立 Simscape BLDC、
 六开关及续流二极管，检查物理方程、端电压和积分步长等性质。
-完整 SIL 入口执行组件测试、独立闭环、同输入重放，并收集主机生成 C 与 EXE 证据。
+完整 SIL 入口执行组件测试、模型接口/对象时序测试、独立闭环和同输入重放，并收集主机生成 C 与 EXE 证据。
+
+PMSM 的两个顶层直接使用平均值逆变器和 Interior PMSM。独立对象参考入口
+额外比较保留的数值参考实现，不是主机顶层的运行前提。核心层使用安培/归一化
+占空比接口，整机层使用 ADC/PWM 计数接口，回放分别引用对应组件。实际输入
+总线与事件随 trace 保存，不从对象真值重建。
+
+PMSM 可附加 `--model FOC_PIL_Algth_top` 或 `--model FOC_PIL_StateMch_top`
+选择层级；该选项和 `--scenario` 都只构成局部验证。完整报告按
+`closed-loop/<模型名>/<场景>/<模式>`、`replay/<模型名>/<场景>` 区分，
+同名场景在两个层级上运行时不会覆盖。
 
 `--scenario` 仅用于局部排查，报告标记 `CompleteMatrix=false`。
 BLDC 的 `--normal-only --collect-failures` 用于收集 Normal 物理场景问题，

@@ -9,6 +9,7 @@
 | 项目自有代码与文档 | 根 MIT License；保留版权与许可声明 |
 | `mc-models/hsp/config/S32K344/` | 保留 autoMBD HSP 的 Apache-2.0 许可与来源记录 |
 | `mc-models/hsp/config/S32K144/` | 同样保留 autoMBD HSP 的 Apache-2.0 许可与来源记录 |
+| `mc-models/hsp/board/ambd_pil_init.c` | 基于 autoMBD HSP PIL 初始化示例改编，保留 Apache-2.0；许可原文见下方配置目录链接 |
 | 外部 NXP RTD 实现、工具及参考应用 | 由本机外部安装提供，不随本项目分发 |
 | `legacy/` 历史文件 | 不适用根 MIT；权利归 autoMBD 作者，仅供学习，不允许修改、合并、发布、分发、分许可或销售 |
 

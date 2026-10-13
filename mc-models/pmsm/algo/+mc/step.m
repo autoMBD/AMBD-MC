@@ -39,18 +39,18 @@
 % Project:     autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>
 % File:        step.m
 % Author:      autoMBD <tkung.lqk@foxmail.com>
-% Date:        2026-10-06
+% Date:        2026-10-11
 % Version:     0.1.0
-% Description: Execute the same ordered modules used by MotorFramework.
+% Description: Construct deterministic controller memory without side effects.
 % =================================================================================
 
 function s = step(u,s,p)
-%STEP Execute the same ordered modules used by MotorFramework.
+%STEP - Execute motor management and the shared FOC core
+%   S = STEP(U,S,P) consumes raw ADC samples and application commands.
+%   See also motor_prepare, core_step, motor_finish
+
 %#codegen
-s=mc.kernel(u,s,p);
-s=mc.tuning(u,s,p);
-s=mc.event_hub(u,s,p);
-s=mc.protection(u,s,p);
-s=mc.supervisor(u,s,p);
-s=mc.dataflow(u,s,p);
+[v,s]=mc.motor_prepare(u,s,p);
+core=mc.core_step(v,s.Core,p);
+s=mc.motor_finish(s,core);
 end

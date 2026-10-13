@@ -80,14 +80,37 @@ cfg.runtime.stopFunction = 'Ambd_KitStop';
 cfg.runtime.eventIrqPriority = 6;
 cfg.runtime.eventTimeoutTicks = 2;
 cfg.runtime.taskStackWords = 4096;
-cfg.runtime.sources = {fullfile(hspDirectory,'board','ambd_kit_core.c'), ...
+resources=struct('sources',{{}},'includeDirectories',{{}},'defines',{{}}, ...
+    'compilerFlags',{{}},'linkerFlags',{{}},'libraries',{{}});
+resources.sources = {fullfile(hspDirectory,'board','ambd_kit_core.c'), ...
     fullfile(hspDirectory,'board',profile.boardSource),fullfile(hspDirectory,'board','ambd_kit_bridge.c')};
 if strcmp(profile.name,'s32k144')
-    cfg.runtime.sources{end+1}=fullfile(hspDirectory,'board','ambd_kit_s32k144_core.c');
+    resources.sources{end+1}=fullfile(hspDirectory,'board','ambd_kit_s32k144_core.c');
 end
-cfg.runtime.includeDirectories = {fullfile(hspDirectory,'board')};
+resources.includeDirectories = {fullfile(hspDirectory,'board')};
 isBldc=startsWith(string(model),"BLDC");
-cfg.runtime.defines={['AMBD_MODEL=',char(model)],['AMBD_BLDC=',num2str(isBldc)],profile.define};
-cfg.runtime.compilerFlags={'-O3','-ffp-contract=off'};
+resources.defines={['AMBD_MODEL=',char(model)],['AMBD_BLDC=',num2str(isBldc)],profile.define};
+if ~isBldc
+    resources.defines{end+1}=['AMBD_FOC_CORE=',num2str(contains(string(model),"Algth"))];
+end
+resources.compilerFlags={'-O3','-ffp-contract=off'};
+cfg.runtime.lifecyclePlan=struct('schemaVersion',1,'enabled',true, ...
+    'beforeInitialize','','afterInitialize','','maximumHookSeconds',0.01,'resources',resources);
+pil=resources;
+pil.sources={fullfile(hspDirectory,'board','ambd_pil_init.c')};
+pil.defines={profile.define};
+callbacks=struct('name',{'Ambd_KitTick','Ambd_KitFaultIrq'}, ...
+    'kind','function','declarationFile',fullfile(hspDirectory,'board','ambd_kit_board.h'));
+if strcmp(profile.name,'s32k144')
+    callbacks(end+1)=struct('name','Ambd_KitAdcIrq','kind','function', ...
+        'declarationFile',fullfile(hspDirectory,'board','ambd_kit_board.h'));
+else
+    callbacks(end+1)=struct('name','Hsp_ModelEvent','kind','function', ...
+        'declarationFile','Bctu_Ip_PBcfg.h');
+    callbacks(end+1)=struct('name','Hsp_ReportModelEventFaultFromISR','kind','function', ...
+        'declarationFile','Bctu_Ip_PBcfg.h');
+end
+cfg.runtime.pilIsolationPlan=struct('schemaVersion',1,'enabled',true, ...
+    'initFunction','Ambd_PilTargetInit','resources',pil,'callbacks',callbacks);
 cfg.outputDirectory = fullfile('build',model);
 end

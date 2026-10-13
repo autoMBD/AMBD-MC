@@ -118,18 +118,36 @@ int main(int argc,char **argv){
  if(scenario==5)pwm_hw[2].PeriodCount=9999U;
  if(scenario==6)Pwm_Config.PwmChannelsConfig=NULL;
  Ambd_KitStart();
- if(scenario>=4){assert(Hsp_FailureCode==74U);assert(pins[44]==0U);assert(fake_lcu.OUTEN==0U);puts("BOARD_RUNTIME_PASS");return 0;}
+ if(scenario>=4&&scenario<=6){assert(Hsp_FailureCode==74U);assert(pins[44]==0U);assert(fake_lcu.OUTEN==0U);puts("BOARD_RUNTIME_PASS");return 0;}
  assert(Hsp_FailureCode==0U);
  if(scenario==1){assert(Ambd_Kit.faults!=0U);assert(pins[44]==0U);puts("BOARD_RUNTIME_PASS");return 0;}
  for(i=0U;i<1024U;i++)assert(Ambd_KitCapture());
  assert(Ambd_Kit.calibrated!=0U);assert(fabsf(Ambd_Kit.current[0])<.001F);assert(fabsf(Ambd_Kit.current[1])<.001F);assert(fabsf(Ambd_Kit.current[2])<.001F);
  Ambd_KitControl=1U;fake_emios.CH.UC[22].CNT=scenario==3?8200U:2000U;if(scenario==3)cost=800U;
  Ambd_KitCommit(counts,phases,1U,1U,0U,1);
+ if(scenario==7){
+   /* ICU has already confirmed the rising edge; its level is low by callback time. */
+   uint32_t commits=Ambd_Kit.commits;pins[71]=1U;pins[71]=0U;Ambd_KitFaultIrq();
+   assert(Ambd_Kit.faults!=0U);assert(pins[44]==0U);assert(fake_lcu.OUTEN==0U);
+   Ambd_KitCommit(counts,phases,1U,1U,0U,1);
+   for(i=0U;i<4U;i++)assert(Ambd_KitCapture());
+   assert(Ambd_Kit.commits==commits);assert(pins[44]==0U);assert(fake_lcu.OUTEN==0U);
+   puts("BOARD_RUNTIME_PASS");return 0;
+ }
  if(scenario==3){assert(Ambd_KitCapture());assert(Ambd_Kit.late_updates==1U);assert(Ambd_Kit.commits==0U);assert(pins[44]==0U);}
  else{
    assert(Ambd_KitCapture());if(scenario==2)pins[71]=1U;assert(Ambd_KitCapture());
    if(scenario==2){assert(Ambd_Kit.faults!=0U);assert(pins[44]==0U);assert(fake_lcu.OUTEN==0U);}
-   else{assert(Ambd_Kit.faults==0U);assert(pins[44]==1U);assert(fake_lcu.OUTEN==63U);}
+   else{
+     assert(Ambd_Kit.faults==0U);assert(pins[44]==1U);assert(fake_lcu.OUTEN==63U);
+     if(scenario==8){
+       uint32_t commits=Ambd_Kit.commits;pins[71]=1U;pins[71]=0U;Ambd_KitFaultIrq();
+       assert(Ambd_Kit.faults!=0U);assert(pins[44]==0U);assert(fake_lcu.OUTEN==0U);
+       Ambd_KitCommit(counts,phases,1U,1U,0U,1);
+       for(i=0U;i<4U;i++)assert(Ambd_KitCapture());
+       assert(Ambd_Kit.commits==commits);assert(pins[44]==0U);assert(fake_lcu.OUTEN==0U);
+     }
+   }
  }
  puts("BOARD_RUNTIME_PASS");return 0;
 }

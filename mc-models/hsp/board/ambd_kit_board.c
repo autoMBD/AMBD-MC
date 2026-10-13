@@ -329,7 +329,9 @@ void Ambd_KitStop(void)
 }
 void Ambd_KitFaultIrq(void)
 {
-    if(initialized!=0U&&Dio_ReadChannel(DioConf_DioChannel_Ambd_GdInt)!=STD_LOW)latch_fault(KIT_GD_FAULT);
+    /* This dedicated ICU rising-edge notification is already qualified.
+     * A short fault pulse may have ended before the callback runs. */
+    if(initialized!=0U)latch_fault(KIT_GD_FAULT);
 }
 void Ambd_KitTick(void){tick_count++;}
 

@@ -110,6 +110,14 @@ assert(all(isfinite(trace.Time))&&result.MaximumInputTimeGridError<=6.25e-11, ..
     'ambd:RecordingTime','Model output and input sample grids differ.');
 % Store one canonical clock for both artifacts after checking every sample.
 inputRecording.Time=trace.Time;
+if strcmp(family,'pmsm')
+    inputRecording.CommandEvent=event;
+    inputRecording.DrivingEvent=event;
+    inputRecording.TimerEvent=event;
+    for field=fieldnames(inputRecording.Tuning)'
+        key=field{1};inputRecording.Tuning.(key)=repmat(inputRecording.Tuning.(key),n,1);
+    end
+end
 if strcmp(family,'bldc'),trace.Input=inputRecording;end
 result.ModeExact=isequal(double(trace.Mode),reference.expected(:,1));
 result.FaultExact=isequal(double(trace.FaultBits),reference.expected(:,2));

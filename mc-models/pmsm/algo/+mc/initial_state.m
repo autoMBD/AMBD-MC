@@ -39,44 +39,29 @@
 % Project:     autoMBD Motor Control <https://github.com/autoMBD/AMBD-MC>
 % File:        initial_state.m
 % Author:      autoMBD <tkung.lqk@foxmail.com>
-% Date:        2026-10-06
+% Date:        2026-10-11
 % Version:     0.1.0
 % Description: Construct deterministic controller memory without side effects.
 % =================================================================================
 
 function s = initial_state(p)
-%INITIAL_STATE Construct deterministic controller memory without side effects.
+%initial_state - Construct motor supervisor and nested FOC core memory
+%   S = initial_state(P) starts disabled with calibration incomplete.
+%   See also core_initial_state, step
+
 %#codegen
-s.Tick=uint32(0);
 s.Mode=uint8(0);
-s.PreviousMode=uint8(0);
-s.ModeTicks=uint32(0);
+s.Command=uint8(0);
+s.PreviousCommandEvent=false;
+s.SpeedRequest=single(0);
 s.FaultBits=uint16(0);
 s.ActiveFaults=uint16(0);
-s.FastTick=false;
-s.SlowTick=false;
-s.Command=uint8(0);
-s.Direction=single(1);
-s.SpeedRequest=single(0);
-s.SpeedRamp=single(0);
-s.ThetaOpen=single(0);
-s.OmegaOpen=single(0);
-s.ThetaControl=single(0);
-s.OmegaControl=single(0);
-s.ReferenceDq=single([0;0]);
-s.CurrentIntegral=single([0;0]);
-s.SpeedIntegral=single(0);
-s.Current=single([0;0;0]);
-s.CurrentDq=single([0;0]);
-s.Voltage=single([0;0]);
-s.Duty=single([0.5;0.5;0.5]);
-s.GateEnable=false;
-s.StopOpenLoop=false;
-s.ObserverReady=false;
-s.ObserverGoodTicks=uint32(0);
-s.Observer=mc.observer_initial(p,single(0),single([0;0]));
-s.PositionPrev=single(0);
-s.PositionSpeed=single(0);
-s.Gains=single([p.KpSpeed;p.KiSpeed;p.KpD;p.KiD;p.KpQ;p.KiQ]);
-s.Startup=single([p.AlignCurrent;p.AlignTime;p.OpenLoopAccel;p.ObserverBandwidth]);
+s.Calibrated=false;
+s.CalibrationCount=uint16(0);
+s.CalibrationTicks=uint32(0);
+s.CalibrationSum=single([0;0;0]);
+s.CalibrationMin=single([65535;65535;65535]);
+s.CalibrationMax=single([0;0;0]);
+s.AdcOffsets=repmat(p.AdcOffset,3,1);
+s.Core=mc.core_initial_state(p);
 end

@@ -99,6 +99,14 @@ checks(end+1)=check('selected_position_mode', ...
     all(trace.PositionMode==scenario.PositionMode),double(unique(trace.PositionMode))',double(scenario.PositionMode));
 checks(end+1)=check('gate_matches_monitor', ...
     isequal(trace.GateOutput,logical(trace.GateEnable)),0,0);
+if scenario.Layer=="motor"
+    qualified=all(~trace.GateOutput | logical(trace.CalibrationDone));
+    checks(end+1)=check('no_gate_before_calibration',qualified,double(qualified),1);
+    if bitand(scenario.ExpectedFaultMask,uint16(1024))==uint16(0)
+        checks(end+1)=check('calibration_completed',any(trace.CalibrationDone), ...
+            double(any(trace.CalibrationDone)),1);
+    end
+end
 visited=unique(uint8(trace.Mode))';
 checks(end+1)=check('required_lifecycle_modes', ...
     all(ismember(scenario.RequiredModes,visited)),double(visited),double(scenario.RequiredModes));

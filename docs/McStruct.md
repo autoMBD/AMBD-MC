@@ -654,6 +654,10 @@ tMcDataFlow (数据流)
 | SpeedDivider | McUInt16_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
 | AdcOffset | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
 | AdcCountsPerAmp | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
+| CalibrationSamples | McUInt16_T | 启动零偏校准所需稳定采样数，默认64；仅整机层使用 |
+| CalibrationMaxOffset | McSingle_T | 零偏与标称ADC零点允许的最大偏差，默认500 count |
+| CalibrationMaxSpread | McSingle_T | 同一次校准各通道最大极差，默认20 count |
+| CalibrationTimeout | McSingle_T | 校准超时，按有效快速采样节拍累计，默认0.25 s |
 | PwmPeriod | McUInt16_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
 | Rs | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
 | Ld | McSingle_T | 控制标定；单位与默认值见 mc.defaults 和框架架构规格 |
@@ -703,7 +707,7 @@ tMcDataFlow (数据流)
 | Omega | AngularSpeedRadPerSec_V | 估计电角速度，rad/s |
 | Magnitude | Flux_Wb_V | 估计有效转子磁链幅值，Wb |
 
-### tMcRuntime
+### tMcCoreRuntime
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
@@ -740,6 +744,44 @@ tMcDataFlow (数据流)
 | Gains | McSingle_T[6] | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
 | Startup | McSingle_T[4] | 显式离散控制状态；生命周期和单位见 pmsm-framework-architecture.md |
 
+### tMcRuntime
+
+整机状态与核心算法状态分开存储。外层不能修改核心的算法阶段；通过命令请求、核心返回状态与故障握手。
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| Mode | McUInt8_T | 整机状态：0复位、1初始化/校准、2空闲、3故障、4就绪、5核心活动 |
+| Command | McUInt8_T | 已接受的用户命令：0复位、1运行、2受控停止 |
+| PreviousCommandEvent | LogicBool_V | 上拍命令帧有效电平；识别新的安全复位请求 |
+| SpeedRequest | AngularSpeedRadPerSec_V | 已接受且限幅的目标电角速度 |
+| FaultBits | McUInt16_T | 整机锁存故障，含核心返回故障；1024为校准失败 |
+| ActiveFaults | McUInt16_T | 本拍原始采样与外部输入故障 |
+| Calibrated | LogicBool_V | 零偏校准有效，运行资格之一 |
+| CalibrationCount | McUInt16_T | 已累积的稳定采样数 |
+| CalibrationTicks | McUInt32_T | 校准期间有效快速采样节拍数 |
+| CalibrationSum | McSingle_T[3] | 三相ADC校准累积值，count |
+| CalibrationMin | McSingle_T[3] | 三相ADC校准最小值，count |
+| CalibrationMax | McSingle_T[3] | 三相ADC校准最大值，count |
+| AdcOffsets | McSingle_T[3] | 已应用的各通道零偏，count |
+| Core | tMcCoreRuntime | 唯一的FOC核心状态，由共享FocCore更新 |
+
+### tMcCoreInput
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| Current | McSingle_T[3] | 已处理的三相电流，A，无ADC编码 |
+| Control | McUInt8_T | 0复位/撤使能、1运行、2受控停止 |
+| Fault | LogicBool_V | 外部故障电平，核心锁存 |
+| Disable | LogicBool_V | 立即禁止输出；不依赖快速节拍，不等同受控停止 |
+| CommandEvent | LogicBool_V | 命令帧有效 |
+| DrivingEvent | LogicBool_V | 电流采样节拍有效 |
+| TimerEvent | LogicBool_V | 保留的诊断事件，不产生额外积分 |
+| SpeedReq | AngularSpeedRadPerSec_V | 目标电角速度，rad/s |
+| Vdc | Voltage_V | 实测直流母线电压，V |
+| Position | AngleRad_V | 有感模式电角度，rad；无感模式不使用 |
+| AppliedVoltage | McSingle_T[2] | 与当前电流对应的实际施加alpha/beta电压，V |
+| Tuning | tMcTuning | 待锁存调参帧 |
+
 ### tMcInput
 
 | 字段 | 类型 | 说明 |
@@ -760,7 +802,7 @@ tMcDataFlow (数据流)
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| Mode | McUInt8_T | eSmStates 数值状态码 |
+| Mode | McUInt8_T | 兼容eSmStates的诊断映射，独立核心仅使用算法相关状态码 |
 | FaultBits | McUInt16_T | 锁存故障位图 |
 | Tick | McUInt32_T | 电流环累计采样计数 |
 | SpeedRequest | AngularSpeedRadPerSec_V | 限幅后的目标电角速度 |
@@ -775,5 +817,11 @@ tMcDataFlow (数据流)
 | ObserverReady | LogicBool_V | 观测器置信度通过 |
 | FluxMagnitude | Flux_Wb_V | 观测磁链幅值 |
 | PositionMode | McUInt8_T | 0无感、1位置传感器 |
+| CoreMode | McUInt8_T | 核心算法状态，0/2禁用、3故障、6–15算法阶段 |
+| ApplicationMode | McUInt8_T | 整机状态0–5；独立核心为255（不适用） |
+| CalibrationDone | LogicBool_V | 整机校准完成；独立核心为false（不适用） |
+| CalibrationCount | McUInt16_T | 整机稳定校准采样数；独立核心为0 |
+| StopComplete | LogicBool_V | 核心已停止且门极关闭 |
+
 
 调参帧编码：SpdKp/SpdKi/IdKp/IqKp 为实际增益的1000倍；IdKi/IqKi 为每秒积分增益；AlignCurrent 为mA；AlignTime 为ms；OpenLoopAccel 为电rad/s²；TrackingGain 为观测器带宽1/s。仅停机/复位状态允许锁存，零增益帧不覆盖当前标定。

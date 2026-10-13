@@ -101,6 +101,33 @@ classdef ambdMcStageTest < matlab.unittest.TestCase
                 'ambd:LoadedModel');
             testCase.verifyEqual(get_param(model,'FileName'),target);
         end
+        function rejectsUnknownAdapterHeader(testCase,Family)
+            [model,source]=application(testCase.Root,Family);
+            testCase.assumeFalse(bdIsLoaded(model),'Existing model must remain untouched.');
+            prior=find_system('type','block_diagram');
+            info=ambd_mc('setup',Family);connection=info.DictionaryConnection;
+            testCase.addTeardown(@()close(connection));
+            testCase.addTeardown(@()closeNewModels(testCase.Root,prior));
+            load_system(source);block=[model,'/KitPowerStage'];
+            set_param(block,'CustomHeaderFile','unexpected.h');
+            testCase.verifyError(@()ambd.configure_output_adapter(model),'ambd:OutputAdapterDependencies');
+            testCase.verifyEqual(get_param(block,'CustomHeaderFile'),'unexpected.h');
+        end
+        function restoresLegacyFieldsWhenOtherDependencyIsRejected(testCase,Family)
+            [model,source]=application(testCase.Root,Family);
+            testCase.assumeFalse(bdIsLoaded(model),'Existing model must remain untouched.');
+            prior=find_system('type','block_diagram');
+            info=ambd_mc('setup',Family);connection=info.DictionaryConnection;
+            testCase.addTeardown(@()close(connection));
+            testCase.addTeardown(@()closeNewModels(testCase.Root,prior));
+            load_system(source);block=[model,'/KitPowerStage'];
+            set_param(block,'CustomHeaderFile','ambd_kit_board.h', ...
+                'CustomSearchDirectory','"$ambd.board_path$"','CustomDefines','KEEP_ME=1');
+            testCase.verifyError(@()ambd.configure_output_adapter(model),'autombd:hsp:NativeBlockDependencies');
+            testCase.verifyEqual(get_param(block,'CustomHeaderFile'),'ambd_kit_board.h');
+            testCase.verifyEqual(get_param(block,'CustomSearchDirectory'),'"$ambd.board_path$"');
+            testCase.verifyEqual(get_param(block,'CustomDefines'),'KEEP_ME=1');
+        end
         function stagesIsolatedUnarmedCopies(testCase,Family,Target)
             fid=fopen(testCase.Settings,'w');
             fprintf(fid,'%s',jsonencode(struct('target',Target)));fclose(fid);
@@ -137,8 +164,36 @@ classdef ambdMcStageTest < matlab.unittest.TestCase
             testCase.verifyEqual(cfg.environment.pil.uartInstance,profile.uartInstance);
             testCase.verifyEqual(cfg.environment.pil.rxPin,profile.uartRx);
             testCase.verifyEqual(cfg.environment.pil.txPin,profile.uartTx);
-            testCase.verifyTrue(any(contains(string(cfg.runtime.sources),profile.boardSource)));
+            testCase.verifyTrue(any(contains(string(cfg.runtime.lifecyclePlan.resources.sources),profile.boardSource)));
+            testCase.verifyEmpty(cfg.runtime.sources);
+            testCase.verifyEmpty(cfg.runtime.includeDirectories);
+            testCase.verifyEmpty(cfg.runtime.defines);
+            testCase.verifyEmpty(cfg.runtime.compilerFlags);
+            testCase.verifyTrue(cfg.runtime.lifecyclePlan.enabled);
+            testCase.verifyTrue(cfg.runtime.pilIsolationPlan.enabled);
+            testCase.verifyEqual(cfg.runtime.pilIsolationPlan.initFunction,'Ambd_PilTargetInit');
+            testCase.verifyEqual(string(cfg.runtime.pilIsolationPlan.resources.sources),string(fullfile(testCase.Root,'mc-models','hsp','board','ambd_pil_init.c')));
+            callbacks=string({cfg.runtime.pilIsolationPlan.callbacks.name});
+            testCase.verifyTrue(all(ismember(["Ambd_KitTick","Ambd_KitFaultIrq"],callbacks)));
+            testCase.verifyEqual(ismember("Ambd_KitAdcIrq",callbacks),Target=="s32k144");
+            if Target=="s32k344"
+                names=["Hsp_ModelEvent","Hsp_ReportModelEventFaultFromISR"];
+                testCase.verifyTrue(all(ismember(names,callbacks)));
+                entriesToCheck=cfg.runtime.pilIsolationPlan.callbacks(ismember(callbacks,names));
+                testCase.verifyEqual(string({entriesToCheck.declarationFile}),["Bctu_Ip_PBcfg.h","Bctu_Ip_PBcfg.h"]);
+            end
+            for entry=entries'
+                if ~strcmp(entry.role,'application'),continue;end
+                block=[entry.name,'/KitPowerStage'];
+                testCase.verifyEmpty(get_param(block,'CustomHeaderFile'));
+                testCase.verifyEmpty(get_param(block,'CustomSearchDirectory'));
+                testCase.verifyEqual(get_param(block,'CustomCodeSettingLocation'),'ModelConfigurationParameters');
+                header=get_param([block,' Headers'],'RTWdata');
+                testCase.verifySubstring(header.Top,'defined(HSP_TARGET) && !defined(HSP_PIL)');
+                testCase.verifySubstring(header.Top,'ambd_kit_board.h');
+            end
             verifyModels(testCase,entries,info.Stage,Family,Target);
+            verifyControllerTiming(testCase,entries,profile,Family,details);
         end
     end
 end
@@ -176,6 +231,47 @@ for i=1:numel(files)
     fid=fopen(fullfile(root,files{i}),'rb');
     cleanup=onCleanup(@()fclose(fid));
     data{i}=fread(fid,Inf,'*uint8');clear cleanup
+end
+end
+
+function verifyControllerTiming(testCase,entries,profile,family,details)
+if family=="bldc"
+    parameterName='BldcControl_Params';
+else
+    parameterName='McControl_Params';
+    expected=mc.core_initial_state(details.ControlParameter.Value);
+    testCase.verifyEqual(details.CoreRuntimeParameter.Value,expected);
+    testCase.verifyEqual(details.RuntimeParameter.Value.Core,expected);
+end
+expectedDivider=uint16(round(.001/profile.samplePeriod));
+testCase.verifyEqual(details.ControlParameter.Value.SpeedDivider,expectedDivider);
+for index=1:numel(entries)
+    if ~ismember(entries(index).role,{'component','application'}),continue;end
+    model=entries(index).name;
+    cfg=autombd.hsp.config.read(model);
+    testCase.verifyEqual(cfg.targetId,profile.targetId);
+    testCase.verifyEqual(cfg.environment.execution.basePeriodSeconds,profile.samplePeriod);
+    testCase.verifyEqual(str2double(get_param(model,'FixedStep')),profile.samplePeriod);
+    [input,~]=ambd.pil_fixture(model,char(family));
+    variable=input.Variables(strcmp({input.Variables.Name},parameterName));
+    testCase.verifyEqual(variable.Value.Value.Ts,single(profile.samplePeriod));
+    testCase.verifyEqual(variable.Value.Value.SpeedDivider,expectedDivider);
+    signal=input.ExternalInput{1};
+    testCase.verifyEqual(signal.Time,(0:128)'*profile.samplePeriod);
+    if family=="pmsm"
+        core=contains(model,'Algth');
+        testCase.verifyTrue(ismember(['AMBD_FOC_CORE=',num2str(core)],cfg.runtime.lifecyclePlan.resources.defines));
+        current=find_system(model,'SearchDepth',1,'BlockType','Inport','Name','Ia');
+        duty=find_system(model,'SearchDepth',1,'BlockType','Outport','Name','DutyA');
+        if core
+            testCase.verifyEqual(get_param(current{1},'OutDataTypeStr'),'single');
+            testCase.verifyEqual(get_param(duty{1},'OutDataTypeStr'),'single');
+            testCase.verifyTrue(ismember('McCoreRuntime_Init',{input.Variables.Name}));
+        else
+            testCase.verifyEqual(get_param(current{1},'OutDataTypeStr'),'uint16');
+            testCase.verifyTrue(ismember('McRuntime_Init',{input.Variables.Name}));
+        end
+    end
 end
 end
 

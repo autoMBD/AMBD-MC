@@ -62,7 +62,7 @@ class BoardCoreTest(unittest.TestCase):
                      str(board/'ambd_kit_board.c'),str(ROOT/'tests/hsp/board_driver_test.c'),'-lm','-o',str(executable)]
             compiled=subprocess.run(command,capture_output=True,text=True)
             self.assertEqual(compiled.returncode,0,compiled.stdout+compiled.stderr)
-            for scenario in range(7):
+            for scenario in range(9):
                 with self.subTest(scenario=scenario):
                     result=subprocess.run([str(executable),str(scenario)],capture_output=True,text=True)
                     self.assertEqual(result.returncode,0,result.stdout+result.stderr)

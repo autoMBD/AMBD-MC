@@ -64,6 +64,16 @@ class McspteConfigurationTest(unittest.TestCase):
             self.assertEqual(fields['lcuLogicOutput_LutRiseFilter'],'96')
             self.assertEqual(fields['lcuLogicOutput_LutFallFilter'],'0')
 
+    def test_fault_callback_is_a_qualified_rising_edge_notification(self):
+        root=ET.parse(CONFIG/'Icu.xdm').getroot()
+        notification=root.findall('.//d:var[@name="IcuSignalNotification"]',NS)
+        self.assertEqual([n.get('value') for n in notification].count('Ambd_KitFaultIrq'),1)
+        root=root.find('.//d:lst[@name="IcuChannel"]/d:ctr[@name="IcuChannel_0"]',NS)
+        self.assertEqual(root.find('.//d:var[@name="IcuChannelId"]',NS).get('value'),'0')
+        self.assertEqual(root.find('.//d:var[@name="IcuSignalNotification"]',NS).get('value'),'Ambd_KitFaultIrq')
+        self.assertEqual(root.find('.//d:var[@name="IcuDefaultStartEdge"]',NS).get('value'),'ICU_RISING_EDGE')
+        self.assertEqual(root.find('.//d:var[@name="IcuMeasurementMode"]',NS).get('value'),'ICU_MODE_SIGNAL_EDGE_DETECT')
+
     def test_both_adc_instances_and_tagged_fifo_are_enabled(self):
         root=ET.parse(CONFIG/'Adc.xdm').getroot()
         units=root.findall('.//d:var[@name="AdcHwUnitId"]',NS)

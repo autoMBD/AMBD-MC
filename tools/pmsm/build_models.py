@@ -77,6 +77,23 @@ OUTPUTS = [('DutyA','uint16'),('DutyB','uint16'),('DutyC','uint16'),
 MODULES = [('McKernel','kernel'),('McTuning','tuning'),('McEventHub','event_hub'),
            ('McFault','protection'),('McStateMachine','supervisor'),('McDataFlow','dataflow')]
 
+CORE_INPUTS = [(name, 'single' if index < 3 else dtype)
+               for index, (name, dtype) in enumerate(INPUTS)] + [('Disable', 'boolean')]
+CORE_OUTPUTS = [(name, 'single' if index < 3 else dtype)
+                for index, (name, dtype) in enumerate(OUTPUTS)]
+
+
+def interface_for(name):
+    return (CORE_INPUTS, CORE_OUTPUTS) if 'Algth' in name else (INPUTS, OUTPUTS)
+
+
+def library_component(name):
+    return 'AlgthController' if 'Algth' in name else 'Controller'
+
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from layer_models import core_transition, controller, native_plant, host_top
+
 
 def quote(value):
     return "'" + str(value).replace("'","''") + "'"
@@ -141,10 +158,10 @@ class Builder:
                     f"ch=sfroot().find('-isa','Stateflow.EMChart','Path',Simulink.ID.getFullName('{model}:{sid}'));"
                     "d=ch.find('-isa','Stateflow.Data','Scope','Output');"
                     "for k=1:numel(d); switch d(k).Name;"
-                    "case 'u',d(k).DataType='Bus: tMcInput';"
+                    "case 'u',d(k).DataType='Bus: tMcInput';case 'uCore',d(k).DataType='Bus: tMcCoreInput';case {'core','previousCore','nextCore'},d(k).DataType='Bus: tMcCoreRuntime';case 'prepared',d(k).DataType='Bus: tMcRuntime';"
                     "case 'next',d(k).DataType='Bus: tMcRuntime';"
                     "case 'debug',d(k).DataType='Bus: tMcDebug';"
-                    "case 'monitor',d(k).DataType='Bus: tMcMonitor';end;end;")
+                    "case 'monitor',d(k).DataType='Bus: tMcMonitor';end;if startsWith(d(k).DataType,'Bus:'),d(k).Props.Array.Size='1';end;end;")
 
     def fresh(self,name,directory):
         # Old hardware wrappers are inspected as saved XML, never opened.
@@ -163,7 +180,8 @@ class Builder:
 
     def finish(self,name,path,compile_model=True):
         self.edit(name,[dict(op='configure',target='config:'+name,params={
-            'SolverType':'Fixed-step','Solver':'FixedStepDiscrete','FixedStep':'6.25e-5',
+            'SolverType':'Fixed-step','Solver':'ode4' if name.endswith('_top') else 'FixedStepDiscrete',
+            'FixedStep':'1/16000/16' if name.endswith('_top') else '6.25e-5',
             'StopTime':'4','SaveOutput':'on','SaveFormat':'Dataset','SignalLogging':'on',
             'ReturnWorkspaceOutputs':'on'})])
         self.read(name);self.check(name)
@@ -172,90 +190,30 @@ class Builder:
         if compile_model and f'COMPILE PASS {name}' not in result:
             raise RuntimeError(result)
 
-    def core(self,name='MotorFramework',directory='algo'):
+    def core(self,name='McControllerLibrary',directory='algo'):
         path=self.fresh(name,directory)
-        ops=self.ports(INPUTS,OUTPUTS)+[
-            add('MATLAB Function','InputPack'),
-            add('Constant','Parameters',Value='McControl_Params',OutDataTypeStr='Bus: tMcControlParams'),
-            add('UnitDelay','RuntimeMemory',InitialCondition='McRuntime_Init',
-                SampleTime='6.25e-5')]
-        ops += [add('SubSystem',scope) for scope,_ in MODULES]
-        ops += [add('MATLAB Function','McDebug')]
-        ids=self.edit(name,ops)
-        pack='function u=fcn('+','.join(n for n,_ in INPUTS)+')\n%#codegen\n'
-        pack+='u.CurrentRaw=[Ia;Ib;Ic];\nu.Control=McControl;\nu.Fault=FaultEvent;\n'
-        pack+='u.CommandEvent=McCtrlEvent;\nu.DrivingEvent=McDrivingEvent;\nu.TimerEvent=McTimerEvent;\n'
-        pack+='u.SpeedReq=SpeedReq;\nu.Vdc=DcBusVoltage;\nu.Position=RotorAngle;\n'
-        pack+='u.AppliedVoltage=[AppliedVoltageAlpha;AppliedVoltageBeta];\nu.Tuning=McTuningPort;\nend'
-        self.script(name,ids['InputPack'],pack)
-        for scope,fn in MODULES:
-            sid=ids[scope]; self.read(name,sid)
-            sub=self.edit(name,self.ports([('u','Bus: tMcInput'),('s','Bus: tMcRuntime'),('p','Bus: tMcControlParams')], [('next','Bus: tMcRuntime')])+
-                          [add('MATLAB Function','Compute')],scope=sid)
-            self.script(name,sub['Compute'],f'function next=fcn(u,s,p)\n%#codegen\nnext=mc.{fn}(u,s,p);\nend')
-            self.edit(name,[wire(sub[n]+'.y1',sub['Compute']+f'.u{i}') for i,n in enumerate(['u','s','p'],1)]+
-                      [wire(sub['Compute']+'.y1',sub['next']+'.u1')],scope=sid)
-            self.read(name,sid);self.check(name,sid)
-        self.script(name,ids['McDebug'],'function [a,b,c,debug,gate,monitor]=fcn(s,p)\n%#codegen\n[counts,debug,monitor]=mc.monitor(s,p);\na=counts(1);b=counts(2);c=counts(3);gate=s.GateEnable;\nend')
-        wires=[wire(ids[n]+'.y1',ids['InputPack']+f'.u{i}') for i,(n,_) in enumerate(INPUTS,1)]
-        previous=ids['RuntimeMemory']
-        for scope,_ in MODULES:
-            wires += [wire(ids['InputPack']+'.y1',ids[scope]+'.u1'),wire(previous+'.y1',ids[scope]+'.u2'),wire(ids['Parameters']+'.y1',ids[scope]+'.u3')]
-            previous=ids[scope]
-        wires += [wire(previous+'.y1',ids['RuntimeMemory']+'.u1'),wire(previous+'.y1',ids['McDebug']+'.u1'),wire(ids['Parameters']+'.y1',ids['McDebug']+'.u2')]
-        wires += [wire(ids['McDebug']+f'.y{i}',ids[n]+'.u1') for i,(n,_) in enumerate(OUTPUTS,1)]
-        self.edit(name,wires);self.finish(name,path)
-        self.mapping[name]=ids
+        motor_scope=self.library_scopes[name]
+        core_scope=self.add_library_subsystem(name,'FocCore')
+        algorithm_scope=self.add_library_subsystem(name,'AlgthController')
+        plant_scope=self.add_library_subsystem(name,'AveragePlant')
+        core_transition(self,name,core_scope,MODULES)
+        self.matlab(f"save_system('{name}',{quote(path)});")
+        controller(self,name,algorithm_scope,CORE_INPUTS,CORE_OUTPUTS,core=True)
+        controller(self,name,motor_scope,INPUTS,OUTPUTS)
+        native_plant(self,name,plant_scope)
+        self.finish(name,path)
 
     def wrapper(self,name,directory,reference='MotorFramework',compile_model=True):
         path=self.fresh(name,directory)
-        ids=self.edit(name,self.ports(INPUTS,OUTPUTS)+[add('ModelReference','Controller',ModelName=reference,CodeInterface='Top model')])
-        self.edit(name,[wire(ids[n]+'.y1',ids['Controller']+f'.u{i}') for i,(n,_) in enumerate(INPUTS,1)]+
-                  [wire(ids['Controller']+f'.y{i}',ids[n]+'.u1') for i,(n,_) in enumerate(OUTPUTS,1)])
+        inputs,outputs=interface_for(reference)
+        ids=self.edit(name,self.ports(inputs,outputs)+[add('ModelReference','Controller',ModelName=reference,CodeInterface='Top model')])
+        self.edit(name,[wire(ids[n]+'.y1',ids['Controller']+f'.u{i}') for i,(n,_) in enumerate(inputs,1)]+
+                  [wire(ids['Controller']+f'.y{i}',ids[n]+'.u1') for i,(n,_) in enumerate(outputs,1)])
         self.finish(name,path,compile_model=compile_model);self.mapping[name]=ids
 
-    def top(self,name,controller):
-        path=self.fresh(name,'platform/pil')
-        ins=[('SpeedReq','single'),('Control','uint8'),('Fault','boolean'),('LoadTorque','double'),('Vdc','single')]
-        outs=[('OmegaTruth','single'),('CurrentTruth','single'),('Monitor','Bus: tMcMonitor'),('Duty','uint16'),('GateEnable','boolean'),('ThetaTruth','single')]
-        ops=self.ports(ins,outs)+[
-            add('ModelReference','Controller',ModelName=controller),
-            add('MATLAB Function','Plant'),add('MATLAB Function','PackDuty'),
-            add('Demux','AdcChannels',Outputs='3'),
-            add('Constant','PlantParameters',Value='McPlant_Params',OutDataTypeStr='Bus: tMcControlParams'),
-            add('Constant','Tuning',Value='McInput_Default.Tuning',OutDataTypeStr='Bus: tMcTuning'),
-            add('Constant','Events',Value='true',OutDataTypeStr='boolean'),
-            add('UnitDelay','DutyDelay',InitialCondition='uint16([32768;32768;32768])',SampleTime='6.25e-5'),
-            add('UnitDelay','GateDelay',InitialCondition='false',SampleTime='6.25e-5'),
-            add('Terminator','DebugSink'),add('MATLAB Function','AppliedVoltage')]
-        ids=self.edit(name,ops)
-        self.script(name,ids['Plant'],'function [raw,theta,omega,current]=fcn(duty,gate,vdc,loadTorque,p)\n%#codegen\npersistent x\nif isempty(x),x=zeros(4,1);end\nx=mc.plant_step(x,double(duty)/double(p.PwmPeriod),vdc,loadTorque,gate,p,6.25e-5);\n[raw,current,theta,omega]=mc.plant_measure(x,p);\nend')
-        self.script(name,ids['PackDuty'],'function duty=fcn(a,b,c)\n%#codegen\nduty=[a;b;c];\nend')
-        self.script(name,ids['AppliedVoltage'],
-                    'function [alpha,beta]=fcn(counts,gate,vdc,p)\n%#codegen\n'
-                    'voltage=mc.applied_voltage(counts,vdc,gate,p.PwmPeriod);\n'
-                    'alpha=voltage(1);beta=voltage(2);\nend')
-        w=[]
-        def c(a,b):w.append(wire(ids[a.split('.')[0]]+'.'+a.split('.')[1],ids[b.split('.')[0]]+'.'+b.split('.')[1]))
-        for a,b in [('DutyDelay.y1','Plant.u1'),('GateDelay.y1','Plant.u2'),('Vdc.y1','Plant.u3'),('LoadTorque.y1','Plant.u4'),('PlantParameters.y1','Plant.u5'),('Plant.y1','AdcChannels.u1')]:c(a,b)
-        for i in range(1,4):c(f'AdcChannels.y{i}',f'Controller.u{i}');c(f'Controller.y{i}',f'PackDuty.u{i}')
-        for a,b in [('Control.y1','Controller.u4'),('Fault.y1','Controller.u5'),('Tuning.y1','Controller.u9'),('SpeedReq.y1','Controller.u10'),('Vdc.y1','Controller.u11'),('Plant.y2','Controller.u12'),('Plant.y2','ThetaTruth.u1'),('Plant.y3','OmegaTruth.u1'),('Plant.y4','CurrentTruth.u1'),('PackDuty.y1','DutyDelay.u1'),('PackDuty.y1','Duty.u1'),('Controller.y5','GateDelay.u1'),('Controller.y5','GateEnable.u1'),('Controller.y6','Monitor.u1'),('Controller.y4','DebugSink.u1')]:c(a,b)
-        for i in [6,7,8]:c('Events.y1',f'Controller.u{i}')
-        for a,b in [('DutyDelay.y1','AppliedVoltage.u1'),
-                    ('GateDelay.y1','AppliedVoltage.u2'),
-                    ('Vdc.y1','AppliedVoltage.u3'),
-                    ('PlantParameters.y1','AppliedVoltage.u4'),
-                    ('AppliedVoltage.y1','Controller.u13'),
-                    ('AppliedVoltage.y2','Controller.u14')]:c(a,b)
-        # Dataset output element names come from signals, not Outport labels.
-        out_ids={ids[n]:n for n,_ in outs}
-        for connection in w:
-            destination=connection['target'].split(' -> ')[1].split('.')[0]
-            if destination in out_ids:
-                connection['params']={'Name':out_ids[destination]}
-        self.edit(name,w);self.finish(name,path);self.mapping[name]=ids
-
-
+    def top(self,name,reference):
+        inputs,outputs=interface_for(reference)
+        host_top(self,name,reference,inputs,outputs,core='Algth' in reference)
 
     def backup(self):
         folder=self.artifacts/('before-'+time.strftime('%Y%m%d-%H%M%S'));records={}

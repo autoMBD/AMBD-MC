@@ -49,6 +49,7 @@ from pathlib import Path
 from datetime import datetime, timezone
 import argparse
 import hashlib
+import importlib.util
 import json
 import sys
 import uuid
@@ -64,20 +65,25 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def read_application_receipt(stage, model, target_id=None):
+def load_receipt_verifier(hsp_root):
+    """Use the public helper belonging to the HSP loaded by the build session."""
+    helper = Path(hsp_root) / 'adapters/common/tools/verify_build_receipt.py'
+    if not helper.is_file():
+        raise RuntimeError('The selected HSP installation lacks the public build receipt verifier.')
+    spec = importlib.util.spec_from_file_location('ambd_hsp_receipt', helper)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.verify_build_receipt
+
+
+def read_application_receipt(stage, model, target_id, *, hsp_root):
     path = stage / 'build' / model / 'application/hsp-build-result.json'
-    receipt = json.loads(path.read_text(encoding='utf-8'))
-    if target_id is not None and receipt.get('configuration', {}).get('targetId') != target_id:
-        raise RuntimeError('Native build target does not match selection: ' + model)
-    artifact = receipt.get('target', {})
-    elf = Path(artifact.get('elf', ''))
-    if (receipt.get('status') != 'passed' or receipt.get('stage') != 'target-compiled'
-            or receipt.get('model') != model or artifact.get('status') != 'passed'
-            or artifact.get('mode') != 'application'
-            or artifact.get('elfVerification', {}).get('status') != 'passed' or not elf.is_file()):
-        raise RuntimeError('Missing verified native build receipt for ' + model)
-    if digest(elf) != artifact.get('elfSha256'):
-        raise RuntimeError('ELF changed after native build: ' + model)
+    verify = load_receipt_verifier(hsp_root)
+    try:
+        receipt = verify(path, model=model, target_id=target_id, mode='application',
+                         project_root=stage / 'build' / model / 'project')
+    except ValueError as error:
+        raise RuntimeError(f'Invalid HSP application receipt for {model}: {error}') from error
     return path, receipt
 
 
@@ -157,8 +163,10 @@ def main():
             with Client(command, cwd=ROOT, env=env, timeout=1800) as client:
                 client.initialize()
                 stage_file = folder / (family + '-stage.txt')
+                hsp_file = folder / (family + '-hsp-root.txt')
                 evaluate(client, f"addpath({quote(ROOT)});stageInfo=ambd_mc('stage',{quote(family)},{quote(settings)});"
                          f"fid=fopen({quote(stage_file)},'w');fprintf(fid,'%s',stageInfo.Stage);fclose(fid);"
+                         f"fid=fopen({quote(hsp_file)},'w');fprintf(fid,'%s',autombd.hsp.target.repositoryRoot());fclose(fid);"
                          "disp('HSP_STAGE_READY');", 'HSP_STAGE_READY')
                 stage = Path(stage_file.read_text(encoding='utf-8'))
                 for entry in entries:
@@ -174,7 +182,8 @@ def main():
                              f"buildText=evalc('try;slbuild(''{name}'');catch exception;buildFailure=exception;end');"
                              f"fid=fopen({quote(log)},'w','n','UTF-8');fprintf(fid,'%s',buildText);fclose(fid);"
                              f"if ~isempty(buildFailure),rethrow(buildFailure);end;disp('{marker}');", marker)
-                    receipt_path, receipt = read_application_receipt(stage, name, profile['targetId'])
+                    receipt_path, receipt = read_application_receipt(
+                        stage, name, profile['targetId'], hsp_root=Path(hsp_file.read_text(encoding='utf-8')))
                     artifact = receipt['target']
                     elf = Path(artifact['elf'])
                     record['Build'] = dict(Passed=True, TargetId=receipt['configuration']['targetId'], Receipt=str(receipt_path), Elf=str(elf), SHA256=digest(elf))

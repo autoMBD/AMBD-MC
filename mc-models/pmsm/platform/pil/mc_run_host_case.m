@@ -64,8 +64,10 @@ assert(startsWith(lower(outputDirectory),lower(artifactRoot+filesep)), ...
     'mc:OutputOutsideArtifactRoot','Validation artifacts must be below .agent-env.');
 ambd_claim_directory(info.RepositoryRoot,outputDirectory);
 if ~isfolder(outputDirectory),mkdir(outputDirectory);end
-scenario=mc_host_scenario(scenarioName);
-load_system(modelName);
+layer="motor";if contains(modelName,"Algth"),layer="core";end
+scenario=mc_host_scenario(scenarioName,layer);
+scenario.ControllerName=replace(modelName,"_top","_model");
+open_system(modelName);
 references=find_system(char(modelName),'SearchDepth',1,'BlockType','ModelReference');
 assert(isscalar(references),'mc:ReferenceContract','Expected one controller Model block.');
 reference=references{1};
@@ -82,6 +84,7 @@ in=in.setBlockParameter(reference,'SimulationMode',referenceMode);
 in=in.setVariable('McControl_Params',parameter(scenario.Control,'tMcControlParams'));
 in=in.setVariable('McPlant_Params',parameter(scenario.Plant,'tMcControlParams'));
 in=in.setVariable('McRuntime_Init',parameter(mc.initial_state(scenario.Control),'tMcRuntime'));
+in=in.setVariable('McCoreRuntime_Init',parameter(mc.core_initial_state(scenario.Control),'tMcCoreRuntime'));
 % The configured input is consumed inside the command-window capture below.
 in=in.setVariable('McInput_Default',parameter(mc.default_input(scenario.Control),'tMcInput')); %#ok<NASGU>
 result=struct('Model',modelName,'Scenario',scenarioName,'RequestedMode',executionMode, ...
@@ -102,7 +105,7 @@ if ~isempty(simulationError)
     writeResult(outputDirectory,result);
     rethrow(exception);
 end
-trace=mc_read_host_trace(out);
+[trace,inputRecording]=mc_read_host_trace(out);
 assessment=mc_assess_host_trace(trace,scenario);
 result.Passed=assessment.Passed;
 result.Assessment=assessment;
@@ -118,7 +121,7 @@ if executionMode=="SIL"
         'Requested SIL but runtime log does not show SIL execution.');
 end
 metadata=out.SimulationMetadata;
-save(result.TraceFile,'trace','scenario','metadata','assessment','-v7.3');
+save(result.TraceFile,'trace','scenario','metadata','assessment','inputRecording','-v7.3');
 writeResult(outputDirectory,result);
 fprintf('AMBD_CASE %s/%s/%s: %d, samples=%d, peakCurrent=%.4g A\n', ...
     modelName,scenarioName,executionMode,result.Passed,result.Samples,assessment.PeakCurrent);

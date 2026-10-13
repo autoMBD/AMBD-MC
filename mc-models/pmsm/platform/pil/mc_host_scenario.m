@@ -44,12 +44,14 @@
 % Description: Create repeatable PC-only excitation and acceptance windows.
 % =================================================================================
 
-function scenario = mc_host_scenario(name)
+function scenario = mc_host_scenario(name,layer)
 %MC_HOST_SCENARIO Create repeatable PC-only excitation and acceptance windows.
 arguments
     name (1,1) string
+    layer (1,1) string {mustBeMember(layer,["core","motor"])} = "motor"
 end
 scenario.Name=name;
+scenario.Layer=layer;
 scenario.Control=mc.defaults();
 scenario.Plant=mc.defaults();
 scenario.Duration=3.3;
@@ -72,6 +74,30 @@ switch name
         scenario.Duration=3;
         scenario.SteadyWindows=[1 1.4 100;2.4 2.9 200];
         scenario.RequiredModes=uint8([0 1 2 4 5 6 12 14]);
+    case "sensored_reverse"
+        scenario.PositionMode=uint8(1);
+        scenario.Duration=3;
+        scenario.SteadyWindows=[2 2.9 -100];
+        scenario.PeakSpeedLimit=120;
+        scenario.RequiredModes=uint8([0 1 2 4 5 6 12 14]);
+    case "calibration_offset"
+        assert(layer=="motor",'mc:ScenarioLayer','Calibration requires the motor layer.');
+        scenario.PositionMode=uint8(1);
+        scenario.Duration=3;
+        scenario.SteadyWindows=[2 2.9 100];
+        scenario.PeakSpeedLimit=120;
+        scenario.RequiredModes=uint8([0 1 2 4 5 6 12 14]);
+        scenario.Plant.AdcOffset=scenario.Plant.AdcOffset+single(100);
+    case "calibration_failure"
+        assert(layer=="motor",'mc:ScenarioLayer','Calibration requires the motor layer.');
+        scenario.Duration=0.1;
+        scenario.SteadyWindows=zeros(0,3);
+        scenario.RequiredModes=uint8([1 3]);
+        scenario.ExpectedFaultMask=uint16(1024);
+        scenario.FaultWindows=[0.001 0.1];
+        scenario.LatchWindows=[0.001 0.1];
+        scenario.DisabledWindows=[0 0.1];
+        scenario.Plant.AdcOffset=scenario.Plant.AdcOffset+single(501);
     case "sensorless_forward"
     case "sensorless_reverse"
         scenario.SteadyWindows=[2.6 3.2 -200];
@@ -140,10 +166,21 @@ switch name
     otherwise
         error('mc:UnknownScenario','Unknown host scenario: %s',name);
 end
+if layer=="core"
+    scenario.RequiredModes=scenario.RequiredModes(~ismember(scenario.RequiredModes,uint8([1 2 4 5])));
+else
+    scenario.RequiredModes=scenario.RequiredModes(~ismember(scenario.RequiredModes,uint8([0 5])));
+end
 scenario.OvershootWindows=[0.05 scenario.Duration 200];
 switch name
     case "sensored_steps"
         scenario.OvershootWindows=[0.05 1.5 100;1.5 3 200];
+    case "sensored_reverse"
+        scenario.OvershootWindows=[0.05 scenario.Duration -100];
+    case "calibration_offset"
+        scenario.OvershootWindows=[0.05 scenario.Duration 100];
+    case "calibration_failure"
+        scenario.OvershootWindows=zeros(0,3);
     case "sensorless_reverse"
         scenario.OvershootWindows=[0.05 scenario.Duration -200];
     case "sensorless_100"
@@ -168,6 +205,10 @@ vdc=single(12)*ones(size(t),'single');
 switch name
     case "sensored_steps"
         speed(t<1.5)=single(100);
+    case "sensored_reverse"
+        speed(:)=single(-100);
+    case "calibration_offset"
+        speed(:)=single(100);
     case "sensorless_reverse"
         speed(:)=single(-200);
     case "sensorless_100"

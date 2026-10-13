@@ -63,18 +63,23 @@ import uuid
 ROOT = Path(__file__).resolve().parents[2]
 CASES = (
     ('FOC_PIL_Algth_top', 'sensored_steps'),
+    ('FOC_PIL_Algth_top', 'sensored_reverse'),
+    ('FOC_PIL_Algth_top', 'sensorless_forward'),
+    ('FOC_PIL_Algth_top', 'sensorless_reverse'),
+    ('FOC_PIL_Algth_top', 'load_voltage'),
+    ('FOC_PIL_Algth_top', 'saturation_recovery'),
+    ('FOC_PIL_Algth_top', 'parameter_variation'),
     ('FOC_PIL_StateMch_top', 'sensorless_forward'),
     ('FOC_PIL_StateMch_top', 'sensorless_reverse'),
     ('FOC_PIL_StateMch_top', 'sensorless_100'),
-    ('FOC_PIL_Algth_top', 'load_voltage'),
     ('FOC_PIL_StateMch_top', 'reversal'),
     ('FOC_PIL_StateMch_top', 'stop_restart'),
     ('FOC_PIL_StateMch_top', 'stop_mid_tracking'),
     ('FOC_PIL_StateMch_top', 'fault_recovery'),
     ('FOC_PIL_StateMch_top', 'bus_fault'),
-    ('FOC_PIL_Algth_top', 'saturation_recovery'),
-    ('FOC_PIL_Algth_top', 'parameter_variation'),
     ('FOC_PIL_StateMch_top', 'low_speed_transition'),
+    ('FOC_PIL_StateMch_top', 'calibration_offset'),
+    ('FOC_PIL_StateMch_top', 'calibration_failure'),
 )
 
 
@@ -93,12 +98,24 @@ def source_hashes():
             for p in sorted(paths)}
 
 
+def select_cases(scenarios=None, model=None):
+    cases = [case for case in CASES if (not scenarios or case[1] in scenarios)
+             and (not model or case[0] == model)]
+    if not cases:
+        raise ValueError("Selected model/scenario combination has no scenarios.")
+    return cases
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--scenario', choices=[name for _, name in CASES],
                         action='append', help='Run selected scenarios; default is the complete matrix.')
+    parser.add_argument('--model',choices=['FOC_PIL_Algth_top','FOC_PIL_StateMch_top'])
     args = parser.parse_args()
-    cases = [case for case in CASES if not args.scenario or case[1] in args.scenario]
+    try:
+        cases = select_cases(args.scenario, args.model)
+    except ValueError as error:
+        parser.error(str(error))
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
     folder = ROOT / '.agent-env/pmsm/validation' / f'{stamp}-{uuid.uuid4().hex[:8]}'
     folder.mkdir(parents=True)
@@ -111,7 +128,7 @@ def main():
     from create_replay_model import create_replay
 
     before = source_hashes()
-    summary = dict(Passed=False, CompleteMatrix=not args.scenario,
+    summary = dict(Passed=False, CompleteMatrix=not args.scenario and not args.model,
                    StartedUTC=stamp, SourceHashes=before, Cases=[], Comparisons=[], Replays=[])
     transcript = []
 
@@ -144,7 +161,7 @@ def main():
             evaluate(client,
                      f"addpath({quote(ROOT / 'mc-models/pmsm')},{quote(ROOT / 'mc-models/pmsm/algo')}); "
                      "load_system('simulink');drawnow; "
-                     "suite=testsuite(fullfile(pwd,'tests','pmsm'),'IncludeSubfolders',false); "
+                     f"suite=testsuite({quote(ROOT / 'tests/pmsm')},'IncludeSubfolders',false); "
                      "results=run(suite); unit=struct('Total',numel(results),"
                      "'Passed',sum([results.Passed]),'Failed',sum([results.Failed]),"
                      "'Incomplete',sum([results.Incomplete])); "
@@ -155,6 +172,15 @@ def main():
         with new_client() as client:
             client.initialize()
             evaluate(client, f"addpath({quote(ROOT)}); info=ambd_mc('setup','pmsm'); disp('SETUP_PASS');", 'SETUP_PASS')
+            model_test_file=folder/'model-results.json'
+            evaluate(client,
+                     f"results=run(testsuite({quote(ROOT/'tests/pmsm/models')})); "
+                     "modelTests=struct('Total',numel(results),'Passed',sum([results.Passed]),"
+                     "'Failed',sum([results.Failed]),'Incomplete',sum([results.Incomplete])); "
+                     f"fid=fopen({quote(model_test_file)},'w');fprintf(fid,'%s',jsonencode(modelTests));fclose(fid); "
+                     "assert(modelTests.Total>0 && modelTests.Passed==modelTests.Total);disp('MODEL_TESTS_PASS');",
+                     'MODEL_TESTS_PASS')
+            summary['ModelTests']=json.loads(model_test_file.read_text(encoding='utf-8'))
             compiler_file = folder / 'compiler.json'
             evaluate(client,
                      "compiler=mex.getCompilerConfigurations('C','Selected'); "
@@ -165,14 +191,15 @@ def main():
                      "disp('HOST_COMPILER_RECORDED');", 'HOST_COMPILER_RECORDED')
             summary['Compiler'] = json.loads(compiler_file.read_text(encoding='utf-8'))
             create_replay(client.call, force=True)
-            replay_model = ROOT / '.agent-env/pmsm-models/FOC_SIL_Replay.slx'
-            replay_hash = hashlib.sha256(replay_model.read_bytes()).hexdigest()
-            summary['ReplayHarness'] = dict(Path=replay_model.relative_to(ROOT).as_posix(),
-                                           SHA256=replay_hash, Rebuilt=True)
+            replay_models=[ROOT/'.agent-env/pmsm-models'/name for name in
+                           ['FOC_SIL_Replay.slx','FOC_SIL_AlgthReplay.slx']]
+            replay_hashes={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in replay_models}
+            summary['ReplayHarnesses']=[dict(Path=p.relative_to(ROOT).as_posix(),
+                                           SHA256=replay_hashes[str(p)],Rebuilt=True) for p in replay_models]
             save()
             for model, scenario in cases:
                 for mode in ('Normal', 'SIL'):
-                    destination = folder / 'closed-loop' / scenario / mode
+                    destination = folder / 'closed-loop' / model / scenario / mode
                     marker = f'CASE_PASS_{scenario}_{mode}'
                     evaluate(client,
                              f"result=mc_run_host_case({quote(model)},{quote(scenario)},"
@@ -181,18 +208,18 @@ def main():
                              marker)
                     summary['Cases'].append(json.loads((destination / 'result.json').read_text(encoding='utf-8')))
                     save()
-                destination = folder / 'comparison' / scenario
+                destination = folder / 'comparison' / model / scenario
                 marker = f'CLOSED_LOOP_COMPARISON_PASS_{scenario}'
                 evaluate(client,
-                         f"result=mc_compare_host_cases({quote(folder / 'closed-loop' / scenario / 'Normal' / 'trace.mat')},"
-                         f"{quote(folder / 'closed-loop' / scenario / 'SIL' / 'trace.mat')},{quote(destination)}); "
+                         f"result=mc_compare_host_cases({quote(folder / 'closed-loop' / model / scenario / 'Normal' / 'trace.mat')},"
+                         f"{quote(folder / 'closed-loop' / model / scenario / 'SIL' / 'trace.mat')},{quote(destination)}); "
                          f"assert(result.Passed); disp({quote(marker)});", marker)
                 summary['Comparisons'].append(json.loads((destination / 'result.json').read_text(encoding='utf-8')))
                 save()
-                destination = folder / 'replay' / scenario
+                destination = folder / 'replay' / model / scenario
                 marker = f'REPLAY_PASS_{scenario}'
                 evaluate(client,
-                         f"result=mc_run_replay({quote(folder / 'closed-loop' / scenario / 'Normal' / 'trace.mat')},"
+                         f"result=mc_run_replay({quote(folder / 'closed-loop' / model / scenario / 'Normal' / 'trace.mat')},"
                          f"{quote(destination)},{quote(build_folder)}); "
                          f"assert(result.Passed); disp({quote(marker)});", marker)
                 summary['Replays'].append(json.loads((destination / 'result.json').read_text(encoding='utf-8')))
@@ -201,12 +228,11 @@ def main():
         summary['SourcesUnchanged'] = before == after
         if before != after:
             raise RuntimeError('Sources changed during validation; rerun with stable sources.')
-        if hashlib.sha256(replay_model.read_bytes()).hexdigest() != replay_hash:
+        if any(hashlib.sha256(p.read_bytes()).hexdigest()!=replay_hashes[str(p)] for p in replay_models):
             raise RuntimeError('Replay harness changed during validation; rerun.')
         build_root = build_folder / 'codegen'
         binaries = sorted(build_root.rglob('*.exe'))
         controllers = {model.replace('_top', '_model') for model, _ in cases}
-        controllers.add('FOC_PIL_StateMch_model')  # Explicit replay reference.
         if not controllers.issubset({p.stem for p in binaries}):
             raise RuntimeError('Missing host SIL executable for a required controller.')
         generated_sources = [path for name in sorted(controllers)

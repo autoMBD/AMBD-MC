@@ -56,6 +56,17 @@ classdef test_mc_acceptance < matlab.unittest.TestCase
         end
     end
     methods (Test)
+        function coreScenarioDoesNotRequireMotorLifecycle(testCase)
+            scenario=mc_host_scenario("sensored_steps","core");
+            testCase.verifyEqual(scenario.Layer,"core");
+            testCase.verifyFalse(any(ismember(uint8([1 4 5]),scenario.RequiredModes)));
+        end
+        function gateBeforeCalibrationCannotPass(testCase)
+            [trace,scenario]=test_mc_acceptance.evidence("sensored_steps");
+            trace.CalibrationDone(:)=false;
+            result=mc_assess_host_trace(trace,scenario);
+            testCase.verifyFalse(result.Passed);
+        end
         function idealSensoredEvidencePasses(testCase)
             [trace,scenario]=test_mc_acceptance.evidence("sensored_steps");
             result=mc_assess_host_trace(trace,scenario);
@@ -152,6 +163,7 @@ classdef test_mc_acceptance < matlab.unittest.TestCase
             trace.PositionMode(:)=scenario.PositionMode;
             trace.GateOutput=scenario.Time>=0.05;
             trace.GateEnable=trace.GateOutput;
+            trace.CalibrationDone=trace.Time>=0.01;
         end
     end
 end
