@@ -44,13 +44,12 @@
 # Description: Verify HSP application receipt location, model identity and ELF integrity.
 # =================================================================================
 
-"""Native build evidence must come from HSP's application receipt."""
+"""Consumer uses the installed HSP verifier with independently selected identity."""
 from pathlib import Path
-import hashlib
 import importlib.util
-import json
 import tempfile
 import unittest
+from unittest.mock import Mock, patch
 
 ROOT = Path(__file__).resolve().parents[2]
 SPEC = importlib.util.spec_from_file_location('target_runner', ROOT / 'tools/hsp/validate_target.py')
@@ -59,56 +58,38 @@ SPEC.loader.exec_module(RUNNER)
 
 class BuildReceiptTest(unittest.TestCase):
     def setUp(self):
-        self.assertTrue(callable(getattr(RUNNER, 'read_application_receipt', None)))
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
         self.stage = Path(temporary.name)
-        self.elf = self.stage / 'Motor.elf'
-        self.elf.write_bytes(b'fixture-native-artifact')
-        self.receipt = self.stage / 'build/Motor/application/hsp-build-result.json'
-        self.receipt.parent.mkdir(parents=True)
-        self.data = dict(status='passed', stage='target-compiled', model='Motor',
-                         target=dict(status='passed', mode='application', elf=str(self.elf),
-                                     elfSha256=hashlib.sha256(self.elf.read_bytes()).hexdigest(),
-                                     elfVerification=dict(status='passed')))
-        self.publish()
+        self.hsp = self.stage / 'installed-hsp'
+        self.verifier = Mock(return_value={'verified': True})
 
-    def publish(self):
-        self.receipt.write_text(json.dumps(self.data), encoding='utf-8')
+    def test_delegates_selected_identity_to_public_verifier(self):
+        with patch.object(RUNNER, 'load_receipt_verifier', return_value=self.verifier) as load:
+            path, result = RUNNER.read_application_receipt(
+                self.stage, 'Motor', 'nxp.target', hsp_root=self.hsp)
+        load.assert_called_once_with(self.hsp)
+        self.assertEqual(path, self.stage / 'build/Motor/application/hsp-build-result.json')
+        self.verifier.assert_called_once_with(path, model='Motor', target_id='nxp.target',
+            mode='application', project_root=self.stage / 'build/Motor/project')
+        self.assertEqual(result, {'verified': True})
 
-    def test_reads_application_subdirectory(self):
-        path, receipt = RUNNER.read_application_receipt(self.stage, 'Motor')
-        self.assertEqual(path, self.receipt)
-        self.assertEqual(receipt['target']['elf'], str(self.elf))
+    def test_rejected_receipt_cannot_be_reinterpreted_as_success(self):
+        self.verifier.side_effect = ValueError('wrong project identity')
+        with patch.object(RUNNER, 'load_receipt_verifier', return_value=self.verifier):
+            with self.assertRaisesRegex(RuntimeError, 'wrong project identity'):
+                RUNNER.read_application_receipt(self.stage, 'Motor', 'nxp.target', hsp_root=self.hsp)
 
-    def test_modified_binary_is_rejected(self):
-        self.elf.write_bytes(b'changed-after-build')
-        with self.assertRaises(RuntimeError):
-            RUNNER.read_application_receipt(self.stage, 'Motor')
+    def test_missing_public_helper_fails_explicitly(self):
+        with self.assertRaisesRegex(RuntimeError, 'HSP.*receipt'):
+            RUNNER.read_application_receipt(self.stage, 'Motor', 'nxp.target', hsp_root=self.hsp)
 
-    def test_codegen_only_is_not_a_native_build(self):
-        self.data['stage'] = 'project-exported'
-        self.publish()
-        with self.assertRaises(RuntimeError):
-            RUNNER.read_application_receipt(self.stage, 'Motor')
-
-    def test_other_model_receipt_is_rejected(self):
-        self.data['model'] = 'DifferentMotor'
-        self.publish()
-        with self.assertRaises(RuntimeError):
-            RUNNER.read_application_receipt(self.stage, 'Motor')
-
-    def test_wrong_target_receipt_is_rejected(self):
-        self.data['configuration']={'targetId':'nxp.s32k3.s32k344-custom'}
-        self.publish()
-        with self.assertRaises(RuntimeError):
-            RUNNER.read_application_receipt(self.stage,'Motor','nxp.s32k1.s32k144-custom')
-
-    def test_matching_target_receipt_is_accepted(self):
-        self.data['configuration']={'targetId':'nxp.s32k1.s32k144-custom'}
-        self.publish()
-        path,_=RUNNER.read_application_receipt(self.stage,'Motor','nxp.s32k1.s32k144-custom')
-        self.assertEqual(path,self.receipt)
+    def test_loads_helper_from_selected_hsp_installation(self):
+        helper = self.hsp / 'adapters/common/tools/verify_build_receipt.py'
+        helper.parent.mkdir(parents=True)
+        helper.write_text("def verify_build_receipt(*args, **kwargs): return kwargs\n", encoding='utf-8')
+        function = RUNNER.load_receipt_verifier(self.hsp)
+        self.assertEqual(function(model='Expected'), {'model': 'Expected'})
 
 if __name__ == '__main__':
     unittest.main()

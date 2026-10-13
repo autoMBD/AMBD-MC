@@ -186,15 +186,12 @@ class HspBuilderMixin:
             "arming.CoderInfo.Identifier='Ambd_OutputsArmed';"
             "addEntry(section,'AmbdOutputsArmed',arming);saveChanges(dd);end;")
         output_code = "(void)a;(void)b;(void)c;(void)phase;(void)gate;(void)armed;(void)sector;(void)direction;"
-        target_code = ("#if defined(HSP_TARGET) && !defined(HSP_PIL)\n"
-                       "const uint16_t duties[3]={a,b,c};\n"
-                       "Ambd_KitCommit(duties,phase,gate,armed,sector,direction);\n#endif")
         ops = [dict(op="add_block",type="C Function",name="KitPowerStage",ref="kit",
                     params=dict(CustomCodeSettingLocation="BlockSettings",CodegenUsesSimCustomCode="off",
                                 SimCustomHeaderFile="",SimCustomSourceFile="",OutputCode=output_code,
-                                CustomHeaderFile="ambd_kit_board.h",CustomSourceFile="",
-                                CustomSearchDirectory='"$ambd.board_path$"',
-                                CodegenOutputCode=target_code,GenerateCodeAsIs="on",Priority="50")),
+                                CustomHeaderFile="",CustomSourceFile="",
+                                CustomSearchDirectory="",
+                                CodegenOutputCode=output_code,GenerateCodeAsIs="on",Priority="50")),
                dict(op="add_block",type="Constant",name="OutputsArmed",ref="armed",
                     params=dict(Value="AmbdOutputsArmed",OutDataTypeStr="boolean")),
                dict(op="add_block",type="DataTypeConversion",name="PhaseMask",ref="phaseMask",
@@ -218,6 +215,7 @@ class HspBuilderMixin:
                                  ('phase','uint8','3'),('gate','boolean','1'),('armed','boolean','1'),
                                  ('sector','uint8','1'),('direction','int8','1')]:
             self.matlab(f"symbol=symbols.addSymbol('{symbol}');symbol.Type='{kind}';symbol.Size='{size}';")
+        self.matlab(f"ambd.configure_output_adapter('{name}');")
         self.read(name)
         connections=[dict(op="connect",target=f"{controller_id}.y{i} -> {ids['kit']}.u{i}") for i in range(1,4)]
         phase_source=controller_id+'.y4' if self.family=='bldc' else ids['phase']+'.y1'
