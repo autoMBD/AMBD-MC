@@ -163,17 +163,26 @@ for index=1:numel(entries)
             end
         end
         board=fullfile(root,'mc-models','hsp','board');
-        cfg.runtime.sources={fullfile(board,'ambd_kit_core.c'),fullfile(board,profile.boardSource),fullfile(board,'ambd_kit_bridge.c')};
+        cfg.runtime.lifecyclePlan.resources.sources={fullfile(board,'ambd_kit_core.c'),fullfile(board,profile.boardSource),fullfile(board,'ambd_kit_bridge.c')};
         if strcmp(profile.name,'s32k144')
-            cfg.runtime.sources{end+1}=fullfile(board,'ambd_kit_s32k144_core.c');
+            cfg.runtime.lifecyclePlan.resources.sources{end+1}=fullfile(board,'ambd_kit_s32k144_core.c');
         end
-        cfg.runtime.includeDirectories={board};
+        cfg.runtime.lifecyclePlan.resources.includeDirectories={board};
         if isfield(settings,'boardDiagnostics') && isequal(settings.boardDiagnostics,true)
-            cfg.runtime.defines{end+1}='AMBD_CONTROL_BOARD_DIAGNOSTICS=1';
+            cfg.runtime.lifecyclePlan.resources.defines{end+1}='AMBD_CONTROL_BOARD_DIAGNOSTICS=1';
+        end
+        cfg.runtime.pilIsolationPlan.resources.sources={fullfile(board,'ambd_pil_init.c')};
+        cfg.runtime.pilIsolationPlan.resources.includeDirectories={board};
+        for callbackIndex=1:numel(cfg.runtime.pilIsolationPlan.callbacks)
+            [~,declarationName]=fileparts(cfg.runtime.pilIsolationPlan.callbacks(callbackIndex).declarationFile);
+            if strcmp(declarationName,'ambd_kit_board')
+                cfg.runtime.pilIsolationPlan.callbacks(callbackIndex).declarationFile=fullfile(board,'ambd_kit_board.h');
+            end
         end
         cfg.environment.configurationTool.workspaceRoot=fullfile(folder,'eb-workspace');
         autombd.hsp.config.write(name,cfg);
         autombd.hsp.config.apply(name);
+        if strcmp(entries(index).role,'application'),ambd.configure_output_adapter(name);end
         save_system(name);
     elseif strcmp(entries(index).role,'harness')
         save_system(name);

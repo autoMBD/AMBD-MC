@@ -69,6 +69,7 @@ bool Ambd_KitCapture(void);
 void Ambd_KitCaptureModelInputs(void);
 void Ambd_KitPrimeModel(void);
 void Ambd_KitFaultIrq(void);
+void Ambd_KitAdcIrq(void);
 void Ambd_KitTick(void);
 void Ambd_KitCommit(const uint16_t counts[3], const uint8_t phases[3], uint8_t gate, uint8_t armed, uint8_t sector, int8_t direction);
 #endif
